@@ -27,7 +27,7 @@ defineExpose({ fetchModules })
         :key="module.id" 
         class="flex justify-between items-center mb-2"
       >
-        <NuxtLink :to="`/module/${(module as Module).id}`">
+        <NuxtLink :to="`/module/${module.id}`">
           {{ (module as Module).name }}
         </NuxtLink>
         <Button @click="handleDeleteModule((module as Module).id)" variant="destructive" size="sm">

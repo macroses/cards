@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useCards } from "@/composables/cards/useCards"
-import { ref } from 'vue'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 const route = useRoute()
 const moduleId = route.params.id as string
 
-const { cards, fetchCards, createCard, deleteCard } = useCards()
+const {
+  cards,
+  fetchCards,
+  createCard,
+  deleteCard
+} = useCards()
 const { toast } = useToast()
 
-const newCard = ref({
+const newCard = shallowRef({
   question: '',
   answer: '',
   title: '',
@@ -28,10 +32,10 @@ const goBack = () => {
 }
 
 const handleCreateCard = async () => {
-  if (!newCard.value.question || !newCard.value.answer) {
-    toast({ variant: "destructive", description: 'Вопрос и ответ обязательны' })
-    return
-  }
+  // if (!newCard.value.question || !newCard.value.answer) {
+  //   toast({ variant: "destructive", description: 'Вопрос и ответ обязательны' })
+  //   return
+  // }
 
   const createdCard = await createCard(newCard.value, moduleId)
   if (createdCard) {
