@@ -7,7 +7,7 @@ import { useToast } from '@/components/ui/toast/use-toast'
 const route = useRoute()
 const moduleId = route.params.id as string
 
-const { cards, fetchCards, createCard } = useCards()
+const { cards, fetchCards, createCard, deleteCard } = useCards()
 const { toast } = useToast()
 
 const newCard = ref({
@@ -46,6 +46,10 @@ const handleCreateCard = async () => {
     toast({ description: 'Карточка успешно создана' })
   }
 }
+
+const handleDeleteCard = async (cardId: string) => {
+    await deleteCard(cardId)
+}
 </script>
 
 <template>
@@ -69,14 +73,17 @@ const handleCreateCard = async () => {
 
     <!-- Список карточек -->
     <div v-if="cards.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="card in cards" :key="card.id" class="border rounded-lg p-4 shadow-sm">
+    <div v-for="card in cards" :key="card.id" class="border rounded-lg p-4 shadow-sm relative">
+        <Button @click="handleDeleteCard(card.id)" class="absolute top-2 right-2" variant="destructive" size="sm">
+            Удалить
+        </Button>
         <h4 class="font-bold mb-2">{{ card.title || 'Без заголовка' }}</h4>
         <p><strong>Вопрос:</strong> {{ card.question }}</p>
         <p><strong>Ответ:</strong> {{ card.answer }}</p>
         <p v-if="card.partOfSpeech"><strong>Часть речи:</strong> {{ card.partOfSpeech }}</p>
         <p v-if="card.exampleSentence"><strong>Пример:</strong> {{ card.exampleSentence }}</p>
         <p v-if="card.tags"><strong>Теги:</strong> {{ card.tags }}</p>
-      </div>
+        </div>
     </div>
     <p v-else>В этом модуле пока нет карточек.</p>
   </div>

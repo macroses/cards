@@ -20,8 +20,24 @@ export function useModules () {
     }
   }
 
+  const deleteModule = async (moduleId: string) => {
+    if (!authData.value?.user) return
+
+    try {
+      await $fetch(`/api/modules/${moduleId}`, {
+        method: 'DELETE'
+      })
+      toast({ description: 'Модуль успешно удален' })
+      modules.value = modules.value.filter(module => module.id !== moduleId)
+    } catch (error) {
+      console.error('Ошибка при удалении модуля:', error)
+      toast({ variant: "destructive", description: 'Ошибка при удалении модуля' })
+    }
+  }
+
   return {
     modules,
-    fetchModules
+    fetchModules,
+    deleteModule
   }
 }

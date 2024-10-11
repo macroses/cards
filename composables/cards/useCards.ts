@@ -33,10 +33,25 @@ export function useCards () {
 			return null
 		}
 	}
-	
+
+	const deleteCard = async (cardId: string) => {
+		try {
+		  await $fetch(`/api/cards/${cardId}`, {
+			method: 'DELETE'
+		  })
+		  
+		  toast({ description: 'Карточка успешно удалена' })
+		  cards.value = cards.value.filter(card => card.id !== cardId)
+		} catch (error) {
+		  console.error('Ошибка при удалении карточки:', error)
+		  toast({ variant: "destructive", description: 'Ошибка при удалении карточки' })
+		}
+	}
+	  
 	return {
 		cards,
 		fetchCards,
-		createCard
+		createCard,
+		deleteCard
 	}
 }
