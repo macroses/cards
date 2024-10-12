@@ -40,9 +40,29 @@ export function useModules () {
     }
   }
 
+  const updateModule = async (moduleId: string, newName: string) => {
+    if (!authData.value?.user) return
+  
+    try {
+      const updatedModule = await $fetch(`/api/modules/${moduleId}`, {
+        method: 'PATCH',
+        body: { name: newName }
+      })
+      toast({ description: 'Модуль успешно обновлен' })
+      const index = modules.value.findIndex(m => m.id === moduleId)
+      if (index !== -1) {
+        modules.value[index] = updatedModule
+      }
+    } catch (error) {
+      console.error('Ошибка при обновлении модуля:', error)
+      toast({ variant: "destructive", description: 'Ошибка при обновлении модуля' })
+    }
+  }
+
   return {
     modules,
     fetchModules,
-    deleteModule
+    deleteModule,
+    updateModule
   }
 }

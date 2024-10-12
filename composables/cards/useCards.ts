@@ -47,11 +47,32 @@ export function useCards () {
 		  toast({ variant: "destructive", description: 'Ошибка при удалении карточки' })
 		}
 	}
+
+	const updateCard = async (cardId: string, cardData: Partial<Card>) => {
+		try {
+		  const updatedCard = await $fetch(`/api/cards/${cardId}`, {
+			method: 'PATCH',
+			body: cardData
+		  })
+		  
+		  toast({ description: 'Карточка успешно обновлена' })
+		  const index = cards.value.findIndex(card => card.id === cardId)
+		  if (index !== -1) {
+			cards.value[index] = updatedCard as Card
+		  }
+		  return updatedCard
+		} catch (error) {
+		  console.error('Ошибка при обновлении карточки:', error)
+		  toast({ variant: "destructive", description: 'Ошибка при обновлении карточки' })
+		  return null
+		}
+	  }
 	  
 	return {
 		cards,
 		fetchCards,
 		createCard,
-		deleteCard
+		deleteCard,
+		updateCard
 	}
 }

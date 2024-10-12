@@ -10,11 +10,22 @@ const {
   cards,
   fetchCards,
   createCard,
-  deleteCard
+  deleteCard,
+  updateCard
 } = useCards()
 const { toast } = useToast()
 
 const newCard = shallowRef({
+  question: '',
+  answer: '',
+  title: '',
+  tags: '',
+  partOfSpeech: '',
+  exampleSentence: ''
+})
+
+const editingCardId = ref<string | null>(null)
+const editedCard = shallowRef({
   question: '',
   answer: '',
   title: '',
@@ -32,7 +43,6 @@ const goBack = () => {
 }
 
 const handleCreateCard = async () => {
-
   const createdCard = await createCard(newCard.value, moduleId)
   if (createdCard) {
     newCard.value = {
@@ -48,7 +58,24 @@ const handleCreateCard = async () => {
 }
 
 const handleDeleteCard = async (cardId: string) => {
-    await deleteCard(cardId)
+  await deleteCard(cardId)
+}
+
+const startEditing = (card: Card) => {
+  editingCardId.value = card.id
+  editedCard.value = { ...card }
+}
+
+const cancelEditing = () => {
+  editingCardId.value = null
+}
+
+const saveEdit = async () => {
+  if (editingCardId.value) {
+    await updateCard(editingCardId.value, editedCard.value)
+    editingCardId.value = null
+    toast({ description: 'Карточка успешно обновлена' })
+  }
 }
 </script>
 
@@ -73,17 +100,32 @@ const handleDeleteCard = async (cardId: string) => {
 
     <!-- Список карточек -->
     <div v-if="cards.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div v-for="card in cards" :key="card.id" class="border rounded-lg p-4 shadow-sm relative">
-        <Button @click="handleDeleteCard(card.id)" class="absolute top-2 right-2" variant="destructive" size="sm">
+      <div v-for="card in cards" :key="card.id" class="border rounded-lg p-4 shadow-sm relative">
+        <template v-if="editingCardId === card.id">
+          <Input v-model="editedCard.title" placeholder="Заголовок" class="mb-2" />
+          <Input v-model="editedCard.question" placeholder="Вопрос" class="mb-2" />
+          <Input v-model="editedCard.answer" placeholder="Ответ" class="mb-2" />
+          <Input v-model="editedCard.partOfSpeech" placeholder="Часть речи" class="mb-2" />
+          <Input v-model="editedCard.exampleSentence" placeholder="Пример предложения" class="mb-2" />
+          <Input v-model="editedCard.tags" placeholder="Теги (через запятую)" class="mb-2" />
+          <Button @click="saveEdit" class="mr-2">Сохранить</Button>
+          <Button @click="cancelEditing" variant="outline">Отмена</Button>
+        </template>
+        <template v-else>
+          <Button @click="handleDeleteCard(card.id)" class="absolute top-2 right-2" variant="destructive" size="sm">
             Удалить
-        </Button>
-        <h4 class="font-bold mb-2">{{ card.title || 'Без заголовка' }}</h4>
-        <p><strong>Вопрос:</strong> {{ card.question }}</p>
-        <p><strong>Ответ:</strong> {{ card.answer }}</p>
-        <p v-if="card.partOfSpeech"><strong>Часть речи:</strong> {{ card.partOfSpeech }}</p>
-        <p v-if="card.exampleSentence"><strong>Пример:</strong> {{ card.exampleSentence }}</p>
-        <p v-if="card.tags"><strong>Теги:</strong> {{ card.tags }}</p>
-        </div>
+          </Button>
+          <Button @click="startEditing(card)" class="absolute top-2 right-20" variant="outline" size="sm">
+            Редактировать
+          </Button>
+          <h4 class="font-bold mb-2">{{ card.title || 'Без заголовка' }}</h4>
+          <p><strong>Вопрос:</strong> {{ card.question }}</p>
+          <p><strong>Ответ:</strong> {{ card.answer }}</p>
+          <p v-if="card.partOfSpeech"><strong>Часть речи:</strong> {{ card.partOfSpeech }}</p>
+          <p v-if="card.exampleSentence"><strong>Пример:</strong> {{ card.exampleSentence }}</p>
+          <p v-if="card.tags"><strong>Теги:</strong> {{ card.tags }}</p>
+        </template>
+      </div>
     </div>
     <p v-else>В этом модуле пока нет карточек.</p>
   </div>
