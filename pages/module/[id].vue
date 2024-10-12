@@ -32,10 +32,6 @@ const goBack = () => {
 }
 
 const handleCreateCard = async () => {
-  // if (!newCard.value.question || !newCard.value.answer) {
-  //   toast({ variant: "destructive", description: 'Вопрос и ответ обязательны' })
-  //   return
-  // }
 
   const createdCard = await createCard(newCard.value, moduleId)
   if (createdCard) {

@@ -1,11 +1,16 @@
 import { useAuth } from '#imports'
 import { useToast } from '~/components/ui/toast/use-toast'
 
+interface Module {
+  id: string;
+  name: string;
+}
+
 export function useModules () {
   const { data: authData } = useAuth()
   const { toast } = useToast()
 
-  const modules = ref([])
+  const modules = ref<Module[]>([])
 
   const fetchModules = async () => {
     if (!authData.value?.user) return

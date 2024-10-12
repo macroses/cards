@@ -18,7 +18,6 @@ const { data: providers } = await useFetch<Provider[]>('/api/auth/providers')
       v-for="provider in providers"
       :key="provider.id"
       :provider-name="provider.name"
-      :icon="'logos:github-icon'"
     />
   </div>
 </template>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
-  providerName: String,
-  icon: String
+  providerName: String
 })
 const { signIn } = useAuth()
 

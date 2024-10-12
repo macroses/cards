@@ -36,14 +36,13 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   account       Account[]
   sessions      Session[]
-  userTexts     UserText[]
   userModules   Module[]
 }
 
@@ -53,15 +52,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-// Data
-model UserText {
-  id        String   @id @default(cuid())
-  text      String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
 }
 
 model Module {
