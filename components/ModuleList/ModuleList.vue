@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useModules } from "@/composables/modules/useModules"
 import { ref } from 'vue'
 
 interface Module {
@@ -35,9 +34,7 @@ const saveEdit = async (moduleId: string) => {
   }
 }
 
-const cancelEdit = () => {
-  editingModuleId.value = null
-}
+const cancelEdit = () => editingModuleId.value = null
 
 onMounted(fetchModules)
 defineExpose({ fetchModules })
@@ -46,21 +43,25 @@ defineExpose({ fetchModules })
 <template>
   <div>
     <h1>Ваши папки</h1>
-    <ul>
+    <ul class="modules-list" >
       <li
         v-for="module in modules" 
         :key="module.id" 
-        class="flex justify-between items-center mb-2"
+        class="modules-list__item"
       >
         <template v-if="editingModuleId === module.id">
-          <Input v-model="editedModuleName" @keyup.enter="saveEdit(module.id)" />
+          <input v-model="editedModuleName" @keyup.enter="saveEdit(module.id)" />
           <div>
-            <Button @click="saveEdit(module.id)" variant="outline" size="sm" class="mr-2">
-              Сохранить
-            </Button>
-            <Button @click="cancelEdit" variant="outline" size="sm">
-              Отмена
-            </Button>
+            <button
+              @click="saveEdit(module.id)"
+            >
+              save
+            </button>
+            <button
+              @click="cancelEdit"
+            >
+              close
+            </button>
           </div>
         </template>
         <template v-else>
@@ -68,15 +69,31 @@ defineExpose({ fetchModules })
             {{ module.name }}
           </NuxtLink>
           <div>
-            <Button @click="startEditing(module as Module)" variant="outline" size="sm" class="mr-2">
-              Редактировать
-            </Button>
-            <Button @click="handleDeleteModule((module as Module).id)" variant="destructive" size="sm">
-              Удалить
-            </Button>
+            <button
+              @click="startEditing(module)"
+            >
+             edit
+            </button>
+            <button
+              @click="handleDeleteModule(module.id)"
+            >
+              delete
+            </button>
           </div>
         </template>
       </li>
     </ul>
   </div>
 </template>
+
+<style>
+.modules-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 4px;
+}
+
+.modules-list__item {
+  border: 1px solid;
+}
+</style>

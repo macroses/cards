@@ -1,0 +1,15 @@
+.input {
+  height: 30px;
+  max-height: 32px;
+  border: 1px solid rgba(var(--accent-color) / 30%);
+  border-radius: 6px;
+  padding: 0 12px;
+
+  &:focus-visible {
+    outline: 2px solid rgb(var(--accent-color) / 20%);
+  }
+
+  &:focus {
+    outline: 2px solid rgb(var(--accent-color) / 20%);
+  }
+}

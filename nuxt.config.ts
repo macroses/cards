@@ -4,11 +4,9 @@ export default defineNuxtConfig({
   css: ['~/assets/styles/main.css'],
   modules: [
     '@sidebase/nuxt-auth',
-    '@nuxtjs/tailwindcss',
-    'shadcn-nuxt',
-    '@nuxt/icon',
     '@vueuse/nuxt',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxt/icon'
   ],
   auth: {
     globalAppMiddleware: true,
@@ -23,11 +21,18 @@ export default defineNuxtConfig({
       GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
     }
   },
-  shadcn: {
-    prefix: '',
-    componentDir: './components/ui'
-  },
   i18n: {
     vueI18n: './i18n.config.ts'
-  }
+  },
+  icon: {
+    serverBundle: {
+      collections: ['mage', 'solar']
+    }
+  },
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    }
+  ]
 })
