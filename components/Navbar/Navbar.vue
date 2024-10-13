@@ -76,11 +76,11 @@ onMounted(() => initLanguage())
       <div class="dialog-footer">
         <TheButton
           variant="ghost"
-        @click="handleSignOut"
-      >
-        Выйти
-      </TheButton>
-      <TheButton @click="dialogRef?.closeDialog()">
+          @click="handleSignOut"
+        >
+          Выйти
+        </TheButton>
+        <TheButton @click="dialogRef?.closeDialog()">
           Отмена
         </TheButton>
       </div>

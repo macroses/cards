@@ -1,9 +1,5 @@
 import { useAuth } from '#imports'
-
-interface Module {
-  id: string;
-  name: string;
-}
+import { type Module } from '@/types/Module'
 
 export function useModules () {
   const { data: authData } = useAuth()
