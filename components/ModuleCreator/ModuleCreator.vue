@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useModules } from "~/composables/useModules"
-
 const { createModule } = useModules()
 const emit = defineEmits(['module-created'])
 
@@ -18,7 +16,6 @@ async function handleCreateModule() {
     emit('module-created')
     moduleName.value = ''
     moduleDescription.value = ''
-    // Переходим на страницу созданного модуля
     navigateTo(`/module/${createdModule.id}`)
   }
 }

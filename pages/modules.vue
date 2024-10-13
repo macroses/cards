@@ -84,6 +84,7 @@ defineExpose({ fetchModules })
             {{ module.name }}
           </NuxtLink>
           <p>{{ module.description }}</p>
+          <p>Количество карточек: {{ module.cardCount }}</p>
           <div>
             <button
               @click="startEditing(module)"
