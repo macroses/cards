@@ -37,13 +37,13 @@ export function useModules () {
     }
   }
 
-  const updateModule = async (moduleId: string, newName: string) => {
+  const updateModule = async (moduleId: string, newName: string, newDescription: string) => {
     if (!authData.value?.user) return
-  
+    
     try {
       const updatedModule = await $fetch(`/api/modules/${moduleId}`, {
         method: 'PATCH',
-        body: { name: newName }
+        body: { name: newName, description: newDescription }
       })
       console.log({ description: 'Модуль успешно обновлен' })
       const index = modules.value.findIndex(m => m.id === moduleId)

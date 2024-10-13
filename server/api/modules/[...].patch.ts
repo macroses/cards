@@ -23,7 +23,10 @@ export default defineEventHandler(async (event) => {
   try {
     return await prisma.module.update({
       where: {id: moduleId},
-      data: {name: body.name},
+      data: {
+        name: body.name,
+        description: body.description
+      },
     })
   } catch (error) {
     console.error('Ошибка при обновлении модуля:', error)
