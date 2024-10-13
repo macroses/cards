@@ -58,7 +58,9 @@ export function useModules () {
 
 
   const createModule = async (name: string, description: string) => {
-    if (!authData.value?.user) return
+    if (!authData.value?.user) {
+      return null
+    }
   
     try {
       const newModule = await $fetch('/api/modules/modules', {

@@ -17,6 +17,9 @@ async function handleCreateModule() {
   if (createdModule) {
     emit('module-created')
     moduleName.value = ''
+    moduleDescription.value = ''
+    // Переходим на страницу созданного модуля
+    navigateTo(`/module/${createdModule.id}`)
   }
 }
 </script>
@@ -40,5 +43,3 @@ async function handleCreateModule() {
     </form>
   </div>
 </template>
-
-<style scoped src="./style.css" />
