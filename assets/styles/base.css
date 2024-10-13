@@ -2,6 +2,7 @@
   color-scheme: light;
   --accent-color: 55 53 47;
   --text-color: 44 62 80;
+  --theme-color: 26 92 255;
 }
 
 @media screen and (min-width: 769px) {
@@ -33,4 +34,8 @@ ul {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.iconify {
+  color: rgb(var(--accent-color) / 100%);
 }

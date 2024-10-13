@@ -55,12 +55,13 @@ model VerificationToken {
 }
 
 model Module {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  cards     Card[]
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  cards       Card[]
 }
 
 model Card {

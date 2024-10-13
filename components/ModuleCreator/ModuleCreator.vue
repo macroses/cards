@@ -5,13 +5,15 @@ const { createModule } = useModules()
 const emit = defineEmits(['module-created'])
 
 const moduleName = ref('')
+const moduleDescription = ref('')
 
 async function handleCreateModule() {
   if (!moduleName.value) {
     return
   }
 
-  const createdModule = await createModule(moduleName.value)
+  const createdModule = await createModule(moduleName.value, moduleDescription.value)
+
   if (createdModule) {
     emit('module-created')
     moduleName.value = ''
@@ -29,6 +31,10 @@ async function handleCreateModule() {
       <TheInput
         v-model="moduleName"
         placeholder="Название модуля"
+      />
+      <TheInput
+        v-model="moduleDescription"
+        placeholder="Описание модуля"
       />
       <TheButton type="submit">Создать</TheButton>
     </form>

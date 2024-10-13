@@ -10,10 +10,11 @@ const logoIcon = computed(() => {
 </script>
 
 <template>
-  <button
+  <TheButton
+    variant="outline"
     @click="signIn(providerName?.toLocaleLowerCase())"
   >
     <Icon :name="logoIcon" />
     {{ providerName }}
-  </button>
+  </TheButton>
 </template>

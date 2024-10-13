@@ -45,4 +45,4 @@ withDefaults(defineProps<ButtonProps>(), {
   </NuxtLink>
 </template>
 
-<style scoped src="./style.css" />
+<style src="./style.css" />

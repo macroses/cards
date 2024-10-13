@@ -2,8 +2,9 @@
 import { ref } from 'vue'
 
 interface Module {
-  id: string;
-  name: string;
+  id: string
+  name: string
+  description: string
 }
 
 const {
@@ -42,11 +43,10 @@ defineExpose({ fetchModules })
 
 <template>
   <div>
-    <h1>Ваши папки</h1>
-    <ul class="modules-list" >
+    <ul class="modules-list" v-if="modules.length">
       <li
         v-for="module in modules" 
-        :key="module.id" 
+        :key="module.id"
         class="modules-list__item"
       >
         <template v-if="editingModuleId === module.id">
@@ -68,6 +68,7 @@ defineExpose({ fetchModules })
           <NuxtLink :to="`/module/${module.id}`">
             {{ module.name }}
           </NuxtLink>
+          <p>{{ module.description }}</p>
           <div>
             <button
               @click="startEditing(module)"
@@ -83,6 +84,13 @@ defineExpose({ fetchModules })
         </template>
       </li>
     </ul>
+    <div
+      v-else
+      class="empty-state"
+    >
+      <span>No folders yet</span>
+      <TheButton>Create folder</TheButton>
+    </div>
   </div>
 </template>
 
@@ -95,5 +103,13 @@ defineExpose({ fetchModules })
 
 .modules-list__item {
   border: 1px solid;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100svh;
 }
 </style>

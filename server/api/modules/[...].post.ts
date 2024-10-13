@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { name, userId } = body
+  const { name, userId, description } = body
 
   if (!name || !userId) {
     throw createError({
@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
       data: {
         name,
         userId,
+        description
       }
     })
   } catch (error) {

@@ -6,10 +6,10 @@
   padding: 0 12px;
 
   &:focus-visible {
-    outline: 2px solid rgb(var(--accent-color) / 20%);
+    outline: 2px solid rgb(var(--theme-color) / 50%);
   }
 
   &:focus {
-    outline: 2px solid rgb(var(--accent-color) / 20%);
+    outline: 2px solid rgb(var(--theme-color) / 50%);
   }
 }
