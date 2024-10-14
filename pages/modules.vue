@@ -19,16 +19,14 @@ const handleDeleteModule = async (moduleId: string) => {
   }
 }
 
-const startEditing = (moduleId: string) => {
-  editingModuleId.value = moduleId
-}
+const startEditing = (moduleId: string) => editingModuleId.value = moduleId
+
+const cancelEdit = () => editingModuleId.value = null
 
 const saveEdit = async (moduleId: string, newName: string, newDescription: string) => {
   await updateModule(moduleId, newName, newDescription)
   editingModuleId.value = null
 }
-
-const cancelEdit = () => editingModuleId.value = null
 
 const openDialogModule = () => {
   dialogModuleCreator.value?.openDialog()
@@ -42,7 +40,6 @@ const refreshModules = () => {
 const toModule = (moduleId: string, moduleName: string) => {
   moduleNameState.value = moduleName
   navigateTo(`/module/${moduleId}`)
-
 }
 
 onMounted(fetchModules)
@@ -77,12 +74,19 @@ defineExpose({ fetchModules })
           </template>
           <template #description>{{ module.description }}</template>
           <template #footer>
-            <Badge>{{ module.cardCount }} карточек</Badge>
-            <TheButton
-              @click="toModule(module.id, module.name)"
-            >
-              Вперед
-            </TheButton>
+            <div class="card__footer">
+              <Badge>{{ module.cardCount }} карточек</Badge>
+              <TheButton
+                @click="toModule(module.id, module.name)"
+                icon-only
+                variant="ghost"
+              >
+                <Icon
+                  name="solar:login-2-linear"
+                  size="1.2rem"
+                />
+              </TheButton>
+            </div>
           </template>
         </Card>
       </ul>
@@ -128,5 +132,12 @@ defineExpose({ fetchModules })
 h2 {
   margin: 0;
   font-size: 16px;
+}
+
+.card__footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

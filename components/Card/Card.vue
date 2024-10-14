@@ -17,7 +17,13 @@ const editedName = ref(props.module.name)
 const editedDescription = ref(props.module.description || '')
 
 const handleSave = () => {
-  emit('save', editedName.value, editedDescription.value)
+  if (editedName.value !== props.module.name || editedDescription.value !== props.module.description) {
+    emit('save', editedName.value, editedDescription.value)
+
+    return
+  }
+
+  emit('cancel')
 }
 </script>
 
