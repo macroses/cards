@@ -1,3 +1,7 @@
+.input-wrapper {
+  position: relative;
+}
+
 .input {
   height: 30px;
   max-height: 32px;
@@ -17,4 +21,20 @@
 
 .input-content {
   max-width: 100%;
+}
+
+.input--error {
+  border-color: rgb(var(--error-color));
+}
+
+.input__error-message {
+  position: absolute;
+  top: -6px;
+  right: 5px;
+  font-size: 12px;
+  line-height: 12px;
+  color: rgb(var(--error-color));
+  background-color: #fff;
+  font-weight: 500;
+  padding: 0 2px;
 }

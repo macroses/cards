@@ -3,6 +3,8 @@
   --accent-color: 55 53 47;
   --text-color: 44 62 80;
   --theme-color: 26 92 255;
+
+  --error-color: 204 55 67;
 }
 
 @media screen and (min-width: 769px) {

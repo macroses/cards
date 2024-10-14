@@ -47,7 +47,10 @@ watch(inputValue, (newValue) => {
       :placeholder="placeholder"
       class="input"
       :class="{ 'input--error': error }"
+      @blur="validate"
     />
-    <div v-if="error" class="error-message">{{ error }}</div>
+    <div v-if="error" class="input__error-message">{{ error }}</div>
   </div>
 </template>
+
+<style src="./style.css"/>

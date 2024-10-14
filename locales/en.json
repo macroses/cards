@@ -1,5 +1,8 @@
 {
   "welcome_home": "Welcome home.",
   "signOut": "Sign out",
-  "signOutConfirm": "Really want to sign out?"
+  "signOutConfirm": "Really want to sign out?",
+  "validation": {
+    "required": "This field is required."
+  }
 }

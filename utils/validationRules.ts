@@ -1,11 +1,12 @@
 type ValidationRule = (value: string, ...args: any[]) => {
-    isValid: boolean; message: string 
-};
+  isValid: boolean
+  message: string 
+}
 
 const validationRules: Record<string, ValidationRule> = {
   required: (value: string) => ({
     isValid: !!value.trim(),
-    message: 'Это поле обязательно для заполнения'
+    message: 'Обязательно для заполнения'
   }),
   
   maxLength: (value: string, maxLength: number) => ({
@@ -19,10 +20,8 @@ const validationRules: Record<string, ValidationRule> = {
   }),
   
   // ...
-};
+}
 
 export const createValidationRule = (ruleName: string, ...args: any[]) => {
-  return (value: string) => validationRules[ruleName](value, ...args);
-};
-
-export default validationRules;
+  return (value: string) => validationRules[ruleName](value, ...args)
+}
