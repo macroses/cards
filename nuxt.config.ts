@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
-    '@nuxt/icon'
+    '@nuxt/icon',
+    '@vee-validate/nuxt'
   ],
   auth: {
     globalAppMiddleware: true,

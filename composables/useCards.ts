@@ -34,7 +34,6 @@ export function useCards () {
 		try {
 		  await $fetch(`/api/cards/${cardId}`, { method: 'DELETE' })
 			
-			
 		  cards.value = cards.value.filter(card => card.id !== cardId)
 		} catch (error: any) {
 		  console.error(error)

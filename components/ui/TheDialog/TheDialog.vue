@@ -38,7 +38,7 @@ defineExpose({
       @click="closeDialog"
     >
       <Icon
-        name="ci:close-big"
+        name="solar:close-circle-line-duotone"
         size="1rem"
       />
     </TheButton>
