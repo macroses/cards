@@ -27,6 +27,7 @@
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@iconify-json/codicon": "^1.2.2",
     "@iconify-json/mage": "^1.2.1",
     "@iconify-json/solar": "^1.2.1",
     "@next-auth/prisma-adapter": "^1.0.7",

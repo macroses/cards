@@ -38,7 +38,7 @@ defineExpose({
       @click="closeDialog"
     >
       <Icon
-        name="solar:close-circle-line-duotone"
+        name="codicon:chrome-close"
         size="1rem"
       />
     </TheButton>
@@ -47,7 +47,7 @@ defineExpose({
   
 <style scoped>
 dialog {
-  padding: 40px 20px 20px;
+  padding: 20px 20px 20px;
   border-radius: 8px;
   border: 1px solid #ccc;
   position: relative;

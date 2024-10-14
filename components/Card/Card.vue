@@ -55,14 +55,20 @@ const handleSave = () => {
           variant="ghost"
           icon-only
         >
-          <Icon name="solar:pen-2-line-duotone" />
+          <Icon
+            name="codicon:edit"
+            size="1rem"
+          />
         </TheButton>
         <TheButton 
           @click="$emit('delete')"
           variant="ghost"
           icon-only
         >
-          <Icon name="solar:trash-bin-trash-line-duotone" />
+          <Icon 
+            name="codicon:trash" 
+            size="1rem"
+          />
         </TheButton>
       </div>
     </template>

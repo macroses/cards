@@ -3,6 +3,8 @@
   "signOut": "Sign out",
   "signOutConfirm": "Really want to sign out?",
   "validation": {
-    "required": "This field is required."
+    "required": "This field is required",
+    "maxLength": "Maximum {maxLength} characters",
+    "minLength": "Minimum {minLength} characters"
   }
 }

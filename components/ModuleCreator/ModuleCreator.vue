@@ -9,7 +9,7 @@ const emit = defineEmits(['module-created'])
 
 const moduleNameRules = [
   createValidationRule('required'),
-  createValidationRule('maxLength', 10)
+  createValidationRule('maxLength', 30)
 ]
 
 const moduleDescriptionRules = [
@@ -54,10 +54,12 @@ const handleCreateModule = async () => {
       />
       <TheButton
         type="submit"
-        :disabled="!isModuleNameValid || !isModuleDescriptionValid"
+        :disabled="isSubmitDisabled"
       >
         Создать
       </TheButton>
     </form>
   </div>
 </template>
+
+<style src="./style.css" />

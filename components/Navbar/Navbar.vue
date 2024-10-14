@@ -24,7 +24,7 @@ onMounted(() => initLanguage())
       <li>
         <NuxtLink to="/">
           <Icon
-            name="solar:home-2-linear"
+            name="codicon:home"
             size="1.5rem"
           />
         </NuxtLink>
@@ -32,7 +32,7 @@ onMounted(() => initLanguage())
       <li>
         <NuxtLink to="/modules">
           <Icon
-            name="solar:folder-with-files-line-duotone"
+            name="codicon:folder"
             size="1.5rem"
           />
         </NuxtLink>
@@ -60,7 +60,7 @@ onMounted(() => initLanguage())
           @click="openSignOutDialog"
         >
           <Icon
-            name="solar:logout-2-linear"
+            name="codicon:sign-out"
             size="1.3rem"
           />
         </TheButton>

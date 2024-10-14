@@ -3,6 +3,8 @@
   "signOutConfirm": "Вы действительно хотите выйти?",
   "welcome_home": "С возвращением",
   "validation": {
-    "required": "Обязательно для заполнения"
+    "required": "Обязательно для заполнения",
+    "maxLength": "Максимум {maxLength} символов",
+    "minLength": "Минимум {minLength} символов"
   }
 }

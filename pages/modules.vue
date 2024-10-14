@@ -82,7 +82,7 @@ defineExpose({ fetchModules })
                 variant="ghost"
               >
                 <Icon
-                  name="solar:login-2-linear"
+                  name="codicon:debug-continue-small"
                   size="1.2rem"
                 />
               </TheButton>
@@ -97,7 +97,14 @@ defineExpose({ fetchModules })
       class="empty-state"
     >
       <span>Папок пока нет</span>
-      <TheButton @click="openDialogModule">Создать папку</TheButton>
+      <TheButton @click="openDialogModule">
+        <Icon
+          name="codicon:add"
+          size="1.2rem"
+          style="color: white"
+        />
+        Создать папку
+      </TheButton>
     </div>
 
     <TheDialog ref="dialogModuleCreator">
@@ -139,5 +146,13 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.empty-state {
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>

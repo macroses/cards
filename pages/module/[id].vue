@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Card } from '~/types/Card'
+
 const route = useRoute()
 const moduleName = useState<string>('moduleName')
 const moduleId = route.params.id as string

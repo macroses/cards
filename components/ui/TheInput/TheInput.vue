@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
   validateRules: () => []
 })
 
+const uniqueId = useId()
 const emit = defineEmits(['update:modelValue', 'validation'])
 
 const inputValue = ref(props.modelValue)
@@ -43,6 +44,7 @@ watch(inputValue, (newValue) => {
 <template>
   <div class="input-wrapper">
     <input
+      :id="uniqueId"
       v-model="inputValue"
       :placeholder="placeholder"
       class="input"
