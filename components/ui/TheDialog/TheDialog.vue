@@ -2,7 +2,6 @@
 const dialogRef = ref<HTMLDialogElement | null>(null)
 
 const openDialog = () => dialogRef.value?.showModal()
-
 const closeDialog = () => dialogRef.value?.close()
 
 onMounted(() => {

@@ -18,6 +18,7 @@ logs
 .fleet
 .idea
 **/*.db
+*.db
 
 # Local env files
 .env

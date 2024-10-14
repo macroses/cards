@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { type Module } from "~/types/Module"
 import TheDialog from '@/components/ui/TheDialog/TheDialog.vue'
 
 const {
@@ -8,6 +7,8 @@ const {
   deleteModule,
   updateModule
 } = useModules()
+
+const moduleNameState = useState<string>('moduleName', () => '')
 
 const editingModuleId = ref<string | null>(null)
 const dialogModuleCreator = ref<InstanceType<typeof TheDialog> | null>(null)
@@ -36,6 +37,12 @@ const openDialogModule = () => {
 const refreshModules = () => {
   fetchModules()
   dialogModuleCreator.value?.closeDialog()
+}
+
+const toModule = (moduleId: string, moduleName: string) => {
+  moduleNameState.value = moduleName
+  navigateTo(`/module/${moduleId}`)
+
 }
 
 onMounted(fetchModules)
@@ -71,6 +78,11 @@ defineExpose({ fetchModules })
           <template #description>{{ module.description }}</template>
           <template #footer>
             <Badge>{{ module.cardCount }} карточек</Badge>
+            <TheButton
+              @click="toModule(module.id, module.name)"
+            >
+              Вперед
+            </TheButton>
           </template>
         </Card>
       </ul>

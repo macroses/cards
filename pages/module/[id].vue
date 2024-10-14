@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { useCards } from "~/composables/useCards"
-
 const route = useRoute()
+const moduleName = useState<string>('moduleName')
 const moduleId = route.params.id as string
 
 const {
@@ -32,10 +30,6 @@ const editedCard = shallowRef({
   exampleSentence: ''
 })
 
-onMounted(() => {
-  fetchCards(moduleId)
-})
-
 const goBack = () => {
   navigateTo('/modules')
 }
@@ -51,7 +45,6 @@ const handleCreateCard = async () => {
       partOfSpeech: '',
       exampleSentence: ''
     }
-    console.log({ description: 'Карточка успешно создана' })
   }
 }
 
@@ -75,13 +68,21 @@ const saveEdit = async () => {
     console.log({ description: 'Карточка успешно обновлена' })
   }
 }
+
+onMounted(async () => {
+  await fetchCards(moduleId)
+})
+
+useHead({
+  title: moduleName.value,
+})
 </script>
 
 <template>
   <div>
     <button @click="goBack">Назад</button>
-    <h1 class="text-2xl font-bold mb-4">Карточки модуля</h1>
 
+    folder name: {{ moduleName }}
     <!-- Форма создания карточки -->
     <div class="mb-8 p-4 border rounded-lg">
       <h2 class="text-xl font-bold mb-4">Создать новую карточку</h2>
