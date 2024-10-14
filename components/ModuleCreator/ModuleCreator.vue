@@ -1,22 +1,34 @@
 <script setup lang="ts">
+const moduleName = ref('')
+const moduleDescription = ref('')
+const isModuleNameValid = ref(true)
+const isModuleDescriptionValid = ref(true)
+
 const { createModule } = useModules()
 const emit = defineEmits(['module-created'])
 
-const moduleName = ref('')
-const moduleDescription = ref('')
+const moduleNameRules = [
+  createValidationRule('required'),
+  createValidationRule('maxLength', 10)
+]
 
-async function handleCreateModule() {
-  if (!moduleName.value) {
-    return
-  }
+const moduleDescriptionRules = [
+  createValidationRule('maxLength', 100)
+]
 
-  const createdModule = await createModule(moduleName.value, moduleDescription.value)
+// computed
+const isSubmitDisabled = computed(() => !isModuleNameValid.value || !isModuleDescriptionValid.value)
 
-  if (createdModule) {
-    emit('module-created')
-    moduleName.value = ''
-    moduleDescription.value = ''
-    navigateTo(`/module/${createdModule.id}`)
+// methods
+const handleCreateModule = async () => {
+  if (isModuleNameValid.value && isModuleDescriptionValid.value) {
+    const createdModule = await createModule(moduleName.value, moduleDescription.value)
+    if (createdModule) {
+      emit('module-created')
+      moduleName.value = ''
+      moduleDescription.value = ''
+      navigateTo(`/module/${createdModule.id}`)
+    }
   }
 }
 </script>
@@ -31,14 +43,21 @@ async function handleCreateModule() {
       <TheInput
         v-model="moduleName"
         placeholder="Название модуля"
+        :validate-rules="moduleNameRules"
+        @validation="isModuleNameValid = $event"
       />
       <TheInput
         v-model="moduleDescription"
         placeholder="Описание модуля"
+        :validate-rules="moduleDescriptionRules"
+        @validation="isModuleDescriptionValid = $event"
       />
-      <TheButton type="submit">Создать</TheButton>
+      <TheButton
+        type="submit"
+        :disabled="!isModuleNameValid || !isModuleDescriptionValid"
+      >
+        Создать
+      </TheButton>
     </form>
   </div>
 </template>
-
-<style scoped src="./style.css" />

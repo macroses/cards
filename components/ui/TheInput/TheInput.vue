@@ -1,41 +1,53 @@
 <script setup lang="ts">
-import { type InputProps } from "~/components/ui/TheInput/types"
+import { ref, watch } from 'vue'
 
-const uniqueId = useId()
+interface Rule {
+  (value: string): { isValid: boolean; message: string };
+}
 
-withDefaults(defineProps<InputProps>(), {
-  disabled: false,
-  label: '',
+interface Props {
+  modelValue: string;
+  placeholder?: string;
+  validateRules?: Rule[];
+}
+
+const props = withDefaults(defineProps<Props>(), {
   placeholder: '',
-  type: 'text',
-  mode: 'text',
-  value: ''
+  validateRules: () => []
 })
 
-const modelValue = defineModel<string | number | null>({
-  type: [String, Number, null],
-  required: true
+const emit = defineEmits(['update:modelValue', 'validation'])
+
+const inputValue = ref(props.modelValue)
+const error = ref('')
+
+const validate = () => {
+  for (const rule of props.validateRules) {
+    const result = rule(inputValue.value)
+    if (!result.isValid) {
+      error.value = result.message
+      emit('validation', false)
+      return
+    }
+  }
+  error.value = ''
+  emit('validation', true)
+}
+
+watch(inputValue, (newValue) => {
+  emit('update:modelValue', newValue)
+  validate()
 })
 </script>
 
 <template>
-  <div class="input-content">
-    <label
-      v-if="label"
-      :for="uniqueId"
-      class="input-label"
-    >
-      {{ label }}
-    </label>
+  <div class="input-wrapper">
     <input
-      class="input"
-      :inputmode="mode"
-      :id="uniqueId"
-      :type="type"
-      v-model="modelValue"
+      v-model="inputValue"
       :placeholder="placeholder"
+      class="input"
+      :class="{ 'input--error': error }"
     />
+    <div v-if="error" class="error-message">{{ error }}</div>
   </div>
 </template>
-
-<style src="./style.css" />
