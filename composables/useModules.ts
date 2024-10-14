@@ -3,6 +3,7 @@ import { type Module } from '@/types/Module'
 
 export function useModules () {
   const { data: authData } = useAuth()
+  const $toast = useToast()
 
   const modules = ref<Module[]>([])
 
@@ -13,12 +14,8 @@ export function useModules () {
       modules.value = await $fetch<Module[]>('/api/modules/modules', {
         query: { userId: authData.value.user.id }
       })
-    } catch (error) {
-      console.error('Ошибка при получении модулей:', error)
-      console.log({
-        variant: "destructive",
-        description: 'Ошибка при получении модулей'
-      })
+    } catch (error: any) {
+      console.error( error)
     }
   }
 
@@ -26,18 +23,19 @@ export function useModules () {
     if (!authData.value?.user) return
 
     try {
-      await $fetch(`/api/modules/${moduleId}`, {
-        method: 'DELETE'
-      })
-      console.log({ description: 'Модуль успешно удален' })
+      await $fetch(`/api/modules/${moduleId}`, { method: 'DELETE' })
+      
       modules.value = modules.value.filter(module => module.id !== moduleId)
-    } catch (error) {
-      console.error('Ошибка при удалении модуля:', error)
-      console.log({ variant: "destructive", description: 'Ошибка при удалении модуля' })
+    } catch (error: any) {
+      console.log(error)
     }
   }
 
-  const updateModule = async (moduleId: string, newName: string, newDescription: string) => {
+  const updateModule = async (
+    moduleId: string,
+    newName: string,
+    newDescription: string
+  ) => {
     if (!authData.value?.user) return
     
     try {
@@ -45,23 +43,22 @@ export function useModules () {
         method: 'PATCH',
         body: { name: newName, description: newDescription }
       })
-      console.log({ description: 'Модуль успешно обновлен' })
+      
       const index = modules.value.findIndex(m => m.id === moduleId)
+      
       if (index !== -1) {
         modules.value[index] = updatedModule
       }
-    } catch (error) {
-      console.error('Ошибка при обновлении модуля:', error)
-      console.log({ variant: "destructive", description: 'Ошибка при обновлении модуля' })
+    } catch (error: any) {
+      console.error(error)
     }
   }
-
 
   const createModule = async (name: string, description: string) => {
     if (!authData.value?.user) {
       return null
     }
-  
+
     try {
       const newModule = await $fetch('/api/modules/modules', {
         method: 'POST',
@@ -71,12 +68,13 @@ export function useModules () {
           description
         }
       })
-      console.log({ description: 'Модуль успешно создан' })
+      
       modules.value.push(newModule)
+      
       return newModule
     } catch (error) {
       console.error('Ошибка при создании модуля:', error)
-      console.log({ variant: "destructive", description: 'Ошибка при создании модуля' })
+      
       return null
     }
   }

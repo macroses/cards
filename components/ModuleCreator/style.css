@@ -1,4 +1,13 @@
-.module-creator {
+.module-creator__form {
   display: flex;
-  gap: 4px;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 100%;
 }
+
+.module-creator__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+

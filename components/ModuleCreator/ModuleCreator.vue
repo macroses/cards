@@ -22,11 +22,11 @@ async function handleCreateModule() {
 </script>
 
 <template>
-  <div>
-    <h2>Создать новый модуль</h2>
+  <div class="module-creator">
+    <div class="module-creator__title">Создать новый модуль</div>
     <form
       @submit.prevent="handleCreateModule"
-      class="module-creator"
+      class="module-creator__form"
     >
       <TheInput
         v-model="moduleName"
@@ -40,3 +40,5 @@ async function handleCreateModule() {
     </form>
   </div>
 </template>
+
+<style scoped src="./style.css" />

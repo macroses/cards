@@ -3,6 +3,6 @@ export interface InputProps {
 	label?: string
 	placeholder?: string
 	type?: string
-	mode?: string
+	mode?: "text" | "search" | "url" | "email" | "none" | "tel" | "numeric" | "decimal" | undefined
 	value?: string | number
 }

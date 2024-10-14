@@ -1,17 +1,6 @@
-export interface Card {
-	question: string;
-	answer: string;
-	title: string;
-	tags: string;
-	partOfSpeech: string;
-	exampleSentence: string;
-	id: string;
-	moduleId: string;
-	createdAt: string;
-}
+import { type Card } from "~/types/Card"
 
 export function useCards () {
-	
 	const cards = ref<Card[]>([])
 	
 	const fetchCards = async (moduleId: string) => {
@@ -19,12 +8,8 @@ export function useCards () {
 			cards.value = await $fetch<Card[]>(`/api/cards/cards`, {
 				query: { moduleId: moduleId }
 			})
-		} catch (error) {
-			console.error('Ошибка при получении карточек:', error)
-			console.log({
-				variant: "destructive",
-				description: 'Ошибка при получении карточек'
-			})
+		} catch (error: any) {
+			console.error(error)
 		}
 	}
 	
@@ -35,38 +20,24 @@ export function useCards () {
 				body: { ...cardData, moduleId }
 			})
 			
-			console.log({ description: 'Карточка успешно создана' })
-			
 			cards.value.push(newCard as Card)
 			
 			return newCard
-		} catch (error) {
-			console.error('Ошибка при создании карточки:', error)
-			
-			console.log({
-				variant: "destructive",
-				description: 'Ошибка при создании карточки'
-			})
-			
+		} catch (error: any) {
+			console.error(error)
+
 			return null
 		}
 	}
 
 	const deleteCard = async (cardId: string) => {
 		try {
-		  await $fetch(`/api/cards/${cardId}`, {
-			method: 'DELETE'
-		  })
+		  await $fetch(`/api/cards/${cardId}`, { method: 'DELETE' })
 			
-			console.log({ description: 'Карточка успешно удалена' })
 			
 		  cards.value = cards.value.filter(card => card.id !== cardId)
-		} catch (error) {
-		  console.error('Ошибка при удалении карточки:', error)
-			console.log({
-				variant: "destructive",
-				description: 'Ошибка при удалении карточки'
-			})
+		} catch (error: any) {
+		  console.error(error)
 		}
 	}
 
@@ -77,8 +48,6 @@ export function useCards () {
 				body: cardData
 		  })
 			
-			console.log({ description: 'Карточка успешно обновлена' })
-			
 		  const index = cards.value.findIndex(card => card.id === cardId)
 			
 		  if (index !== -1) {
@@ -86,12 +55,8 @@ export function useCards () {
 		  }
 			
 		  return updatedCard
-		} catch (error) {
-		  console.error('Ошибка при обновлении карточки:', error)
-			console.log({
-				variant: "destructive",
-				description: 'Ошибка при обновлении карточки'
-			})
+		} catch (error: any) {
+		  console.error(error)
 			
 		  return null
 		}
