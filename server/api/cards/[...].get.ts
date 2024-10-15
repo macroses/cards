@@ -18,7 +18,8 @@ export default defineEventHandler(async (event) => {
       where: { moduleId },
       orderBy: { createdAt: 'desc' },
     })
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error while fetching cards: ', error)
     throw createError({
       statusCode: 500,

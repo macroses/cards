@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type {Card} from '~/types/Card'
+import type { Card } from '~/types/Card'
 
 type CardField = 'question' | 'answer'
 
@@ -14,43 +14,47 @@ const {
   fetchCards,
   createCard,
   deleteCard,
-  updateCard
+  updateCard,
 } = useCards()
+
+const $toast = useToast()
 
 const newCard = ref({
   question: '',
-  answer: ''
+  answer: '',
 })
 
 const editingCardId = ref<string | null>(null)
 const editedCard = ref({
   question: '',
-  answer: ''
+  answer: '',
 })
 
 const goBack = () => router.back()
 
-const handleCreateCard = async () => {
+async function handleCreateCard() {
   const createdCard = await createCard(newCard.value, moduleId)
+
+  $toast(createdCard ? 'Карточка создана' : 'Ошибка при создании карточки')
 
   if (createdCard) {
     newCard.value = {
       question: '',
-      answer: ''
+      answer: '',
     }
   }
 }
 
 const handleDeleteCard = async (cardId: string) => await deleteCard(cardId)
 
-const startEditing = (card: Card) => {
+function startEditing(card: Card) {
   editingCardId.value = card.id
-  editedCard.value = {...card}
+  editedCard.value = { ...card }
 }
 
 const cancelEditing = () => editingCardId.value = null
 
-const saveEdit = async () => {
+async function saveEdit() {
   if (editingCardId.value) {
     await updateCard(editingCardId.value, editedCard.value)
     editingCardId.value = null
@@ -64,8 +68,8 @@ useHead({
 })
 
 const inputFields: { model: CardField, placeholder: string, required?: boolean }[] = [
-  {model: 'question', placeholder: 'Вопрос', required: true},
-  {model: 'answer', placeholder: 'Ответ', required: true}
+  { model: 'question', placeholder: 'Вопрос', required: true },
+  { model: 'answer', placeholder: 'Ответ', required: true },
 ]
 </script>
 
@@ -77,14 +81,13 @@ const inputFields: { model: CardField, placeholder: string, required?: boolean }
     >
       <TheIcon
         fill="white"
-        iconName="angle-left" width="18px"
+        icon-name="angle-left" width="18px"
       />
       {{ t('back') }}
     </TheButton>
 
-    folder name:
-    {{ moduleName }}
-    <!-- Форма создания карточки -->
+    folder name: {{ moduleName }}
+
     <form @submit.prevent="handleCreateCard">
       <TheInput
         v-for="field in inputFields" :key="field.model"
@@ -95,24 +98,33 @@ const inputFields: { model: CardField, placeholder: string, required?: boolean }
       <TheButton type="submit">
         <TheIcon
           fill="white"
-          iconName="floppy-disk"
+          icon-name="floppy-disk"
           width="18px"
         />
       </TheButton>
     </form>
 
-    <!-- Список карточек -->
-    <div v-if="cards.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="card in cards" :key="card.id" class="border rounded-lg p-4 shadow-sm relative">
+    <div v-if="cards.length > 0">
+      <div
+        v-for="card in cards"
+        :key="card.id"
+      >
         <template v-if="editingCardId === card.id">
-          <div v-for="field in inputFields" :key="field.model">
+          <div
+            v-for="field in inputFields"
+            :key="field.model"
+          >
             <TheInput
-                v-model="editedCard[field.model]"
-                :placeholder="field.placeholder"
+              v-model="editedCard[field.model]"
+              :placeholder="field.placeholder"
             />
           </div>
-          <button @click="saveEdit">Сохранить</button>
-          <button @click="cancelEditing">Отмена</button>
+          <button @click="saveEdit">
+            Сохранить
+          </button>
+          <button @click="cancelEditing">
+            Отмена
+          </button>
         </template>
         <template v-else>
           <button @click="handleDeleteCard(card.id)">
@@ -121,12 +133,13 @@ const inputFields: { model: CardField, placeholder: string, required?: boolean }
           <button @click="startEditing(card)">
             Редактировать
           </button>
-          <h4 class="font-bold mb-2">{{ card.title || 'Без заголовка' }}</h4>
           <p><strong>Вопрос:</strong> {{ card.question }}</p>
           <p><strong>Ответ:</strong> {{ card.answer }}</p>
         </template>
       </div>
     </div>
-    <p v-else>В этом модуле пока нет карточек.</p>
+    <p v-else>
+      В этом модуле пока нет карточек.
+    </p>
   </div>
 </template>

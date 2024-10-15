@@ -9,19 +9,20 @@ onMounted(() => {
     if (e.target === dialogRef.value) {
       const rect = dialogRef.value?.getBoundingClientRect()
       const isInDialog = rect && (
-        e.clientY > rect.top &&
-        e.clientY < rect.bottom &&
-        e.clientX > rect.left &&
-        e.clientX < rect.right
-      );
-      if (!isInDialog) closeDialog()
+        e.clientY > rect.top
+        && e.clientY < rect.bottom
+        && e.clientX > rect.left
+        && e.clientX < rect.right
+      )
+      if (!isInDialog)
+        closeDialog()
     }
   })
 })
 
 defineExpose({
   openDialog,
-  closeDialog
+  closeDialog,
 })
 </script>
 
@@ -44,7 +45,7 @@ defineExpose({
     </TheButton>
   </dialog>
 </template>
-  
+
 <style scoped>
 dialog {
   padding: 20px 20px 20px;

@@ -17,7 +17,8 @@ export default defineEventHandler(async (event) => {
       where: { id: moduleId },
     })
     return { message: 'Модуль успешно удален' }
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Ошибка при удалении модуля:', error)
     throw createError({
       statusCode: 500,

@@ -12,13 +12,14 @@ export function useToastState() {
   const toast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
     if (toastFunction.value) {
       toastFunction.value(message, type)
-    } else {
+    }
+    else {
       console.warn('Toast function is not available')
     }
   }
 
   return {
     setToastFunction,
-    toast
+    toast,
   }
 }

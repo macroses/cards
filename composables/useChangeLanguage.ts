@@ -24,6 +24,6 @@ export function useChangeLanguage() {
   return {
     locale,
     changeLanguage,
-    initLanguage
+    initLanguage,
   }
 }

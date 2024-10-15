@@ -26,7 +26,8 @@ export default defineEventHandler(async (event) => {
       },
     })
     return card
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Ошибка при создании карточки:', error)
     throw createError({
       statusCode: 500,

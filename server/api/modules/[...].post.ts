@@ -1,4 +1,4 @@
-import {PrismaClient} from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -18,10 +18,11 @@ export default defineEventHandler(async (event) => {
       data: {
         name,
         userId,
-        description
-      }
+        description,
+      },
     })
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error creating folder:', error)
     throw createError({
       statusCode: 500,

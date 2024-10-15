@@ -19,16 +19,17 @@ export default defineEventHandler(async (event) => {
       orderBy: { createdAt: 'desc' },
       include: {
         _count: {
-          select: { cards: true }
-        }
-      }
+          select: { cards: true },
+        },
+      },
     })
-    
+
     return modules.map(module => ({
       ...module,
-      cardCount: module._count.cards
+      cardCount: module._count.cards,
     }))
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Ошибка при получении модулей:', error)
     throw createError({
       statusCode: 500,

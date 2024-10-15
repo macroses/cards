@@ -2,27 +2,26 @@
 import { ref, watch } from 'vue'
 
 interface Rule {
-  (value: string): { isValid: boolean; message: string };
+  (value: string): { isValid: boolean, message: string }
 }
 
 interface Props {
-  modelValue: string;
-  placeholder?: string;
-  validateRules?: Rule[];
+  modelValue: string
+  placeholder?: string
+  validateRules?: Rule[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
   placeholder: '',
-  validateRules: () => []
+  validateRules: () => [],
 })
 
-const uniqueId = useId()
 const emit = defineEmits(['update:modelValue', 'validation'])
-
+const uniqueId = useId()
 const inputValue = ref(props.modelValue)
 const error = ref('')
 
-const validate = () => {
+function validate() {
   for (const rule of props.validateRules) {
     const result = rule(inputValue.value)
     if (!result.isValid) {
@@ -50,9 +49,11 @@ watch(inputValue, (newValue) => {
       class="input"
       :class="{ 'input--error': error }"
       @blur="validate"
-    />
-    <div v-if="error" class="input__error-message">{{ error }}</div>
+    >
+    <div v-if="error" class="input__error-message">
+      {{ error }}
+    </div>
   </div>
 </template>
 
-<style src="./style.css"/>
+<style src="./style.css" />

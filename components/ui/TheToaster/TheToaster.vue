@@ -10,14 +10,14 @@ type ToastType = 'success' | 'error' | 'info'
 const toasts = ref<Toast[]>([])
 let toastId = 0
 
-const addToast = (message: string, type: ToastType = 'info') => {
+function addToast(message: string, type: ToastType = 'info') {
   const id = toastId++
 
   toasts.value.push({ id, message, type })
   setTimeout(() => removeToast(id), 3000)
 }
 
-const removeToast = (id: number) => {
+function removeToast(id: number) {
   const index = toasts.value.findIndex(toast => toast.id === id)
 
   if (index !== -1) {
@@ -44,7 +44,7 @@ onUnmounted(() => {
       <div
         v-for="toast in toasts"
         :key="toast.id"
-        :class="['toast', `toast-${toast.type}`]"
+        class="toast" :class="[`toast-${toast.type}`]"
       >
         {{ toast.message }}
       </div>

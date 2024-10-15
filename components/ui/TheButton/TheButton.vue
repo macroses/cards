@@ -14,7 +14,7 @@ withDefaults(defineProps<ButtonProps>(), {
   variant: 'primary',
   link: false,
   iconOnly: false,
-  linkPath: ''
+  linkPath: '',
 })
 </script>
 
@@ -26,7 +26,7 @@ withDefaults(defineProps<ButtonProps>(), {
     class="button"
     :class="{
       [`button--${variant}`]: variant,
-      'button--icon-only': iconOnly
+      'button--icon-only': iconOnly,
     }"
   >
     <slot />
@@ -38,7 +38,7 @@ withDefaults(defineProps<ButtonProps>(), {
     class="button"
     :class="{
       [`button--${variant}`]: variant,
-      'button--icon-only': iconOnly
+      'button--icon-only': iconOnly,
     }"
   >
     <slot />

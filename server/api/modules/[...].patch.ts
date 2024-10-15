@@ -1,4 +1,4 @@
-import {PrismaClient} from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -22,13 +22,14 @@ export default defineEventHandler(async (event) => {
 
   try {
     return await prisma.module.update({
-      where: {id: moduleId},
+      where: { id: moduleId },
       data: {
         name: body.name,
-        description: body.description
+        description: body.description,
       },
     })
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Ошибка при обновлении модуля:', error)
     throw createError({
       statusCode: 500,

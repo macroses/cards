@@ -3,9 +3,9 @@
 </script>
 
 <template>
-<div class="badge">
-  <slot />
-</div>
+  <div class="badge">
+    <slot />
+  </div>
 </template>
 
 <style src='./style.css' />

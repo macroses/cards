@@ -17,7 +17,8 @@ export default defineEventHandler(async (event) => {
       where: { id: cardId },
     })
     return { message: 'Карточка успешно удалена' }
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Ошибка при удалении карточки:', error)
     throw createError({
       statusCode: 500,

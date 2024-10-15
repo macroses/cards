@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Provider } from "next-auth/providers/index"
+import type { Provider } from 'next-auth/providers/index'
 
 definePageMeta({
   layout: 'empty',

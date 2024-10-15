@@ -5,7 +5,7 @@ const {
   modules,
   fetchModules,
   deleteModule,
-  updateModule
+  updateModule,
 } = useModules()
 
 const { t } = useI18n()
@@ -14,31 +14,29 @@ const moduleNameState = useState<string>('moduleName', () => '')
 const editingModuleId = ref<string | null>(null)
 const dialogModuleCreator = ref<InstanceType<typeof TheDialog> | null>(null)
 
-const handleDeleteModule = async (moduleId: string) => {
-  if (confirm('Вы уверены, что хотите удалить этот модуль? Все карточки будут потеряны.')) {
-    await deleteModule(moduleId)
-  }
+async function handleDeleteModule(moduleId: string) {
+  await deleteModule(moduleId)
 }
 
 const startEditing = (moduleId: string) => editingModuleId.value = moduleId
 
 const cancelEdit = () => editingModuleId.value = null
 
-const saveEdit = async (moduleId: string, newName: string, newDescription: string) => {
+async function saveEdit(moduleId: string, newName: string, newDescription: string) {
   await updateModule(moduleId, newName, newDescription)
   editingModuleId.value = null
 }
 
-const openDialogModule = () => {
+function openDialogModule() {
   dialogModuleCreator.value?.openDialog()
 }
 
-const refreshModules = () => {
+function refreshModules() {
   fetchModules()
   dialogModuleCreator.value?.closeDialog()
 }
 
-const toModule = (moduleId: string, moduleName: string) => {
+function toModule(moduleId: string, moduleName: string) {
   moduleNameState.value = moduleName
   navigateTo(`/module/${moduleId}`)
 }
@@ -57,8 +55,8 @@ defineExpose({ fetchModules })
         </TheButton>
       </div>
       <ul
-        class="modules-list"
         v-if="modules.length"
+        class="modules-list"
       >
         <Card
           v-for="module in modules"
@@ -73,14 +71,16 @@ defineExpose({ fetchModules })
           <template #title>
             <h2>{{ module.name }}</h2>
           </template>
-          <template #description>{{ module.description }}</template>
+          <template #description>
+            {{ module.description }}
+          </template>
           <template #footer>
             <div class="card__footer">
               <Badge>{{ module.cardCount }} карточек</Badge>
               <TheButton
-                @click="toModule(module.id, module.name)"
                 icon-only
                 variant="ghost"
+                @click="toModule(module.id, module.name)"
               >
                 <Icon
                   name="codicon:debug-continue-small"
@@ -92,7 +92,7 @@ defineExpose({ fetchModules })
         </Card>
       </ul>
     </div>
-    
+
     <div
       v-else
       class="empty-state"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Module } from "~/types/Module"
+import type { Module } from '~/types/Module'
 
 const props = defineProps<{
   module: Module
@@ -16,7 +16,7 @@ const emit = defineEmits<{
 const editedName = ref(props.module.name)
 const editedDescription = ref(props.module.description || '')
 
-const handleSave = () => {
+function handleSave() {
   if (editedName.value !== props.module.name || editedDescription.value !== props.module.description) {
     emit('save', editedName.value, editedDescription.value)
 
@@ -33,15 +33,16 @@ const handleSave = () => {
       <TheInput v-model="editedName" placeholder="Название модуля" />
       <TheInput v-model="editedDescription" placeholder="Описание модуля" />
       <div class="card-actions__save">
-        <TheButton 
-        @click="$emit('cancel')"
-         variant="outline"
+        <TheButton
+          variant="outline"
+          @click="$emit('cancel')"
         >
           Отмена
         </TheButton>
         <TheButton
-         @click="handleSave"
-         >Сохранить
+          @click="handleSave"
+        >
+          Сохранить
         </TheButton>
       </div>
     </template>
@@ -50,23 +51,23 @@ const handleSave = () => {
       <slot name="description" />
       <slot name="footer" />
       <div class="card-actions__edit">
-        <TheButton 
-        @click="$emit('edit')" 
+        <TheButton
           variant="ghost"
           icon-only
+          @click="$emit('edit')"
         >
           <Icon
             name="codicon:edit"
             size="1rem"
           />
         </TheButton>
-        <TheButton 
-          @click="$emit('delete')"
+        <TheButton
           variant="ghost"
           icon-only
+          @click="$emit('delete')"
         >
-          <Icon 
-            name="codicon:trash" 
+          <Icon
+            name="codicon:trash"
             size="1rem"
           />
         </TheButton>
