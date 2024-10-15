@@ -2,6 +2,9 @@
   "welcome_home": "Welcome home.",
   "signOut": "Sign out",
   "signOutConfirm": "Really want to sign out?",
+  "back": "Back",
+  "yourFolders": "Your folders",
+
   "validation": {
     "required": "This field is required",
     "maxLength": "Maximum {maxLength} characters",

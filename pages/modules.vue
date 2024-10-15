@@ -8,6 +8,7 @@ const {
   updateModule
 } = useModules()
 
+const { t } = useI18n()
 const moduleNameState = useState<string>('moduleName', () => '')
 
 const editingModuleId = ref<string | null>(null)
@@ -50,7 +51,7 @@ defineExpose({ fetchModules })
   <div>
     <div v-if="modules.length">
       <div class="header">
-        <h1>Ваши папки</h1>
+        <h1>{{ t('yourFolders') }}</h1>
         <TheButton @click="openDialogModule">
           Создать папку
         </TheButton>

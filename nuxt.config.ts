@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/icon',
-    '@vee-validate/nuxt'
+    '@vee-validate/nuxt',
+    'nuxt-time'
   ],
   auth: {
     globalAppMiddleware: true,

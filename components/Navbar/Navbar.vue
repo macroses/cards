@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import TheDialog from '@/components/ui/TheDialog/TheDialog.vue'
 
-const { signOut } = useAuth()
-const { locale, changeLanguage, initLanguage } = useChangeLanguage()
+const {signOut} = useAuth()
+const {locale, changeLanguage, initLanguage} = useChangeLanguage()
 
 const dialogRef = ref<InstanceType<typeof TheDialog> | null>(null)
 
@@ -23,17 +23,17 @@ onMounted(() => initLanguage())
     <ul>
       <li>
         <NuxtLink to="/">
-          <Icon
-            name="codicon:home"
-            size="1.5rem"
+          <TheIcon
+            iconName="house"
+            width="20px"
           />
         </NuxtLink>
       </li>
       <li>
         <NuxtLink to="/modules">
-          <Icon
-            name="codicon:folder"
-            size="1.5rem"
+          <TheIcon
+            iconName="folders"
+            width="20px"
           />
         </NuxtLink>
       </li>
@@ -55,13 +55,13 @@ onMounted(() => initLanguage())
       </li>
       <li>
         <TheButton
-          variant="ghost"
           icon-only
+          variant="ghost"
           @click="openSignOutDialog"
         >
-          <Icon
-            name="codicon:sign-out"
-            size="1.3rem"
+          <TheIcon
+            iconName="right-from-bracket"
+            width="20px"
           />
         </TheButton>
       </li>
@@ -75,8 +75,8 @@ onMounted(() => initLanguage())
     <template #footer>
       <div class="dialog-footer">
         <TheButton
-          variant="ghost"
-          @click="handleSignOut"
+            variant="ghost"
+            @click="handleSignOut"
         >
           Выйти
         </TheButton>

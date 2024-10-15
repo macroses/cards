@@ -2,6 +2,9 @@
   "signOut": "Выйти",
   "signOutConfirm": "Вы действительно хотите выйти?",
   "welcome_home": "С возвращением",
+  "back": "Назад",
+  "yourFolders": "Ваши папки",
+
   "validation": {
     "required": "Обязательно для заполнения",
     "maxLength": "Максимум {maxLength} символов",

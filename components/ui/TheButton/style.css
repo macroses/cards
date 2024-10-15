@@ -8,7 +8,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 
   &:focus-visible {
     outline: 2px solid rgb(var(--theme-color) / 40%);

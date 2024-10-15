@@ -1,9 +1,13 @@
-<script setup lang="ts">
-import type { Card } from '~/types/Card'
+<script lang="ts" setup>
+import type {Card} from '~/types/Card'
+
+type CardField = 'question' | 'answer'
 
 const route = useRoute()
+const router = useRouter()
 const moduleName = useState<string>('moduleName')
 const moduleId = route.params.id as string
+const { t } = useI18n()
 
 const {
   cards,
@@ -13,102 +17,100 @@ const {
   updateCard
 } = useCards()
 
-const newCard = shallowRef({
+const newCard = ref({
   question: '',
-  answer: '',
-  title: '',
-  tags: '',
-  partOfSpeech: '',
-  exampleSentence: ''
+  answer: ''
 })
 
 const editingCardId = ref<string | null>(null)
-const editedCard = shallowRef({
+const editedCard = ref({
   question: '',
-  answer: '',
-  title: '',
-  tags: '',
-  partOfSpeech: '',
-  exampleSentence: ''
+  answer: ''
 })
 
-const goBack = () => {
-  navigateTo('/modules')
-}
+const goBack = () => router.back()
 
 const handleCreateCard = async () => {
   const createdCard = await createCard(newCard.value, moduleId)
+
   if (createdCard) {
     newCard.value = {
       question: '',
-      answer: '',
-      title: '',
-      tags: '',
-      partOfSpeech: '',
-      exampleSentence: ''
+      answer: ''
     }
   }
 }
 
-const handleDeleteCard = async (cardId: string) => {
-  await deleteCard(cardId)
-}
+const handleDeleteCard = async (cardId: string) => await deleteCard(cardId)
 
 const startEditing = (card: Card) => {
   editingCardId.value = card.id
-  editedCard.value = { ...card }
+  editedCard.value = {...card}
 }
 
-const cancelEditing = () => {
-  editingCardId.value = null
-}
+const cancelEditing = () => editingCardId.value = null
 
 const saveEdit = async () => {
   if (editingCardId.value) {
     await updateCard(editingCardId.value, editedCard.value)
     editingCardId.value = null
-    console.log({ description: 'Карточка успешно обновлена' })
   }
 }
 
-onMounted(async () => {
-  await fetchCards(moduleId)
-})
+onMounted(async () => await fetchCards(moduleId))
 
 useHead({
   title: moduleName.value,
 })
+
+const inputFields: { model: CardField, placeholder: string, required?: boolean }[] = [
+  {model: 'question', placeholder: 'Вопрос', required: true},
+  {model: 'answer', placeholder: 'Ответ', required: true}
+]
 </script>
 
 <template>
   <div>
-    <button @click="goBack">Назад</button>
+    <TheButton
+      variant="outline"
+      @click="goBack"
+    >
+      <TheIcon
+        fill="white"
+        iconName="angle-left" width="18px"
+      />
+      {{ t('back') }}
+    </TheButton>
 
-    folder name: {{ moduleName }}
+    folder name:
+    {{ moduleName }}
     <!-- Форма создания карточки -->
-    <div class="mb-8 p-4 border rounded-lg">
-      <h2 class="text-xl font-bold mb-4">Создать новую карточку</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input v-model="newCard.title" placeholder="Заголовок" />
-        <input v-model="newCard.question" placeholder="Вопрос" required />
-        <input v-model="newCard.answer" placeholder="Ответ" required />
-        <input v-model="newCard.partOfSpeech" placeholder="Часть речи" />
-        <input v-model="newCard.exampleSentence" placeholder="Пример предложения" />
-        <input v-model="newCard.tags" placeholder="Теги (через запятую)" />
-      </div>
-      <button @click="handleCreateCard">Создать карточку</button>
-    </div>
+    <form @submit.prevent="handleCreateCard">
+      <TheInput
+        v-for="field in inputFields" :key="field.model"
+        v-model="newCard[field.model]"
+        :placeholder="field.placeholder"
+        :required="field.required || false"
+      />
+      <TheButton type="submit">
+        <TheIcon
+          fill="white"
+          iconName="floppy-disk"
+          width="18px"
+        />
+      </TheButton>
+    </form>
 
     <!-- Список карточек -->
     <div v-if="cards.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <div v-for="card in cards" :key="card.id" class="border rounded-lg p-4 shadow-sm relative">
         <template v-if="editingCardId === card.id">
-          <input v-model="editedCard.title" placeholder="Заголовок" class="mb-2" />
-          <input v-model="editedCard.question" placeholder="Вопрос" class="mb-2" />
-          <input v-model="editedCard.answer" placeholder="Ответ" class="mb-2" />
-          <input v-model="editedCard.partOfSpeech" placeholder="Часть речи" class="mb-2" />
-          <input v-model="editedCard.exampleSentence" placeholder="Пример предложения" class="mb-2" />
-          <input v-model="editedCard.tags" placeholder="Теги (через запятую)" class="mb-2" />
+          <div v-for="field in inputFields" :key="field.model">
+            <TheInput
+                v-model="editedCard[field.model]"
+                :placeholder="field.placeholder"
+            />
+          </div>
           <button @click="saveEdit">Сохранить</button>
           <button @click="cancelEditing">Отмена</button>
         </template>
@@ -122,9 +124,6 @@ useHead({
           <h4 class="font-bold mb-2">{{ card.title || 'Без заголовка' }}</h4>
           <p><strong>Вопрос:</strong> {{ card.question }}</p>
           <p><strong>Ответ:</strong> {{ card.answer }}</p>
-          <p v-if="card.partOfSpeech"><strong>Часть речи:</strong> {{ card.partOfSpeech }}</p>
-          <p v-if="card.exampleSentence"><strong>Пример:</strong> {{ card.exampleSentence }}</p>
-          <p v-if="card.tags"><strong>Теги:</strong> {{ card.tags }}</p>
         </template>
       </div>
     </div>
