@@ -37,8 +37,8 @@ export default NuxtAuthHandler({
     }),
     // @ts-expect-error description
     GoogleProvider.default({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: runtimeConfig.public.GOOGLE_CLIENT_ID,
+      clientSecret: runtimeConfig.GOOGLE_CLIENT_SECRET,
     }),
   ],
 })

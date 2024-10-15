@@ -1,4 +1,3 @@
-/* eslint-disable need to disable*/
 import process from 'node:process'
 
 export default defineNuxtConfig({
