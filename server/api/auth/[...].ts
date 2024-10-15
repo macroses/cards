@@ -1,5 +1,4 @@
 import type { Session, User } from 'next-auth'
-// file: ~/server/api/auth/[...].ts
 import { NuxtAuthHandler } from '#auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
@@ -22,7 +21,7 @@ export default NuxtAuthHandler({
       }
       return session
     },
-    async signIn({ account, profile }) {
+    async signIn({ account, profile }: { account: any, profile: any }) {
       if (account?.provider === 'google') {
         return profile.email_verified && profile.email.endsWith('@gmail.com')
       }

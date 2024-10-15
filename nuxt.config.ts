@@ -16,6 +16,9 @@ export default defineNuxtConfig({
   auth: {
     globalAppMiddleware: true,
     baseURL: `http://localhost:${process.env.PORT || 3000}`,
+    provider: {
+      type: 'authjs',
+    },
   },
   runtimeConfig: {
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,

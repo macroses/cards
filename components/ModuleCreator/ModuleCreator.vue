@@ -6,6 +6,7 @@ const isModuleNameValid = ref(true)
 const isModuleDescriptionValid = ref(true)
 
 const { createModule } = useModules()
+
 const moduleNameRules = [
   createValidationRule('required'),
   createValidationRule('maxLength', 30),
