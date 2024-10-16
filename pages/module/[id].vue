@@ -41,8 +41,7 @@ useHead({
       {{ t('back') }}
     </TheButton>
 
-    <h1>{{ moduleName }}</h1>
-    <!-- <h1>{{ module?.name }}</h1> -->
+    <h1>{{ moduleName || module?.name }}</h1>
 
     <CreateCardForm
       :module-id="moduleId"
