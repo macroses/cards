@@ -51,7 +51,12 @@ defineExpose({ fetchModules })
       <div class="header">
         <h1>{{ t('yourFolders') }}</h1>
         <TheButton @click="openDialogModule">
-          Создать папку
+          <TheIcon
+            fill="white"
+            icon-name="plus"
+            width="18px"
+          />
+          {{ t('create') }}
         </TheButton>
       </div>
       <ul

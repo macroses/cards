@@ -11,6 +11,11 @@
   margin-bottom: 12px;
 }
 
+.module-creator__confirm {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .error-message {
   color: red;
   font-size: 12px;

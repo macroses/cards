@@ -12,10 +12,18 @@ const {
   updateCard,
 } = useCards()
 
-onMounted(async () => await fetchCards(moduleId))
+const { module, fetchModule } = useModules()
+
+onMounted(async () => {
+  if (!moduleName.value) {
+    await fetchModule(moduleId)
+  }
+
+  await fetchCards(moduleId)
+})
 
 useHead({
-  title: moduleName.value,
+  title: computed(() => moduleName.value || module.value?.name || ''),
 })
 </script>
 
@@ -34,6 +42,7 @@ useHead({
     </TheButton>
 
     <h1>{{ moduleName }}</h1>
+    <!-- <h1>{{ module?.name }}</h1> -->
 
     <CreateCardForm
       :module-id="moduleId"

@@ -4,6 +4,7 @@
   "signOutConfirm": "Really want to sign out?",
   "back": "Back",
   "yourFolders": "Your folders",
+  "create": "Create",
 
   "validation": {
     "required": "This field is required",

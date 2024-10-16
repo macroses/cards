@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const emit = defineEmits(['moduleCreated'])
+
+const { t } = useI18n()
+
 const moduleName = ref('')
 const moduleDescription = ref('')
 const isModuleNameValid = ref(true)
@@ -17,7 +20,7 @@ const moduleDescriptionRules = [
 ]
 
 // computed
-const isSubmitDisabled = computed(() => !isModuleNameValid.value || !isModuleDescriptionValid.value)
+// const isSubmitDisabled = computed(() => !isModuleNameValid.value || !isModuleDescriptionValid.value)
 
 // methods
 async function handleCreateModule() {
@@ -54,12 +57,19 @@ async function handleCreateModule() {
         :validate-rules="moduleDescriptionRules"
         @validation="isModuleDescriptionValid = $event"
       />
-      <TheButton
-        type="submit"
-        :disabled="isSubmitDisabled"
-      >
-        Создать
-      </TheButton>
+      <div class="module-creator__confirm">
+        <TheButton
+          type="submit"
+          :disabled="!moduleName"
+        >
+          <TheIcon
+            fill="white"
+            :icon-name="!moduleName ? 'ban' : 'plus'"
+            width="18px"
+          />
+          <span>{{ t('create') }}</span>
+        </TheButton>
+      </div>
     </form>
   </div>
 </template>

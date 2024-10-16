@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { InputField } from './interface'
-
 const props = defineProps<{
   moduleId: string
 }>()
@@ -18,8 +16,8 @@ const newCard = reactive({
   answer: '',
 })
 
-const isQuestionValid = ref(true)
-const isAnswerValid = ref(true)
+const isQuestionValid = ref(false)
+const isAnswerValid = ref(false)
 
 const questionRules = [
   createValidationRule('required'),
@@ -51,23 +49,6 @@ async function handleCreateCard() {
     emit('cardCreated')
   }
 }
-
-const inputFields: InputField[] = [
-  {
-    model: 'question',
-    placeholder: 'Вопрос',
-    required: true,
-    rules: questionRules,
-    onValidation: isValid => isQuestionValid.value = isValid,
-  },
-  {
-    model: 'answer',
-    placeholder: 'Ответ',
-    required: true,
-    rules: answerRules,
-    onValidation: isValid => isAnswerValid.value = isValid,
-  },
-]
 </script>
 
 <template>
@@ -76,13 +57,18 @@ const inputFields: InputField[] = [
     @submit.prevent="handleCreateCard"
   >
     <TheInput
-      v-for="field in inputFields"
-      :key="field.model"
-      v-model="newCard[field.model]"
-      :placeholder="field.placeholder"
-      :required="field.required || false"
-      :validate-rules="field.rules"
-      @validation="field.onValidation"
+      v-model="newCard.question"
+      placeholder="Вопрос"
+      :required="true"
+      :validate-rules="questionRules"
+      @validation="isQuestionValid = $event"
+    />
+    <TheInput
+      v-model="newCard.answer"
+      placeholder="Ответ"
+      :required="true"
+      :validate-rules="answerRules"
+      @validation="isAnswerValid = $event"
     />
     <TheButton
       type="submit"

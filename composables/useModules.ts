@@ -6,18 +6,29 @@ export function useModules() {
   // const $toast = useToast()
 
   const modules = ref<Module[]>([])
+  const module = ref<Module | null>(null)
+
+  const fetchModule = async (moduleId: string) => {
+    try {
+      module.value = await $fetch<Module>(`/api/modules/${moduleId}`)
+    }
+    catch (error) {
+      console.error('Ошибка при получении модуля:', error)
+    }
+  }
 
   const fetchModules = async () => {
-    if (!authData.value?.user)
+    if (!authData.value?.user) {
       return
+    }
 
     try {
-      modules.value = await $fetch<Module[]>('/api/modules/modules', {
+      modules.value = await $fetch<Module[]>('/api/modules', {
         query: { userId: authData.value.user.id },
       })
     }
-    catch (error: any) {
-      console.error(error)
+    catch (error) {
+      console.error('Ошибка при получении модулей:', error)
     }
   }
 
@@ -88,6 +99,8 @@ export function useModules() {
 
   return {
     modules,
+    module,
+    fetchModule,
     fetchModules,
     deleteModule,
     updateModule,

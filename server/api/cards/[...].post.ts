@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const card = await prisma.card.create({
+    return await prisma.card.create({
       data: {
         question,
         answer,
@@ -25,7 +25,6 @@ export default defineEventHandler(async (event) => {
         moduleId,
       },
     })
-    return card
   }
   catch (error) {
     console.error('Ошибка при создании карточки:', error)
