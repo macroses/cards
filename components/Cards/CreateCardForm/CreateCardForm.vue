@@ -58,16 +58,18 @@ async function handleCreateCard() {
   >
     <TheInput
       v-model="newCard.question"
-      placeholder="Вопрос"
+      placeholder="Термин"
       :required="true"
       :validate-rules="questionRules"
+      class="create-card__input"
       @validation="isQuestionValid = $event"
     />
     <TheInput
       v-model="newCard.answer"
-      placeholder="Ответ"
+      placeholder="Определение"
       :required="true"
       :validate-rules="answerRules"
+      class="create-card__input"
       @validation="isAnswerValid = $event"
     />
     <TheButton
@@ -82,3 +84,5 @@ async function handleCreateCard() {
     </TheButton>
   </form>
 </template>
+
+<style scoped src="./style.css" />

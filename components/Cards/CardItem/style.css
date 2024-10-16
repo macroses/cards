@@ -1,0 +1,36 @@
+li {
+  position: relative;
+}
+
+.card-item__block {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background-color: white;
+  padding: 12px 12px 12px 24px;
+  border-radius: 4px;
+}
+
+.card-item__side {
+  font-size: 16px;
+
+  &.left {
+    flex: 2;
+    border-right: 1px solid rgb(var(--accent-color) / 10%);
+  }
+
+  &.right {
+    flex: 3;
+    padding-left: 24px;
+    padding-right: 50px;
+    font-weight: 500;
+  }
+}
+
+.card-item__edit {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 5px;
+  top: 10px;
+}

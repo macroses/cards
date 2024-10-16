@@ -28,7 +28,7 @@ useHead({
 </script>
 
 <template>
-  <div>
+  <div class="card-container">
     <TheButton
       variant="outline"
       @click="router.back()"

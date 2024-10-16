@@ -14,7 +14,7 @@ function addToast(message: string, type: ToastType = 'info') {
   const id = toastId++
 
   toasts.value.push({ id, message, type })
-  setTimeout(() => removeToast(id), 3000)
+  setTimeout(() => removeToast(id), 7000)
 }
 
 function removeToast(id: number) {

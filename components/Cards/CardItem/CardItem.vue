@@ -45,7 +45,7 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
 </script>
 
 <template>
-  <div>
+  <li>
     <template v-if="editingCard">
       <div v-for="field in inputFields" :key="field.model">
         <TheInput
@@ -54,22 +54,60 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
           :validate-rules="field.rules"
         />
       </div>
-      <button @click="saveEdit">
-        Сохранить
-      </button>
-      <button @click="cancelEditing">
-        Отмена
-      </button>
+      <TheButton
+        variant="ghost"
+        icon-only
+        @click="saveEdit"
+      >
+        <TheIcon
+          icon-name="floppy-disk"
+          width="18px"
+        />
+      </TheButton>
+      <TheButton
+        variant="ghost"
+        icon-only
+        @click="cancelEditing"
+      >
+        <TheIcon
+          icon-name="xmark"
+          width="18px"
+        />
+      </TheButton>
     </template>
     <template v-else>
-      <button @click="$emit('delete')">
-        Удалить
-      </button>
-      <button @click="startEditing">
-        Редактировать
-      </button>
-      <p><strong>Вопрос:</strong> {{ card.question }}</p>
-      <p><strong>Ответ:</strong> {{ card.answer }}</p>
+      <div class="card-item__edit">
+        <TheButton
+          variant="ghost"
+          icon-only
+          @click="startEditing"
+        >
+          <TheIcon
+            icon-name="pen-to-square"
+            width="18px"
+          />
+        </TheButton>
+        <TheButton
+          variant="ghost"
+          icon-only
+          @click="$emit('delete')"
+        >
+          <TheIcon
+            icon-name="xmark"
+            width="18px"
+          />
+        </TheButton>
+      </div>
+      <div class="card-item__block">
+        <div class="card-item__side left">
+          {{ props.card.question }}
+        </div>
+        <div class="card-item__side right">
+          {{ props.card.answer }}
+        </div>
+      </div>
     </template>
-  </div>
+  </li>
 </template>
+
+<style scoped src="./style.css" />

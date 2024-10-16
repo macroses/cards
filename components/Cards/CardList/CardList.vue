@@ -12,7 +12,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div v-if="cards.length > 0">
+  <ul v-if="cards.length > 0">
     <CardItem
       v-for="card in cards"
       :key="card.id"
@@ -20,8 +20,10 @@ const emit = defineEmits<{
       @delete="emit('deleteCard', card.id)"
       @update="(updatedCard) => emit('updateCard', card.id, updatedCard)"
     />
-  </div>
+  </ul>
   <p v-else>
     В этом модуле пока нет карточек.
   </p>
 </template>
+
+<style scoped src="./style.css" />
