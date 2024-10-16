@@ -7,13 +7,19 @@ li {
   align-items: flex-start;
   gap: 8px;
   position: relative;
+
+  &:hover .card-actions__edit {
+    display: flex;
+  }
 }
 
 .card-actions__edit {
   position: absolute;
   top: 8px;
   right: 8px;
-  display: flex;
+
+  background-color: white;
+  display: none;
 }
 
 .card-actions__save {
@@ -24,5 +30,13 @@ li {
 }
 
 .input-content {
+  width: 100%;
+}
+
+.card__description {
+  flex-grow: 1;
+}
+
+.card__footer {
   width: 100%;
 }

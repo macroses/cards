@@ -48,8 +48,13 @@ function handleSave() {
     </template>
     <template v-else>
       <slot name="title" />
-      <slot name="description" />
-      <slot name="footer" />
+      <div class="card__description">
+        <slot name="description" />
+      </div>
+      <div class="card__footer">
+        <slot name="footer" />
+      </div>
+
       <div class="card-actions__edit">
         <TheButton
           variant="ghost"
