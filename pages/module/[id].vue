@@ -43,11 +43,11 @@ useHead({
 
     <h1>{{ moduleName || module?.name }}</h1>
 
+    <CardsSlider v-if="cards.length > 2" :cards="cards" />
     <CreateCardForm
       :module-id="moduleId"
       @card-created="fetchCards(moduleId)"
     />
-
     <CardList
       :cards="cards"
       @delete-card="deleteCard"
