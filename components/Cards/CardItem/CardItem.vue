@@ -5,15 +5,17 @@ import type { Card } from '~/types/Card'
 import { createValidationRule } from '~/utils/validationRules'
 import 'dayjs/locale/ru'
 
+dayjs.extend(relativeTime)
+dayjs.locale('ru')
+
 const props = defineProps<{
   card: Card
 }>()
+
 const emit = defineEmits<{
   (e: 'delete'): void
   (e: 'update', updatedCard: Partial<Card>): void
 }>()
-dayjs.extend(relativeTime)
-dayjs.locale('ru')
 
 const editingCard = ref(false)
 const editedCard = ref({ ...props.card })
@@ -101,22 +103,39 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
       </TheButton>
     </template>
     <template v-else>
-      <div v-if="!editingCard" class="card-item__block">
+      <div class="card-item__block">
         <div class="card-item__side left">
           {{ card.question }}
         </div>
         <div class="card-item__side right">
           {{ card.answer }}
         </div>
-        <div class="card-item__review-info" :class="reviewStatus">
+        <div
+            class="card-item__review-info"
+            :class="reviewStatus"
+        >
           {{ nextReviewText }}
         </div>
         <div class="card-item__edit">
-          <TheButton variant="ghost" icon-only @click.stop="startEditing">
-            <TheIcon icon-name="pencil" width="18px" />
+          <TheButton
+              variant="ghost"
+              icon-only
+              @click.stop="startEditing"
+          >
+            <TheIcon
+                icon-name="pencil"
+                width="18px"
+            />
           </TheButton>
-          <TheButton variant="ghost" icon-only @click.stop="$emit('delete')">
-            <TheIcon icon-name="trash" width="18px" />
+          <TheButton
+              variant="ghost"
+              icon-only
+              @click.stop="$emit('delete')"
+          >
+            <TheIcon
+                icon-name="trash"
+                width="18px"
+            />
           </TheButton>
         </div>
       </div>
