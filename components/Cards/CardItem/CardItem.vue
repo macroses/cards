@@ -1,15 +1,19 @@
 <script lang="ts" setup>
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import type { Card } from '~/types/Card'
 import { createValidationRule } from '~/utils/validationRules'
+import 'dayjs/locale/ru'
 
 const props = defineProps<{
   card: Card
 }>()
-
 const emit = defineEmits<{
   (e: 'delete'): void
   (e: 'update', updatedCard: Partial<Card>): void
 }>()
+dayjs.extend(relativeTime)
+dayjs.locale('ru')
 
 const editingCard = ref(false)
 const editedCard = ref({ ...props.card })
@@ -24,19 +28,40 @@ const answerRules = [
   createValidationRule('maxLength', 200),
 ]
 
-function startEditing() {
+const startEditing = () => {
   editingCard.value = true
 }
 
-function cancelEditing() {
+const cancelEditing = () => {
   editingCard.value = false
   editedCard.value = { ...props.card }
 }
 
-function saveEdit() {
+const saveEdit = () => {
   emit('update', editedCard.value)
   editingCard.value = false
 }
+
+const nextReviewText = computed(() => {
+  if (!props.card.nextReviewAt)
+    return 'Не повторялась'
+
+  const nextReview = dayjs(props.card.nextReviewAt)
+  if (nextReview.isBefore(dayjs())) {
+    return 'Готова к повторению'
+  }
+
+  return `Следующее повторение: ${nextReview.fromNow()}`
+})
+
+const reviewStatus = computed(() => {
+  if (!props.card.nextReviewAt)
+    return 'new'
+  const nextReview = dayjs(props.card.nextReviewAt)
+  if (nextReview.isBefore(dayjs()))
+    return 'due'
+  return 'scheduled'
+})
 
 const inputFields: { model: 'question' | 'answer', placeholder: string, rules: any[] }[] = [
   { model: 'question', placeholder: 'Вопрос', rules: questionRules },
@@ -76,34 +101,23 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
       </TheButton>
     </template>
     <template v-else>
-      <div class="card-item__edit">
-        <TheButton
-          variant="ghost"
-          icon-only
-          @click="startEditing"
-        >
-          <TheIcon
-            icon-name="pen-to-square"
-            width="18px"
-          />
-        </TheButton>
-        <TheButton
-          variant="ghost"
-          icon-only
-          @click="$emit('delete')"
-        >
-          <TheIcon
-            icon-name="xmark"
-            width="18px"
-          />
-        </TheButton>
-      </div>
-      <div class="card-item__block">
+      <div v-if="!editingCard" class="card-item__block">
         <div class="card-item__side left">
-          {{ props.card.question }}
+          {{ card.question }}
         </div>
         <div class="card-item__side right">
-          {{ props.card.answer }}
+          {{ card.answer }}
+        </div>
+        <div class="card-item__review-info" :class="reviewStatus">
+          {{ nextReviewText }}
+        </div>
+        <div class="card-item__edit">
+          <TheButton variant="ghost" icon-only @click.stop="startEditing">
+            <TheIcon icon-name="pencil" width="18px" />
+          </TheButton>
+          <TheButton variant="ghost" icon-only @click.stop="$emit('delete')">
+            <TheIcon icon-name="trash" width="18px" />
+          </TheButton>
         </div>
       </div>
     </template>

@@ -21,7 +21,7 @@ const isValuesWasChanged = computed(() => {
   return editedName.value !== props.module.name || editedDescription.value !== props.module.description
 })
 
-function handleSave() {
+const handleSave = () => {
   if (isValuesWasChanged.value) {
     emit('save', editedName.value, editedDescription.value)
 
@@ -29,9 +29,9 @@ function handleSave() {
   }
 
   emit('cancel')
-}
+};
 
-function handleCardClick(event: MouseEvent) {
+const handleCardClick = (event: MouseEvent) => {
   if (!(event.target as HTMLElement).closest('.card-actions__edit')) {
     emit('click')
   }

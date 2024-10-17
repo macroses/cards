@@ -37,3 +37,20 @@ h2 {
   flex-direction: column;
   gap: 8px;
 }
+
+.module-stats {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.module-stats h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.module-stats p {
+  margin: 5px 0;
+}

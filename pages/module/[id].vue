@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import dayjs from 'dayjs'
 import CreateCardForm from '~/components/Cards/CreateCardForm/CreateCardForm.vue'
+import type { Card } from '~/types/Card'
 
 const route = useRoute()
 const moduleName = useState<string>('moduleName')
@@ -17,16 +19,49 @@ const {
 const { module, fetchModule } = useModules()
 
 const showAddButton = ref(true)
+const isReviewMode = ref(false)
+const dueCards = ref([])
 
-function scrollToBottom() {
+const cardStats = computed(() => {
+  const total = cards.value.length
+
+  const due = cards.value.filter((card) => {
+    if (!card.nextReviewAt)
+      return true
+    return dayjs(card.nextReviewAt).isBefore(dayjs())
+  }).length
+
+  const new_ = cards.value.filter(card => !card.lastReviewedAt).length
+  const learning = total - due - new_
+
+  return { total, due, new: new_, learning }
+})
+
+const fetchDueCards = async () => {
+  try {
+    dueCards.value = await $fetch<Card[]>(`/api/cards/due?moduleId=${moduleId}`)
+  }
+  catch (error) {
+    console.error('Ошибка при получении карточек для повторения:', error)
+  }
+};
+
+const toggleReviewMode = () => {
+  isReviewMode.value = !isReviewMode.value
+  if (isReviewMode.value) {
+    fetchDueCards()
+  }
+};
+
+const scrollToBottom = () => {
   showAddButton.value = false
   window.scrollTo({
     top: document.body.scrollHeight,
     behavior: 'smooth',
   })
-}
+};
 
-function handleScroll() {
+const handleScroll = () => {
   const scrollPosition = window.scrollY
   const windowHeight = window.innerHeight
   const documentHeight = document.documentElement.scrollHeight
@@ -75,11 +110,27 @@ useHead({
       <h1>{{ moduleName || module?.name }}</h1>
     </div>
 
+    <div class="module-stats">
+      <h3>Статистика модуля:</h3>
+      <p>Всего карточек: {{ cardStats.total }}</p>
+      <p>Готово к повторению: {{ cardStats.due }}</p>
+      <p>Новых: {{ cardStats.new }}</p>
+      <p>В процессе изучения: {{ cardStats.learning }}</p>
+    </div>
+
+    <TheButton @click="toggleReviewMode">
+      {{ isReviewMode ? 'Выйти из режима повторения' : 'Начать повторение' }}
+    </TheButton>
+
     <CardsSlider
-      v-if="cards.length > 2"
-      :cards="cards"
+      v-if="isReviewMode && dueCards.length > 0"
+      :cards="dueCards"
     />
+    <p v-else-if="isReviewMode && dueCards.length === 0">
+      Нет карточек для повторения
+    </p>
     <CardList
+      v-else
       :cards="cards"
       @delete-card="deleteCard"
       @update-card="updateCard"

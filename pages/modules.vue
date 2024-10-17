@@ -14,7 +14,7 @@ const moduleNameState = useState<string>('moduleName', () => '')
 const editingModuleId = ref<string | null>(null)
 const dialogModuleCreator = ref<InstanceType<typeof TheDialog> | null>(null)
 
-async function handleDeleteModule(moduleId: string) {
+const handleDeleteModule = async (moduleId: string) => {
   await deleteModule(moduleId)
 }
 
@@ -22,21 +22,21 @@ const startEditing = (moduleId: string) => editingModuleId.value = moduleId
 
 const cancelEdit = () => editingModuleId.value = null
 
-async function saveEdit(moduleId: string, newName: string, newDescription: string) {
+const saveEdit = async (moduleId: string, newName: string, newDescription: string) => {
   await updateModule(moduleId, newName, newDescription)
   editingModuleId.value = null
 }
 
-function openDialogModule() {
+const openDialogModule = () => {
   dialogModuleCreator.value?.openDialog()
 }
 
-function refreshModules() {
+const refreshModules = () => {
   fetchModules()
   dialogModuleCreator.value?.closeDialog()
 }
 
-function toModule(moduleId: string, moduleName: string) {
+const toModule = (moduleId: string, moduleName: string) => {
   moduleNameState.value = moduleName
   navigateTo(`/module/${moduleId}`)
 }
@@ -110,4 +110,3 @@ defineExpose({ fetchModules })
     </TheDialog>
   </div>
 </template>
-

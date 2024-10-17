@@ -15,7 +15,7 @@ const currentCard = computed(() => props.cards[currentIndex.value])
 const isNextDisabled = computed(() => currentIndex.value >= props.cards.length - 1)
 const isPrevDisabled = computed(() => currentIndex.value <= 0)
 
-function nextCard() {
+const nextCard = () => {
   if (currentIndex.value < props.cards.length - 1) {
     direction.value = 'next'
     currentIndex.value++
@@ -23,7 +23,7 @@ function nextCard() {
   }
 }
 
-function prevCard() {
+const prevCard = () => {
   if (currentIndex.value > 0) {
     direction.value = 'prev'
     currentIndex.value--
@@ -31,8 +31,24 @@ function prevCard() {
   }
 }
 
-function toggleAnswer() {
+const toggleAnswer = () => {
   showAnswer.value = !showAnswer.value
+}
+
+const rateCard = async (quality: number) => {
+  if (!currentCard.value)
+    return
+
+  try {
+    await $fetch('/api/cards/review', {
+      method: 'POST',
+      body: { cardId: currentCard.value.id, quality },
+    })
+    nextCard()
+  }
+  catch (error) {
+    console.error('Ошибка при оценке карточки:', error)
+  }
 }
 </script>
 
@@ -62,6 +78,11 @@ function toggleAnswer() {
         <TheIcon icon-name="angle-left" width="18px" />
         Назад
       </TheButton>
+      <div v-if="showAnswer" class="rating-buttons">
+        <TheButton v-for="i in 5" :key="i" @click="rateCard(i)">
+          {{ i }}
+        </TheButton>
+      </div>
       <TheButton
         :disabled="isNextDisabled"
         @click="nextCard"
@@ -74,6 +95,11 @@ function toggleAnswer() {
 </template>
 
 <style scoped>
+.rating-buttons {
+  display: flex;
+  gap: 8px;
+}
+
 .card-slider {
   display: flex;
   flex-direction: column;

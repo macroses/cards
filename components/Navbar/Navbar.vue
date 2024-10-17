@@ -6,11 +6,11 @@ const { locale, changeLanguage, initLanguage } = useChangeLanguage()
 
 const dialogRef = ref<InstanceType<typeof TheDialog> | null>(null)
 
-function openSignOutDialog() {
+const openSignOutDialog = () => {
   dialogRef.value?.openDialog()
 }
 
-function handleSignOut() {
+const handleSignOut = () => {
   signOut()
   dialogRef.value?.closeDialog()
 }

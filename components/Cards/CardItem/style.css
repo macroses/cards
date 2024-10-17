@@ -44,3 +44,24 @@ li {
   top: 10px;
   visibility: hidden;
 }
+
+
+.card-item__review-info {
+  font-size: 12px;
+  position: absolute;
+  bottom: 5px;
+  left: 24px;
+}
+
+.card-item__review-info.new {
+  color: #888;
+}
+
+.card-item__review-info.due {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.card-item__review-info.scheduled {
+  color: #2ecc71;
+}

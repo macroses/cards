@@ -19,11 +19,8 @@ const moduleDescriptionRules = [
   createValidationRule('maxLength', 100),
 ]
 
-// computed
-// const isSubmitDisabled = computed(() => !isModuleNameValid.value || !isModuleDescriptionValid.value)
-
 // methods
-async function handleCreateModule() {
+const handleCreateModule = async () => {
   if (isModuleNameValid.value && isModuleDescriptionValid.value) {
     const createdModule = await createModule(moduleName.value, moduleDescription.value)
     if (createdModule) {

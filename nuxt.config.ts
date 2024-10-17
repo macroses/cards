@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     'nuxt-time',
     '@nuxt/eslint',
+    'dayjs-nuxt',
   ],
   auth: {
     globalAppMiddleware: true,

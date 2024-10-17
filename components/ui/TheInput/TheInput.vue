@@ -21,7 +21,7 @@ const uniqueId = useId()
 const inputValue = ref(props.modelValue)
 const error = ref('')
 
-function validate() {
+const validate = () => {
   for (const rule of props.validateRules) {
     const result = rule(inputValue.value)
     if (!result.isValid) {
@@ -30,6 +30,7 @@ function validate() {
       return
     }
   }
+
   error.value = ''
   emit('validation', true)
 }

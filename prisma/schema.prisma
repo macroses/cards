@@ -75,4 +75,9 @@ model Card {
   createdAt       DateTime @default(now())
   module          Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   moduleId        String
+  lastReviewedAt  DateTime?
+  nextReviewAt    DateTime?
+  reviewCount     Int       @default(0)
+  easeFactor      Float     @default(2.5)
+  interval        Int       @default(0)
 }

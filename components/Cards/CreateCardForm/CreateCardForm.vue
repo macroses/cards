@@ -31,7 +31,7 @@ const answerRules = [
 
 const isSubmitAvailable = computed(() => isQuestionValid.value && isAnswerValid.value)
 
-async function handleCreateCard() {
+const handleCreateCard = async () => {
   if (isSubmitAvailable.value) {
     const createdCard = await createCard(newCard, props.moduleId)
 
@@ -50,7 +50,7 @@ async function handleCreateCard() {
   }
 }
 
-function focusFirstInput() {
+const focusFirstInput = () => {
   if (formRef.value) {
     const firstInput = formRef.value.querySelector('input')
     firstInput?.focus()
