@@ -61,9 +61,9 @@ function handleSave() {
           icon-only
           @click="$emit('edit')"
         >
-          <Icon
-            name="codicon:edit"
-            size="1rem"
+          <TheIcon
+            icon-name="pen-to-square"
+            width="1rem"
           />
         </TheButton>
         <TheButton
@@ -71,9 +71,9 @@ function handleSave() {
           icon-only
           @click="$emit('delete')"
         >
-          <Icon
-            name="codicon:trash"
-            size="1rem"
+          <TheIcon
+            icon-name="trash"
+            width="1rem"
           />
         </TheButton>
       </div>

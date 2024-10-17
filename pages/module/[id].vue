@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+import CreateCardForm from '~/components/Cards/CreateCardForm/CreateCardForm.vue'
+
 const route = useRoute()
-const router = useRouter()
 const moduleName = useState<string>('moduleName')
 const moduleId = route.params.id as string
+const createCardFormRef = ref<InstanceType<typeof CreateCardForm> | null>(null)
 const { t } = useI18n()
 
 const {
@@ -14,12 +16,41 @@ const {
 
 const { module, fetchModule } = useModules()
 
+const showAddButton = ref(true)
+
+function scrollToBottom() {
+  showAddButton.value = false
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: 'smooth',
+  })
+}
+
+function handleScroll() {
+  const scrollPosition = window.scrollY
+  const windowHeight = window.innerHeight
+  const documentHeight = document.documentElement.scrollHeight
+
+  showAddButton.value = scrollPosition < documentHeight - windowHeight
+
+  if (!showAddButton.value) {
+    nextTick(() => {
+      createCardFormRef.value?.focusFirstInput()
+    })
+  }
+}
+
 onMounted(async () => {
   if (!moduleName.value) {
     await fetchModule(moduleId)
   }
 
   await fetchCards(moduleId)
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
 })
 
 useHead({
@@ -32,10 +63,9 @@ useHead({
     <div class="card-container__header">
       <TheButton
         variant="outline"
-        @click="router.back()"
+        @click="navigateTo('/modules')"
       >
         <TheIcon
-          fill="white"
           icon-name="angle-left"
           width="18px"
         />
@@ -55,11 +85,14 @@ useHead({
       @update-card="updateCard"
     />
     <CreateCardForm
+      ref="createCardFormRef"
       :module-id="moduleId"
       @card-created="fetchCards(moduleId)"
     />
-    <div class="card__add-item">
-      <TheButton>
+    <div
+      class="card__add-item"
+    >
+      <TheButton @click="scrollToBottom">
         <TheIcon
           fill="white"
           icon-name="plus"

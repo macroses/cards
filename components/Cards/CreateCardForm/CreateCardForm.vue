@@ -49,6 +49,15 @@ async function handleCreateCard() {
     emit('cardCreated')
   }
 }
+
+function focusFirstInput() {
+  if (formRef.value) {
+    const firstInput = formRef.value.querySelector('input')
+    firstInput?.focus()
+  }
+}
+
+defineExpose({ focusFirstInput })
 </script>
 
 <template>

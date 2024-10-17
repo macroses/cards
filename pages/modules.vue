@@ -87,9 +87,9 @@ defineExpose({ fetchModules })
                 variant="ghost"
                 @click="toModule(module.id, module.name)"
               >
-                <Icon
-                  name="codicon:debug-continue-small"
-                  size="1.2rem"
+                <TheIcon
+                  icon-name="right-to-bracket"
+                  width="20px"
                 />
               </TheButton>
             </div>
@@ -104,10 +104,9 @@ defineExpose({ fetchModules })
     >
       <span>Папок пока нет</span>
       <TheButton @click="openDialogModule">
-        <Icon
-          name="codicon:add"
-          size="1.2rem"
-          style="color: white"
+        <TheIcon
+          icon-name="plus"
+          width="18px"
         />
         Создать папку
       </TheButton>

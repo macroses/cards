@@ -1,8 +1,10 @@
 :root {
   color-scheme: light;
-  --accent-color: 55 53 47;
-  --text-color: 44 62 80;
-  --theme-color: 26 92 255;
+  --accent-color: 255 190 5;
+  --text-color: 32 32 32;
+  --border-color: 228 163 55;
+
+
 
   --error-color: 204 55 67;
 }
@@ -21,6 +23,7 @@ body {
   font-size: 14px;
   color: rgb(var(--text-color));
   text-rendering: optimizeLegibility;
+  background: linear-gradient(to bottom, rgb(var(--accent-color) / 10%), rgb(var(--accent-color) / 0%));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
@@ -38,6 +41,12 @@ ul, p {
   list-style: none;
 }
 
-.iconify {
-  color: rgb(var(--accent-color) / 100%);
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
 }

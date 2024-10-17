@@ -7,6 +7,7 @@
   transition: 0.2s ease-in-out;
   cursor: pointer;
   display: flex;
+  font-weight: 600;
   align-items: center;
   gap: 6px;
 
@@ -16,12 +17,12 @@
   }
 
   &:focus-visible {
-    outline: 2px solid rgb(var(--theme-color) / 40%);
+    outline: 2px solid rgb(var(--accent-color) / 40%);
   }
 
   &.button--primary {
     background-color: rgb(var(--accent-color));
-    color: #fff;
+    color: rgb(var(--text-color));;
 
     &:hover {
       background-color: rgb(var(--accent-color) / 90%);
@@ -30,13 +31,13 @@
 
   &.button--ghost {
     &:hover {
-      background-color: rgb(var(--accent-color) / 10%);
+      background-color: rgb(var(--accent-color) / 40%);
     }
   }
 
   &.button--outline {
-    border: 1px solid rgb(var(--accent-color) / 50%);
-    color: rgb(var(--accent-color));
+    border: 1px solid rgb(var(--border-color));
+    color: rgb(var(--text-color));
 
     &:hover {
       background-color: rgb(var(--accent-color) / 10%);
@@ -52,5 +53,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: rgb(var(--text-color));
   }
 }

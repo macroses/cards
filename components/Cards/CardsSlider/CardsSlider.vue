@@ -110,7 +110,7 @@ function toggleAnswer() {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgb(var(--accent-color) / 30%);
+  border: 1px solid rgb(var(--border-color));
   border-radius: 8px;
   background-color: white;
   font-size: 24px;
