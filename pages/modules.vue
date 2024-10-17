@@ -72,6 +72,7 @@ defineExpose({ fetchModules })
           @save="(name, description) => saveEdit(module.id, name, description)"
           @cancel="cancelEdit"
           @delete="handleDeleteModule(module.id)"
+          @click="toModule(module.id, module.name)"
         >
           <template #title>
             <h2>{{ module.name }}</h2>
@@ -82,16 +83,6 @@ defineExpose({ fetchModules })
           <template #footer>
             <div class="card__footer">
               <Badge>{{ module.cardCount }} карточек</Badge>
-              <TheButton
-                icon-only
-                variant="ghost"
-                @click="toModule(module.id, module.name)"
-              >
-                <TheIcon
-                  icon-name="right-to-bracket"
-                  width="20px"
-                />
-              </TheButton>
             </div>
           </template>
         </Card>
@@ -120,44 +111,3 @@ defineExpose({ fetchModules })
   </div>
 </template>
 
-<style scoped>
-.modules-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 8px;
-}
-
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100svh;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-h2 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.card__footer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.empty-state {
-  font-size: 16px;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-</style>

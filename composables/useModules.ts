@@ -53,15 +53,15 @@ export function useModules() {
   ) => {
     if (!authData.value?.user)
       return
-
+  
     try {
-      const updatedModule = await $fetch(`/api/modules/${moduleId}`, {
+      const updatedModule = await $fetch<Module>(`/api/modules/${moduleId}`, {
         method: 'PATCH',
         body: { name: newName, description: newDescription },
       })
-
+  
       const index = modules.value.findIndex(m => m.id === moduleId)
-
+  
       if (index !== -1) {
         modules.value[index] = updatedModule
       }
@@ -77,7 +77,7 @@ export function useModules() {
     }
 
     try {
-      const newModule = await $fetch('/api/modules/modules', {
+      const newModule = await $fetch<Module>('/api/modules/modules', {
         method: 'POST',
         body: {
           name,

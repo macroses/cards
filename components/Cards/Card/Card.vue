@@ -11,13 +11,18 @@ const emit = defineEmits<{
   (e: 'save', name: string, description: string): void
   (e: 'cancel'): void
   (e: 'delete'): void
+  (e: 'click'): void
 }>()
 
 const editedName = ref(props.module.name)
 const editedDescription = ref(props.module.description || '')
 
+const isValuesWasChanged = computed(() => {
+  return editedName.value !== props.module.name || editedDescription.value !== props.module.description
+})
+
 function handleSave() {
-  if (editedName.value !== props.module.name || editedDescription.value !== props.module.description) {
+  if (isValuesWasChanged.value) {
     emit('save', editedName.value, editedDescription.value)
 
     return
@@ -25,22 +30,28 @@ function handleSave() {
 
   emit('cancel')
 }
+
+function handleCardClick(event: MouseEvent) {
+  if (!(event.target as HTMLElement).closest('.card-actions__edit')) {
+    emit('click')
+  }
+}
 </script>
 
 <template>
-  <li>
+  <li @click="handleCardClick">
     <template v-if="isEditing">
       <TheInput v-model="editedName" placeholder="Название модуля" />
       <TheInput v-model="editedDescription" placeholder="Описание модуля" />
       <div class="card-actions__save">
         <TheButton
           variant="outline"
-          @click="$emit('cancel')"
+          @click.stop="$emit('cancel')"
         >
           Отмена
         </TheButton>
         <TheButton
-          @click="handleSave"
+          @click.stop="handleSave"
         >
           Сохранить
         </TheButton>
@@ -59,7 +70,7 @@ function handleSave() {
         <TheButton
           variant="ghost"
           icon-only
-          @click="$emit('edit')"
+          @click.stop="$emit('edit')"
         >
           <TheIcon
             icon-name="pen-to-square"
@@ -69,7 +80,7 @@ function handleSave() {
         <TheButton
           variant="ghost"
           icon-only
-          @click="$emit('delete')"
+          @click.stop="$emit('delete')"
         >
           <TheIcon
             icon-name="trash"

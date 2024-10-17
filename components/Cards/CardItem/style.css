@@ -1,5 +1,7 @@
 li {
   position: relative;
+  border: 1px solid rgb(var(--border-color) / 20%);
+  border-radius: 6px;
 
   &:hover {
     .card-item__edit {
