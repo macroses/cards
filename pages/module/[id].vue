@@ -29,29 +29,44 @@ useHead({
 
 <template>
   <div class="card-container">
-    <TheButton
-      variant="outline"
-      @click="router.back()"
-    >
-      <TheIcon
-        fill="white"
-        icon-name="angle-left"
-        width="18px"
-      />
-      {{ t('back') }}
-    </TheButton>
+    <div class="card-container__header">
+      <TheButton
+        variant="outline"
+        @click="router.back()"
+      >
+        <TheIcon
+          fill="white"
+          icon-name="angle-left"
+          width="18px"
+        />
+        {{ t('back') }}
+      </TheButton>
 
-    <h1>{{ moduleName || module?.name }}</h1>
+      <h1>{{ moduleName || module?.name }}</h1>
+    </div>
 
-    <CardsSlider v-if="cards.length > 2" :cards="cards" />
-    <CreateCardForm
-      :module-id="moduleId"
-      @card-created="fetchCards(moduleId)"
+    <CardsSlider
+      v-if="cards.length > 2"
+      :cards="cards"
     />
     <CardList
       :cards="cards"
       @delete-card="deleteCard"
       @update-card="updateCard"
     />
+    <CreateCardForm
+      :module-id="moduleId"
+      @card-created="fetchCards(moduleId)"
+    />
+    <div class="card__add-item">
+      <TheButton>
+        <TheIcon
+          fill="white"
+          icon-name="plus"
+          width="18px"
+        />
+        Добавить карточку
+      </TheButton>
+    </div>
   </div>
 </template>

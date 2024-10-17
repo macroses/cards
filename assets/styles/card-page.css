@@ -2,3 +2,15 @@
   max-width: 850px;
 }
 
+.card-container__header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.card__add-item {
+  position: sticky;
+  bottom: 20px;
+  display: flex;
+  justify-content: center;
+}

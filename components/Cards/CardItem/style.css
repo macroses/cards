@@ -1,5 +1,11 @@
 li {
   position: relative;
+
+  &:hover {
+    .card-item__edit {
+      visibility: visible;
+    }
+  }
 }
 
 .card-item__block {
@@ -33,4 +39,5 @@ li {
   position: absolute;
   right: 5px;
   top: 10px;
+  visibility: hidden;
 }

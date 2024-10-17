@@ -12,16 +12,23 @@ const direction = ref('next')
 
 const currentCard = computed(() => props.cards[currentIndex.value])
 
+const isNextDisabled = computed(() => currentIndex.value >= props.cards.length - 1)
+const isPrevDisabled = computed(() => currentIndex.value <= 0)
+
 function nextCard() {
-  direction.value = 'next'
-  currentIndex.value = (currentIndex.value + 1) % props.cards.length
-  showAnswer.value = false
+  if (currentIndex.value < props.cards.length - 1) {
+    direction.value = 'next'
+    currentIndex.value++
+    showAnswer.value = false
+  }
 }
 
 function prevCard() {
-  direction.value = 'prev'
-  currentIndex.value = (currentIndex.value - 1 + props.cards.length) % props.cards.length
-  showAnswer.value = false
+  if (currentIndex.value > 0) {
+    direction.value = 'prev'
+    currentIndex.value--
+    showAnswer.value = false
+  }
 }
 
 function toggleAnswer() {
@@ -48,11 +55,17 @@ function toggleAnswer() {
       </div>
     </Transition>
     <div class="card-controls">
-      <TheButton @click="prevCard">
+      <TheButton
+        :disabled="isPrevDisabled"
+        @click="prevCard"
+      >
         <TheIcon icon-name="angle-left" width="18px" />
         Назад
       </TheButton>
-      <TheButton @click="nextCard">
+      <TheButton
+        :disabled="isNextDisabled"
+        @click="nextCard"
+      >
         Вперед
         <TheIcon icon-name="angle-right" width="18px" />
       </TheButton>
@@ -100,6 +113,7 @@ function toggleAnswer() {
   border: 1px solid rgb(var(--accent-color) / 30%);
   border-radius: 8px;
   background-color: white;
+  font-size: 24px;
 }
 
 .card-back {
@@ -121,29 +135,34 @@ function toggleAnswer() {
 .next-leave-active,
 .prev-enter-active,
 .prev-leave-active {
-  transition: all 0.1s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .next-enter-from {
-  transform: translateX(100%);
+  opacity: 0;
+  transform: translateX(100px);
 }
 
 .next-leave-to {
-  transform: translateX(-100%);
+  opacity: 0;
+  transform: translateX(-100px);
 }
 
 .prev-enter-from {
-  transform: translateX(-100%);
+  opacity: 0;
+  transform: translateX(-100px);
 }
 
 .prev-leave-to {
-  transform: translateX(100%);
+  opacity: 0;
+  transform: translateX(100px);
 }
 
 .next-enter-to,
 .next-leave-from,
 .prev-enter-to,
 .prev-leave-from {
+  opacity: 1;
   transform: translateX(0);
 }
 </style>

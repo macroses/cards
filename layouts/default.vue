@@ -19,6 +19,6 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px;
+  padding-inline: 16px;
 }
 </style>
