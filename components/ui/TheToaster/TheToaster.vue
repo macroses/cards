@@ -10,7 +10,7 @@ type ToastType = 'success' | 'error' | 'info'
 const toasts = ref<Toast[]>([])
 let toastId = 0
 
-const removeToast = (id: number) => {
+function removeToast(id: number) {
   const index = toasts.value.findIndex(toast => toast.id === id)
 
   if (index !== -1) {
@@ -18,7 +18,7 @@ const removeToast = (id: number) => {
   }
 }
 
-const addToast = (message: string, type: ToastType = 'info') => {
+function addToast(message: string, type: ToastType = 'info') {
   const id = toastId++
 
   toasts.value.push({ id, message, type })

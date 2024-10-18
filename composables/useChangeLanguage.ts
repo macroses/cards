@@ -7,7 +7,7 @@ export function useChangeLanguage() {
     localStorage.setItem('selectedLanguage', lang)
   }
 
-  const loadLanguage = () => localStorage.getItem('selectedLanguage') || 'en';
+  const loadLanguage = () => localStorage.getItem('selectedLanguage') || 'en'
 
   const changeLanguage = (lang: string) => {
     setLocale(lang)

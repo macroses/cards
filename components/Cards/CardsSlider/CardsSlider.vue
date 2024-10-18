@@ -6,6 +6,8 @@ const props = defineProps<{
   cards: Card[]
 }>()
 
+const emit = defineEmits(['reviewCompleted'])
+
 const currentIndex = ref(0)
 const showAnswer = ref(false)
 const direction = ref('next')
@@ -15,7 +17,7 @@ const currentCard = computed(() => props.cards[currentIndex.value])
 const isNextDisabled = computed(() => currentIndex.value >= props.cards.length - 1)
 const isPrevDisabled = computed(() => currentIndex.value <= 0)
 
-const nextCard = () => {
+function nextCard() {
   if (currentIndex.value < props.cards.length - 1) {
     direction.value = 'next'
     currentIndex.value++
@@ -23,7 +25,7 @@ const nextCard = () => {
   }
 }
 
-const prevCard = () => {
+function prevCard() {
   if (currentIndex.value > 0) {
     direction.value = 'prev'
     currentIndex.value--
@@ -31,11 +33,11 @@ const prevCard = () => {
   }
 }
 
-const toggleAnswer = () => {
+function toggleAnswer() {
   showAnswer.value = !showAnswer.value
 }
 
-const rateCard = async (quality: number) => {
+async function rateCard(quality: number) {
   if (!currentCard.value)
     return
 
@@ -44,7 +46,11 @@ const rateCard = async (quality: number) => {
       method: 'POST',
       body: { cardId: currentCard.value.id, quality },
     })
-    nextCard()
+    if (currentIndex.value === props.cards.length - 1) {
+      emit('reviewCompleted')
+    } else {
+      nextCard()
+    }
   }
   catch (error) {
     console.error('Ошибка при оценке карточки:', error)
@@ -55,17 +61,17 @@ const rateCard = async (quality: number) => {
 <template>
   <div class="card-slider">
     <Transition
-        :name="direction"
-        mode="out-in"
+      :name="direction"
+      mode="out-in"
     >
       <div
-          :key="currentIndex"
-          class="card-container"
+        :key="currentIndex"
+        class="card-container"
       >
         <div
-            class="card"
-            :class="{ 'is-flipped': showAnswer }"
-            @click="toggleAnswer"
+          class="card"
+          :class="{ 'is-flipped': showAnswer }"
+          @click="toggleAnswer"
         >
           <div class="card-face card-front">
             <div class="card-content">
@@ -104,4 +110,4 @@ const rateCard = async (quality: number) => {
   </div>
 </template>
 
-<style src="./style.css"/>
+<style src="./style.css" />

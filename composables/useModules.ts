@@ -33,8 +33,9 @@ export function useModules() {
   }
 
   const deleteModule = async (moduleId: string) => {
-    if (!authData.value?.user)
+    if (!authData.value?.user) {
       return
+    }
 
     try {
       await $fetch(`/api/modules/${moduleId}`, { method: 'DELETE' })

@@ -14,7 +14,7 @@ const moduleNameState = useState<string>('moduleName', () => '')
 const editingModuleId = ref<string | null>(null)
 const dialogModuleCreator = ref<InstanceType<typeof TheDialog> | null>(null)
 
-const handleDeleteModule = async (moduleId: string) => {
+async function handleDeleteModule(moduleId: string) {
   await deleteModule(moduleId)
 }
 
@@ -22,21 +22,21 @@ const startEditing = (moduleId: string) => editingModuleId.value = moduleId
 
 const cancelEdit = () => editingModuleId.value = null
 
-const saveEdit = async (moduleId: string, newName: string, newDescription: string) => {
+async function saveEdit(moduleId: string, newName: string, newDescription: string) {
   await updateModule(moduleId, newName, newDescription)
   editingModuleId.value = null
 }
 
-const openDialogModule = () => {
+function openDialogModule() {
   dialogModuleCreator.value?.openDialog()
 }
 
-const refreshModules = () => {
+function refreshModules() {
   fetchModules()
   dialogModuleCreator.value?.closeDialog()
 }
 
-const toModule = (moduleId: string, moduleName: string) => {
+function toModule(moduleId: string, moduleName: string) {
   moduleNameState.value = moduleName
   navigateTo(`/module/${moduleId}`)
 }

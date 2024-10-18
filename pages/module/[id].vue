@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs'
 import CreateCardForm from '~/components/Cards/CreateCardForm/CreateCardForm.vue'
+import ModuleStats from '~/components/Module/ModuleStats/ModuleStats.vue'
 import type { Card } from '~/types/Card'
 
 const route = useRoute()
 const moduleName = useState<string>('moduleName')
 const moduleId = route.params.id as string
 const createCardFormRef = ref<InstanceType<typeof CreateCardForm> | null>(null)
-const { t } = useI18n()
 
 const {
   cards,
@@ -20,7 +20,14 @@ const { module, fetchModule } = useModules()
 
 const showAddButton = ref(true)
 const isReviewMode = ref(false)
-const dueCards = ref([])
+
+const dueCards = computed(() => {
+  return cards.value.filter((card) => {
+    if (!card.nextReviewAt)
+      return true
+    return dayjs(card.nextReviewAt).isBefore(dayjs())
+  })
+})
 
 const cardStats = computed(() => {
   const total = cards.value.length
@@ -37,31 +44,26 @@ const cardStats = computed(() => {
   return { total, due, new: new_, learning }
 })
 
-const fetchDueCards = async () => {
-  try {
-    dueCards.value = await $fetch<Card[]>(`/api/cards/due?moduleId=${moduleId}`)
-  }
-  catch (error) {
-    console.error('Ошибка при получении карточек для повторения:', error)
-  }
-};
+async function updateModuleStats() {
+  await fetchCards(moduleId)
+}
 
-const toggleReviewMode = () => {
+function toggleReviewMode() {
   isReviewMode.value = !isReviewMode.value
-  if (isReviewMode.value) {
-    fetchDueCards()
+  if (!isReviewMode.value) {
+    updateModuleStats()
   }
-};
+}
 
-const scrollToBottom = () => {
+function scrollToBottom() {
   showAddButton.value = false
   window.scrollTo({
     top: document.body.scrollHeight,
     behavior: 'smooth',
   })
-};
+}
 
-const handleScroll = () => {
+function handleScroll() {
   const scrollPosition = window.scrollY
   const windowHeight = window.innerHeight
   const documentHeight = document.documentElement.scrollHeight
@@ -73,6 +75,11 @@ const handleScroll = () => {
       createCardFormRef.value?.focusFirstInput()
     })
   }
+}
+
+function handleReviewCompleted() {
+  isReviewMode.value = false
+  updateModuleStats()
 }
 
 onMounted(async () => {
@@ -95,37 +102,30 @@ useHead({
 
 <template>
   <div class="card-container">
-    <div class="card-container__header">
-      <TheButton
-        variant="outline"
-        @click="navigateTo('/modules')"
-      >
-        <TheIcon
-          icon-name="angle-left"
-          width="18px"
-        />
-        {{ t('back') }}
-      </TheButton>
+    <CardHeader
+      v-if="module"
+      :module="module"
+      :module-name="moduleName"
+    />
 
-      <h1>{{ moduleName || module?.name }}</h1>
-    </div>
+    <ModuleStats
+      v-if="!isReviewMode"
+      :card-stats="cardStats"
+    />
 
-    <div class="module-stats">
-      <h3>Статистика модуля:</h3>
-      <p>Всего карточек: {{ cardStats.total }}</p>
-      <p>Готово к повторению: {{ cardStats.due }}</p>
-      <p>Новых: {{ cardStats.new }}</p>
-      <p>В процессе изучения: {{ cardStats.learning }}</p>
-    </div>
-
-    <TheButton @click="toggleReviewMode">
+    <TheButton
+      :disabled="dueCards.length === 0"
+      @click="toggleReviewMode"
+    >
       {{ isReviewMode ? 'Выйти из режима повторения' : 'Начать повторение' }}
     </TheButton>
 
     <CardsSlider
       v-if="isReviewMode && dueCards.length > 0"
       :cards="dueCards"
+      @review-completed="handleReviewCompleted"
     />
+
     <p v-else-if="isReviewMode && dueCards.length === 0">
       Нет карточек для повторения
     </p>
@@ -138,11 +138,9 @@ useHead({
     <CreateCardForm
       ref="createCardFormRef"
       :module-id="moduleId"
-      @card-created="fetchCards(moduleId)"
+      @card-created="updateModuleStats"
     />
-    <div
-      class="card__add-item"
-    >
+    <div class="card__add-item">
       <TheButton @click="scrollToBottom">
         <TheIcon
           fill="white"

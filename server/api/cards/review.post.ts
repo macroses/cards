@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
 
     const { nextInterval, newEaseFactor } = calculateNextReview(card.easeFactor, card.interval, quality)
     const now = dayjs()
-    const nextReviewAt = now.add(nextInterval, 'day')
+    const nextReviewAt = now.add(nextInterval * 24, 'hour')
 
     const updatedCard = await prisma.card.update({
       where: { id: cardId },

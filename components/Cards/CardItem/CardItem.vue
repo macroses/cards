@@ -5,17 +5,15 @@ import type { Card } from '~/types/Card'
 import { createValidationRule } from '~/utils/validationRules'
 import 'dayjs/locale/ru'
 
-dayjs.extend(relativeTime)
-dayjs.locale('ru')
-
 const props = defineProps<{
   card: Card
 }>()
-
 const emit = defineEmits<{
   (e: 'delete'): void
   (e: 'update', updatedCard: Partial<Card>): void
 }>()
+dayjs.extend(relativeTime)
+dayjs.locale('ru')
 
 const editingCard = ref(false)
 const editedCard = ref({ ...props.card })
@@ -30,16 +28,16 @@ const answerRules = [
   createValidationRule('maxLength', 200),
 ]
 
-const startEditing = () => {
+function startEditing() {
   editingCard.value = true
 }
 
-const cancelEditing = () => {
+function cancelEditing() {
   editingCard.value = false
   editedCard.value = { ...props.card }
 }
 
-const saveEdit = () => {
+function saveEdit() {
   emit('update', editedCard.value)
   editingCard.value = false
 }
@@ -111,30 +109,30 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
           {{ card.answer }}
         </div>
         <div
-            class="card-item__review-info"
-            :class="reviewStatus"
+          class="card-item__review-info"
+          :class="reviewStatus"
         >
           {{ nextReviewText }}
         </div>
         <div class="card-item__edit">
           <TheButton
-              variant="ghost"
-              icon-only
-              @click.stop="startEditing"
+            variant="ghost"
+            icon-only
+            @click.stop="startEditing"
           >
             <TheIcon
-                icon-name="pencil"
-                width="18px"
+              icon-name="pencil"
+              width="18px"
             />
           </TheButton>
           <TheButton
-              variant="ghost"
-              icon-only
-              @click.stop="$emit('delete')"
+            variant="ghost"
+            icon-only
+            @click.stop="$emit('delete')"
           >
             <TheIcon
-                icon-name="trash"
-                width="18px"
+              icon-name="trash"
+              width="18px"
             />
           </TheButton>
         </div>

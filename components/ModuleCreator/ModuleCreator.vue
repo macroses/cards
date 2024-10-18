@@ -19,7 +19,7 @@ const moduleDescriptionRules = [
   createValidationRule('maxLength', 100),
 ]
 
-const handleCreateModule = async () => {
+async function handleCreateModule() {
   if (isModuleNameValid.value && isModuleDescriptionValid.value) {
     const createdModule = await createModule(moduleName.value, moduleDescription.value)
 
