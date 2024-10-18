@@ -5,8 +5,9 @@ import ModuleStats from '~/components/Module/ModuleStats/ModuleStats.vue'
 import type { Card } from '~/types/Card'
 
 const route = useRoute()
-const moduleName = useState<string>('moduleName')
 const moduleId = route.params.id as string
+const showAddButton = ref(true)
+const isReviewMode = ref(false)
 const createCardFormRef = ref<InstanceType<typeof CreateCardForm> | null>(null)
 
 const {
@@ -17,9 +18,6 @@ const {
 } = useCards()
 
 const { module, fetchModule } = useModules()
-
-const showAddButton = ref(true)
-const isReviewMode = ref(false)
 
 const dueCards = computed(() => {
   return cards.value.filter((card) => {
@@ -83,10 +81,7 @@ function handleReviewCompleted() {
 }
 
 onMounted(async () => {
-  if (!moduleName.value) {
-    await fetchModule(moduleId)
-  }
-
+  await fetchModule(moduleId)
   await fetchCards(moduleId)
   window.addEventListener('scroll', handleScroll)
 })
@@ -96,7 +91,7 @@ onUnmounted(() => {
 })
 
 useHead({
-  title: computed(() => moduleName.value || module.value?.name || ''),
+  title: computed(() => module.value?.name || ''),
 })
 </script>
 
@@ -105,7 +100,7 @@ useHead({
     <CardHeader
       v-if="module"
       :module="module"
-      :module-name="moduleName"
+      :module-name="module.name"
     />
 
     <ModuleStats
