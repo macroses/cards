@@ -3,13 +3,14 @@
   border-radius: 6px;
   white-space: nowrap;
   border: 1px solid transparent;
-  background-color: transparent;
+  background: rgb(var(--btn-bg));
+  color: var(--btn-color);
   transition: 0.2s ease-in-out;
   cursor: pointer;
   display: flex;
-  font-weight: 600;
   align-items: center;
   gap: 6px;
+  position: relative;
 
   &[disabled] {
     cursor: not-allowed;
@@ -20,39 +21,59 @@
     outline: 2px solid rgb(var(--accent-color) / 40%);
   }
 
-  &.button--primary {
-    background-color: rgb(var(--accent-color));
-    color: rgb(var(--text-color));;
+  /*&.button--primary {*/
 
-    &:hover {
-      background-color: rgb(var(--accent-color) / 90%);
-    }
+  /*  &:hover {*/
+  /*    background-color: rgb(var(--accent-color) / 90%);*/
+  /*  }*/
+  /*}*/
+
+  /*&.button--ghost {*/
+  /*  &:hover {*/
+  /*    background-color: rgb(var(--accent-color) / 40%);*/
+  /*  }*/
+  /*}*/
+
+  /*&.button--outline {*/
+  /*  border: 1px solid rgb(var(--border-color));*/
+  /*  color: rgb(var(--text-color));*/
+
+  /*  &:hover {*/
+  /*    background-color: rgb(var(--accent-color) / 10%);*/
+  /*  }*/
+  /*}*/
+
+  /*&.button--icon-only {*/
+  /*  width: 32px;*/
+  /*  height: 32px;*/
+  /*  max-width: 32px;*/
+  /*  min-width: 32px;*/
+  /*  padding: 0;*/
+  /*  display: flex;*/
+  /*  justify-content: center;*/
+  /*  align-items: center;*/
+  /*  color: rgb(var(--text-color));*/
+  /*}*/
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    box-shadow: 0 10px 20px -10px rgb(var(--accent-color));
+    transform: translateY(-3px);
   }
+}
 
-  &.button--ghost {
+.button--ghost {
+  background: transparent;
+  color: rgb(var(--text-color));
+  overflow: hidden;
+  box-shadow: none;
+
+  @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: rgb(var(--accent-color) / 40%);
+      box-shadow: none;
+      transform: none;
+      background-color: rgb(var(--accent-color) / 0.2);
     }
-  }
-
-  &.button--outline {
-    border: 1px solid rgb(var(--border-color));
-    color: rgb(var(--text-color));
-
-    &:hover {
-      background-color: rgb(var(--accent-color) / 10%);
-    }
-  }
-
-  &.button--icon-only {
-    width: 32px;
-    height: 32px;
-    max-width: 32px;
-    min-width: 32px;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(var(--text-color));
   }
 }

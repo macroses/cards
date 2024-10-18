@@ -8,14 +8,15 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/styles/main.css'],
   modules: [
-    '@sidebase/nuxt-auth',
-    '@vueuse/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/icon',
-    '@vee-validate/nuxt',
     'nuxt-time',
     '@nuxt/eslint',
+    '@nuxt/image',
+    '@sidebase/nuxt-auth',
     'dayjs-nuxt',
+    '@vee-validate/nuxt',
+    '@vueuse/nuxt',
   ],
   auth: {
     globalAppMiddleware: true,

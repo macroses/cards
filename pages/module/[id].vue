@@ -2,7 +2,6 @@
 import dayjs from 'dayjs'
 import CreateCardForm from '~/components/Cards/CreateCardForm/CreateCardForm.vue'
 import ModuleStats from '~/components/Module/ModuleStats/ModuleStats.vue'
-import type { Card } from '~/types/Card'
 
 const route = useRoute()
 const moduleId = route.params.id as string
@@ -96,7 +95,7 @@ useHead({
 </script>
 
 <template>
-  <div class="card-container">
+  <div class="card-wrapper">
     <CardHeader
       v-if="module"
       :module="module"

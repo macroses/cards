@@ -49,7 +49,6 @@ defineExpose({ fetchModules })
   <div>
     <div v-if="modules.length">
       <div class="header">
-        <h1>{{ t('yourFolders') }}</h1>
         <TheButton @click="openDialogModule">
           <TheIcon
             fill="white"

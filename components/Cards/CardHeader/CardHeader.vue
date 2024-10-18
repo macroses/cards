@@ -12,7 +12,7 @@ const { t } = useI18n()
 <template>
   <div class="card-container__header">
     <TheButton
-      variant="outline"
+      variant="ghost"
       @click="navigateTo('/modules')"
     >
       <TheIcon
