@@ -65,14 +65,14 @@ defineExpose({ focusFirstInput })
     ref="formRef"
     @submit.prevent="handleCreateCard"
   >
-    <TheInput
+    <TheTextarea
       v-model="newCard.question"
       placeholder="Термин"
       :validate-rules="questionRules"
       class="create-card__input"
       @validation="isQuestionValid = $event"
     />
-    <TheInput
+    <TheTextarea
       v-model="newCard.answer"
       placeholder="Определение"
       :validate-rules="answerRules"

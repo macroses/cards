@@ -1,21 +1,20 @@
-.textarea-wrapper {
-  display: grid;
-}
-.textarea-wrapper::after {
-  content: attr(data-replicated-value) " ";
-  white-space: pre-wrap;
-  visibility: hidden;
-}
-.textarea-wrapper > textarea {
+textarea {
+  border: 1px solid transparent;
+  outline: 1px solid rgb(var(--border-color));
+  background: rgb(var(--form-bg));
+  box-shadow: var(--form-box-shadow);
+  color: rgb(var(--text-color));
+  border-radius: 6px;
+  transition: padding 0.25s ease;
+  padding: 8px 13px 0 10px;
+  width: -webkit-fill-available;
+  appearance: none;
+  -webkit-appearance: none;
   resize: none;
-  overflow: hidden;
-  field-sizing: normal;
-}
-.textarea-wrapper > textarea,
-.textarea-wrapper::after {
-  border: 1px solid black;
-  padding: 0.5rem;
-  font: inherit;
-  grid-area: 1 / 1 / 2 / 2;
+  height: 36px;
+
+  &:focus-visible {
+    outline: 1px solid rgb(var(--accent-color));
+  }
 }
 

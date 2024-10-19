@@ -48,7 +48,8 @@ async function rateCard(quality: number) {
     })
     if (currentIndex.value === props.cards.length - 1) {
       emit('reviewCompleted')
-    } else {
+    }
+    else {
       nextCard()
     }
   }

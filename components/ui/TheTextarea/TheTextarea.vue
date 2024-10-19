@@ -16,6 +16,7 @@ const emit = defineEmits(['update:modelValue', 'validation'])
 const uniqueId = useId()
 const textareaValue = ref(props.modelValue)
 const error = ref('')
+const textareaRef = ref<HTMLTextAreaElement | null>(null)
 
 function validate() {
   for (const rule of props.validateRules) {
@@ -31,9 +32,24 @@ function validate() {
   emit('validation', true)
 }
 
+function adjustHeight() {
+  if (textareaRef.value) {
+    textareaRef.value.style.height = 'auto'
+    textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`
+  }
+}
+
+onMounted(() => {
+  if (textareaRef.value) {
+    textareaRef.value.addEventListener('input', adjustHeight)
+    adjustHeight()
+  }
+})
+
 watch(textareaValue, (newValue) => {
   emit('update:modelValue', newValue)
   validate()
+  adjustHeight()
 })
 </script>
 
@@ -41,15 +57,12 @@ watch(textareaValue, (newValue) => {
   <div class="textarea-wrapper">
     <textarea
       :id="uniqueId"
+      ref="textareaRef"
+      v-model="textareaValue"
       class="textarea"
       :placeholder="placeholder"
       :class="{ 'input--error': error }"
     />
-  </div>
-  <div class="textarea-block">
-    <!--    <div v-if="error" class="input__error-message"> -->
-    <!--      {{ error }} -->
-    <!--    </div> -->
   </div>
 </template>
 

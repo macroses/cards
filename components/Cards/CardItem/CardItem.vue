@@ -132,7 +132,7 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
             @click.stop="startEditing"
           >
             <TheIcon
-              icon-name="pencil"
+              icon-name="pen-to-square"
               width="18px"
             />
           </TheButton>
