@@ -25,3 +25,5 @@ const { t } = useI18n()
     <h1>{{ moduleName || module?.name }}</h1>
   </div>
 </template>
+
+<style scoped src='./style.css' />

@@ -21,12 +21,12 @@ const isAnswerValid = ref(false)
 
 const questionRules = [
   createValidationRule('required'),
-  createValidationRule('maxLength', 200),
+  createValidationRule('maxLength', 1000),
 ]
 
 const answerRules = [
   createValidationRule('required'),
-  createValidationRule('maxLength', 200),
+  createValidationRule('maxLength', 1000),
 ]
 
 const isSubmitAvailable = computed(() => isQuestionValid.value && isAnswerValid.value)
@@ -68,7 +68,6 @@ defineExpose({ focusFirstInput })
     <TheInput
       v-model="newCard.question"
       placeholder="Термин"
-      :required="true"
       :validate-rules="questionRules"
       class="create-card__input"
       @validation="isQuestionValid = $event"
@@ -76,7 +75,6 @@ defineExpose({ focusFirstInput })
     <TheInput
       v-model="newCard.answer"
       placeholder="Определение"
-      :required="true"
       :validate-rules="answerRules"
       class="create-card__input"
       @validation="isAnswerValid = $event"

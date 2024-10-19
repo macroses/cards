@@ -3,9 +3,9 @@ import process from 'node:process'
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  app: {
-    pageTransition: { name: 'page', mode: 'out-in' },
-  },
+  // app: {
+  //   pageTransition: { name: 'page', mode: 'out-in' },
+  // },
   css: ['~/assets/styles/main.css'],
   modules: [
     '@nuxtjs/i18n',
@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     'dayjs-nuxt',
     '@vee-validate/nuxt',
     '@vueuse/nuxt',
+    '@vite-pwa/nuxt',
   ],
   auth: {
     globalAppMiddleware: true,
@@ -48,4 +49,41 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+  // pwa: {
+  //   registerType: 'autoUpdate',
+  //   manifest: {
+  //     name: 'Моё PWA приложение',
+  //     short_name: 'PWA App',
+  //     theme_color: '#ffffff',
+  //     icons: [
+  //       {
+  //         src: 'pwa-192x192.png',
+  //         sizes: '192x192',
+  //         type: 'image/png',
+  //       },
+  //       {
+  //         src: 'pwa-512x512.png',
+  //         sizes: '512x512',
+  //         type: 'image/png',
+  //       },
+  //       {
+  //         src: 'pwa-512x512.png',
+  //         sizes: '512x512',
+  //         type: 'image/png',
+  //         purpose: 'any maskable',
+  //       },
+  //     ],
+  //   },
+  //   workbox: {
+  //     navigateFallback: '/',
+  //     globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+  //   },
+  //   client: {
+  //     installPrompt: true,
+  //   },
+  //   devOptions: {
+  //     enabled: true,
+  //     type: 'module',
+  //   },
+  // },
 })

@@ -4,17 +4,27 @@ defineProps<{
     total: number
     due: number
     new: number
-    learning: number
+    learning?: number
   }
 }>()
 </script>
 
 <template>
   <div class="module-stats">
-    <h3>Статистика модуля:</h3>
-    <p>Всего карточек: {{ cardStats.total }}</p>
-    <p>Готово к повторению: {{ cardStats.due }}</p>
-    <p>Новых: {{ cardStats.new }}</p>
-    <p>В процессе изучения: {{ cardStats.learning }}</p>
+    <h2>Statistics:</h2>
+    <ul class="module-stats__content">
+      <li>
+        <span>Total cards:</span>
+        <span>{{ cardStats.total }}</span>
+      </li>
+      <li>
+        <span>Due for review:</span>
+        <span>{{ cardStats.due }}</span>
+      </li>
+      <li>
+        <span>New cards:</span>
+        <span>{{ cardStats.new }}</span>
+      </li>
+    </ul>
   </div>
 </template>

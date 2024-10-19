@@ -8,10 +8,12 @@ import 'dayjs/locale/ru'
 const props = defineProps<{
   card: Card
 }>()
+
 const emit = defineEmits<{
   (e: 'delete'): void
   (e: 'update', updatedCard: Partial<Card>): void
 }>()
+
 dayjs.extend(relativeTime)
 dayjs.locale('ru')
 
@@ -44,22 +46,28 @@ function saveEdit() {
 
 const nextReviewText = computed(() => {
   if (!props.card.nextReviewAt)
-    return 'Не повторялась'
+    return 'New'
 
   const nextReview = dayjs(props.card.nextReviewAt)
+
   if (nextReview.isBefore(dayjs())) {
     return 'Готова к повторению'
   }
 
-  return `Следующее повторение: ${nextReview.fromNow()}`
+  return `${nextReview.fromNow()}`
 })
 
 const reviewStatus = computed(() => {
-  if (!props.card.nextReviewAt)
+  if (!props.card.nextReviewAt) {
     return 'new'
+  }
+
   const nextReview = dayjs(props.card.nextReviewAt)
-  if (nextReview.isBefore(dayjs()))
+
+  if (nextReview.isBefore(dayjs())) {
     return 'due'
+  }
+
   return 'scheduled'
 })
 
@@ -72,7 +80,10 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
 <template>
   <li>
     <template v-if="editingCard">
-      <div v-for="field in inputFields" :key="field.model">
+      <div
+        v-for="field in inputFields"
+        :key="field.model"
+      >
         <TheInput
           v-model="editedCard[field.model]"
           :placeholder="field.placeholder"
@@ -102,17 +113,17 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
     </template>
     <template v-else>
       <div class="card-item__block">
-        <div class="card-item__side left">
-          {{ card.question }}
-        </div>
-        <div class="card-item__side right">
-          {{ card.answer }}
-        </div>
         <div
           class="card-item__review-info"
           :class="reviewStatus"
         >
           {{ nextReviewText }}
+        </div>
+        <div class="card-item__side left">
+          {{ card.question }}
+        </div>
+        <div class="card-item__side right">
+          {{ card.answer }}
         </div>
         <div class="card-item__edit">
           <TheButton

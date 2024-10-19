@@ -95,54 +95,56 @@ useHead({
 </script>
 
 <template>
+  <CardHeader
+    v-if="module"
+    :module="module"
+    :module-name="module.name"
+  />
   <div class="card-wrapper">
-    <CardHeader
-      v-if="module"
-      :module="module"
-      :module-name="module.name"
-    />
-
-    <ModuleStats
-      v-if="!isReviewMode"
-      :card-stats="cardStats"
-    />
-
-    <TheButton
-      :disabled="dueCards.length === 0"
-      @click="toggleReviewMode"
-    >
-      {{ isReviewMode ? 'Выйти из режима повторения' : 'Начать повторение' }}
-    </TheButton>
-
-    <CardsSlider
-      v-if="isReviewMode && dueCards.length > 0"
-      :cards="dueCards"
-      @review-completed="handleReviewCompleted"
-    />
-
-    <p v-else-if="isReviewMode && dueCards.length === 0">
-      Нет карточек для повторения
-    </p>
-    <CardList
-      v-else
-      :cards="cards"
-      @delete-card="deleteCard"
-      @update-card="updateCard"
-    />
-    <CreateCardForm
-      ref="createCardFormRef"
-      :module-id="moduleId"
-      @card-created="updateModuleStats"
-    />
-    <div class="card__add-item">
-      <TheButton @click="scrollToBottom">
-        <TheIcon
-          fill="white"
-          icon-name="plus"
-          width="18px"
+    <div class="card-wrapper__content">
+      <div class="card-repeats__functions">
+        <ModuleRepeatModes
+          @cards="toggleReviewMode"
         />
-        Добавить карточку
-      </TheButton>
+      </div>
+
+      <CardsSlider
+        v-if="isReviewMode && dueCards.length > 0"
+        :cards="dueCards"
+        @review-completed="handleReviewCompleted"
+      />
+
+      <p v-else-if="isReviewMode && dueCards.length === 0">
+        Нет карточек для повторения
+      </p>
+      <CardList
+        v-else
+        :cards="cards"
+        @delete-card="deleteCard"
+        @update-card="updateCard"
+      />
+      <CreateCardForm
+        v-if="!isReviewMode"
+        ref="createCardFormRef"
+        :module-id="moduleId"
+        @card-created="updateModuleStats"
+      />
+      <div
+        v-if="!isReviewMode"
+        class="card__add-item"
+      >
+        <TheButton @click="scrollToBottom">
+          <TheIcon
+            fill="white"
+            icon-name="plus"
+            width="18px"
+          />
+          Добавить карточку
+        </TheButton>
+      </div>
+    </div>
+    <div class="card-wrapper__sidebar">
+      <ModuleStats :card-stats="cardStats" />
     </div>
   </div>
 </template>
