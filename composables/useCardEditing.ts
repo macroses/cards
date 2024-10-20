@@ -45,7 +45,24 @@ export function useCardEditing(
   }
 
   function trimAndNormalizeSpaces(text: string): string {
-    return text.trim().replace(/\s+/g, ' ')
+    // Удаляем пробелы в начале и конце строки
+    let trimmed = text.trim()
+
+    // Заменяем множественные пробелы на один
+    trimmed = trimmed.replace(/\s+/g, ' ')
+
+    // Удаляем пустые теги
+    trimmed = trimmed.replace(/<([a-z]+)>\s*<\/\1>/gi, '')
+
+    // Повторяем процесс удаления пустых тегов, пока они есть
+    let prevLength
+
+    do {
+      prevLength = trimmed.length
+      trimmed = trimmed.replace(/<([a-z]+)>\s*<\/\1>/gi, '')
+    } while (trimmed.length !== prevLength)
+
+    return trimmed
   }
 
   return {
