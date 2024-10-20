@@ -76,12 +76,12 @@ async function rateCard(quality: number) {
         >
           <div class="card-face card-front">
             <div class="card-content">
-              <p>{{ currentCard.question }}</p>
+              <p v-html="currentCard.question" />
             </div>
           </div>
           <div class="card-face card-back">
             <div class="card-content">
-              <p>{{ currentCard.answer }}</p>
+              <p v-html="currentCard.answer" />
             </div>
           </div>
         </div>

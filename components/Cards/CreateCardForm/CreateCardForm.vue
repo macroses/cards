@@ -34,6 +34,21 @@ const answerRules = [
 const isSubmitAvailable = computed(() => isQuestionValid.value && isAnswerValid.value)
 
 function handleKeyDown(event: KeyboardEvent, field: 'question' | 'answer') {
+  if (event.metaKey || event.ctrlKey) {
+    if (event.key === 'b') {
+      event.preventDefault()
+      document.execCommand('bold', false)
+    }
+    else if (event.key === 'i') {
+      event.preventDefault()
+      document.execCommand('italic', false)
+    }
+    else if (event.key === 'u') {
+      event.preventDefault()
+      document.execCommand('underline', false)
+    }
+  }
+
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault()
     const nextField = field === 'question' ? 'answer' : 'question'
@@ -53,8 +68,7 @@ function handleKeyDown(event: KeyboardEvent, field: 'question' | 'answer') {
 
 function updateContent(field: 'question' | 'answer', event: Event) {
   const target = event.target as HTMLDivElement
-  newCard[field] = target.textContent?.trim() ?? ''
-
+  newCard[field] = target.innerHTML
   validate(field)
 }
 

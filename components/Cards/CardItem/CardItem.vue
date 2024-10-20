@@ -119,12 +119,8 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
         >
           {{ nextReviewText }}
         </div>
-        <div class="card-item__side left">
-          {{ card.question }}
-        </div>
-        <div class="card-item__side right">
-          {{ card.answer }}
-        </div>
+        <div class="card-item__side left" v-html="card.question" />
+        <div class="card-item__side right" v-html="card.answer" />
         <div class="card-item__edit">
           <TheButton
             variant="ghost"
