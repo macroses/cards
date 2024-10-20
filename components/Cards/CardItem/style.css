@@ -71,3 +71,41 @@ li {
 .card-item__review-info.scheduled {
   color: #2ecc71;
 }
+
+.card-item__edit-field {
+  margin-bottom: 8px;
+}
+
+.card-item__input {
+  border: 1px solid transparent;
+  outline: 1px solid rgb(var(--border-color));
+  background: rgb(var(--form-bg));
+  box-shadow: var(--form-box-shadow);
+  color: rgb(var(--text-color));
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  padding: 8px 10px;
+  min-height: 34px;
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 16px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.card-item__input:focus {
+  outline: 1px solid rgb(var(--accent-color));
+}
+
+.card-item__input.input--error {
+  border-color: rgb(var(--error-color));
+  outline: 3px solid rgb(var(--error-color) / 30%);
+}
+
+.card-item__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}

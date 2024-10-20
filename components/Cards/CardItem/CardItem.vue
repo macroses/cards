@@ -22,13 +22,16 @@ const editedCard = ref({ ...props.card })
 
 const questionRules = [
   createValidationRule('required'),
-  createValidationRule('maxLength', 100),
+  createValidationRule('maxLength', 1000),
 ]
 
 const answerRules = [
   createValidationRule('required'),
-  createValidationRule('maxLength', 200),
+  createValidationRule('maxLength', 1000),
 ]
+
+const isQuestionValid = ref(true)
+const isAnswerValid = ref(true)
 
 function startEditing() {
   editingCard.value = true
@@ -40,8 +43,66 @@ function cancelEditing() {
 }
 
 function saveEdit() {
-  emit('update', editedCard.value)
-  editingCard.value = false
+  if (isQuestionValid.value && isAnswerValid.value) {
+    emit('update', editedCard.value)
+    editingCard.value = false
+  }
+}
+
+function updateContent(field: 'question' | 'answer', event: Event) {
+  const target = event.target as HTMLDivElement
+  editedCard.value[field] = target.innerHTML
+  validate(field)
+}
+
+function validate(field: 'question' | 'answer') {
+  const rules = field === 'question' ? questionRules : answerRules
+  const value = editedCard.value[field]
+
+  for (const rule of rules) {
+    const result = rule(value)
+    if (!result.isValid) {
+      if (field === 'question') {
+        isQuestionValid.value = false
+      }
+      else {
+        isAnswerValid.value = false
+      }
+      return
+    }
+  }
+
+  if (field === 'question') {
+    isQuestionValid.value = true
+  }
+  else {
+    isAnswerValid.value = true
+  }
+}
+
+function handleKeyDown(event: KeyboardEvent) {
+  if (event.metaKey || event.ctrlKey) {
+    if (event.key === 'b') {
+      event.preventDefault()
+      document.execCommand('bold', false)
+    }
+    else if (event.key === 'i') {
+      event.preventDefault()
+      document.execCommand('italic', false)
+    }
+    else if (event.key === 'u') {
+      event.preventDefault()
+      document.execCommand('underline', false)
+    }
+  }
+}
+
+function handlePaste(event: ClipboardEvent) {
+  event.preventDefault()
+  const text = event.clipboardData?.getData('text/plain')
+  if (text) {
+    document.execCommand('insertText', false, text)
+  }
 }
 
 const nextReviewText = computed(() => {
@@ -71,9 +132,9 @@ const reviewStatus = computed(() => {
   return 'scheduled'
 })
 
-const inputFields: { model: 'question' | 'answer', placeholder: string, rules: any[] }[] = [
-  { model: 'question', placeholder: 'Вопрос', rules: questionRules },
-  { model: 'answer', placeholder: 'Ответ', rules: answerRules },
+const inputFields: { model: 'question' | 'answer', placeholder: string, ariaLabel: string }[] = [
+  { model: 'question', placeholder: 'Вопрос', ariaLabel: 'Термин' },
+  { model: 'answer', placeholder: 'Ответ', ariaLabel: 'Определение' },
 ]
 </script>
 
@@ -83,33 +144,43 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, rules: a
       <div
         v-for="field in inputFields"
         :key="field.model"
+        class="card-item__edit-field"
       >
-        <TheInput
-          v-model="editedCard[field.model]"
-          :placeholder="field.placeholder"
-          :validate-rules="field.rules"
+        <div
+          :class="{ 'input--error': field.model === 'question' ? !isQuestionValid : !isAnswerValid }"
+          contenteditable="true"
+          class="card-item__input"
+          :aria-label="field.ariaLabel"
+          role="textbox"
+          @input="updateContent(field.model, $event)"
+          @blur="validate(field.model)"
+          @keydown="handleKeyDown($event, field.model)"
+          @paste="handlePaste"
+          v-html="editedCard[field.model]"
         />
       </div>
-      <TheButton
-        variant="ghost"
-        icon-only
-        @click="saveEdit"
-      >
-        <TheIcon
-          icon-name="floppy-disk"
-          width="18px"
-        />
-      </TheButton>
-      <TheButton
-        variant="ghost"
-        icon-only
-        @click="cancelEditing"
-      >
-        <TheIcon
-          icon-name="xmark"
-          width="18px"
-        />
-      </TheButton>
+      <div class="card-item__actions">
+        <TheButton
+          variant="ghost"
+          icon-only
+          @click="saveEdit"
+        >
+          <TheIcon
+            icon-name="floppy-disk"
+            width="18px"
+          />
+        </TheButton>
+        <TheButton
+          variant="ghost"
+          icon-only
+          @click="cancelEditing"
+        >
+          <TheIcon
+            icon-name="xmark"
+            width="18px"
+          />
+        </TheButton>
+      </div>
     </template>
     <template v-else>
       <div class="card-item__block">
