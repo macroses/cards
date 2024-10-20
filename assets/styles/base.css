@@ -29,6 +29,10 @@
   --error-color: 223 31 61;
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   min-height: calc(100vh - 53px);
   line-height: 1.6;

@@ -18,6 +18,8 @@ const newCard = reactive({
 
 const isQuestionValid = ref(false)
 const isAnswerValid = ref(false)
+const questionRef = ref<HTMLDivElement | null>(null)
+const answerRef = ref<HTMLDivElement | null>(null)
 
 const questionRules = [
   createValidationRule('required'),
@@ -31,6 +33,57 @@ const answerRules = [
 
 const isSubmitAvailable = computed(() => isQuestionValid.value && isAnswerValid.value)
 
+function handleKeyDown(event: KeyboardEvent, field: 'question' | 'answer') {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault()
+    const nextField = field === 'question' ? 'answer' : 'question'
+    const nextRef = formRef.value?.querySelector(`[aria-label="${nextField === 'question' ? 'Термин' : 'Определение'}"]`) as HTMLDivElement
+
+    if (!newCard[field].trim()) {
+      nextRef?.focus()
+    }
+    else if (isSubmitAvailable.value) {
+      handleCreateCard()
+    }
+    else {
+      nextRef?.focus()
+    }
+  }
+}
+
+function updateContent(field: 'question' | 'answer', event: Event) {
+  const target = event.target as HTMLDivElement
+  newCard[field] = target.textContent?.trim() ?? ''
+
+  validate(field)
+}
+
+function validate(field: 'question' | 'answer') {
+  const rules = field === 'question' ? questionRules : answerRules
+  const value = newCard[field]
+
+  for (const rule of rules) {
+    const result = rule(value)
+
+    if (!result.isValid) {
+      if (field === 'question') {
+        isQuestionValid.value = false
+      }
+      else {
+        isAnswerValid.value = false
+      }
+      return
+    }
+  }
+
+  if (field === 'question') {
+    isQuestionValid.value = true
+  }
+  else {
+    isAnswerValid.value = true
+  }
+}
+
 async function handleCreateCard() {
   if (isSubmitAvailable.value) {
     const createdCard = await createCard(newCard, props.moduleId)
@@ -43,8 +96,17 @@ async function handleCreateCard() {
     await nextTick()
 
     if (formRef.value) {
-      formRef.value.reset()
+      const questionDiv = formRef.value.querySelector('[contenteditable="true"][aria-label="Термин"]')
+      const answerDiv = formRef.value.querySelector('[contenteditable="true"][aria-label="Определение"]')
+
+      if (questionDiv)
+        questionDiv.textContent = ''
+      if (answerDiv)
+        answerDiv.textContent = ''
     }
+
+    isQuestionValid.value = false
+    isAnswerValid.value = false
 
     emit('cardCreated')
   }
@@ -52,8 +114,17 @@ async function handleCreateCard() {
 
 function focusFirstInput() {
   if (formRef.value) {
-    const firstInput = formRef.value.querySelector('input')
+    const firstInput = formRef.value.querySelector('[contenteditable="true"]') as HTMLDivElement
     firstInput?.focus()
+  }
+}
+
+function handlePaste(event: ClipboardEvent) {
+  event.preventDefault()
+  const text = event.clipboardData?.getData('text/plain')
+
+  if (text) {
+    document.execCommand('insertText', false, text)
   }
 }
 
@@ -65,30 +136,30 @@ defineExpose({ focusFirstInput })
     ref="formRef"
     @submit.prevent="handleCreateCard"
   >
-    <TheTextarea
-      v-model="newCard.question"
-      placeholder="Термин"
-      :validate-rules="questionRules"
+    <div
+      ref="questionRef"
+      contenteditable="true"
       class="create-card__input"
-      @validation="isQuestionValid = $event"
+      :class="{ 'input--error': !isQuestionValid }"
+      aria-label="Термин"
+      role="textbox"
+      @input="updateContent('question', $event)"
+      @blur="validate('question')"
+      @keydown="handleKeyDown($event, 'question')"
+      @paste="handlePaste"
     />
-    <TheTextarea
-      v-model="newCard.answer"
-      placeholder="Определение"
-      :validate-rules="answerRules"
+    <div
+      ref="answerRef"
+      contenteditable="true"
       class="create-card__input"
-      @validation="isAnswerValid = $event"
+      :class="{ 'input--error': !isAnswerValid }"
+      aria-label="Определение"
+      role="textbox"
+      @input="updateContent('answer', $event)"
+      @blur="validate('answer')"
+      @keydown="handleKeyDown($event, 'answer')"
+      @paste="handlePaste"
     />
-    <TheButton
-      type="submit"
-      :disabled="!isSubmitAvailable"
-    >
-      <TheIcon
-        fill="white"
-        icon-name="floppy-disk"
-        width="18px"
-      />
-    </TheButton>
   </form>
 </template>
 
