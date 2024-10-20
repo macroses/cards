@@ -57,12 +57,16 @@ export function useCardEditing(
 
       if (selection && selection.rangeCount > 0) {
         const range = selection.getRangeAt(0)
+
         range.deleteContents()
         range.insertNode(document.createTextNode(normalizedText))
         selection.collapseToEnd()
 
         // диспатчим событие input, чтобы была реакция на изменение текста
-        const inputEvent = new Event('input', { bubbles: true, cancelable: true })
+        const inputEvent = new Event('input', {
+          bubbles: true,
+          cancelable: true,
+        })
         event.target?.dispatchEvent(inputEvent)
       }
     }

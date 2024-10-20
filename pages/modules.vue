@@ -22,7 +22,11 @@ const startEditing = (moduleId: string) => editingModuleId.value = moduleId
 
 const cancelEdit = () => editingModuleId.value = null
 
-async function saveEdit(moduleId: string, newName: string, newDescription: string) {
+async function saveEdit(
+  moduleId: string,
+  newName: string,
+  newDescription: string,
+) {
   await updateModule(moduleId, newName, newDescription)
   editingModuleId.value = null
 }
