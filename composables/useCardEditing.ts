@@ -13,7 +13,17 @@ export function useCardEditing(
 
       if (rule) {
         event.preventDefault()
-        document.execCommand(rule.command, false)
+
+        const selection = window.getSelection()
+
+        if (selection && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0)
+          const newNode = document.createElement(rule.tag)
+
+          range.surroundContents(newNode)
+          selection.removeAllRanges()
+          selection.addRange(range)
+        }
 
         return
       }
@@ -40,15 +50,35 @@ export function useCardEditing(
   function handlePaste(event: ClipboardEvent) {
     event.preventDefault()
     const text = event.clipboardData?.getData('text/plain')
+
     if (text) {
-      document.execCommand('insertText', false, text)
+      const normalizedText = trimAndNormalizeSpaces(text)
+      const selection = window.getSelection()
+
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0)
+        range.deleteContents()
+        range.insertNode(document.createTextNode(normalizedText))
+        selection.collapseToEnd()
+
+        // диспатчим событие input, чтобы была реакция на изменение текста
+        const inputEvent = new Event('input', { bubbles: true, cancelable: true })
+        event.target?.dispatchEvent(inputEvent)
+      }
     }
   }
 
   function trimAndNormalizeSpaces(text: string): string {
     let trimmed = text.trim()
+
+    // Заменяем множественные пробелы на один
     trimmed = trimmed.replace(/\s+/g, ' ')
+
+    // Удаляем пустые теги
     trimmed = trimmed.replace(/<([a-z]+)>\s*<\/\1>/gi, '')
+
+    // Удаляем новые пустые строки
+    trimmed = trimmed.replace(/(\r\n|\n|\r)/g, '')
 
     let prevLength
 

@@ -1,14 +1,14 @@
 export const TEXT_EDITOR_RULES = [
   {
     key: 'b',
-    command: 'bold',
+    tag: 'strong',
   },
   {
     key: 'i',
-    command: 'italic',
+    tag: 'em',
   },
   {
     key: 'u',
-    command: 'underline',
+    tag: 'u',
   },
 ]

@@ -59,15 +59,10 @@ async function handleCreateCard() {
 
     await nextTick()
 
-    if (formRef.value) {
-      const questionDiv = formRef.value.querySelector('[contenteditable="true"][aria-label="Термин"]')
-      const answerDiv = formRef.value.querySelector('[contenteditable="true"][aria-label="Определение"]')
-
-      if (questionDiv)
-        questionDiv.textContent = ''
-      if (answerDiv)
-        answerDiv.textContent = ''
-    }
+    if (questionRef.value)
+      questionRef.value.innerHTML = ''
+    if (answerRef.value)
+      answerRef.value.innerHTML = ''
 
     isQuestionValid.value = false
     isAnswerValid.value = false
