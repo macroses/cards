@@ -1,5 +1,6 @@
 export function useCardEditing(
   formRef?: Ref<HTMLFormElement | null>,
+  newCard?: Ref<{ question: string, answer: string }>,
   isQuestionValid?: Ref<boolean>,
   isAnswerValid?: Ref<boolean>,
   handleCreateCard?: () => void,
