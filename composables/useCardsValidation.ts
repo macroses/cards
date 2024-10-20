@@ -7,12 +7,12 @@ export function useCardValidation() {
 
   const questionRules = [
     createValidationRule('required'),
-    createValidationRule('maxLength', 1000),
+    createValidationRule('maxLength', 3000),
   ]
 
   const answerRules = [
     createValidationRule('required'),
-    createValidationRule('maxLength', 1000),
+    createValidationRule('maxLength', 3000),
   ]
 
   const isSubmitAvailable = computed(() => isQuestionValid.value && isAnswerValid.value)

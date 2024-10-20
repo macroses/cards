@@ -19,7 +19,6 @@ const newCard = reactive({
 const {
   isQuestionValid,
   isAnswerValid,
-  isSubmitAvailable,
   validate,
 } = useCardValidation()
 
@@ -33,6 +32,10 @@ const { handleKeyDown, handlePaste, trimAndNormalizeSpaces } = useCardEditing(
 
 const questionRef = ref<HTMLDivElement | null>(null)
 const answerRef = ref<HTMLDivElement | null>(null)
+
+const isSubmitAvailable = computed(() => {
+  return isQuestionValid.value && isAnswerValid.value && newCard.question.trim() !== '' && newCard.answer.trim() !== ''
+})
 
 function updateContent(field: 'question' | 'answer', event: Event) {
   const target = event.target as HTMLDivElement
@@ -71,6 +74,9 @@ async function handleCreateCard() {
 
     emit('cardCreated')
   }
+  else {
+    $toast('Пожалуйста, заполните оба поля: термин и определение')
+  }
 }
 
 function focusFirstInput() {
@@ -93,7 +99,7 @@ defineExpose({ focusFirstInput })
       contenteditable="true"
       class="create-card__input"
       :class="{ 'input--error': !isQuestionValid }"
-      aria-label="Термин"
+      aria-label="question"
       role="textbox"
       @input="updateContent('question', $event)"
       @blur="validate('question', newCard.question)"
@@ -105,7 +111,7 @@ defineExpose({ focusFirstInput })
       contenteditable="true"
       class="create-card__input"
       :class="{ 'input--error': !isAnswerValid }"
-      aria-label="Определение"
+      aria-label="answer"
       role="textbox"
       @input="updateContent('answer', $event)"
       @blur="validate('answer', newCard.answer)"

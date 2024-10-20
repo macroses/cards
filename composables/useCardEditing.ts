@@ -1,3 +1,5 @@
+import { TEXT_EDITOR_RULES } from '~/constants/cards'
+
 export function useCardEditing(
   formRef?: Ref<HTMLFormElement | null>,
   newCard?: Ref<{ question: string, answer: string }>,
@@ -7,30 +9,29 @@ export function useCardEditing(
 ) {
   function handleKeyDown(event: KeyboardEvent) {
     if (event.metaKey || event.ctrlKey) {
-      if (event.key === 'b') {
+      const rule = TEXT_EDITOR_RULES.find(rule => rule.key === event.key)
+
+      if (rule) {
         event.preventDefault()
-        document.execCommand('bold', false)
-      }
-      else if (event.key === 'i') {
-        event.preventDefault()
-        document.execCommand('italic', false)
-      }
-      else if (event.key === 'u') {
-        event.preventDefault()
-        document.execCommand('underline', false)
+        document.execCommand(rule.command, false)
+
+        return
       }
     }
 
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault()
 
-      if (!isQuestionValid?.value) {
-        (formRef?.value?.querySelector('[aria-label="Термин"]') as HTMLElement)?.focus()
+      const questionInput = formRef?.value?.querySelector('[aria-label="question"]') as HTMLElement
+      const answerInput = formRef?.value?.querySelector('[aria-label="answer"]') as HTMLElement
+
+      if (!newCard?.value.question.trim()) {
+        questionInput?.focus()
       }
-      else if (!isAnswerValid?.value) {
-        (formRef?.value?.querySelector('[aria-label="Определение"]') as HTMLElement)?.focus()
+      else if (!newCard?.value.answer.trim()) {
+        answerInput?.focus()
       }
-      else if (isQuestionValid.value && isAnswerValid.value) {
+      else if (isQuestionValid?.value && isAnswerValid?.value) {
         handleCreateCard?.()
       }
     }
@@ -45,16 +46,10 @@ export function useCardEditing(
   }
 
   function trimAndNormalizeSpaces(text: string): string {
-    // Удаляем пробелы в начале и конце строки
     let trimmed = text.trim()
-
-    // Заменяем множественные пробелы на один
     trimmed = trimmed.replace(/\s+/g, ' ')
-
-    // Удаляем пустые теги
     trimmed = trimmed.replace(/<([a-z]+)>\s*<\/\1>/gi, '')
 
-    // Повторяем процесс удаления пустых тегов, пока они есть
     let prevLength
 
     do {
