@@ -16,90 +16,28 @@ const newCard = reactive({
   answer: '',
 })
 
-const isQuestionValid = ref(false)
-const isAnswerValid = ref(false)
+const {
+  isQuestionValid,
+  isAnswerValid,
+  isSubmitAvailable,
+  validate,
+} = useCardValidation()
+
+const { handleKeyDown, handlePaste, trimAndNormalizeSpaces } = useCardEditing(
+  formRef,
+  toRef(newCard),
+  isQuestionValid,
+  isAnswerValid,
+  handleCreateCard,
+)
+
 const questionRef = ref<HTMLDivElement | null>(null)
 const answerRef = ref<HTMLDivElement | null>(null)
-
-const questionRules = [
-  createValidationRule('required'),
-  createValidationRule('maxLength', 1000),
-]
-
-const answerRules = [
-  createValidationRule('required'),
-  createValidationRule('maxLength', 1000),
-]
-
-const isSubmitAvailable = computed(() => isQuestionValid.value && isAnswerValid.value)
-
-function handleKeyDown(event: KeyboardEvent, field: 'question' | 'answer') {
-  if (event.metaKey || event.ctrlKey) {
-    if (event.key === 'b') {
-      event.preventDefault()
-      document.execCommand('bold', false)
-    }
-    else if (event.key === 'i') {
-      event.preventDefault()
-      document.execCommand('italic', false)
-    }
-    else if (event.key === 'u') {
-      event.preventDefault()
-      document.execCommand('underline', false)
-    }
-  }
-
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault()
-    const nextField = field === 'question' ? 'answer' : 'question'
-    const nextRef = formRef.value?.querySelector(`[aria-label="${nextField === 'question' ? 'Термин' : 'Определение'}"]`) as HTMLDivElement
-
-    if (!newCard[field].trim()) {
-      nextRef?.focus()
-    }
-    else if (isSubmitAvailable.value) {
-      handleCreateCard()
-    }
-    else {
-      nextRef?.focus()
-    }
-  }
-}
-
-function trimAndNormalizeSpaces(text: string): string {
-  return text.trim().replace(/\s+/g, ' ')
-}
 
 function updateContent(field: 'question' | 'answer', event: Event) {
   const target = event.target as HTMLDivElement
   newCard[field] = trimAndNormalizeSpaces(target.innerHTML)
-  validate(field)
-}
-
-function validate(field: 'question' | 'answer') {
-  const rules = field === 'question' ? questionRules : answerRules
-  const value = newCard[field]
-
-  for (const rule of rules) {
-    const result = rule(value)
-
-    if (!result.isValid) {
-      if (field === 'question') {
-        isQuestionValid.value = false
-      }
-      else {
-        isAnswerValid.value = false
-      }
-      return
-    }
-  }
-
-  if (field === 'question') {
-    isQuestionValid.value = true
-  }
-  else {
-    isAnswerValid.value = true
-  }
+  validate(field, newCard[field])
 }
 
 async function handleCreateCard() {
@@ -142,15 +80,6 @@ function focusFirstInput() {
   }
 }
 
-function handlePaste(event: ClipboardEvent) {
-  event.preventDefault()
-  const text = event.clipboardData?.getData('text/plain')
-
-  if (text) {
-    document.execCommand('insertText', false, text)
-  }
-}
-
 defineExpose({ focusFirstInput })
 </script>
 
@@ -167,8 +96,8 @@ defineExpose({ focusFirstInput })
       aria-label="Термин"
       role="textbox"
       @input="updateContent('question', $event)"
-      @blur="validate('question')"
-      @keydown="handleKeyDown($event, 'question')"
+      @blur="validate('question', newCard.question)"
+      @keydown="handleKeyDown($event)"
       @paste="handlePaste"
     />
     <div
@@ -179,8 +108,8 @@ defineExpose({ focusFirstInput })
       aria-label="Определение"
       role="textbox"
       @input="updateContent('answer', $event)"
-      @blur="validate('answer')"
-      @keydown="handleKeyDown($event, 'answer')"
+      @blur="validate('answer', newCard.answer)"
+      @keydown="handleKeyDown($event)"
       @paste="handlePaste"
     />
   </form>
