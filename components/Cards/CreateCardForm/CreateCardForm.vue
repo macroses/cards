@@ -66,9 +66,13 @@ function handleKeyDown(event: KeyboardEvent, field: 'question' | 'answer') {
   }
 }
 
+function trimAndNormalizeSpaces(text: string): string {
+  return text.trim().replace(/\s+/g, ' ')
+}
+
 function updateContent(field: 'question' | 'answer', event: Event) {
   const target = event.target as HTMLDivElement
-  newCard[field] = target.innerHTML
+  newCard[field] = trimAndNormalizeSpaces(target.innerHTML)
   validate(field)
 }
 
@@ -100,7 +104,12 @@ function validate(field: 'question' | 'answer') {
 
 async function handleCreateCard() {
   if (isSubmitAvailable.value) {
-    const createdCard = await createCard(newCard, props.moduleId)
+    const trimmedCard = {
+      question: trimAndNormalizeSpaces(newCard.question),
+      answer: trimAndNormalizeSpaces(newCard.answer),
+    }
+
+    const createdCard = await createCard(trimmedCard, props.moduleId)
 
     $toast(createdCard ? 'Карточка создана' : 'Ошибка при создании карточки')
 

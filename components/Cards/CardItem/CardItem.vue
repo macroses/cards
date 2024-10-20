@@ -49,9 +49,13 @@ function saveEdit() {
   }
 }
 
+function trimAndNormalizeSpaces(text: string): string {
+  return text.trim().replace(/\s+/g, ' ')
+}
+
 function updateContent(field: 'question' | 'answer', event: Event) {
   const target = event.target as HTMLDivElement
-  editedCard.value[field] = target.innerHTML
+  editedCard.value[field] = trimAndNormalizeSpaces(target.innerHTML)
   validate(field)
 }
 
