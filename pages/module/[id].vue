@@ -4,6 +4,9 @@ import CreateCardForm from '~/components/Cards/CreateCardForm/CreateCardForm.vue
 import ModuleStats from '~/components/Module/ModuleStats/ModuleStats.vue'
 
 const route = useRoute()
+const router = useRouter()
+const $toast = useToast()
+
 const moduleId = route.params.id as string
 const showAddButton = ref(true)
 const isReviewMode = ref(false)
@@ -72,9 +75,20 @@ function handleReviewCompleted() {
 }
 
 onMounted(async () => {
-  await fetchModule(moduleId)
-  await fetchCards(moduleId)
-  window.addEventListener('scroll', handleScroll)
+  try {
+    await fetchModule(moduleId)
+    await fetchCards(moduleId)
+    window.addEventListener('scroll', handleScroll)
+  }
+  catch (error: any) {
+    if (error.statusCode === 403) {
+      $toast('У вас нет доступа к этому модулю')
+      router.push('/modules')
+    }
+    else {
+      $toast('Произошла ошибка при загрузке модуля')
+    }
+  }
 })
 
 onUnmounted(() => {

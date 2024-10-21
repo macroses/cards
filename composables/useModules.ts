@@ -12,8 +12,9 @@ export function useModules() {
     try {
       module.value = await $fetch<Module>(`/api/modules/${moduleId}`)
     }
-    catch (error) {
+    catch (error: any) {
       console.error('Ошибка при получении модуля:', error)
+      throw error
     }
   }
 

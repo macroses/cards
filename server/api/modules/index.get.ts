@@ -1,17 +1,19 @@
+import { getServerSession } from '#auth'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-  const query = getQuery(event)
-  const userId = query.userId as string
+  const session = await getServerSession(event)
 
-  if (!userId) {
+  if (!session || !session.user) {
     throw createError({
-      statusCode: 400,
-      statusMessage: 'ID пользователя обязателен',
+      statusCode: 401,
+      statusMessage: 'Неавторизованный доступ',
     })
   }
+
+  const userId = session.user.id
 
   try {
     const modules = await prisma.module.findMany({
@@ -33,7 +35,7 @@ export default defineEventHandler(async (event) => {
     console.error('Ошибка при получении модулей:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Ошибка при получении модулей',
+      statusMessage: 'Ошибка при получении модулей, хаха',
     })
   }
 })
