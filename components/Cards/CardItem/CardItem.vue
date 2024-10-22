@@ -2,7 +2,7 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import type { Card } from '~/types/Card'
-import 'dayjs/locale/ru'
+// import 'dayjs/locale/ru'
 
 const props = defineProps<{
   card: Card
@@ -51,7 +51,7 @@ const nextReviewText = computed(() => {
   const nextReview = dayjs(props.card.nextReviewAt)
 
   if (nextReview.isBefore(dayjs())) {
-    return 'Готова к повторению'
+    return 'Ready'
   }
 
   return `${nextReview.fromNow()}`
@@ -59,16 +59,16 @@ const nextReviewText = computed(() => {
 
 const reviewStatus = computed(() => {
   if (!props.card.nextReviewAt) {
-    return 'new'
+    return 'empty'
   }
 
   const nextReview = dayjs(props.card.nextReviewAt)
 
   if (nextReview.isBefore(dayjs())) {
-    return 'due'
+    return 'low'
   }
 
-  return 'scheduled'
+  return 'high'
 })
 
 const inputFields: { model: 'question' | 'answer', placeholder: string, ariaLabel: string }[] = [
@@ -123,14 +123,13 @@ const inputFields: { model: 'question' | 'answer', placeholder: string, ariaLabe
     </template>
     <template v-else>
       <div class="card-item__block">
-        <div
-          class="card-item__review-info"
-          :class="reviewStatus"
-        >
-          {{ nextReviewText }}
-        </div>
         <div class="card-item__side left" v-html="card.question" />
         <div class="card-item__side right" v-html="card.answer" />
+        <div class="card-item__badge">
+          <Badge :variant="reviewStatus">
+            {{ nextReviewText }}
+          </Badge>
+        </div>
         <div class="card-item__edit">
           <TheButton
             variant="ghost"

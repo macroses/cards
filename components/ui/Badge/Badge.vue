@@ -1,19 +1,17 @@
 <script setup lang="ts">
-const props = defineProps<{
-  color?: string
-}>()
+interface BadgeProps {
+  variant?: 'primary' | 'empty' | 'low' | 'medium' | 'high' | 'highest'
+}
 
-const styleObject = reactive({
-  color: `rgb(${props.color})`,
-  backgroundColor: `rgba(${props.color}, 0.1)`,
-  border: `1px solid rgba(${props.color}, 0.5)`,
+withDefaults(defineProps<BadgeProps>(), {
+  variant: 'primary',
 })
 </script>
 
 <template>
   <div
     class="badge"
-    :style="styleObject"
+    :class="{ [`badge--${variant}`]: variant }"
   >
     <slot />
   </div>

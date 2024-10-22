@@ -51,32 +51,6 @@ li {
   visibility: hidden;
 }
 
-
-.card-item__review-info {
-  position: absolute;
-  right: 10px;
-  top: -8px;
-  font-size: 12px;
-  font-weight: 600;
-  background: #fff;
-  padding-inline: 4px;
-  border-radius: 6px;
-  border: 1px solid rgb(var(--accent-color) / 10%);
-}
-
-.card-item__review-info.new {
-  color: #888;
-
-}
-
-.card-item__review-info.due {
-  color: #e74c3c;
-}
-
-.card-item__review-info.scheduled {
-  color: #2ecc71;
-}
-
 .card-item__edit-field {
   margin-bottom: 8px;
   background-color: var(--main-bg);

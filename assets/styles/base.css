@@ -27,6 +27,9 @@
   --table-dark-bg: rgba(244, 247, 248, 1);
 
   --error-color: 223 31 61;
+
+  --badge-color-high: 223 31 61;
+  --badge-color-low: 255 126 8;
 }
 
 *, *::before, *::after {

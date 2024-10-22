@@ -1,9 +1,60 @@
 .badge {
-  background-color: rgb(var(--accent-color));
-  color: #fff;
   height: 20px;
   padding: 0 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   display: inline-flex;
   font-size: 12px;
+  position: relative;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+
+  &::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+  }
+
+  &.badge--primary {
+    background-color: rgba(var(--accent-color) / 0.1);
+    color: rgba(var(--accent-color));
+    border: 1px solid rgba(var(--accent-color) / 0.2);
+
+    &::before {
+      background-color: rgba(var(--accent-color));
+    }
+  }
+
+  &.badge--empty {
+    background-color: transparent;
+    color: rgb(var(--text-color));
+    border: 1px solid rgb(var(--text-color) / 0.2);
+
+    &::before {
+      background-color: rgb(var(--text-color));
+    }
+  }
+
+  &.badge--low {
+    background-color: rgba(var(--badge-color-high) / 0.1);
+    color: rgba(var(--badge-color-high));
+    border: 1px solid rgba(var(--badge-color-high) / 0.2);
+
+    &::before {
+      background-color: rgba(var(--badge-color-high));
+    }
+  }
+
+  &.badge--high {
+    background-color: rgba(var(--badge-color-low) / 0.1);
+    color: rgba(var(--badge-color-low));
+    border: 1px solid rgba(var(--badge-color-low) / 0.2);
+
+    &::before {
+      background-color: rgba(var(--badge-color-low));
+    }
+  }
+
+
 }

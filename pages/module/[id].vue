@@ -135,19 +135,6 @@ useHead({
         :module-id="moduleId"
         @card-created="updateModuleStats"
       />
-      <!--      <div -->
-      <!--        v-if="!isReviewMode" -->
-      <!--        class="card__add-item" -->
-      <!--      > -->
-      <!--        <TheButton @click="scrollToBottom"> -->
-      <!--          <TheIcon -->
-      <!--            fill="white" -->
-      <!--            icon-name="plus" -->
-      <!--            width="18px" -->
-      <!--          /> -->
-      <!--          Добавить карточку -->
-      <!--        </TheButton> -->
-      <!--      </div> -->
     </div>
     <div class="card-wrapper__sidebar">
       <ModuleStats :card-stats="cardStats" />

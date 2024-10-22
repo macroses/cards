@@ -85,7 +85,9 @@ defineExpose({ fetchModules })
           </template>
           <template #footer>
             <div class="card__footer">
-              <Badge>{{ module.cardCount }} карточек</Badge>
+              <Badge variant="primary">
+                {{ module.cardCount }} карточек
+              </Badge>
             </div>
           </template>
         </Card>
