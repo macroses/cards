@@ -46,15 +46,21 @@ function updateContent(field: 'question' | 'answer', event: Event) {
 
 const nextReviewText = computed(() => {
   if (!props.card.nextReviewAt)
-    return 'New'
+    return 'new'
 
   const nextReview = dayjs(props.card.nextReviewAt)
+  const now = dayjs()
 
-  if (nextReview.isBefore(dayjs())) {
-    return 'Ready'
+  if (nextReview.isBefore(now)) {
+    return 'ready'
   }
 
-  return `${nextReview.fromNow()}`
+  const diff = nextReview.diff(now, 'minute')
+
+  if (diff < 60) return `${diff}м`
+  if (diff < 1440) return `${Math.floor(diff / 60)}h`
+  if (diff < 43200) return `${Math.floor(diff / 1440)}d`
+  return `${Math.floor(diff / 43200)}мес`
 })
 
 const reviewStatus = computed(() => {
