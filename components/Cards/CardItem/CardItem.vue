@@ -57,9 +57,12 @@ const nextReviewText = computed(() => {
 
   const diff = nextReview.diff(now, 'minute')
 
-  if (diff < 60) return `${diff}м`
-  if (diff < 1440) return `${Math.floor(diff / 60)}h`
-  if (diff < 43200) return `${Math.floor(diff / 1440)}d`
+  if (diff < 60)
+    return `${diff}м`
+  if (diff < 1440)
+    return `${Math.floor(diff / 60)}h`
+  if (diff < 43200)
+    return `${Math.floor(diff / 1440)}d`
   return `${Math.floor(diff / 43200)}мес`
 })
 
