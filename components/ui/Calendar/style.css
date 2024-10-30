@@ -58,3 +58,41 @@
 .calendar-month {
   font-weight: 500;
 }
+
+/**/
+
+.slideMonth-enter-active,
+.slideMonth-leave-active {
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.slideMonth-enter-from {
+  opacity: 0;
+  transform: translateX(30%);
+}
+
+.slideMonth-leave-to {
+  opacity: 0;
+  transform: translateX(-30%);
+  overflow: hidden;
+}
+
+.slideMonthRight-enter-active,
+.slideMonthRight-leave-active {
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.slideMonthRight-enter-from {
+  opacity: 0;
+  transform: translateX(-30%);
+}
+
+.slideMonthRight-leave-to {
+  opacity: 0;
+  transform: translateX(30%);
+  overflow: hidden;
+}

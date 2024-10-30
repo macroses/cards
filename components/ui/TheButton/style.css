@@ -17,7 +17,7 @@
   background: rgb(var(--btn-bg));
   color: var(--btn-color);
   padding: 0 12px;
-  height: 34px;
+  height: 36px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 
@@ -119,6 +119,6 @@
 }
 
 .button--icon-only {
-  width: 34px;
+  width: 36px;
   padding: 0;
 }

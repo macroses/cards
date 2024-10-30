@@ -11,12 +11,14 @@ function disabledDates(date: Date) {
 
 <template>
   <div class="home-page__container">
-    <Calendar
-      v-model="selectedDate"
-      :locale="locale"
-      :first-day-of-week="1"
-      :disabled="disabledDates"
-    />
-    <MainNavigation />
+    <div class="home-page__calendar">
+      <Calendar
+        v-model="selectedDate"
+        :locale="locale"
+        :first-day-of-week="1"
+        :disabled="disabledDates"
+      />
+      <MainNavigation />
+    </div>
   </div>
 </template>

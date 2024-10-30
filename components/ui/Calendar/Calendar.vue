@@ -20,6 +20,7 @@ const emit = defineEmits(['update:modelValue'])
 
 const currentMonth = ref(props.month || new Date())
 const selectedDate = ref<Date | undefined | null>(props.modelValue)
+const transitionName = ref<'slideMonth' | 'slideMonthRight'>('slideMonthRight')
 
 dayjs.locale(props.locale)
 
@@ -75,14 +76,17 @@ function selectDate(date: Date | null) {
 }
 
 function previousMonth() {
+  transitionName.value = 'slideMonth'
   currentMonth.value = dayjs(currentMonth.value).subtract(1, 'month').toDate()
 }
 
 function nextMonth() {
+  transitionName.value = 'slideMonthRight'
   currentMonth.value = dayjs(currentMonth.value).add(1, 'month').toDate()
 }
 
 function nowMonth() {
+  transitionName.value = 'slideMonthRight'
   currentMonth.value = new Date()
 }
 
@@ -137,27 +141,44 @@ watch(() => props.modelValue, (newValue) => {
           aria-label="current month"
         />
       </TheButton>
-      <span class="calendar-month">
-        {{ dayjs(currentMonth).format('MMMM YYYY') }}
-      </span>
-    </div>
-    <div class="calendar-days">
-      <button
-        v-for="(day, index) in daysInMonth"
-        :key="index"
-        class="calendar-day"
-        :class="{
-          'selected': isSelected(day.date),
-          'today': isToday(day.date),
-          'other-month': !day.isCurrentMonth,
-        }"
-        @click="selectDate(day.date)"
+
+      <Transition
+        mode="out-in"
+        :name="transitionName"
       >
-        <span class="calendar-day__text">
-          {{ day.date ? dayjs(day.date).format('D') : '' }}
+        <span
+          :key="currentMonth"
+          class="calendar-month"
+        >
+          {{ dayjs(currentMonth).format('MMMM YYYY') }}
         </span>
-      </button>
+      </Transition>
     </div>
+    <Transition
+      mode="out-in"
+      :name="transitionName"
+    >
+      <div
+        :key="new Date()"
+        class="calendar-days"
+      >
+        <button
+          v-for="(day, index) in daysInMonth"
+          :key="index"
+          class="calendar-day"
+          :class="{
+            'selected': isSelected(day.date),
+            'today': isToday(day.date),
+            'other-month': !day.isCurrentMonth,
+          }"
+          @click="selectDate(day.date)"
+        >
+          <span class="calendar-day__text">
+            {{ day.date ? dayjs(day.date).format('D') : '' }}
+          </span>
+        </button>
+      </div>
+    </Transition>
   </div>
 </template>
 

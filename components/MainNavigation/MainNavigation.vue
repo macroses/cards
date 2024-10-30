@@ -8,7 +8,7 @@
       link
       link-path="/workout"
     >
-      Workout
+      Create workout
     </TheButton>
     <TheButton>Program</TheButton>
     <TheButton>Body parameters</TheButton>
