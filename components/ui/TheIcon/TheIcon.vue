@@ -12,11 +12,14 @@ defineProps<IconProps>()
   <svg
     viewBox="0 0 24 24"
     :width="width"
-    style="
-      fill: currentColor;
-      height: auto;
-    "
+    style="fill: currentColor"
   >
     <use :xlink:href="`/icons/light.svg#${iconName}`" />
   </svg>
 </template>
+
+<style>
+svg {
+  height: auto;
+}
+</style>

@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <div>module page</div>
+  <p>this is parameters</p>
 </template>

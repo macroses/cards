@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <div>module page</div>
+  <p>workouts page</p>
 </template>

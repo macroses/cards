@@ -16,10 +16,11 @@
     "prisma:studio": "npx prisma studio"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@nuxt/eslint": "^0.6.0",
     "@nuxt/icon": "^1.5.6",
     "@nuxt/image": "^1.8.1",
-    "@nuxtjs/i18n": "^8.5.5",
+    "@nuxtjs/i18n": "8.3.1",
     "@prisma/client": "^5.20.0",
     "@sidebase/nuxt-auth": "^0.8.1",
     "@vee-validate/nuxt": "^4.13.2",

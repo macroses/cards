@@ -2,7 +2,7 @@
 interface ButtonProps {
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
-  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger' | 'transparent'
   iconOnly?: boolean
   link?: boolean
   linkPath?: string
@@ -34,7 +34,6 @@ withDefaults(defineProps<ButtonProps>(), {
   <NuxtLink
     v-else
     :to="linkPath"
-    :disabled="disabled"
     class="button"
     :class="{
       [`button--${variant}`]: variant,

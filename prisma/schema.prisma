@@ -43,7 +43,6 @@ model User {
   image         String?
   account       Account[]
   sessions      Session[]
-  userModules   Module[]
 }
 
 model VerificationToken {
@@ -52,32 +51,4 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model Module {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
-  cards       Card[]
-}
-
-model Card {
-  id              String   @id @default(cuid())
-  question        String?
-  answer          String?
-  title           String?
-  tags            String?
-  partOfSpeech    String?
-  exampleSentence String?
-  createdAt       DateTime @default(now())
-  module          Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
-  moduleId        String
-  lastReviewedAt  DateTime?
-  nextReviewAt    DateTime?
-  reviewCount     Int       @default(0)
-  easeFactor      Float     @default(2.5)
-  interval        Int       @default(0)
 }

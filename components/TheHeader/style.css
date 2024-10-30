@@ -1,0 +1,19 @@
+.dialog-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.header__wrap {
+  display: flex;
+  align-items: center;
+  padding-block: 8px;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.header__details {
+  margin-left: auto;
+}

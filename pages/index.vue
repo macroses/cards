@@ -1,9 +1,22 @@
 <script setup lang="ts">
 definePageMeta({ auth: true })
 
-const { t } = useI18n()
+const selectedDate = ref(new Date())
+const locale = ref('ru')
+
+function disabledDates(date: Date) {
+  return date < new Date()
+}
 </script>
 
 <template>
-  <h1>{{ t('welcome_home') }}</h1>
+  <div class="home-page__container">
+    <Calendar
+      v-model="selectedDate"
+      :locale="locale"
+      :first-day-of-week="1"
+      :disabled="disabledDates"
+    />
+    <MainNavigation />
+  </div>
 </template>

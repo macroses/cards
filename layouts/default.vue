@@ -1,5 +1,5 @@
 <template>
-  <Navbar />
+  <TheHeader />
   <main>
     <div class="container">
       <slot />
@@ -9,7 +9,7 @@
 
 <style>
 .container {
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
   padding-inline: 16px;
 }

@@ -1,0 +1,51 @@
+dialog {
+  padding: 20px 20px 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  position: relative;
+  max-width: 100%;
+  min-width: 300px;
+
+  transition: all 0.3s allow-discrete;
+  opacity: 0;
+  transform: translateY(-50px);
+
+  &[open] {
+    opacity: 1;
+    transform: translateY(0);
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+  }
+
+  &[open]::backdrop {
+    opacity: 1;
+    backdrop-filter: blur(10px);
+
+    @starting-style {
+      opacity: 0;
+      backdrop-filter: blur(0);
+    }
+  }
+}
+
+dialog::backdrop {
+  transition: all 0.3s allow-discrete;
+  opacity: 0;
+  backdrop-filter: blur(0);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media (max-width: 768px) {
+  dialog {
+    margin-bottom: 0;
+    width: 100%;
+  }
+}

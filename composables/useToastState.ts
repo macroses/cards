@@ -1,5 +1,3 @@
-import { ref } from 'vue'
-
 type ToastFunction = (message: string, type: 'success' | 'error' | 'info') => void
 
 const toastFunction = ref<ToastFunction | null>(null)
