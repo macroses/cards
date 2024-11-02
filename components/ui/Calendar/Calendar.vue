@@ -1,105 +1,34 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
-import 'dayjs/locale/ru'
-import 'dayjs/locale/en'
-
-interface CalendarProps {
-  modelValue: Date
-  locale?: string
-  month?: Date
-  firstDayOfWeek?: 0 | 1 | 2 | 3 | 4 | 5 | 6
-  disabled?: (date: Date) => boolean
-}
+import type CalendarProps from '~/components/ui/Calendar/types'
+import { useCalendar } from '~/composables/calendar/useCalendar'
 
 const props = withDefaults(defineProps<CalendarProps>(), {
   locale: 'en',
   firstDayOfWeek: 1,
 })
 
-const emit = defineEmits(['update:modelValue'])
+const modelValue = defineModel<Date | null>({ default: new Date() })
 
-const currentMonth = ref(props.month || new Date())
-const selectedDate = ref<Date | undefined | null>(props.modelValue)
-const transitionName = ref<'slideMonth' | 'slideMonthRight'>('slideMonthRight')
-
-dayjs.locale(props.locale)
-
-const daysInMonth = computed(() => {
-  const start = dayjs(currentMonth.value).startOf('month')
-  const end = dayjs(currentMonth.value).endOf('month')
-  const days = []
-
-  for (let i = 0; i < start.day(); i++) {
-    days.push({
-      date: start.subtract(start.day() - i, 'day').toDate(),
-      isCurrentMonth: false,
-    })
-  }
-
-  for (let i = start.date(); i <= end.date(); i++) {
-    days.push({
-      date: new Date(start.year(), start.month(), i),
-      isCurrentMonth: true,
-    })
-  }
-
-  const remainingDays = 7 - (days.length % 7)
-  if (remainingDays < 7) {
-    for (let i = 1; i <= remainingDays; i++) {
-      days.push({
-        date: end.add(i, 'day').toDate(),
-        isCurrentMonth: false,
-      })
-    }
-  }
-
-  return days
-})
-
-const isCurrentMonth = computed(() => {
-  const now = new Date()
-  return currentMonth.value.getMonth() === now.getMonth()
-    && currentMonth.value.getFullYear() === now.getFullYear()
-})
-
-function isSelected(date: Date | null) {
-  if (!selectedDate.value || !date) {
-    return false
-  }
-
-  return dayjs(date).isSame(selectedDate.value, 'day')
-}
+const {
+  currentMonth,
+  selectedDate,
+  transitionName,
+  daysInMonth,
+  isCurrentMonth,
+  isSelected,
+  isToday,
+  previousMonth,
+  nextMonth,
+  nowMonth,
+} = useCalendar({ ...props, modelValue: modelValue.value })
 
 function selectDate(date: Date | null) {
   selectedDate.value = date
-  emit('update:modelValue', date)
+  modelValue.value = date
 }
 
-function previousMonth() {
-  transitionName.value = 'slideMonth'
-  currentMonth.value = dayjs(currentMonth.value).subtract(1, 'month').toDate()
-}
-
-function nextMonth() {
-  transitionName.value = 'slideMonthRight'
-  currentMonth.value = dayjs(currentMonth.value).add(1, 'month').toDate()
-}
-
-function nowMonth() {
-  transitionName.value = 'slideMonthRight'
-  currentMonth.value = new Date()
-}
-
-function isToday(date: Date | null) {
-  if (!date) {
-    return false
-  }
-
-  const today = new Date()
-  return dayjs(date).isSame(today, 'day')
-}
-
-watch(() => props.modelValue, (newValue) => {
+watch(() => props.modelValue, (newValue: Date) => {
   selectedDate.value = newValue
 })
 </script>
@@ -159,7 +88,7 @@ watch(() => props.modelValue, (newValue) => {
       :name="transitionName"
     >
       <div
-        :key="new Date()"
+        :key="currentMonth"
         class="calendar-days"
       >
         <button

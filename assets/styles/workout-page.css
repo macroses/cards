@@ -1,0 +1,23 @@
+.workout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.workout-data {
+
+}
+
+.exercises {
+
+}
+
+.workout__name {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  & .input-wrapper {
+    flex: 1;
+  }
+}

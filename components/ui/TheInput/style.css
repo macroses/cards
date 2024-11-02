@@ -1,0 +1,33 @@
+.input {
+  border: 1px solid transparent;
+  outline: 1px solid rgb(var(--border-color));
+  background: rgb(var(--form-bg));
+  box-shadow: var(--form-box-shadow);
+  color: rgb(var(--text-color));
+  border-radius: 8px;
+  transition: padding 0.25s ease;
+  padding: 0 13px 0 10px;
+  height: 36px;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:focus-visible {
+    outline: 1px solid rgb(var(--accent-color));
+  }
+}
+
+.input-wrapper {
+  position: relative;
+
+  & button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: transparent;
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

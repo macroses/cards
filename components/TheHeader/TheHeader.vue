@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import TheDialog from '~/components/ui/TheDialog/TheDialog.vue'
 
-const { t } = useI18n()
+const localePath = useLocalePath()
 const { signOut, data } = useAuth()
 const { locale, changeLanguage, initLanguage } = useChangeLanguage()
+const { t } = useI18n()
 
 const dialogRef = ref<InstanceType<typeof TheDialog> | null>(null)
 
@@ -24,7 +25,7 @@ onMounted(() => initLanguage())
     <div class="container">
       <nav class="header__wrap">
         <NuxtLink
-          to="/"
+          :to="localePath('/')"
           class="header__logo"
         >
           <TheIcon

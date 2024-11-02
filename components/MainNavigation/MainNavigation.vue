@@ -1,12 +1,12 @@
 <script setup lang="ts">
-
+const localePath = useLocalePath()
 </script>
 
 <template>
   <div class="main-navigation">
     <TheButton
       link
-      link-path="/workout"
+      :link-path="localePath('/workout')"
     >
       Create workout
     </TheButton>

@@ -30,6 +30,8 @@
 
   --badge-color-high: 223 31 61;
   --badge-color-low: 255 126 8;
+
+  font-family: 'Poppins', sans-serif;
 }
 
 *, *::before, *::after {
@@ -66,11 +68,9 @@ ul, p {
   list-style: none;
 }
 
-.page-enter-active,
-.page-leave-active {
-  transition: all 0.2s;
-}
-.page-enter-from,
-.page-leave-to {
-  opacity: 0;
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }

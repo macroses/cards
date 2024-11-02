@@ -1,0 +1,15 @@
+{
+  "name": "Lat Pulldown",
+  "muscles": {
+    "primary": ["lats"],
+    "secondary": ["biceps", "shoulders"]
+  },
+  "characteristics": {
+    "type": "basic",
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
+  },
+  "description": "Sit in the cable machine..."
+}
