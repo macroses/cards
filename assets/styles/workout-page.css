@@ -2,14 +2,19 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+  align-items: flex-start;
 }
 
 .workout-data {
-
+  border: 1px solid rgb(var(--border-color));
+  padding: 12px;
+  border-radius: 16px;
 }
 
-.exercises {
-
+.muscles-list {
+  border: 1px solid rgb(var(--border-color));
+  padding: 12px;
+  border-radius: 16px;
 }
 
 .workout__name {
@@ -26,12 +31,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px;
+  /*padding: 8px;*/
   border-radius: 8px;
-  background-color: rgb(var(--form-bg));
-  margin-bottom: 8px;
 }
 
 .workout__exercises {
-  margin-top: 16px;
+  /*margin-top: 16px;*/
 }

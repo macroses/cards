@@ -35,7 +35,7 @@ function selectExercise(exercise: Exercise) {
 </script>
 
 <template>
-  <ul>
+  <ul class="muscles-list">
     <li
       v-for="group in exercises"
       :key="group.primary"
@@ -44,9 +44,16 @@ function selectExercise(exercise: Exercise) {
       :class="{ active: activeGroupId === group.primary }"
     >
       <button
+        class="muscle-item__title"
         @click="toggleGroup(group.primary)"
       >
-        {{ group.primary }} {{ group.exercises.length }}
+        <TheIcon
+          icon-name="angle-down"
+          width="14px"
+          class="muscle-item__title-icon"
+        />
+        <span class="muscle-name">{{ group.primary }}</span>
+        <span class="exercises-count">{{ group.exercises.length }}</span>
       </button>
       <ul
         v-if="activeGroupId === group.primary"
@@ -59,7 +66,18 @@ function selectExercise(exercise: Exercise) {
           :class="{ added: isExerciseSelected(exercise) }"
           @click="selectExercise(exercise)"
         >
-          {{ exercise.name }}
+          <p>
+            {{ exercise.name }}
+            <TheIcon
+              v-if="isExerciseSelected(exercise)"
+              icon-name="circle-check"
+              width="16px"
+            />
+          </p>
+          <TheIcon
+            icon-name="angle-right"
+            width="14px"
+          />
         </li>
       </ul>
     </li>

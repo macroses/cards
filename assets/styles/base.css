@@ -4,10 +4,7 @@
 
   --text-color: 44 62 80;
   --main-bg: #fff;
-  --header-bg: #fff;
-  --block-bg: rgba(244, 247, 248, 1);
-  --content-bg: #fff;
-  --cobtent-inner-bg: #fff;
+
   --form-bg: rgba(244, 247, 248, 1);
   --form-box-shadow: 0 0 0 0 rgb(var(--accent-color) / 50%);
 
@@ -23,13 +20,9 @@
 
   --dropdown-bg: 255 255 255;
   --modal-bg: #fff;
-  --even-row-bg: rgba(249, 252, 253, 1);
   --table-dark-bg: rgba(244, 247, 248, 1);
 
   --error-color: 223 31 61;
-
-  --badge-color-high: 223 31 61;
-  --badge-color-low: 255 126 8;
 
   font-family: 'Poppins', sans-serif;
 }
@@ -73,4 +66,5 @@ input,
 textarea,
 select {
   font: inherit;
+  color: rgb(var(--text-color));
 }

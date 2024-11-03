@@ -45,7 +45,6 @@ function removeExercise(exerciseId: number) {
   <div class="workout">
     <div class="workout-data">
       <div class="workout__description">
-        {{ formattedDate(selectedDate) }}
         <div class="workout__name">
           <TheInput
             v-model="workout.title"
@@ -68,7 +67,7 @@ function removeExercise(exerciseId: number) {
         >
           {{ exercise.name }}
           <TheButton
-            variant="transparent"
+            variant="ghost"
             icon-only
             @click="removeExercise(exercise.id)"
           >
@@ -79,6 +78,8 @@ function removeExercise(exerciseId: number) {
           </TheButton>
         </li>
       </ul>
+
+      {{ formattedDate(selectedDate) }}
     </div>
     <ExercisesList
       :selected-exercises="selectedExercisesList"
