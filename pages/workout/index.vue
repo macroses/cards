@@ -39,6 +39,12 @@ function removeExercise(exerciseId: number) {
     exercise => exercise.id !== exerciseId,
   )
 }
+
+const activeExerciseId = ref<number | null>(null)
+
+function toggleExercise(exerciseId: number) {
+  activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
+}
 </script>
 
 <template>
@@ -64,8 +70,16 @@ function removeExercise(exerciseId: number) {
           v-for="exercise in selectedExercisesList"
           :key="exercise.id"
           class="workout__exercises-item"
+          :class="{ active: activeExerciseId === exercise.id }"
+          @click="toggleExercise(exercise.id)"
         >
-          {{ exercise.name }}
+          <div class="workout__exercises-item-name">
+            <TheIcon
+              icon-name="angle-down"
+              width="14px"
+            />
+            {{ exercise.name }}
+          </div>
           <TheButton
             variant="ghost"
             icon-only
@@ -73,13 +87,27 @@ function removeExercise(exerciseId: number) {
           >
             <TheIcon
               icon-name="xmark"
-              width="20px"
+              width="14px"
+              :style="{ color: 'rgb(var(--text-color))' }"
             />
           </TheButton>
+
+          <div class="exercise-form__wr">
+            <div class="exercise-form">
+              <div class="exercise-form__main">
+                <TheInput
+                  placeholder="Weight"
+                />
+                <TheInput
+                  placeholder="Repeats"
+                />
+              </div>
+            </div>
+          </div>
         </li>
       </ul>
 
-      {{ formattedDate(selectedDate) }}
+      <!--      {{ formattedDate(selectedDate) }} -->
     </div>
     <ExercisesList
       :selected-exercises="selectedExercisesList"

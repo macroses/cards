@@ -29,12 +29,45 @@
 
 .workout__exercises-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  /*padding: 8px;*/
   border-radius: 8px;
+  padding: 2px 8px;
+  cursor: pointer;
 }
 
-.workout__exercises {
-  /*margin-top: 16px;*/
+.workout__exercises-item-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.exercise-form {
+  width: 100%;
+}
+
+.exercise-form__main {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+
+  & .input-wrapper {
+    flex: 1;
+  }
+}
+
+.exercise-form__wr {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.3s ease;
+
+  .workout__exercises-item.active & {
+    grid-template-rows: 1fr;
+  }
+}
+
+.exercise-form {
+  min-height: 0;
 }
