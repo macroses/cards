@@ -1,0 +1,26 @@
+/*.exercises-list-wrapper {*/
+/*  display: grid;*/
+/*  grid-template-rows: 0fr;*/
+/*  overflow: hidden;*/
+/*  transition: grid-template-rows 0.3s ease-in-out;*/
+/*  will-change: transform;*/
+
+/*  .active & {*/
+/*    grid-template-rows: 1fr;*/
+/*  }*/
+/*}*/
+
+/*.exercises-list {*/
+/*  min-height: 0;*/
+/*  max-height: 300px;*/
+/*  overflow-y: auto;*/
+/*  overflow-x: hidden;*/
+
+/*  .exercises-list-wrapper.active & {*/
+/*    max-height: max-content;*/
+/*  }*/
+
+/*  &::-webkit-scrollbar {*/
+/*    display: none;*/
+/*  }*/
+/*}*/

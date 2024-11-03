@@ -1,15 +1,70 @@
-{
-  "name": "Lat Pulldown",
-  "muscles": {
-    "primary": ["lats"],
-    "secondary": ["biceps", "shoulders"]
+[
+  {
+    "id": 1,
+    "name": "Lat Pulldown",
+    "muscles": {
+      "muscleId": 1,
+      "primary": "lats",
+      "secondary": ["biceps", "shoulders"]
+    },
+    "characteristics": {
+      "type": "basic",
+      "category": "strength",
+      "equipment": "machines",
+      "force": "pull",
+      "level": "beginner"
+    },
+    "description": "Sit in the cable machine..."
   },
-  "characteristics": {
-    "type": "basic",
-    "category": "strength",
-    "equipment": "machines",
-    "force": "pull",
-    "level": "beginner"
+  {
+    "id": 2,
+    "name": "Pullups",
+    "muscles": {
+      "muscleId": 1,
+      "primary": "lats",
+      "secondary": ["biceps", "shoulders"]
+    },
+    "characteristics": {
+      "type": "basic",
+      "category": "strength",
+      "equipment": "machines",
+      "force": "pull",
+      "level": "novice"
+    },
+    "description": "Схватись за турник и подтягивайся"
   },
-  "description": "Sit in the cable machine..."
-}
+  {
+    "id": 3,
+    "name": "приседания",
+    "muscles": {
+      "muscleId": 2,
+      "primary": "legs",
+      "secondary": []
+    },
+    "characteristics": {
+      "type": "basic",
+      "category": "strength",
+      "equipment": "machines",
+      "force": "pull",
+      "level": "beginner"
+    },
+    "description": "Sit in the cable machine..."
+  },
+  {
+    "id": 4,
+    "name": "Анжуманя",
+    "muscles": {
+      "muscleId": 2,
+      "primary": "legs",
+      "secondary": null
+    },
+    "characteristics": {
+      "type": "basic",
+      "category": "strength",
+      "equipment": "machines",
+      "force": "pull",
+      "level": "novice"
+    },
+    "description": "Присядь"
+  }
+]

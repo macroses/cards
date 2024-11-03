@@ -21,3 +21,17 @@
     flex: 1;
   }
 }
+
+.workout__exercises-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: rgb(var(--form-bg));
+  margin-bottom: 8px;
+}
+
+.workout__exercises {
+  margin-top: 16px;
+}

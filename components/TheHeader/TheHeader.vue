@@ -17,7 +17,9 @@ function handleSignOut() {
   dialogRef.value?.closeDialog()
 }
 
-onMounted(() => initLanguage())
+onMounted(() => {
+  initLanguage()
+})
 </script>
 
 <template>

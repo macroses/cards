@@ -14,12 +14,12 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['validation'])
 
 const uniqueId = useId()
-const modelValue = defineModel<string | undefined>({ default: '' })
+const modelValue = defineModel<string | number | undefined>({ default: '' })
 const error = ref('')
 
 function validate() {
   for (const rule of props.validateRules) {
-    const result = rule(modelValue.value || '')
+    const result = rule(modelValue.value?.toString() || '')
 
     if (!result.isValid) {
       error.value = result.message
