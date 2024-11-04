@@ -1,6 +1,15 @@
 <script setup lang="ts">
-import type Exercise from '~/types/Exercise'
+import { useExerciseManagement } from '~/composables/exerciseManagment/useExerciseManagment'
 import type Workout from '~/types/Workout'
+
+const {
+  selectedExercisesList,
+  activeExerciseId,
+  exerciseData,
+  selectExercise,
+  removeExercise,
+  toggleExercise,
+} = useExerciseManagement()
 
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
 const workout = reactive<Workout>({
@@ -23,26 +32,20 @@ function getColor(color: string) {
   workout.color = color
 }
 
-const selectedExercisesList = ref<Exercise[]>([])
-function selectExercise(exercise: Exercise) {
-  const isExerciseExists = selectedExercisesList.value?.some(
-    (existingExercise: Exercise) => existingExercise.id === exercise.id,
-  )
+function addSet(exerciseId: number) {
+  const data = exerciseData.get(exerciseId)
+  if (data?.currentWeight && data?.currentRepeats) {
+    data.sets.push({
+      id: crypto.randomUUID(),
+      weight: data.currentWeight,
+      repeats: data.currentRepeats,
+      difficulty: data.currentDifficulty || 1,
+    })
 
-  if (!isExerciseExists) {
-    selectedExercisesList.value?.push(exercise)
+    data.currentWeight = ''
+    data.currentRepeats = ''
+    data.currentDifficulty = 1
   }
-}
-
-function removeExercise(exerciseId: number) {
-  selectedExercisesList.value = selectedExercisesList.value.filter(
-    exercise => exercise.id !== exerciseId,
-  )
-}
-
-const activeExerciseId = ref<number | null>(null)
-function toggleExercise(exerciseId: number) {
-  activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
 }
 </script>
 
@@ -99,14 +102,46 @@ function toggleExercise(exerciseId: number) {
             <div class="exercise-form">
               <div class="exercise-form__main">
                 <TheInput
-                  placeholder="Weight"
+                  v-model="exerciseData.get(exercise.id).currentWeight"
+                  placeholder="Вес"
                 />
                 <TheInput
-                  placeholder="Repeats"
+                  v-model="exerciseData.get(exercise.id).currentRepeats"
+                  placeholder="Повторения"
                 />
+                <select
+                  v-model="exerciseData.get(exercise.id).currentDifficulty"
+                  class="difficulty-select"
+                >
+                  <option value="1">
+                    1
+                  </option>
+                  <option value="2">
+                    2
+                  </option>
+                  <option value="3">
+                    3
+                  </option>
+                  <option value="4">
+                    4
+                  </option>
+                  <option value="5">
+                    5
+                  </option>
+                </select>
               </div>
+              <button @click="addSet(exercise.id)">
+                Добавить
+              </button>
             </div>
           </div>
+          <table v-if="exerciseData.get(exercise.id).sets.length">
+            <tr v-for="(set, index) in exerciseData.get(exercise.id).sets" :key="index">
+              <td>{{ set.weight }}</td>
+              <td>{{ set.repeats }}</td>
+              <td>{{ set.difficulty }}/5</td>
+            </tr>
+          </table>
         </li>
       </ul>
 
