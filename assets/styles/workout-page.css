@@ -9,6 +9,9 @@
   border: 1px solid rgb(var(--border-color));
   padding: 12px;
   border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .muscles-list {
@@ -28,19 +31,41 @@
 }
 
 .workout__exercises-item {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 8px;
-  padding: 2px 8px;
+  outline: 1px solid transparent;
+  border-radius: 12px;
   cursor: pointer;
+  transition: outline-color ease-in-out 0.3s;
+
+  &.active {
+    outline-color: rgb(var(--accent-color) / 0.5);
+  }
+
+  &.active .workout__exercises__title-icon {
+    transform: rotate(180deg);
+  }
 }
 
 .workout__exercises-item-name {
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
+  font-weight: 500;
+  padding: 0 0 0 12px;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+
+  & .button {
+    margin-left: auto;
+  }
+
+  &:hover {
+    background-color: var(--table-dark-bg);
+  }
+}
+
+.workout__exercises__title-icon {
+  transition: transform 0.3s ease;
 }
 
 .exercise-form {
@@ -61,10 +86,11 @@
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
-  transition: grid-template-rows 0.3s ease;
+  transition: grid-template-rows 0.3s ease, padding 0.3s ease;
 
   .workout__exercises-item.active & {
     grid-template-rows: 1fr;
+    padding: 12px;
   }
 }
 

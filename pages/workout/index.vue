@@ -41,7 +41,6 @@ function removeExercise(exerciseId: number) {
 }
 
 const activeExerciseId = ref<number | null>(null)
-
 function toggleExercise(exerciseId: number) {
   activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
 }
@@ -63,6 +62,7 @@ function toggleExercise(exerciseId: number) {
       </div>
 
       <ul
+        v-if="selectedExercisesList.length"
         v-auto-animate
         class="workout__exercises"
       >
@@ -71,26 +71,29 @@ function toggleExercise(exerciseId: number) {
           :key="exercise.id"
           class="workout__exercises-item"
           :class="{ active: activeExerciseId === exercise.id }"
-          @click="toggleExercise(exercise.id)"
         >
-          <div class="workout__exercises-item-name">
+          <div
+            class="workout__exercises-item-name"
+            @click.stop="toggleExercise(exercise.id)"
+          >
             <TheIcon
               icon-name="angle-down"
               width="14px"
+              class="workout__exercises__title-icon"
             />
             {{ exercise.name }}
+            <TheButton
+              variant="ghost"
+              icon-only
+              @click="removeExercise(exercise.id)"
+            >
+              <TheIcon
+                icon-name="xmark"
+                width="14px"
+                :style="{ color: 'rgb(var(--text-color))' }"
+              />
+            </TheButton>
           </div>
-          <TheButton
-            variant="ghost"
-            icon-only
-            @click="removeExercise(exercise.id)"
-          >
-            <TheIcon
-              icon-name="xmark"
-              width="14px"
-              :style="{ color: 'rgb(var(--text-color))' }"
-            />
-          </TheButton>
 
           <div class="exercise-form__wr">
             <div class="exercise-form">
@@ -106,6 +109,10 @@ function toggleExercise(exerciseId: number) {
           </div>
         </li>
       </ul>
+
+      <p v-else>
+        Add exercise
+      </p>
 
       <!--      {{ formattedDate(selectedDate) }} -->
     </div>
