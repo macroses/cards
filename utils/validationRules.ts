@@ -24,6 +24,10 @@ export function useValidationRules() {
       message: t('validation.minLength', { minLength }),
     }),
 
+    numbersOnly: (value: string) => ({
+      isValid: /^\d+$/.test(value),
+      message: t('validation.numbersOnly'),
+    }),
     // ...
   }
 

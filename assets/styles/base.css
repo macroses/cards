@@ -23,6 +23,7 @@
   --table-dark-bg: rgba(244, 247, 248, 1);
 
   --error-color: 223 31 61;
+  --error-bg: 251 214 217;
 
   font-family: 'Poppins', sans-serif;
 }

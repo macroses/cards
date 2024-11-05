@@ -21,10 +21,16 @@ const workout = reactive<Workout>({
 })
 
 const isWorkoutNameValid = ref(false)
+const isWorkoutSetValid = ref(false)
 
 const workoutNameRules = [
   createValidationRule('required'),
   createValidationRule('maxLength', 50),
+]
+
+const workoutSetRules = [
+  createValidationRule('required'),
+  createValidationRule('numbersOnly'),
 ]
 
 function getColor(color: string) {
@@ -133,10 +139,16 @@ function removeSet(exerciseId: number, setId: string) {
                 <TheInput
                   v-model.number="(exerciseData.get(exercise.id).currentWeight)"
                   placeholder="Вес"
+                  :validate-rules="workoutSetRules"
+                  @keydown="onlyNumbers($event)"
+                  @validation="isWorkoutSetValid = $event"
                 />
                 <TheInput
                   v-model.number="exerciseData.get(exercise.id).currentRepeats"
                   placeholder="Повторения"
+                  :validate-rules="workoutSetRules"
+                  @keydown="onlyNumbers($event)"
+                  @validation="isWorkoutSetValid = $event"
                 />
                 <select
                   v-model="exerciseData.get(exercise.id).currentDifficulty"

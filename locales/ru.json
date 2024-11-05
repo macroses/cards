@@ -7,8 +7,9 @@
   "create": "Создать",
 
   "validation": {
-    "required": "Обязательно для заполнения",
+    "required": "Обязательно",
     "maxLength": "Максимум {maxLength} символов",
-    "minLength": "Минимум {minLength} символов"
+    "minLength": "Минимум {minLength} символов",
+    "numbersOnly": "Только числа"
   }
 }

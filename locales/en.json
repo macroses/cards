@@ -7,8 +7,9 @@
   "create": "Create",
 
   "validation": {
-    "required": "This field is required",
+    "required": "Required",
     "maxLength": "Maximum {maxLength} characters",
-    "minLength": "Minimum {minLength} characters"
+    "minLength": "Minimum {minLength} characters",
+    "numbersOnly": "Only numbers"
   }
 }

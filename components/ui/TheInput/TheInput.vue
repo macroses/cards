@@ -1,14 +1,11 @@
 <script setup lang="ts">
-interface Rule { (value: string): { isValid: boolean, message: string } }
-
-interface Props {
-  placeholder?: string
-  validateRules?: Rule[]
-}
+import type Props from './inputTypes'
 
 const props = withDefaults(defineProps<Props>(), {
+  type: 'text',
+  inputmode: 'text',
   placeholder: '',
-  validateRules: () => [],
+  validateRules: () => ([]),
 })
 
 const emit = defineEmits(['validation'])
@@ -32,7 +29,6 @@ function validate() {
   error.value = ''
   emit('validation', true)
 }
-
 watch(modelValue, () => validate())
 </script>
 
@@ -41,8 +37,11 @@ watch(modelValue, () => validate())
     <input
       :id="uniqueId"
       v-model="modelValue"
-      :placeholder="placeholder"
+      :placeholder
       class="input"
+      :type
+      :inputmode="inputmode"
+      autocomplete="off"
       :class="{ 'input--error': error }"
       @blur="validate"
     >
