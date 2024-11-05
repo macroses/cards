@@ -27,6 +27,7 @@ const { addSet, removeSet } = useWorkoutSets(workout, exerciseData)
 <template>
   <WorkoutWrapper>
     <template #description>
+      {{ workout }}
       <WorkoutDescription
         @workout-title="workout.title = $event"
         @workout-color="workout.color = $event"
@@ -37,6 +38,7 @@ const { addSet, removeSet } = useWorkoutSets(workout, exerciseData)
         :exercises="selectedExercisesList"
         :active-exercise-id="activeExerciseId"
         :exercise-data="exerciseData"
+        :workout-exercises="workout.exercises"
         @toggle-exercise="toggleExercise"
         @remove-exercise="removeExercise"
         @add-set="addSet"

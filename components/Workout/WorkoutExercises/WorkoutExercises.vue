@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import type Exercise from '~/types/Exercise'
+import type { WorkoutSet } from '~/types/Workout'
 
 interface Props {
   exercises: Exercise[]
   activeExerciseId: number | null
   exerciseData: Map<any, any>
+  workoutExercises: {
+    exerciseId: number
+    sets: WorkoutSet[]
+  }[]
 }
 
 defineProps<Props>()
@@ -102,8 +107,13 @@ const workoutSetRules = [
           </button>
         </div>
       </div>
-      <table v-if="exerciseData.get(exercise.id).sets.length">
-        <tr v-for="set in exerciseData.get(exercise.id).sets" :key="set.id">
+      <table
+        v-if="workoutExercises.find(e => e.exerciseId === exercise.id)?.sets.length"
+      >
+        <tr
+          v-for="set in workoutExercises.find(e => e.exerciseId === exercise.id)?.sets"
+          :key="set.id"
+        >
           <td>{{ set.weight }}</td>
           <td>{{ set.repeats }}</td>
           <td>{{ set.difficulty }}/5</td>
