@@ -35,6 +35,10 @@ function getExerciseData(exerciseId: number) {
     currentDifficulty: 1,
   }
 }
+
+function workoutExercisesLength(id: number): number {
+  return props.workoutExercises.find(e => e.exerciseId === id)?.sets.length || 0
+}
 </script>
 
 <template>
@@ -115,7 +119,7 @@ function getExerciseData(exerciseId: number) {
           </button>
 
           <table
-            v-if="workoutExercises.find(e => e.exerciseId === exercise.id)?.sets.length"
+            v-if="workoutExercisesLength(exercise.id)"
           >
             <tr
               v-for="set in workoutExercises.find(e => e.exerciseId === exercise.id)?.sets"
