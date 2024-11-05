@@ -105,32 +105,33 @@ const workoutSetRules = [
           <button @click="emit('addSet', exercise.id)">
             Добавить
           </button>
+
+          <table
+            v-if="workoutExercises.find(e => e.exerciseId === exercise.id)?.sets.length"
+          >
+            <tr
+              v-for="set in workoutExercises.find(e => e.exerciseId === exercise.id)?.sets"
+              :key="set.id"
+            >
+              <td>{{ set.weight }}</td>
+              <td>{{ set.repeats }}</td>
+              <td>{{ set.difficulty }}/5</td>
+              <td>
+                <TheButton
+                  variant="ghost"
+                  icon-only
+                  @click="emit('removeSet', exercise.id, set.id)"
+                >
+                  <TheIcon
+                    icon-name="xmark"
+                    width="16px"
+                  />
+                </TheButton>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
-      <table
-        v-if="workoutExercises.find(e => e.exerciseId === exercise.id)?.sets.length"
-      >
-        <tr
-          v-for="set in workoutExercises.find(e => e.exerciseId === exercise.id)?.sets"
-          :key="set.id"
-        >
-          <td>{{ set.weight }}</td>
-          <td>{{ set.repeats }}</td>
-          <td>{{ set.difficulty }}/5</td>
-          <td>
-            <TheButton
-              variant="ghost"
-              icon-only
-              @click="emit('removeSet', exercise.id, set.id)"
-            >
-              <TheIcon
-                icon-name="xmark"
-                width="16px"
-              />
-            </TheButton>
-          </td>
-        </tr>
-      </table>
     </li>
   </ul>
   <p

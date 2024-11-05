@@ -21,10 +21,6 @@ export function useWorkoutSets(workout: Workout, exerciseData: Map<any, any>) {
       else {
         workout.exercises[exerciseIndex].sets.push(newSet)
       }
-
-      data.currentWeight = ''
-      data.currentRepeats = ''
-      data.currentDifficulty = 1
     }
   }
 

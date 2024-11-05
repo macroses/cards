@@ -27,7 +27,6 @@ const { addSet, removeSet } = useWorkoutSets(workout, exerciseData)
 <template>
   <WorkoutWrapper>
     <template #description>
-      {{ workout }}
       <WorkoutDescription
         @workout-title="workout.title = $event"
         @workout-color="workout.color = $event"
