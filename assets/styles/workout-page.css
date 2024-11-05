@@ -97,3 +97,10 @@
 .exercise-form {
   min-height: 0;
 }
+
+.exercises-empty {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

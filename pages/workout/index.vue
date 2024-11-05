@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useExerciseManagement } from '~/composables/exerciseManagment/useExerciseManagment'
-import type { WorkoutSet } from '~/types/Workout'
+import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
 import type Workout from '~/types/Workout'
+
+const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
 
 const {
   selectedExercisesList,
@@ -12,7 +14,6 @@ const {
   toggleExercise,
 } = useExerciseManagement()
 
-const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
 const workout = reactive<Workout>({
   title: '',
   color: '213, 0, 0',
@@ -20,84 +21,31 @@ const workout = reactive<Workout>({
   workoutDate: new Date(selectedDate.value.setHours(12, 0, 0, 0)),
 })
 
-const isWorkoutNameValid = ref(false)
-const isWorkoutSetValid = ref(false)
+const { addSet, getExerciseSets, removeSet } = useWorkoutSets(workout, exerciseData)
 
-const workoutNameRules = [
-  createValidationRule('required'),
-  createValidationRule('maxLength', 50),
-]
+const isWorkoutSetValid = ref(false)
 
 const workoutSetRules = [
   createValidationRule('required'),
   createValidationRule('numbersOnly'),
 ]
-
-function getColor(color: string) {
-  workout.color = color
-}
-
-function addSet(exerciseId: number) {
-  const data = exerciseData.get(exerciseId)
-  if (data?.currentWeight && data?.currentRepeats) {
-    const newSet: WorkoutSet = {
-      id: crypto.randomUUID(),
-      weight: Number(data.currentWeight),
-      repeats: Number(data.currentRepeats),
-      difficulty: data.currentDifficulty || 1,
-    }
-
-    const exerciseIndex = workout.exercises.findIndex(e => e.exerciseId === exerciseId)
-    if (exerciseIndex === -1) {
-      workout.exercises.push({
-        exerciseId,
-        sets: [newSet],
-      })
-    }
-    else {
-      workout.exercises[exerciseIndex].sets.push(newSet)
-    }
-
-    data.currentWeight = ''
-    data.currentRepeats = ''
-    data.currentDifficulty = 1
-  }
-}
-
-function getExerciseSets(exerciseId: number) {
-  const exercise = workout.exercises.find(e => e.exerciseId === exerciseId)
-  return exercise?.sets || []
-}
-
-function removeSet(exerciseId: number, setId: string) {
-  const exerciseIndex = workout.exercises.findIndex(e => e.exerciseId === exerciseId)
-  if (exerciseIndex !== -1) {
-    const exercise = workout.exercises[exerciseIndex]
-    exercise.sets = exercise.sets.filter(set => set.id !== setId)
-
-    // Если сетов больше нет, удаляем упражнение из списка
-    if (exercise.sets.length === 0) {
-      workout.exercises.splice(exerciseIndex, 1)
-    }
-  }
-}
 </script>
 
 <template>
   <div class="workout">
     <div class="workout-data">
       {{ workout }}
-      <div class="workout__description">
-        <div class="workout__name">
-          <TheInput
-            v-model="workout.title"
-            placeholder="Workout name"
-            :validate-rules="workoutNameRules"
-            @validation="isWorkoutNameValid = $event"
-          />
-          <TheDropdpownColor @drop-color="getColor" />
-        </div>
-      </div>
+      <WorkoutDescription
+        @workout-title="workout.title = $event"
+        @workout-color="workout.color = $event"
+      />
+
+      <!--      <WorkoutExercises -->
+      <!--        v-if="selectedExercisesList.length" -->
+      <!--        :exercises="selectedExercisesList" -->
+      <!--        @toggle-exercise="toggleExercise" -->
+      <!--        @remove-exercise="removeExercise" -->
+      <!--      /> -->
 
       <ul
         v-if="selectedExercisesList.length"
@@ -198,7 +146,10 @@ function removeSet(exerciseId: number, setId: string) {
         </li>
       </ul>
 
-      <p v-else>
+      <p
+        v-else
+        class="exercises-empty"
+      >
         Add exercise
       </p>
 

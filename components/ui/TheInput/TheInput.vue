@@ -33,7 +33,7 @@ watch(modelValue, () => validate())
 </script>
 
 <template>
-  <div class="input-wrapper">
+  <label class="input-wrapper">
     <input
       :id="uniqueId"
       v-model="modelValue"
@@ -55,10 +55,10 @@ watch(modelValue, () => validate())
         width="16px"
       />
     </button>
-    <div v-if="error" class="input__error-message">
+    <span v-if="error" class="input__error-message">
       {{ error }}
-    </div>
-  </div>
+    </span>
+  </label>
 </template>
 
 <style src="./style.css" />
