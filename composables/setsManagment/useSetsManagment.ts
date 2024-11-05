@@ -3,6 +3,7 @@ import type { Workout, WorkoutSet } from '~/types/Workout'
 export function useWorkoutSets(workout: Workout, exerciseData: Map<number, any>) {
   function addSet(exerciseId: number) {
     const data = exerciseData.get(exerciseId)
+
     if (data?.currentWeight && data?.currentRepeats) {
       const newSet: WorkoutSet = {
         id: crypto.randomUUID(),
@@ -17,10 +18,11 @@ export function useWorkoutSets(workout: Workout, exerciseData: Map<number, any>)
           exerciseId,
           sets: [newSet],
         })
+
+        return
       }
-      else {
-        workout.exercises[exerciseIndex].sets.push(newSet)
-      }
+
+      workout.exercises[exerciseIndex].sets.push(newSet)
     }
   }
 
@@ -35,8 +37,9 @@ export function useWorkoutSets(workout: Workout, exerciseData: Map<number, any>)
       const exercise = workout.exercises[exerciseIndex]
       exercise.sets = exercise.sets.filter(set => set.id !== setId)
 
-      if (exercise.sets.length === 0)
+      if (exercise.sets.length === 0) {
         workout.exercises.splice(exerciseIndex, 1)
+      }
     }
   }
 

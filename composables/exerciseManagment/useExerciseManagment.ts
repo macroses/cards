@@ -1,9 +1,9 @@
-import type { Exercise } from '~/types/Exercise'
+import type { Exercise, ExerciseData } from '~/types/Exercise'
 
 export function useExerciseManagement() {
   const selectedExercisesList = ref<Exercise[]>([])
   const activeExerciseId = ref<number | null>(null)
-  const exerciseData = reactive(new Map())
+  const exerciseData = reactive<Map<number, ExerciseData>>(new Map())
 
   function initExerciseData(exerciseId: number) {
     if (!exerciseData.has(exerciseId)) {

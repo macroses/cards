@@ -15,3 +15,10 @@ export interface Exercise {
   }
   description: string
 }
+
+export interface ExerciseData {
+  sets: any[] // можно будет уточнить тип позже
+  currentWeight: string
+  currentRepeats: string
+  currentDifficulty: number
+}
