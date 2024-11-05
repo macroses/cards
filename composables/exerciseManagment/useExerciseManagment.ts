@@ -1,4 +1,4 @@
-import type Exercise from '~/types/Exercise'
+import type { Exercise } from '~/types/Exercise'
 
 export function useExerciseManagement() {
   const selectedExercisesList = ref<Exercise[]>([])

@@ -1,5 +1,4 @@
-import type { WorkoutSet, WorkoutExercise } from '~/types/Workout'
-import type Workout from '~/types/Workout'
+import type { Workout, WorkoutSet } from '~/types/Workout'
 
 export function useWorkoutSets(workout: Workout, exerciseData: Map<any, any>) {
   function addSet(exerciseId: number) {

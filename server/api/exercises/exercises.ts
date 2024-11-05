@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import type Exercise from '~/types/Exercise'
+import type { Exercise } from '~/types/Exercise'
 
 export default defineEventHandler(() => {
   const path = resolve('./data/exercises.json')

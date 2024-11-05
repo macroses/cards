@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useExerciseManagement } from '~/composables/exerciseManagment/useExerciseManagment'
 import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
-import type Workout from '~/types/Workout'
+import type { Workout } from '~/types/Workout'
 
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
 

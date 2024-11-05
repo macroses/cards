@@ -10,7 +10,7 @@ export interface WorkoutExercise {
   sets: WorkoutSet[]
 }
 
-export default interface Workout {
+export interface Workout {
   title: string
   color: string
   exercises: WorkoutExercise[]

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type Exercise from '~/types/Exercise'
+import type { Exercise } from '~/types/Exercise'
 import type { WorkoutSet } from '~/types/Workout'
 
 interface Props {

@@ -1,4 +1,4 @@
-export default interface Exercise {
+export interface Exercise {
   id: number
   name: string
   muscles: {
