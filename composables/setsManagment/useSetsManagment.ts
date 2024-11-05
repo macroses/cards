@@ -1,6 +1,10 @@
-import type { Workout, WorkoutSet } from '~/types/Workout'
+import type {
+  ExerciseData,
+  Workout,
+  WorkoutSet,
+} from '~/types/Workout'
 
-export function useWorkoutSets(workout: Workout, exerciseData: Map<number, any>) {
+export function useWorkoutSets(workout: Workout, exerciseData: Map<number, ExerciseData>) {
   function addSet(exerciseId: number) {
     const data = exerciseData.get(exerciseId)
 

@@ -16,3 +16,10 @@ export interface Workout {
   exercises: WorkoutExercise[]
   workoutDate: Date
 }
+
+export interface ExerciseData {
+  sets?: WorkoutSet[]
+  currentWeight?: number
+  currentRepeats?: number
+  currentDifficulty?: number
+}

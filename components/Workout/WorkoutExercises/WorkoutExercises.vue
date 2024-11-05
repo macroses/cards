@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import type { Exercise } from '~/types/Exercise'
-import type { WorkoutSet } from '~/types/Workout'
+import type { ExerciseData, WorkoutSet } from '~/types/Workout'
 
 interface Props {
   exercises: Exercise[]
   activeExerciseId: number | null
-  exerciseData: Map<number, any>
+  exerciseData: Map<number, ExerciseData>
   workoutExercises: {
     exerciseId: number
     sets: WorkoutSet[]
   }[]
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
   toggleExercise: [id: number]
@@ -27,6 +27,14 @@ const workoutSetRules = [
   createValidationRule('required'),
   createValidationRule('numbersOnly'),
 ]
+
+function getExerciseData(exerciseId: number) {
+  return props.exerciseData.get(exerciseId) || {
+    currentWeight: '',
+    currentRepeats: '',
+    currentDifficulty: 1,
+  }
+}
 </script>
 
 <template>
@@ -68,21 +76,21 @@ const workoutSetRules = [
         <div class="exercise-form">
           <div class="exercise-form__main">
             <TheInput
-              v-model.number="(exerciseData.get(exercise.id).currentWeight)"
+              v-model.number="getExerciseData(exercise.id).currentWeight"
               placeholder="Вес"
               :validate-rules="workoutSetRules"
               @keydown="onlyNumbers($event)"
               @validation="isWorkoutSetValid = $event"
             />
             <TheInput
-              v-model.number="exerciseData.get(exercise.id).currentRepeats"
+              v-model.number="getExerciseData(exercise.id).currentRepeats"
               placeholder="Повторения"
               :validate-rules="workoutSetRules"
               @keydown="onlyNumbers($event)"
               @validation="isWorkoutSetValid = $event"
             />
             <select
-              v-model="exerciseData.get(exercise.id).currentDifficulty"
+              v-model="getExerciseData(exercise.id).currentDifficulty"
               class="difficulty-select"
             >
               <option value="1">
