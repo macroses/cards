@@ -28,7 +28,6 @@ export function useValidationRules() {
       isValid: /^\d+$/.test(value),
       message: t('validation.numbersOnly'),
     }),
-    // ...
   }
 
   return validationRules

@@ -31,7 +31,6 @@ export function useExerciseManagement() {
   }
 
   function toggleExercise(exerciseId: number) {
-    // Если есть активное упражнение и оно отличается от текущего - очищаем его данные
     if (activeExerciseId.value && activeExerciseId.value !== exerciseId) {
       const prevExerciseData = exerciseData.get(activeExerciseId.value)
       if (prevExerciseData) {
@@ -40,8 +39,7 @@ export function useExerciseManagement() {
         prevExerciseData.currentDifficulty = 1
       }
     }
-    
-    // Если закрываем текущее активное упражнение - очищаем его данные
+
     if (activeExerciseId.value === exerciseId) {
       const currentExerciseData = exerciseData.get(exerciseId)
       if (currentExerciseData) {
@@ -50,7 +48,7 @@ export function useExerciseManagement() {
         currentExerciseData.currentDifficulty = 1
       }
     }
-  
+
     activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
   }
 

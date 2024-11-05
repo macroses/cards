@@ -1,6 +1,6 @@
 import type { Workout, WorkoutSet } from '~/types/Workout'
 
-export function useWorkoutSets(workout: Workout, exerciseData: Map<any, any>) {
+export function useWorkoutSets(workout: Workout, exerciseData: Map<number, any>) {
   function addSet(exerciseId: number) {
     const data = exerciseData.get(exerciseId)
     if (data?.currentWeight && data?.currentRepeats) {

@@ -5,7 +5,7 @@ import type { WorkoutSet } from '~/types/Workout'
 interface Props {
   exercises: Exercise[]
   activeExerciseId: number | null
-  exerciseData: Map<any, any>
+  exerciseData: Map<number, any>
   workoutExercises: {
     exerciseId: number
     sets: WorkoutSet[]
