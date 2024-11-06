@@ -1,16 +1,5 @@
 <script setup lang="ts">
-import type { Exercise } from '~/types/Exercise'
-import type { ExerciseData, WorkoutSet } from '~/types/Workout'
-
-interface Props {
-  exercises: Exercise[]
-  activeExerciseId: number | null
-  exerciseData: Map<number, ExerciseData>
-  workoutExercises: {
-    exerciseId: number
-    sets: WorkoutSet[]
-  }[]
-}
+import type { Props } from './workoutExerciseTypes'
 
 const props = defineProps<Props>()
 
@@ -113,6 +102,7 @@ function workoutExercisesLength(id: number): number {
                 5
               </option>
             </select>
+            <div class="exercise-form__difficulty" />
           </div>
           <button @click="emit('addSet', exercise.id)">
             Добавить
