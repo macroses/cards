@@ -66,7 +66,10 @@ function workoutExercisesLength(id: number): number {
       </div>
 
       <div class="exercise-form__wr">
-        <div class="exercise-form">
+        <form
+          class="exercise-form"
+          @submit.prevent="emit('addSet', exercise.id)"
+        >
           <div class="exercise-form__main">
             <TheInput
               v-model.number="getExerciseData(exercise.id).currentWeight"
@@ -82,35 +85,17 @@ function workoutExercisesLength(id: number): number {
               @keydown="onlyNumbers($event)"
               @validation="isWorkoutSetValid = $event"
             />
-            <select
-              v-model="getExerciseData(exercise.id).currentDifficulty"
-              class="difficulty-select"
-            >
-              <option value="1">
-                1
-              </option>
-              <option value="2">
-                2
-              </option>
-              <option value="3">
-                3
-              </option>
-              <option value="4">
-                4
-              </option>
-              <option value="5">
-                5
-              </option>
-            </select>
-            <div class="exercise-form__difficulty" />
           </div>
-          <button @click="emit('addSet', exercise.id)">
-            Добавить
-          </button>
+          <div class="exercise-form__submit">
+            <WorkoutDifficulty
+              v-model="getExerciseData(exercise.id).currentDifficulty"
+            />
+            <TheButton>
+              Добавить
+            </TheButton>
+          </div>
 
-          <table
-            v-if="workoutExercisesLength(exercise.id)"
-          >
+          <table v-if="workoutExercisesLength(exercise.id)">
             <tr
               v-for="set in workoutExercises.find(e => e.exerciseId === exercise.id)?.sets"
               :key="set.id"
@@ -132,7 +117,7 @@ function workoutExercisesLength(id: number): number {
               </td>
             </tr>
           </table>
-        </div>
+        </form>
       </div>
     </li>
   </ul>
@@ -143,3 +128,5 @@ function workoutExercisesLength(id: number): number {
     Add exercise
   </p>
 </template>
+
+<style src="./style.css" />

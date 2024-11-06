@@ -1,0 +1,28 @@
+.difficulty-buttons {
+  display: flex;
+  flex-grow: 1;
+  border-radius: 12px;
+
+  button {
+    flex: 1;
+    height: 36px;
+    border: none;
+    opacity: 0.5;
+    background: none;
+
+    &.active {
+      opacity: 1;
+      outline: 1px solid
+    }
+
+    &:first-child {
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+  }
+}
