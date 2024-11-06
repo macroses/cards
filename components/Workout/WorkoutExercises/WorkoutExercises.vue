@@ -51,7 +51,7 @@ function workoutExercisesLength(id: number): number {
           width="14px"
           class="workout__exercises__title-icon"
         />
-        {{ exercise.name }}
+        <span>{{ exercise.name }}</span>
         <TheButton
           variant="ghost"
           icon-only
@@ -68,7 +68,6 @@ function workoutExercisesLength(id: number): number {
       <div class="exercise-form__wr">
         <form
           class="exercise-form"
-          @submit.prevent="emit('addSet', exercise.id)"
         >
           <div class="exercise-form__main">
             <TheInput
@@ -90,8 +89,8 @@ function workoutExercisesLength(id: number): number {
             <WorkoutDifficulty
               v-model="getExerciseData(exercise.id).currentDifficulty"
             />
-            <TheButton>
-              Добавить
+            <TheButton @click="emit('addSet', exercise.id)">
+              Append
             </TheButton>
           </div>
 

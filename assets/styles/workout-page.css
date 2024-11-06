@@ -55,8 +55,13 @@
   border-radius: 12px;
   transition: background-color 0.3s ease;
 
+  span {
+    flex-grow: 1;
+  }
+
   & .button {
     margin-left: auto;
+    width: auto;
   }
 
   &:hover {
@@ -87,10 +92,11 @@
   grid-template-rows: 0fr;
   overflow: hidden;
   transition: grid-template-rows 0.3s ease, padding 0.3s ease;
+  padding-inline: 12px;
 
   .workout__exercises-item.active & {
     grid-template-rows: 1fr;
-    padding: 12px;
+    padding-block: 12px;
   }
 }
 

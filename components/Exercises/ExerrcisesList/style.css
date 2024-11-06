@@ -26,8 +26,10 @@
   background-color: transparent;
   transition: box-shadow 0.3s;
 
-  &:hover {
-    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
+    }
   }
 }
 

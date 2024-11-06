@@ -14,6 +14,7 @@
   justify-content: center;
   outline: none;
   background: rgb(var(--btn-bg));
+  max-width: fit-content;
   color: var(--btn-color);
   padding: 0 12px;
   height: 36px;
@@ -118,6 +119,6 @@
 }
 
 .button--icon-only {
-  width: 36px;
+  max-width: 36px;
   padding: 0;
 }

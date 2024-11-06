@@ -6,22 +6,25 @@ const difficulty = defineModel<DifficultSet>({
 })
 
 const difficulties = [
-  { value: DifficultSet.warm, label: '1', color: '#ececec' },
-  { value: DifficultSet.low, label: '2', color: '#00c420' },
-  { value: DifficultSet.medium, label: '3', color: '#ffcb29' },
-  { value: DifficultSet.high, label: '4', color: '#ff9494' },
-  { value: DifficultSet.maximum, label: '5', color: '#e12525' },
+  { value: DifficultSet.warm, label: '1' },
+  { value: DifficultSet.low, label: '2' },
+  { value: DifficultSet.medium, label: '3' },
+  { value: DifficultSet.high, label: '4' },
+  { value: DifficultSet.maximum, label: '5' },
 ]
 </script>
 
 <template>
-  <div class="difficulty-buttons">
+  <div
+    class="difficulty-buttons"
+    :data-difficulty="difficulty"
+  >
     <button
       v-for="level in difficulties"
       :key="level.value"
+      type="button"
       class="difficulty-button"
       :class="{ active: difficulty === level.value }"
-      :style="{ backgroundColor: level.color }"
       @click="difficulty = level.value"
     >
       {{ level.label }}
