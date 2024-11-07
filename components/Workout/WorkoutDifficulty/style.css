@@ -2,7 +2,7 @@
   display: flex;
   flex-grow: 1;
   border-radius: 12px;
-  border: 1px solid rgb(var(--border-color));
+  outline: 1px solid rgb(var(--border-color));
   position: relative;
   overflow: hidden;
 }
@@ -45,7 +45,7 @@
 
 button {
   flex: 1;
-  height: 34px;
+  height: 36px;
   border: none;
   background: none;
   position: relative;

@@ -65,7 +65,8 @@ ul, p {
 button,
 input,
 textarea,
-select {
+select,
+p {
   font: inherit;
   color: rgb(var(--text-color));
 }

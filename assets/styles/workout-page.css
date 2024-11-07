@@ -33,7 +33,6 @@
 .workout__exercises-item {
   outline: 1px solid transparent;
   border-radius: 12px;
-  cursor: pointer;
   transition: outline-color ease-in-out 0.3s;
 
   &.active {
@@ -53,6 +52,7 @@
   font-weight: 500;
   padding: 0 0 0 12px;
   border-radius: 12px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 
   span {
@@ -109,4 +109,50 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.workout-form__sets {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.workout-form__sets-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  & .button {
+    min-width: 36px;
+  }
+}
+
+.workout-form__sets--difficulty {
+  width: 100px;
+}
+
+.workout-form__sets--weight {
+  flex: 1;
+}
+
+.workout-form__sets--repeats {
+  flex: 1;
+}
+
+.workout-form__sets-header {
+  display: flex;
+  align-items: center;
+  background-color: var(--table-dark-bg);
+  border-radius: 8px;
+
+  div:first-child {
+    width: 100px;
+  }
+
+  div:last-child {
+    width: 36px;
+  }
+
+  div:nth-child(2), div:nth-child(3) {
+    flex: 1;
+  }
 }

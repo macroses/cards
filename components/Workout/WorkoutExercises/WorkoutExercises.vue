@@ -13,8 +13,8 @@ const emit = defineEmits<{
 const isWorkoutSetValid = ref(false)
 
 const workoutSetRules = [
-  createValidationRule('required'),
   createValidationRule('numbersOnly'),
+  createValidationRule('maxLength', 5),
 ]
 
 function getExerciseData(exerciseId: number) {
@@ -52,6 +52,7 @@ function workoutExercisesLength(id: number): number {
           class="workout__exercises__title-icon"
         />
         <span>{{ exercise.name }}</span>
+        <div class="workout__exercise-tonnage" />
         <TheButton
           variant="ghost"
           icon-only
@@ -66,9 +67,7 @@ function workoutExercisesLength(id: number): number {
       </div>
 
       <div class="exercise-form__wr">
-        <form
-          class="exercise-form"
-        >
+        <form class="exercise-form">
           <div class="exercise-form__main">
             <TheInput
               v-model.number="getExerciseData(exercise.id).currentWeight"
@@ -94,28 +93,46 @@ function workoutExercisesLength(id: number): number {
             </TheButton>
           </div>
 
-          <table v-if="workoutExercisesLength(exercise.id)">
-            <tr
+          <ul
+            v-if="workoutExercisesLength(exercise.id)"
+            class="workout-form__sets"
+          >
+            <li class="workout-form__sets-header">
+              <div />
+              <div class="workout-form__sets-header--weight">
+                Вес
+              </div>
+              <div class="workout-form__sets-header--repeats">
+                Repeats
+              </div>
+              <div class="workout-form__sets-header--delete" />
+            </li>
+            <li
               v-for="set in workoutExercises.find(e => e.exerciseId === exercise.id)?.sets"
               :key="set.id"
+              class="workout-form__sets-item"
             >
-              <td>{{ set.weight }}</td>
-              <td>{{ set.repeats }}</td>
-              <td>{{ set.difficulty }}/5</td>
-              <td>
-                <TheButton
-                  variant="ghost"
-                  icon-only
-                  @click="emit('removeSet', exercise.id, set.id)"
-                >
-                  <TheIcon
-                    icon-name="xmark"
-                    width="16px"
-                  />
-                </TheButton>
-              </td>
-            </tr>
-          </table>
+              <div class="workout-form__sets--difficulty">
+                {{ set.difficulty }}
+              </div>
+              <div class="workout-form__sets--weight">
+                {{ set.weight }}
+              </div>
+              <div class="workout-form__sets--repeats">
+                {{ set.repeats }}
+              </div>
+              <TheButton
+                variant="ghost"
+                icon-only
+                @click="emit('removeSet', exercise.id, set.id)"
+              >
+                <TheIcon
+                  icon-name="xmark"
+                  width="16px"
+                />
+              </TheButton>
+            </li>
+          </ul>
         </form>
       </div>
     </li>
