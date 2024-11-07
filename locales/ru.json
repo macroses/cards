@@ -11,5 +11,9 @@
     "maxLength": "Максимум {maxLength} символов",
     "minLength": "Минимум {minLength} символов",
     "numbersOnly": "Только числа"
+  },
+  
+  "workout": {
+    "save_workout": "Сохранить тренировку"
   }
 }

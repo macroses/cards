@@ -5,6 +5,7 @@ const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   inputmode: 'text',
   placeholder: '',
+  noClear: false,
   validateRules: () => ([]),
 })
 
@@ -46,7 +47,7 @@ watch(modelValue, () => validate())
       @blur="validate"
     >
     <button
-      v-if="modelValue"
+      v-if="modelValue && !noClear"
       class="close-button"
       @click="modelValue = ''"
     >

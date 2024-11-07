@@ -11,5 +11,9 @@
     "maxLength": "Maximum {maxLength} characters",
     "minLength": "Minimum {minLength} characters",
     "numbersOnly": "Only numbers"
+  },
+  
+  "workout": {
+    "save_workout": "Save workout"
   }
 }

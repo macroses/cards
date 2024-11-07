@@ -1,19 +1,16 @@
-type ToastFunction = (message: string, type: 'success' | 'error' | 'info') => void
+type ToastFunction = (message: string, type?: 'success' | 'error' | 'info') => void
 
-const toastFunction = ref<ToastFunction | null>(null)
+const toastFunction = ref<ToastFunction>(() => {
+  console.warn('Toast function is not yet initialized')
+})
 
 export function useToastState() {
-  const setToastFunction = (fn: ToastFunction) => {
+  function setToastFunction(fn: ToastFunction) {
     toastFunction.value = fn
   }
 
-  const toast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
-    if (toastFunction.value) {
-      toastFunction.value(message, type)
-    }
-    else {
-      console.warn('Toast function is not available')
-    }
+  function toast(message: string, type: 'success' | 'error' | 'info' = 'info') {
+    toastFunction.value(message, type)
   }
 
   return {

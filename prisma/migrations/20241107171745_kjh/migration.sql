@@ -41,6 +41,36 @@ CREATE TABLE "VerificationToken" (
     "expires" DATETIME NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "Workout" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "color" TEXT NOT NULL,
+    "workoutDate" DATETIME NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Workout_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "WorkoutExercise" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "workoutId" TEXT NOT NULL,
+    "exerciseId" INTEGER NOT NULL,
+    CONSTRAINT "WorkoutExercise_workoutId_fkey" FOREIGN KEY ("workoutId") REFERENCES "Workout" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "WorkoutSet" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "workoutExerciseId" TEXT NOT NULL,
+    "weight" REAL NOT NULL,
+    "repeats" INTEGER NOT NULL,
+    "difficulty" INTEGER NOT NULL,
+    CONSTRAINT "WorkoutSet_workoutExerciseId_fkey" FOREIGN KEY ("workoutExerciseId") REFERENCES "WorkoutExercise" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_userId_key" ON "Account"("userId");
 

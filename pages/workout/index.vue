@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import BodySvg from '~/components/BodySvg/BodySvg.vue'
 import { useExerciseManagement } from '~/composables/exerciseManagment/useExerciseManagment'
 import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
+import { useWorkout } from '~/composables/workout/useWorkout'
 import type { Workout } from '~/types/Workout'
+
+const { t } = useI18n()
 
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
 const workout = reactive<Workout>({
@@ -21,6 +25,15 @@ const {
 } = useExerciseManagement({ workout })
 
 const { addSet, removeSet } = useWorkoutSets(workout, exerciseData)
+const { submitWorkout, isLoading } = useWorkout()
+
+async function saveWorkout() {
+  const success = await submitWorkout(workout)
+
+  if (success && !isLoading.value) {
+    navigateTo('/')
+  }
+}
 
 useHead({
   title: 'Workout',
@@ -46,6 +59,12 @@ useHead({
         @add-set="addSet"
         @remove-set="removeSet"
       />
+      <BodySvg />
+      <div class="workout-actions">
+        <TheButton @click="saveWorkout">
+          {{ t('workout.save_workout') }}
+        </TheButton>
+      </div>
     </template>
     <template #exercises-list>
       <ExercisesList
