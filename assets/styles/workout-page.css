@@ -196,7 +196,7 @@
   align-items: center;
   background-color: var(--table-dark-bg);
   border-radius: 8px;
-  padding-block: 2px;
+  padding-block: 6px;
   font-size: 12px;
 
   div:first-child {

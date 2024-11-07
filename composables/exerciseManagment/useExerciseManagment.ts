@@ -1,6 +1,11 @@
 import type { Exercise, ExerciseData } from '~/types/Exercise'
+import type { Workout } from '~/types/Workout'
 
-export function useExerciseManagement() {
+interface Props {
+  workout: Workout
+}
+
+export function useExerciseManagement({ workout }: Props) {
   const selectedExercisesList = ref<Exercise[]>([])
   const activeExerciseId = ref<number | null>(null)
   const exerciseData = reactive<Map<number, ExerciseData>>(new Map())
@@ -28,27 +33,30 @@ export function useExerciseManagement() {
   function removeExercise(exerciseId: number) {
     selectedExercisesList.value = selectedExercisesList.value.filter(exercise => exercise.id !== exerciseId)
     exerciseData.delete(exerciseId)
+    workout.exercises = workout.exercises.filter(exercise => exercise.exerciseId !== exerciseId)
+    if (activeExerciseId.value === exerciseId) {
+      activeExerciseId.value = null
+    }
   }
 
+  function resetExerciseData(exerciseId: number) {
+    const exerciseDataToReset = exerciseData.get(exerciseId)
+    if (exerciseDataToReset) {
+      exerciseDataToReset.currentWeight = ''
+      exerciseDataToReset.currentRepeats = ''
+      exerciseDataToReset.currentDifficulty = 1
+    }
+  }
+  
   function toggleExercise(exerciseId: number) {
     if (activeExerciseId.value && activeExerciseId.value !== exerciseId) {
-      const prevExerciseData = exerciseData.get(activeExerciseId.value)
-      if (prevExerciseData) {
-        prevExerciseData.currentWeight = ''
-        prevExerciseData.currentRepeats = ''
-        prevExerciseData.currentDifficulty = 1
-      }
+      resetExerciseData(activeExerciseId.value)
     }
-
+  
     if (activeExerciseId.value === exerciseId) {
-      const currentExerciseData = exerciseData.get(exerciseId)
-      if (currentExerciseData) {
-        currentExerciseData.currentWeight = ''
-        currentExerciseData.currentRepeats = ''
-        currentExerciseData.currentDifficulty = 1
-      }
+      resetExerciseData(exerciseId)
     }
-
+  
     activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
   }
 
