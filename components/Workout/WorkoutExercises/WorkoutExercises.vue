@@ -38,9 +38,23 @@ function calculateTonnage(exerciseId: number): number {
     return total + (set.weight * set.repeats)
   }, 0)
 }
+
+const totalTonnage = computed(() => {
+  return props.workoutExercises.reduce((total, exercise) => {
+    return total + exercise.sets.reduce((exerciseTotal, set) => {
+      return exerciseTotal + (set.weight * set.repeats)
+    }, 0)
+  }, 0)
+})
 </script>
 
 <template>
+  <div
+    v-auto-animate
+    class="workout-total"
+  >
+    Total tonnage: {{ (totalTonnage / 1000).toFixed(2) }} T
+  </div>
   <ul
     v-if="exercises.length"
     v-auto-animate
