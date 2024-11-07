@@ -4,7 +4,7 @@ import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
 import type { Workout } from '~/types/Workout'
 
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
-  const workout = reactive<Workout>({
+const workout = reactive<Workout>({
   title: '',
   color: '213, 0, 0',
   exercises: [],
@@ -21,6 +21,10 @@ const {
 } = useExerciseManagement({ workout })
 
 const { addSet, removeSet } = useWorkoutSets(workout, exerciseData)
+
+useHead({
+  title: 'Workout',
+})
 </script>
 
 <template>

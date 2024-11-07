@@ -2,6 +2,10 @@
 definePageMeta({ auth: true })
 
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
+
+useSeoMeta({
+  title: 'Home',
+})
 </script>
 
 <template>
