@@ -20,27 +20,27 @@
 
 .difficulty-buttons[data-difficulty="1"]::before {
   transform: translateX(0);
-  background-color: #ececec;
+  background-color: var(--difficulty-1);
 }
 
 .difficulty-buttons[data-difficulty="2"]::before {
   transform: translateX(100%);
-  background-color: #00c420;
+  background-color: var(--difficulty-2);
 }
 
 .difficulty-buttons[data-difficulty="3"]::before {
   transform: translateX(200%);
-  background-color: #ffcb29;
+  background-color: var(--difficulty-3);
 }
 
 .difficulty-buttons[data-difficulty="4"]::before {
   transform: translateX(300%);
-  background-color: #ff9494;
+  background-color: var(--difficulty-4);
 }
 
 .difficulty-buttons[data-difficulty="5"]::before {
   transform: translateX(400%);
-  background-color: #e12525;
+  background-color: var(--difficulty-5);
 }
 
 button {

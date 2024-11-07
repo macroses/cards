@@ -25,6 +25,12 @@
   --error-color: 223 31 61;
   --error-bg: 251 214 217;
 
+  --difficulty-1: #ececec;
+  --difficulty-2: #00c420;
+  --difficulty-3: #ffcb29;
+  --difficulty-4: #ff9494;
+  --difficulty-5: #e12525;
+
   font-family: 'Poppins', sans-serif;
 }
 
@@ -67,6 +73,13 @@ input,
 textarea,
 select,
 p {
+  -webkit-appearance: none;
   font: inherit;
   color: rgb(var(--text-color));
+}
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

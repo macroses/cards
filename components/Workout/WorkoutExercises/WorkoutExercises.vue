@@ -13,7 +13,6 @@ const emit = defineEmits<{
 const isWorkoutSetValid = ref(false)
 
 const workoutSetRules = [
-  createValidationRule('numbersOnly'),
   createValidationRule('maxLength', 5),
 ]
 
@@ -27,6 +26,17 @@ function getExerciseData(exerciseId: number) {
 
 function workoutExercisesLength(id: number): number {
   return props.workoutExercises.find(e => e.exerciseId === id)?.sets.length || 0
+}
+
+function calculateTonnage(exerciseId: number): number {
+  const exercise = props.workoutExercises.find(e => e.exerciseId === exerciseId)
+  if (!exercise) {
+    return 0
+  }
+
+  return exercise.sets.reduce((total, set) => {
+    return total + (set.weight * set.repeats)
+  }, 0)
 }
 </script>
 
@@ -52,35 +62,56 @@ function workoutExercisesLength(id: number): number {
           class="workout__exercises__title-icon"
         />
         <span>{{ exercise.name }}</span>
-        <div class="workout__exercise-tonnage" />
+        <div class="workout__exercises-chart">
+          <TheButton
+            variant="transparent"
+            icon-only
+          >
+            <TheIcon
+              icon-name="chart-waterfall"
+              width="14px"
+            />
+          </TheButton>
+        </div>
+        <div
+          v-if="calculateTonnage(exercise.id) > 0"
+          class="workout__exercise-tonnage"
+        >
+          {{ (calculateTonnage(exercise.id) / 1000).toFixed(2) }} T
+        </div>
         <TheButton
-          variant="ghost"
+          variant="transparent"
           icon-only
           @click="emit('removeExercise', exercise.id)"
         >
           <TheIcon
             icon-name="xmark"
             width="14px"
-            :style="{ color: 'rgb(var(--text-color))' }"
           />
         </TheButton>
       </div>
 
       <div class="exercise-form__wr">
-        <form class="exercise-form">
+        <form
+          v-auto-animate
+          class="exercise-form"
+          @submit.prevent="emit('addSet', exercise.id)"
+        >
           <div class="exercise-form__main">
             <TheInput
               v-model.number="getExerciseData(exercise.id).currentWeight"
               placeholder="Вес"
+              type="number"
+              inputmode="numeric"
               :validate-rules="workoutSetRules"
-              @keydown="onlyNumbers($event)"
               @validation="isWorkoutSetValid = $event"
             />
             <TheInput
               v-model.number="getExerciseData(exercise.id).currentRepeats"
               placeholder="Повторения"
+              type="number"
+              inputmode="numeric"
               :validate-rules="workoutSetRules"
-              @keydown="onlyNumbers($event)"
               @validation="isWorkoutSetValid = $event"
             />
           </div>
@@ -88,13 +119,17 @@ function workoutExercisesLength(id: number): number {
             <WorkoutDifficulty
               v-model="getExerciseData(exercise.id).currentDifficulty"
             />
-            <TheButton @click="emit('addSet', exercise.id)">
+            <TheButton
+              type="submit"
+              :disabled="!isWorkoutSetValid"
+            >
               Append
             </TheButton>
           </div>
 
           <ul
             v-if="workoutExercisesLength(exercise.id)"
+            v-auto-animate
             class="workout-form__sets"
           >
             <li class="workout-form__sets-header">
@@ -112,9 +147,10 @@ function workoutExercisesLength(id: number): number {
               :key="set.id"
               class="workout-form__sets-item"
             >
-              <div class="workout-form__sets--difficulty">
-                {{ set.difficulty }}
-              </div>
+              <div
+                class="workout-form__sets--difficulty"
+                :data-difficulty="set.difficulty"
+              />
               <div class="workout-form__sets--weight">
                 {{ set.weight }}
               </div>
@@ -122,7 +158,7 @@ function workoutExercisesLength(id: number): number {
                 {{ set.repeats }}
               </div>
               <TheButton
-                variant="ghost"
+                variant="transparent"
                 icon-only
                 @click="emit('removeSet', exercise.id, set.id)"
               >

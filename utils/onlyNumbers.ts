@@ -17,6 +17,7 @@ export default function (event: KeyboardEvent): void {
     'ArrowLeft',
     'ArrowRight',
     'Tab',
+    'Enter',
   ]
 
   if (!allowedKeys.includes(key)) {

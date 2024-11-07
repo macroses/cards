@@ -30,6 +30,53 @@
   }
 }
 
+.workout-form__sets--difficulty {
+  width: 60px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-align: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+}
+
+/* Стили для разных уровней сложности */
+.workout-form__sets--difficulty[data-difficulty="1"] {
+  &::before {
+    background-color: var(--difficulty-1);
+  }
+}
+
+.workout-form__sets--difficulty[data-difficulty="2"] {
+  &::before {
+    background-color: var(--difficulty-2);
+  }
+}
+
+.workout-form__sets--difficulty[data-difficulty="3"] {
+  &::before {
+    background-color: var(--difficulty-3);
+  }
+}
+
+.workout-form__sets--difficulty[data-difficulty="4"] {
+  &::before {
+    background-color: var(--difficulty-4);
+  }
+}
+
+.workout-form__sets--difficulty[data-difficulty="5"] {
+  &::before {
+    background-color: var(--difficulty-5);
+  }
+}
+
 .workout__exercises-item {
   outline: 1px solid transparent;
   border-radius: 12px;
@@ -41,6 +88,12 @@
 
   &.active .workout__exercises__title-icon {
     transform: rotate(180deg);
+  }
+
+  &.active .workout__exercises-item-name {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: var(--table-dark-bg);
   }
 }
 
@@ -127,7 +180,7 @@
 }
 
 .workout-form__sets--difficulty {
-  width: 100px;
+  width: 60px;
 }
 
 .workout-form__sets--weight {
@@ -143,9 +196,11 @@
   align-items: center;
   background-color: var(--table-dark-bg);
   border-radius: 8px;
+  padding-block: 2px;
+  font-size: 12px;
 
   div:first-child {
-    width: 100px;
+    width: 60px;
   }
 
   div:last-child {
@@ -155,4 +210,9 @@
   div:nth-child(2), div:nth-child(3) {
     flex: 1;
   }
+}
+
+.workout__exercise-tonnage {
+  font-size: 14px;
+  color: rgb(var(--text-color) / 0.7);
 }
