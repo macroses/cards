@@ -79,8 +79,8 @@ function closeModal() {
             />
           </p>
           <TheIcon
-            icon-name="angle-right"
-            width="14px"
+            icon-name="circle-info"
+            width="20px"
             @click="openModal"
           />
           <TheIcon
@@ -92,7 +92,10 @@ function closeModal() {
     </li>
   </ul>
   <Teleport to="body">
-    <TheModal ref="modalRef">
+    <TheModal
+      ref="modalRef"
+      bottom-modal
+    >
       <template #title>
         <h2>Заголовок модального окна</h2>
       </template>
