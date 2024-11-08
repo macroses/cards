@@ -17,10 +17,8 @@ export default defineEventHandler(() => {
   }, {} as Record<string, Exercise[]>)
 
   // Преобразуем в массив групп
-  const result = Object.entries(groupedExercises).map(([primary, exercises]) => ({
+  return Object.entries(groupedExercises).map(([primary, exercises]) => ({
     primary,
     exercises,
   }))
-
-  return result
 })
