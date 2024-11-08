@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { useGetExercisesList } from '~/composables/exerciseManagment/useGetExercisesList'
 import type { Exercise } from '~/types/Exercise'
 
@@ -24,6 +25,16 @@ function isExerciseSelected(exercise: Exercise) {
 
 function selectExercise(exercise: Exercise) {
   emit('selectExercise', exercise)
+}
+
+const modalRef = ref<InstanceType<typeof TheModal> | null>(null)
+
+function openModal() {
+  modalRef.value?.openModal()
+}
+
+function closeModal() {
+  modalRef.value?.closeModal()
 }
 </script>
 
@@ -70,11 +81,31 @@ function selectExercise(exercise: Exercise) {
           <TheIcon
             icon-name="angle-right"
             width="14px"
+            @click="openModal"
+          />
+          <TheIcon
+            icon-name="angle-right"
+            width="14px"
           />
         </li>
       </ul>
     </li>
   </ul>
+  <Teleport to="body">
+    <TheModal ref="modalRef">
+      <template #title>
+        <h2>Заголовок модального окна</h2>
+      </template>
+      <template #content>
+        <p>Содержимое модального окна</p>
+      </template>
+      <template #footer>
+        <TheButton @click="closeModal">
+          Закрыть
+        </TheButton>
+      </template>
+    </TheModal>
+  </Teleport>
 </template>
 
 <style src='./style.css' />

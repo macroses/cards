@@ -60,6 +60,13 @@ useHead({
       />
       <div class="workout-actions">
         <TheButton
+          variant="ghost"
+          link
+          link-path="/"
+        >
+          Back
+        </TheButton>
+        <TheButton
           :disabled="!workout.title"
           @click="saveWorkout"
         >
