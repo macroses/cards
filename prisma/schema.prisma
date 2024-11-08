@@ -64,6 +64,8 @@ model Workout {
   updatedAt   DateTime  @updatedAt
   exercises   WorkoutExercise[]
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([workoutDate], name: "workout_date_idx")
 }
 
 model WorkoutExercise {
