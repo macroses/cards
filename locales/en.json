@@ -12,7 +12,7 @@
     "minLength": "Minimum {minLength} characters",
     "numbersOnly": "Only numbers"
   },
-  
+
   "workout": {
     "save_workout": "Save workout"
   }

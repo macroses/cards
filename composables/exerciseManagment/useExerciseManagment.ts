@@ -47,16 +47,16 @@ export function useExerciseManagement({ workout }: Props) {
       exerciseDataToReset.currentDifficulty = 1
     }
   }
-  
+
   function toggleExercise(exerciseId: number) {
     if (activeExerciseId.value && activeExerciseId.value !== exerciseId) {
       resetExerciseData(activeExerciseId.value)
     }
-  
+
     if (activeExerciseId.value === exerciseId) {
       resetExerciseData(exerciseId)
     }
-  
+
     activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
   }
 

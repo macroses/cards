@@ -12,7 +12,7 @@
     "minLength": "Минимум {minLength} символов",
     "numbersOnly": "Только числа"
   },
-  
+
   "workout": {
     "save_workout": "Сохранить тренировку"
   }

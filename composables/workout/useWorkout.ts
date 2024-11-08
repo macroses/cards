@@ -26,7 +26,8 @@ export function useWorkout() {
       return true
     }
     catch (error: any) {
-      console.log('Error create workout', error)
+      console.error('Error create workout', error)
+
       return false
     }
     finally {

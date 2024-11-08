@@ -1,5 +1,3 @@
-import type { Workout } from './Workout'
-
 // Request types
 export interface CreateWorkoutRequest {
   title: string

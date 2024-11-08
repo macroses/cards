@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import BodySvg from '~/components/BodySvg/BodySvg.vue'
 import { useExerciseManagement } from '~/composables/exerciseManagment/useExerciseManagment'
 import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
 import { useWorkout } from '~/composables/workout/useWorkout'
