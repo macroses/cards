@@ -1,4 +1,4 @@
-import type { Exercise, ExerciseData } from '~/types/Exercise'
+import type { Exercise } from '~/types/Exercise'
 import type { Workout } from '~/types/Workout'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 export function useExerciseManagement({ workout }: Props) {
   const selectedExercisesList = ref<Exercise[]>([])
   const activeExerciseId = ref<number | null>(null)
-  const exerciseData = reactive<Map<number, ExerciseData>>(new Map())
+  const exerciseData = reactive<Map<number, any>>(new Map())
 
   function initExerciseData(exerciseId: number) {
     if (!exerciseData.has(exerciseId)) {

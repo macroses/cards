@@ -1,10 +1,6 @@
 <script setup lang="ts">
+import { useGetExercisesList } from '~/composables/exerciseManagment/useGetExercisesList'
 import type { Exercise } from '~/types/Exercise'
-
-interface ExerciseGroup {
-  primary: string
-  exercises: Exercise[]
-}
 
 const props = defineProps<{
   selectedExercises: Exercise[]
@@ -14,10 +10,7 @@ const emit = defineEmits<{
   selectExercise: [exercise: Exercise]
 }>()
 
-const { data: exercises } = await useAsyncData<ExerciseGroup[]>(
-  'exercises',
-  () => $fetch('/api/exercises/exercises'),
-)
+const { exercisesList } = useGetExercisesList()
 
 const activeGroupId = ref<string | null>(null)
 
@@ -37,7 +30,7 @@ function selectExercise(exercise: Exercise) {
 <template>
   <ul class="muscles-list">
     <li
-      v-for="group in exercises"
+      v-for="group in exercisesList"
       :key="group.primary"
       v-auto-animate
       class="muscle-item"

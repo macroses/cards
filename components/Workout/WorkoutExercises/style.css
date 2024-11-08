@@ -8,6 +8,7 @@
 .workout-total {
   height: 36px;
   padding-inline: 8px;
+  margin-bottom: 12px;
   border-radius: 8px;
   display: flex;
   gap: 4px;
@@ -18,4 +19,9 @@
   & span {
     font-weight: 500;
   }
+}
+
+.workout-actions {
+  display: flex;
+  justify-content: flex-end;
 }

@@ -58,9 +58,11 @@ useHead({
         @add-set="addSet"
         @remove-set="removeSet"
       />
-      <BodySvg />
       <div class="workout-actions">
-        <TheButton @click="saveWorkout">
+        <TheButton
+          :disabled="!workout.title"
+          @click="saveWorkout"
+        >
           {{ t('workout.save_workout') }}
         </TheButton>
       </div>

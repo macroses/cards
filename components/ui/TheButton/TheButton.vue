@@ -23,6 +23,7 @@ withDefaults(defineProps<ButtonProps>(), {
     v-if="!link"
     :type="type"
     :disabled="disabled"
+    :inert="disabled"
     class="button"
     :class="{
       [`button--${variant}`]: variant,
