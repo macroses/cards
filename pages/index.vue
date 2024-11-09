@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
+
 definePageMeta({ auth: true })
 
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
+const { workouts, status } = useGetWorkouts()
 
 useSeoMeta({
   title: 'Home',
@@ -11,6 +14,9 @@ useSeoMeta({
 <template>
   <div class="home-page__container">
     <div class="home-page__calendar">
+      <p v-if="status === 'loading'">
+        Loading...
+      </p>
       <Calendar v-model="selectedDate" />
       <MainNavigation />
     </div>
