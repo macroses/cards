@@ -14,7 +14,7 @@ useSeoMeta({
 <template>
   <div class="home-page__container">
     <div class="home-page__calendar">
-      <p v-if="status === 'loading'">
+      <p v-if="status === 'pending'">
         Loading...
       </p>
       <Calendar
