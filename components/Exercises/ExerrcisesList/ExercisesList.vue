@@ -29,11 +29,19 @@ function selectExercise(exercise: Exercise) {
 
 const modalRef = ref<InstanceType<typeof TheModal> | null>(null)
 
-function openModal() {
+const selectedExerciseForModal = ref<Exercise | null>(null)
+
+function openModal(exercise: Exercise) {
+  selectedExerciseForModal.value = exercise
   modalRef.value?.openModal()
 }
 
 function closeModal() {
+  if (selectedExerciseForModal.value) {
+    emit('selectExercise', selectedExerciseForModal.value)
+  }
+
+  selectedExerciseForModal.value = null
   modalRef.value?.closeModal()
 }
 </script>
@@ -63,31 +71,14 @@ function closeModal() {
         v-if="activeGroupId === group.primary"
         class="exercises-list"
       >
-        <li
+        <ExerciseItem
           v-for="exercise in group.exercises"
           :key="exercise.id"
-          class="exercise-item"
-          :class="{ added: isExerciseSelected(exercise) }"
-          @click="selectExercise(exercise)"
-        >
-          <p>
-            {{ exercise.name }}
-            <TheIcon
-              v-if="isExerciseSelected(exercise)"
-              icon-name="circle-check"
-              width="16px"
-            />
-          </p>
-          <TheIcon
-            icon-name="circle-info"
-            width="20px"
-            @click="openModal"
-          />
-          <TheIcon
-            icon-name="angle-right"
-            width="14px"
-          />
-        </li>
+          :exercise="exercise"
+          :is-selected="isExerciseSelected(exercise)"
+          @select="selectExercise"
+          @open-modal="openModal"
+        />
       </ul>
     </li>
   </ul>
@@ -96,15 +87,13 @@ function closeModal() {
       ref="modalRef"
       bottom-modal
     >
-      <template #title>
-        <h2>Заголовок модального окна</h2>
-      </template>
       <template #content>
-        <p>Содержимое модального окна</p>
-      </template>
-      <template #footer>
-        <TheButton @click="closeModal">
-          Закрыть
+        <ExerciseDetails :exercise="selectedExerciseForModal" />
+        <TheButton
+          v-if="!isExerciseSelected(selectedExerciseForModal!)"
+          @click="closeModal"
+        >
+          Добавить упражнение
         </TheButton>
       </template>
     </TheModal>
