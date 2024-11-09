@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { WORKOUT_DIFFICULTY } from '~/constants/workout'
+import { DIFFICULT_LEVEL, WORKOUT_DIFFICULTY } from '~/constants/workout'
 
-const difficulty = defineModel<WORKOUT_DIFFICULTY>({
-  default: WORKOUT_DIFFICULTY[0],
+const difficulty = defineModel<DIFFICULT_LEVEL>({
+  default: DIFFICULT_LEVEL.WARM,
 })
 </script>
 
