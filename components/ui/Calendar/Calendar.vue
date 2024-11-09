@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type CalendarProps from './calendarTypes'
 import dayjs from 'dayjs'
-import type CalendarProps from '~/components/ui/Calendar/calendarTypes'
 import { useCalendar } from '~/composables/calendar/useCalendar'
 
 const props = withDefaults(defineProps<CalendarProps>(), {
@@ -26,6 +26,12 @@ const {
 function selectDate(date: Date | null) {
   selectedDate.value = date
   modelValue.value = date
+}
+
+function getWorkoutForDate(date: Date) {
+  return props.workouts?.find(workout =>
+    dayjs(workout.workoutDate).format('YYYY-MM-DD') === dayjs(date).format('YYYY-MM-DD'),
+  )
 }
 
 watch(() => props.modelValue, (newValue: Date) => {
@@ -106,6 +112,11 @@ watch(() => props.modelValue, (newValue: Date) => {
           <span class="calendar-day__text">
             {{ day.date ? dayjs(day.date).format('D') : '' }}
           </span>
+          <span
+            v-if="getWorkoutForDate(day.date)"
+            class="workout-dot"
+            :style="{ backgroundColor: `rgb(${getWorkoutForDate(day.date)?.color})` }"
+          />
         </button>
       </div>
     </Transition>

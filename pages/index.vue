@@ -17,7 +17,10 @@ useSeoMeta({
       <p v-if="status === 'loading'">
         Loading...
       </p>
-      <Calendar v-model="selectedDate" />
+      <Calendar
+        v-model="selectedDate"
+        :workouts="workouts"
+      />
       <MainNavigation />
     </div>
   </div>

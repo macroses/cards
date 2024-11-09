@@ -1,7 +1,8 @@
+import type { GetWorkoutsResponse } from '~/types/GetWorkoutsResponse'
+
 export default interface CalendarProps {
-  modelValue: Date
+  modelValue: Date | null
   locale?: string
-  month?: Date
   firstDayOfWeek?: 0 | 1
-  disabled?: (date: Date) => boolean
+  workouts?: GetWorkoutsResponse[]
 }
