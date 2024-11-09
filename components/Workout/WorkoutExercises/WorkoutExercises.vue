@@ -49,7 +49,10 @@ const totalTonnage = computed(() => {
 </script>
 
 <template>
-  <div v-auto-animate class="workout-exercises-wrapper">
+  <div
+    v-auto-animate
+    class="workout-exercises-wrapper"
+  >
     <div
       v-if="totalTonnage"
       class="workout-total"

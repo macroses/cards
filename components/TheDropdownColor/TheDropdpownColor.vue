@@ -1,33 +1,17 @@
 <script setup lang="ts">
-interface ColorItem {
-  id: number
-  rgb: string
-}
+import { WORKOUT_COLORS } from '~/constants/workout'
+import type { WorkoutColor } from '~/constants/workout'
 
 const emit = defineEmits<{
-  dropColor: [color: string]
+  dropColor: [color: WorkoutColor]
 }>()
-
-const colorCollection: ColorItem[] = [
-  { id: 1, rgb: '213, 0, 0' },
-  { id: 2, rgb: '230, 124, 115' },
-  { id: 3, rgb: '244, 81, 3' },
-  { id: 4, rgb: '246, 191, 38' },
-  { id: 5, rgb: '51, 182, 121' },
-  { id: 6, rgb: '11, 128, 67' },
-  { id: 7, rgb: '3, 155, 229' },
-  { id: 8, rgb: '63, 81, 181' },
-  { id: 9, rgb: '121, 134, 203' },
-  { id: 10, rgb: '142, 36, 170' },
-  { id: 11, rgb: '97, 97, 97' },
-]
 
 const container = ref<HTMLElement | null>(null)
 
-const defaultColor = ref(colorCollection[0].rgb)
+const defaultColor = ref(WORKOUT_COLORS[0].rgb)
 const isDropDownActive = ref(false)
 
-function dropColor(color: string) {
+function dropColor(color: WorkoutColor) {
   isDropDownActive.value = false
   defaultColor.value = color
   emit('dropColor', color)
@@ -59,7 +43,7 @@ onClickOutside(container, () => (isDropDownActive.value = false))
       class="dropdown-color"
     >
       <li
-        v-for="colorItem in colorCollection"
+        v-for="colorItem in WORKOUT_COLORS"
         :key="colorItem.id"
         :style="{ backgroundColor: `rgb(${colorItem.rgb})` }"
         :class="{ active: colorItem.rgb === defaultColor }"

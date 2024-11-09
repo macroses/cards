@@ -45,11 +45,6 @@ watch(workoutTitle, (newValue) => {
         variant="secondary"
         @click="$emit('toggleCalendar')"
       >
-        <!--        <TheIcon -->
-        <!--          icon-name="calendar-arrow-down" -->
-        <!--          width="20px" -->
-        <!--        /> -->
-
         {{ formattedDate(selectedDate) }}
       </TheButton>
     </div>

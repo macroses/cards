@@ -1,3 +1,5 @@
+import type { DIFFICULT_LEVEL } from '@/constants/workout'
+
 export interface WorkoutSet {
   id: string
   weight: number
@@ -21,5 +23,5 @@ export interface ExerciseData {
   sets?: WorkoutSet[]
   currentWeight?: number
   currentRepeats?: number
-  currentDifficulty?: number
+  currentDifficulty?: DIFFICULT_LEVEL
 }

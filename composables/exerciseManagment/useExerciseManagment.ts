@@ -1,3 +1,4 @@
+import { DIFFICULT_LEVEL } from '~/constants/workout'
 import type { Exercise } from '~/types/Exercise'
 import type { Workout } from '~/types/Workout'
 
@@ -16,7 +17,7 @@ export function useExerciseManagement({ workout }: Props) {
         sets: [],
         currentWeight: '',
         currentRepeats: '',
-        currentDifficulty: 1,
+        currentDifficulty: DIFFICULT_LEVEL.WARM,
       })
     }
   }
