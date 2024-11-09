@@ -59,6 +59,7 @@ watch(() => props.modelValue, (newValue: Date) => {
         />
       </TheButton>
       <TheButton
+        v-if="!isCurrentMonth"
         variant="ghost"
         icon-only
         :disabled="isCurrentMonth"

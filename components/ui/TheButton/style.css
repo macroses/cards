@@ -104,3 +104,8 @@
   max-width: 36px;
   padding: 0;
 }
+
+.button--secondary {
+  background-color: rgb(var(--accent-color) / 0.2);
+  color: rgb(var(--accent-color));
+}

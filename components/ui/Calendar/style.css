@@ -70,12 +70,12 @@
 
 .slideMonth-enter-from {
   opacity: 0;
-  transform: translateX(30%);
+  transform: translateX(20px);
 }
 
 .slideMonth-leave-to {
   opacity: 0;
-  transform: translateX(-30%);
+  transform: translateX(-20px);
   overflow: hidden;
 }
 
@@ -88,11 +88,11 @@
 
 .slideMonthRight-enter-from {
   opacity: 0;
-  transform: translateX(-30%);
+  transform: translateX(-20px);
 }
 
 .slideMonthRight-leave-to {
   opacity: 0;
-  transform: translateX(30%);
+  transform: translateX(20px);
   overflow: hidden;
 }

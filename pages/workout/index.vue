@@ -34,6 +34,16 @@ async function saveWorkout() {
   }
 }
 
+const isCalendarVisible = ref(false)
+function toggleCalendar() {
+  isCalendarVisible.value = !isCalendarVisible.value
+}
+
+watch(selectedDate, (newDate: Date) => {
+  workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
+  isCalendarVisible.value = false
+})
+
 useHead({
   title: 'Workout',
 })
@@ -42,10 +52,18 @@ useHead({
 <template>
   <WorkoutWrapper>
     <template #description>
-      <WorkoutDescription
-        @workout-title="workout.title = $event"
-        @workout-color="workout.color = $event"
-      />
+      <div v-auto-animate>
+        <WorkoutDescription
+          :selected-date="selectedDate"
+          @workout-title="workout.title = $event"
+          @workout-color="workout.color = $event"
+          @toggle-calendar="toggleCalendar"
+        />
+        <Calendar
+          v-if="isCalendarVisible"
+          v-model="selectedDate"
+        />
+      </div>
     </template>
     <template #workout-exercises>
       <WorkoutExercises
@@ -59,13 +77,6 @@ useHead({
         @remove-set="removeSet"
       />
       <div class="workout-actions">
-        <TheButton
-          variant="ghost"
-          link
-          link-path="/"
-        >
-          Back
-        </TheButton>
         <TheButton
           :disabled="!workout.title"
           @click="saveWorkout"

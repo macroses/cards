@@ -1,7 +1,12 @@
 <script setup lang="ts">
+defineProps<{
+  selectedDate: Date
+}>()
+
 const emit = defineEmits<{
   (event: 'workoutTitle', title: string): void
   (event: 'workoutColor', color: string): void
+  (event: 'toggleCalendar'): void
 }>()
 
 const isWorkoutNameValid = ref(false)
@@ -36,6 +41,17 @@ watch(workoutTitle, (newValue) => {
         @validation="isWorkoutNameValid = $event"
       />
       <TheDropdpownColor @drop-color="changeWorkoutColor" />
+      <TheButton
+        variant="secondary"
+        @click="$emit('toggleCalendar')"
+      >
+        <!--        <TheIcon -->
+        <!--          icon-name="calendar-arrow-down" -->
+        <!--          width="20px" -->
+        <!--        /> -->
+
+        {{ formattedDate(selectedDate) }}
+      </TheButton>
     </div>
   </div>
 </template>
