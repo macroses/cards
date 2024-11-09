@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['validation'])
 
-const uniqueId = useId()
+const uniqueId = useId() as string
 const modelValue = defineModel<string | number | undefined>({ default: '' })
 const error = ref('')
 

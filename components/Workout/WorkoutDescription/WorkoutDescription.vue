@@ -10,7 +10,7 @@ const emit = defineEmits<{
 }>()
 
 const isWorkoutNameValid = ref(false)
-const workoutTitle = ref()
+const workoutTitle = ref('')
 
 const workoutNameRules = [
   createValidationRule('required'),

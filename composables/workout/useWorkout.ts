@@ -25,7 +25,7 @@ export function useWorkout() {
       toast('Тренировка успешно сохранена', 'success')
       return true
     }
-    catch (error: any) {
+    catch (error: unknown) {
       console.error('Error create workout', error)
 
       return false

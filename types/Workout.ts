@@ -25,3 +25,8 @@ export interface ExerciseData {
   currentRepeats?: number
   currentDifficulty?: DIFFICULT_LEVEL
 }
+
+export interface WorkoutExerciseWithSets {
+  exerciseId: number
+  sets: WorkoutSet[]
+}

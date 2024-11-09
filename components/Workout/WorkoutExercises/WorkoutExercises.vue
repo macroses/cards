@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Props } from './workoutExerciseTypes'
+import { useWorkoutExercises } from '~/composables/workout/useWorkoutExercises'
 
 const props = defineProps<Props>()
 
@@ -10,11 +11,13 @@ const emit = defineEmits<{
   removeSet: [exerciseId: number, setId: string]
 }>()
 
-const isWorkoutSetValid = ref(false)
-
-const workoutSetRules = [
-  createValidationRule('maxLength', 5),
-]
+const {
+  isWorkoutSetValid,
+  workoutSetRules,
+  workoutExercisesLength,
+  calculateTonnage,
+  totalTonnage,
+} = useWorkoutExercises(props.workoutExercises)
 
 function getExerciseData(exerciseId: number) {
   return props.exerciseData.get(exerciseId) || {
@@ -23,29 +26,6 @@ function getExerciseData(exerciseId: number) {
     currentDifficulty: 1,
   }
 }
-
-function workoutExercisesLength(id: number): number {
-  return props.workoutExercises.find(e => e.exerciseId === id)?.sets.length || 0
-}
-
-function calculateTonnage(exerciseId: number): number {
-  const exercise = props.workoutExercises.find(e => e.exerciseId === exerciseId)
-  if (!exercise) {
-    return 0
-  }
-
-  return exercise.sets.reduce((total, set) => {
-    return total + (set.weight * set.repeats)
-  }, 0)
-}
-
-const totalTonnage = computed(() => {
-  return props.workoutExercises.reduce((total, exercise) => {
-    return total + exercise.sets.reduce((exerciseTotal, set) => {
-      return exerciseTotal + (set.weight * set.repeats)
-    }, 0)
-  }, 0)
-})
 </script>
 
 <template>
