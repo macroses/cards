@@ -29,12 +29,12 @@ function selectDate(date: Date | null) {
 }
 
 function getWorkoutForDate(date: Date) {
-  return props.workouts?.find(workout =>
+  return props.workouts?.find((workout) =>
     dayjs(workout.workoutDate).format('YYYY-MM-DD') === dayjs(date).format('YYYY-MM-DD'),
   )
 }
 
-watch(() => props.modelValue, (newValue: Date) => {
+watch(() => props.modelValue, (newValue: Date | null) => {
   selectedDate.value = newValue
 })
 </script>
