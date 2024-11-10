@@ -61,6 +61,7 @@ model Workout {
   workoutDate DateTime
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  completed   Boolean
   exercises   WorkoutExercise[]
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
