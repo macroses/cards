@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 import { useSelectedWorkout } from '~/composables/workout/useSelectedWorkout'
+import { useWorkout } from '~/composables/workout/useWorkout'
 
 definePageMeta({ auth: true })
 
@@ -8,6 +10,19 @@ const {
   selectedDate,
   workouts,
 } = useSelectedWorkout()
+
+const { deleteWorkout } = useWorkout()
+const { fetchWorkouts } = useGetWorkouts()
+
+async function handleDeleteWorkout() {
+  if (!selectedWorkout.value?.id)
+    return
+
+  const success = await deleteWorkout(selectedWorkout.value.id)
+  if (success) {
+    await fetchWorkouts()
+  }
+}
 
 useSeoMeta({
   title: 'Home',
@@ -28,7 +43,12 @@ useSeoMeta({
         <p class="date-menu__event-name">
           {{ selectedWorkout?.title }}
         </p>
-        <TheButton>Удалить</TheButton>
+        <NuxtLink>
+          Перейти в тренировку
+        </NuxtLink>
+        <TheButton @click="handleDeleteWorkout">
+          Удалить
+        </TheButton>
         <TheButton>Изменить</TheButton>
         <TheButton>Копировать</TheButton>
         <TheButton>Поменять дату</TheButton>

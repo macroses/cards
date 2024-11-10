@@ -35,8 +35,30 @@ export function useWorkout() {
     }
   }
 
+  async function deleteWorkout(id: string) {
+    try {
+      isLoading.value = true
+      await $fetch('/api/workout/workout', {
+        method: 'DELETE',
+        body: { id },
+      })
+
+      toast('Тренировка успешно удалена', 'success')
+      return true
+    }
+    catch (error: unknown) {
+      console.error('Error delete workout', error)
+      toast('Ошибка при удалении тренировки', 'error')
+      return false
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     submitWorkout,
+    deleteWorkout,
     isLoading,
   }
 }
