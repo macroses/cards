@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useExerciseManagement } from '~/composables/exerciseManagment/useExerciseManagment'
 import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
+import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 import { useWorkout } from '~/composables/workout/useWorkout'
 import type { Workout } from '~/types/Workout'
 
@@ -30,6 +31,9 @@ async function saveWorkout() {
   const success = await submitWorkout(workout)
 
   if (success && !isLoading.value) {
+    const { refresh } = useGetWorkouts()
+
+    await refresh()
     navigateTo('/')
   }
 }

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
+import type { GetWorkoutsResponse } from '~/types/GetWorkoutsResponse'
 
 definePageMeta({ auth: true })
 
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
-const { workouts, status } = useGetWorkouts()
+const workouts = useState<GetWorkoutsResponse[] | null>('globalWorkouts', () => null)
 
 useSeoMeta({
   title: 'Home',
@@ -14,8 +14,8 @@ useSeoMeta({
 <template>
   <div class="home-page__container">
     <div class="home-page__calendar">
-      <p v-if="status === 'pending'">
-        Loading...
+      <p v-if="!workouts">
+        Загрузка...
       </p>
       <Calendar
         v-model="selectedDate"
