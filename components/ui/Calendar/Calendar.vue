@@ -40,7 +40,10 @@ watch(() => props.modelValue, (newValue: Date | null) => {
 </script>
 
 <template>
-  <div class="calendar">
+  <div
+    v-auto-animate
+    class="calendar"
+  >
     <div class="calendar-header">
       <TheButton
         variant="ghost"
@@ -90,36 +93,31 @@ watch(() => props.modelValue, (newValue: Date | null) => {
         </span>
       </Transition>
     </div>
-    <Transition
-      mode="out-in"
-      :name="transitionName"
+    <div
+      :key="currentMonth"
+      class="calendar-days"
     >
-      <div
-        :key="currentMonth"
-        class="calendar-days"
+      <button
+        v-for="(day, index) in daysInMonth"
+        :key="index"
+        class="calendar-day"
+        :class="{
+          'selected': isSelected(day.date),
+          'today': isToday(day.date),
+          'other-month': !day.isCurrentMonth,
+        }"
+        @click="selectDate(day.date)"
       >
-        <button
-          v-for="(day, index) in daysInMonth"
-          :key="index"
-          class="calendar-day"
-          :class="{
-            'selected': isSelected(day.date),
-            'today': isToday(day.date),
-            'other-month': !day.isCurrentMonth,
-          }"
-          @click="selectDate(day.date)"
-        >
-          <span class="calendar-day__text">
-            {{ day.date ? dayjs(day.date).format('D') : '' }}
-          </span>
-          <span
-            v-if="getWorkoutForDate(day.date)"
-            class="workout-dot"
-            :style="{ backgroundColor: `rgb(${getWorkoutForDate(day.date)?.color})` }"
-          />
-        </button>
-      </div>
-    </Transition>
+        <span class="calendar-day__text">
+          {{ day.date ? dayjs(day.date).format('D') : '' }}
+        </span>
+        <span
+          v-if="getWorkoutForDate(day.date)"
+          class="workout-dot"
+          :style="{ backgroundColor: `rgb(${getWorkoutForDate(day.date)?.color})` }"
+        />
+      </button>
+    </div>
   </div>
 </template>
 
