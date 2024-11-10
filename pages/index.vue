@@ -14,9 +14,9 @@ useSeoMeta({
 <template>
   <div class="home-page__container">
     <div class="home-page__calendar">
-      <p v-if="!workouts">
+      <TheLoader v-if="!workouts">
         Загрузка...
-      </p>
+      </TheLoader>
       <Calendar
         v-model="selectedDate"
         :workouts="workouts"
