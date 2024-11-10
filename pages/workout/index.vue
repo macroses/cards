@@ -70,7 +70,7 @@ useHead({
       </div>
     </template>
     <template #workout-exercises>
-      <WorkoutExercises
+      <LazyWorkoutExercises
         :exercises="selectedExercisesList"
         :active-exercise-id="activeExerciseId"
         :exercise-data="exerciseData"

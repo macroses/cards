@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import type { GetWorkoutsResponse } from '~/types/GetWorkoutsResponse'
+import { useSelectedWorkout } from '~/composables/workout/useSelectedWorkout'
 
 definePageMeta({ auth: true })
 
-const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
-const workouts = useState<GetWorkoutsResponse[] | null>('globalWorkouts', () => null)
+const {
+  selectedWorkout,
+  selectedDate,
+  workouts,
+} = useSelectedWorkout()
 
 useSeoMeta({
   title: 'Home',
@@ -20,6 +23,16 @@ useSeoMeta({
         :workouts="workouts"
       />
       <MainNavigation />
+
+      <div v-if="selectedWorkout" class="date-menu">
+        <p class="date-menu__event-name">
+          {{ selectedWorkout?.title }}
+        </p>
+        <TheButton>Удалить</TheButton>
+        <TheButton>Изменить</TheButton>
+        <TheButton>Копировать</TheButton>
+        <TheButton>Поменять дату</TheButton>
+      </div>
     </div>
   </div>
 </template>
