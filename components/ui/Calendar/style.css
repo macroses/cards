@@ -99,10 +99,10 @@
 
 .workout-dot {
   position: absolute;
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  bottom: 4px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
 }

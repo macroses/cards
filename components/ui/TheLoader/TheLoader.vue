@@ -43,7 +43,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
+  background-color: var(--main-bg);
   border-radius: inherit;
   z-index: 10000;
 }
