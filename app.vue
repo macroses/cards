@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 
-const { workouts } = useGetWorkouts()
+const { fetchWorkouts } = useGetWorkouts()
 
-const globalWorkouts = useState('globalWorkouts', () => workouts)
-
-watch(workouts, newWorkouts => globalWorkouts.value = newWorkouts)
+onMounted(async () => await fetchWorkouts())
 </script>
 
 <template>

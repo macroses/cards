@@ -1,29 +1,29 @@
 import type { GetWorkoutsResponse } from '~/types/GetWorkoutsResponse'
 
-const URL = '/api/workout/workouts'
+export function useGetWorkouts() {
+  const workouts = useState<GetWorkoutsResponse[] | null>('globalWorkouts', () => null)
+  const isLoading = ref(false)
+  const error = ref<string | null>(null)
 
-export function useGetWorkouts(updatedData?: unknown) {
-  const { data: workouts, status, error } = useFetch<GetWorkoutsResponse[]>(
-    URL,
-    {
-      key: 'globalWorkouts',
-      method: 'GET',
-      timeout: 10000,
-      dedupe: 'defer',
-      watch: updatedData ? [updatedData] : [],
-    },
-  )
-
-  async function refresh() {
-    return await $fetch<GetWorkoutsResponse[]>(URL, {
-      method: 'GET',
-    })
+  async function fetchWorkouts() {
+    try {
+      isLoading.value = true
+      workouts.value = await $fetch<GetWorkoutsResponse[]>('/api/workout/workouts')
+    }
+    catch (e: unknown) {
+      console.error('Ошибка при получении тренировок:', e)
+      error.value = 'Не удалось загрузить тренировки'
+      workouts.value = null
+    }
+    finally {
+      isLoading.value = false
+    }
   }
 
   return {
     workouts,
-    status,
+    isLoading,
     error,
-    refresh,
+    fetchWorkouts,
   }
 }

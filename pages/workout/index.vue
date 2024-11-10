@@ -3,6 +3,7 @@ import { useExerciseManagement } from '~/composables/exerciseManagment/useExerci
 import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
 import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 import { useWorkout } from '~/composables/workout/useWorkout'
+import { WORKOUT_COLORS } from '~/constants/workout'
 import type { Workout } from '~/types/Workout'
 
 const { t } = useI18n()
@@ -10,7 +11,7 @@ const { t } = useI18n()
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
 const workout = reactive<Workout>({
   title: '',
-  color: '213, 0, 0',
+  color: WORKOUT_COLORS[0].rgb,
   exercises: [],
   workoutDate: new Date(selectedDate.value.setHours(12, 0, 0, 0)),
 })
@@ -26,14 +27,13 @@ const {
 
 const { addSet, removeSet } = useWorkoutSets(workout, exerciseData)
 const { submitWorkout, isLoading } = useWorkout()
+const { fetchWorkouts } = useGetWorkouts()
 
 async function saveWorkout() {
   const success = await submitWorkout(workout)
 
   if (success && !isLoading.value) {
-    const { refresh } = useGetWorkouts()
-
-    await refresh()
+    await fetchWorkouts()
     navigateTo('/')
   }
 }
