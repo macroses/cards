@@ -5,6 +5,8 @@ import { useWorkout } from '~/composables/workout/useWorkout'
 
 definePageMeta({ auth: true })
 
+const { locale } = useI18n()
+
 const {
   selectedWorkout,
   selectedDate,
@@ -13,7 +15,6 @@ const {
 
 const { deleteWorkout } = useWorkout()
 const { fetchWorkouts } = useGetWorkouts()
-const { locale } = useI18n()
 
 async function handleDeleteWorkout() {
   if (!selectedWorkout.value?.id)
