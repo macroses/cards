@@ -2,8 +2,6 @@
 import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 import { useSelectedWorkout } from '~/composables/workout/useSelectedWorkout'
 import { useWorkout } from '~/composables/workout/useWorkout'
-import type { GetWorkoutsResponse } from '~/types/GetWorkoutsResponse'
-import type { Workout } from '~/types/Workout'
 
 definePageMeta({ auth: true })
 
@@ -15,11 +13,16 @@ const {
   workouts,
 } = useSelectedWorkout()
 
-const { deleteWorkout, submitWorkout } = useWorkout()
-const { fetchWorkouts } = useGetWorkouts()
+const {
+  deleteWorkout,
+  copyWorkout,
+  startCopyMode,
+  cancelCopyMode,
+  isCopyMode,
+  workoutToCopy,
+} = useWorkout()
 
-const isCopyMode = ref(false)
-const workoutToCopy = ref<GetWorkoutsResponse | null>(null)
+const { fetchWorkouts } = useGetWorkouts()
 
 async function handleDeleteWorkout() {
   if (!selectedWorkout.value?.id)
@@ -35,27 +38,21 @@ function handleCopyWorkout() {
   if (!selectedWorkout.value)
     return
 
-  isCopyMode.value = true
-  workoutToCopy.value = selectedWorkout.value
+  if (isCopyMode.value) {
+    cancelCopyMode()
+  }
+  else {
+    startCopyMode(selectedWorkout.value)
+  }
 }
 
 async function handleDateSelect(date: Date) {
   if (isCopyMode.value && workoutToCopy.value) {
-    const workoutCopy: Workout = {
-      title: workoutToCopy.value.title,
-      color: workoutToCopy.value.color,
-      workoutDate: date,
-      exercises: workoutToCopy.value.exercises.map(exercise => ({
-        exerciseId: exercise.exerciseId,
-        sets: [],
-      })),
-    }
+    const success = await copyWorkout(workoutToCopy.value, date)
 
-    const success = await submitWorkout(workoutCopy)
     if (success) {
       await fetchWorkouts()
-      isCopyMode.value = false
-      workoutToCopy.value = null
+      cancelCopyMode()
     }
   }
 }

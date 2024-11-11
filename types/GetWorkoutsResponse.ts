@@ -1,6 +1,4 @@
-import type { Exercise } from '~/types/Exercise'
-
-export interface GetWorkoutsResponse {
+export interface IWorkout {
   id: string
   userId: string
   title: string
@@ -8,5 +6,14 @@ export interface GetWorkoutsResponse {
   workoutDate: Date
   createdAt: Date
   updatedAt: Date
-  exercises: Exercise[]
+  exercises: {
+    id: string
+    exerciseId: number
+    sets: {
+      id: string
+      weight: number
+      repeats: number
+      difficulty: number
+    }[]
+  }[]
 }

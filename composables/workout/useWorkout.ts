@@ -1,8 +1,11 @@
+import type { IWorkout } from '~/types/GetWorkoutsResponse'
 import type { Workout } from '~/types/Workout'
 
 export function useWorkout() {
   const { toast } = useToastState()
   const isLoading = ref(false)
+  const isCopyMode = ref(false)
+  const workoutToCopy = ref<IWorkout | null>(null)
 
   async function submitWorkout(workout: Workout) {
     if (!workout.title) {
@@ -27,7 +30,6 @@ export function useWorkout() {
     }
     catch (error: unknown) {
       console.error('Error create workout', error)
-
       return false
     }
     finally {
@@ -56,9 +58,38 @@ export function useWorkout() {
     }
   }
 
+  async function copyWorkout(workout: IWorkout, date: Date) {
+    const workoutCopy: Workout = {
+      title: workout.title,
+      color: workout.color,
+      workoutDate: date,
+      exercises: workout.exercises.map(exercise => ({
+        exerciseId: exercise.exerciseId,
+        sets: [],
+      })),
+    }
+
+    return await submitWorkout(workoutCopy)
+  }
+
+  function startCopyMode(workout: IWorkout) {
+    isCopyMode.value = true
+    workoutToCopy.value = workout
+  }
+
+  function cancelCopyMode() {
+    isCopyMode.value = false
+    workoutToCopy.value = null
+  }
+
   return {
     submitWorkout,
     deleteWorkout,
+    copyWorkout,
+    startCopyMode,
+    cancelCopyMode,
     isLoading,
+    isCopyMode,
+    workoutToCopy,
   }
 }
