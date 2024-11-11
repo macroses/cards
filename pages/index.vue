@@ -29,6 +29,7 @@ async function handleDeleteWorkout() {
     return
 
   const success = await deleteWorkout(selectedWorkout.value.id)
+
   if (success) {
     await fetchWorkouts()
   }
