@@ -61,7 +61,9 @@ model Workout {
   workoutDate DateTime
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  completed   Boolean
+  completed   Boolean   @default(false)
+  workoutTime Int?     // Добавляем поле для хранения времени тренировки в миллисекундах
+  startedAt   DateTime? // Добавляем поле для отслеживания начала тренировки
   exercises   WorkoutExercise[]
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 

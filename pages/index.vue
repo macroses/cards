@@ -13,6 +13,7 @@ const {
 
 const { deleteWorkout } = useWorkout()
 const { fetchWorkouts } = useGetWorkouts()
+const { locale } = useI18n()
 
 async function handleDeleteWorkout() {
   if (!selectedWorkout.value?.id)
@@ -43,7 +44,8 @@ useSeoMeta({
         <p class="date-menu__event-name">
           {{ selectedWorkout?.title }}
         </p>
-        <NuxtLink>
+        {{ locale }}
+        <NuxtLink :to="`${locale}/workout/run/${selectedWorkout.id}`">
           Перейти в тренировку
         </NuxtLink>
         <TheButton @click="handleDeleteWorkout">
