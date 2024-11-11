@@ -3,6 +3,7 @@ import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 import { useSelectedWorkout } from '~/composables/workout/useSelectedWorkout'
 import { useWorkout } from '~/composables/workout/useWorkout'
 import type { GetWorkoutsResponse } from '~/types/GetWorkoutsResponse'
+import type { Workout } from '~/types/Workout'
 
 definePageMeta({ auth: true })
 
@@ -14,7 +15,7 @@ const {
   workouts,
 } = useSelectedWorkout()
 
-const { deleteWorkout, copyWorkout } = useWorkout()
+const { deleteWorkout, submitWorkout } = useWorkout()
 const { fetchWorkouts } = useGetWorkouts()
 
 const isCopyMode = ref(false)
@@ -40,8 +41,17 @@ function handleCopyWorkout() {
 
 async function handleDateSelect(date: Date) {
   if (isCopyMode.value && workoutToCopy.value) {
-    const success = await copyWorkout(workoutToCopy.value, date)
+    const workoutCopy: Workout = {
+      title: workoutToCopy.value.title,
+      color: workoutToCopy.value.color,
+      workoutDate: date,
+      exercises: workoutToCopy.value.exercises.map(exercise => ({
+        exerciseId: exercise.exerciseId,
+        sets: [],
+      })),
+    }
 
+    const success = await submitWorkout(workoutCopy)
     if (success) {
       await fetchWorkouts()
       isCopyMode.value = false

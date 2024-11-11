@@ -1,4 +1,3 @@
-import type { GetWorkoutsResponse } from '~/types/GetWorkoutsResponse'
 import type { Workout } from '~/types/Workout'
 
 export function useWorkout() {
@@ -57,24 +56,9 @@ export function useWorkout() {
     }
   }
 
-  async function copyWorkout(workout: GetWorkoutsResponse, date: Date) {
-    const workoutCopy: Workout = {
-      title: workout.title,
-      color: workout.color,
-      workoutDate: date,
-      exercises: workout.exercises.map(exercise => ({
-        exerciseId: exercise.id,
-        sets: [],
-      })),
-    }
-
-    return await submitWorkout(workoutCopy)
-  }
-
   return {
     submitWorkout,
     deleteWorkout,
-    copyWorkout,
     isLoading,
   }
 }
