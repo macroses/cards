@@ -2,6 +2,7 @@
 import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 import { useSelectedWorkout } from '~/composables/workout/useSelectedWorkout'
 import { useWorkout } from '~/composables/workout/useWorkout'
+import type { GetWorkoutsResponse } from '~/types/GetWorkoutsResponse'
 
 definePageMeta({ auth: true })
 
@@ -13,8 +14,11 @@ const {
   workouts,
 } = useSelectedWorkout()
 
-const { deleteWorkout } = useWorkout()
+const { deleteWorkout, copyWorkout } = useWorkout()
 const { fetchWorkouts } = useGetWorkouts()
+
+const isCopyMode = ref(false)
+const workoutToCopy = ref<GetWorkoutsResponse | null>(null)
 
 async function handleDeleteWorkout() {
   if (!selectedWorkout.value?.id)
@@ -23,6 +27,26 @@ async function handleDeleteWorkout() {
   const success = await deleteWorkout(selectedWorkout.value.id)
   if (success) {
     await fetchWorkouts()
+  }
+}
+
+function handleCopyWorkout() {
+  if (!selectedWorkout.value)
+    return
+
+  isCopyMode.value = true
+  workoutToCopy.value = selectedWorkout.value
+}
+
+async function handleDateSelect(date: Date) {
+  if (isCopyMode.value && workoutToCopy.value) {
+    const success = await copyWorkout(workoutToCopy.value, date)
+
+    if (success) {
+      await fetchWorkouts()
+      isCopyMode.value = false
+      workoutToCopy.value = null
+    }
   }
 }
 
@@ -38,6 +62,8 @@ useSeoMeta({
       <Calendar
         v-model="selectedDate"
         :workouts="workouts"
+        :copy-mode="isCopyMode"
+        @date-select="handleDateSelect"
       />
       <MainNavigation />
 
@@ -45,15 +71,16 @@ useSeoMeta({
         <p class="date-menu__event-name">
           {{ selectedWorkout?.title }}
         </p>
-        {{ locale }}
         <NuxtLink :to="`${locale}/workout/run/${selectedWorkout.id}`">
           Перейти в тренировку
         </NuxtLink>
         <TheButton @click="handleDeleteWorkout">
           Удалить
         </TheButton>
+        <TheButton @click="handleCopyWorkout">
+          {{ isCopyMode ? 'Отменить копирование' : 'Копировать' }}
+        </TheButton>
         <TheButton>Изменить</TheButton>
-        <TheButton>Копировать</TheButton>
         <TheButton>Поменять дату</TheButton>
       </div>
     </div>

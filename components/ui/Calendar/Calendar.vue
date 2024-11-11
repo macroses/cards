@@ -6,7 +6,13 @@ import { useCalendar } from '~/composables/calendar/useCalendar'
 const props = withDefaults(defineProps<CalendarProps>(), {
   locale: 'en',
   firstDayOfWeek: 1,
+  copyMode: false,
 })
+
+const emit = defineEmits<{
+  'update:modelValue': [date: Date | null]
+  'dateSelect': [date: Date]
+}>()
 
 const modelValue = defineModel<Date | null>({ default: new Date() })
 
@@ -24,8 +30,13 @@ const {
 } = useCalendar({ ...props, modelValue: modelValue.value })
 
 function selectDate(date: Date | null) {
+  if (props.copyMode && date) {
+    emit('dateSelect', date)
+    return
+  }
+
   selectedDate.value = date
-  modelValue.value = date
+  emit('update:modelValue', date)
 }
 
 function getWorkoutForDate(date: Date) {
@@ -43,6 +54,7 @@ watch(() => props.modelValue, (newValue: Date | null) => {
   <div
     v-auto-animate
     class="calendar"
+    :class="{ 'copy-mode': copyMode }"
   >
     <div class="calendar-header">
       <TheButton

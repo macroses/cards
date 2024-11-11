@@ -106,3 +106,20 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+.calendar.copy-mode {
+  position: relative;
+}
+
+.calendar.copy-mode::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px dashed rgb(var(--accent-color));
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.calendar.copy-mode .calendar-day:hover {
+  background-color: rgb(var(--accent-color) / 0.1);
+}

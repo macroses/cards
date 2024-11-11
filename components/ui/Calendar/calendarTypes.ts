@@ -5,4 +5,5 @@ export default interface CalendarProps {
   locale?: string
   firstDayOfWeek?: 0 | 1
   workouts?: GetWorkoutsResponse[] | null
+  copyMode?: boolean
 }
