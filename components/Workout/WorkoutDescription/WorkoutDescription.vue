@@ -9,8 +9,8 @@ const emit = defineEmits<{
   (event: 'toggleCalendar'): void
 }>()
 
-const isWorkoutNameValid = ref(false)
 const workoutTitle = ref('')
+const isWorkoutNameValid = ref(false)
 
 const workoutNameRules = [
   createValidationRule('required'),

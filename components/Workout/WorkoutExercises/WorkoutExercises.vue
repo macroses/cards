@@ -37,7 +37,7 @@ function getExerciseData(exerciseId: number) {
       v-if="totalTonnage"
       class="workout-total"
     >
-      Total tonnage:  <span> {{ (totalTonnage / 1000).toFixed(2) }} T</span>
+      Total tonnage: <span> {{ (totalTonnage / 1000).toFixed(2) }} T</span>
     </div>
     <ul
       v-if="exercises.length"

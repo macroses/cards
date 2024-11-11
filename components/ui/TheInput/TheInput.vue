@@ -30,6 +30,7 @@ function validate() {
   error.value = ''
   emit('validation', true)
 }
+
 watch(modelValue, () => validate())
 </script>
 

@@ -5,8 +5,6 @@ import { useWorkout } from '~/composables/workout/useWorkout'
 
 definePageMeta({ auth: true })
 
-const { locale } = useI18n()
-
 const {
   selectedWorkout,
   selectedDate,
@@ -25,8 +23,9 @@ const {
 const { fetchWorkouts } = useGetWorkouts()
 
 async function handleDeleteWorkout() {
-  if (!selectedWorkout.value?.id)
+  if (!selectedWorkout.value?.id) {
     return
+  }
 
   const success = await deleteWorkout(selectedWorkout.value.id)
 
@@ -41,10 +40,11 @@ function handleCopyWorkout() {
 
   if (isCopyMode.value) {
     cancelCopyMode()
+
+    return
   }
-  else {
-    startCopyMode(selectedWorkout.value)
-  }
+
+  startCopyMode(selectedWorkout.value)
 }
 
 async function handleDateSelect(date: Date) {
@@ -74,23 +74,13 @@ useSeoMeta({
         @date-select="handleDateSelect"
       />
       <MainNavigation />
-
-      <div v-if="selectedWorkout" class="date-menu">
-        <p class="date-menu__event-name">
-          {{ selectedWorkout?.title }}
-        </p>
-        <NuxtLink :to="`${locale}/workout/run/${selectedWorkout.id}`">
-          Перейти в тренировку
-        </NuxtLink>
-        <TheButton @click="handleDeleteWorkout">
-          Удалить
-        </TheButton>
-        <TheButton @click="handleCopyWorkout">
-          {{ isCopyMode ? 'Отменить копирование' : 'Копировать' }}
-        </TheButton>
-        <TheButton>Изменить</TheButton>
-        <TheButton>Поменять дату</TheButton>
-      </div>
+      <WorkoutFunctions
+        v-if="selectedWorkout"
+        :workout="selectedWorkout"
+        :is-copy-mode="isCopyMode"
+        @delete-workout="handleDeleteWorkout"
+        @copy-workout="handleCopyWorkout"
+      />
     </div>
   </div>
 </template>
