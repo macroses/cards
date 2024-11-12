@@ -14,7 +14,7 @@ export function useGetWorkouts() {
       workouts.value = await $fetch<CreateWorkoutResponse[]>(API_WORKOUTS)
     }
     catch (err: unknown) {
-      console.error('Ошибка при получении тренировок:', err)
+      console.error(err)
       error.value = 'Не удалось загрузить тренировки'
       workouts.value = null
     }

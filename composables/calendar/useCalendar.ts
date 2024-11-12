@@ -34,8 +34,10 @@ export function useCalendar(props: {
     // Корректируем день недели с учетом firstDayOfWeek
     if (props.firstDayOfWeek) {
       firstDay = firstDay - props.firstDayOfWeek
-      if (firstDay < 0)
+
+      if (firstDay < 0) {
         firstDay += 7
+      }
     }
 
     for (let i = 0; i < firstDay; i++) {
@@ -82,8 +84,9 @@ export function useCalendar(props: {
   }
 
   function isToday(date: Date | null) {
-    if (!date)
+    if (!date) {
       return false
+    }
 
     const today = new Date()
     return dayjs(date).isSame(today, DAY)

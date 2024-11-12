@@ -16,6 +16,7 @@ export function useWorkoutSets(workout: UserWorkout, exerciseData: Map<number, a
       }
 
       const exerciseIndex = workout.exercises.findIndex(e => e.exerciseId === exerciseId)
+
       if (exerciseIndex === -1) {
         workout.exercises.push({
           exerciseId,
@@ -31,11 +32,13 @@ export function useWorkoutSets(workout: UserWorkout, exerciseData: Map<number, a
 
   function getExerciseSets(exerciseId: number) {
     const exercise = workout.exercises.find(e => e.exerciseId === exerciseId)
+
     return exercise?.sets || []
   }
 
   function removeSet(exerciseId: number, setId: string) {
     const exerciseIndex = workout.exercises.findIndex(e => e.exerciseId === exerciseId)
+
     if (exerciseIndex !== -1) {
       const exercise = workout.exercises[exerciseIndex]
       exercise.sets = exercise.sets.filter(set => set.id !== setId)

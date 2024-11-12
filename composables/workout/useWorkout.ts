@@ -48,11 +48,13 @@ export function useWorkout() {
       })
 
       toast('Тренировка успешно удалена', 'success')
+
       return true
     }
     catch (error: unknown) {
       console.error('Error delete workout', error)
       toast('Ошибка при удалении тренировки', 'error')
+
       return false
     }
     finally {
@@ -87,17 +89,20 @@ export function useWorkout() {
   async function updateWorkoutDate(id: string, newDate: Date) {
     try {
       isLoading.value = true
+
       await $fetch('/api/workout/update-date', {
         method: 'PATCH',
         body: { id, newDate },
       })
 
       toast('Дата тренировки успешно изменена', 'success')
+
       return true
     }
     catch (error: unknown) {
       console.error('Ошибка при изменении даты тренировки:', error)
       toast('Ошибка при изменении даты тренировки', 'error')
+
       return false
     }
     finally {

@@ -23,7 +23,9 @@ export function useExerciseManagement({ workout }: Props) {
   }
 
   function selectExercise(exercise: ExerciseServerTemplate) {
-    const isExerciseExists = selectedExercisesList.value?.some((existingExercise: ExerciseServerTemplate) => existingExercise.id === exercise.id)
+    const isExerciseExists = selectedExercisesList.value?.some((existingExercise: ExerciseServerTemplate) => {
+      return existingExercise.id === exercise.id
+    })
 
     if (!isExerciseExists) {
       selectedExercisesList.value?.push(exercise)
@@ -34,7 +36,9 @@ export function useExerciseManagement({ workout }: Props) {
   function removeExercise(exerciseId: number) {
     selectedExercisesList.value = selectedExercisesList.value.filter(exercise => exercise.id !== exerciseId)
     exerciseData.delete(exerciseId)
+
     workout.exercises = workout.exercises.filter(exercise => exercise.exerciseId !== exerciseId)
+
     if (activeExerciseId.value === exerciseId) {
       activeExerciseId.value = null
     }
@@ -42,6 +46,7 @@ export function useExerciseManagement({ workout }: Props) {
 
   function resetExerciseData(exerciseId: number) {
     const exerciseDataToReset = exerciseData.get(exerciseId)
+
     if (exerciseDataToReset) {
       exerciseDataToReset.currentWeight = ''
       exerciseDataToReset.currentRepeats = ''

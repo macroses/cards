@@ -26,6 +26,7 @@ export function useExercisesList({ selectedExercises, emit }: ExercisesListProps
     if (selectedExerciseForModal.value) {
       emit('selectExercise', selectedExerciseForModal.value)
     }
+
     selectedExerciseForModal.value = null
     modalRef.value?.closeModal()
   }

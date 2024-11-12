@@ -7,19 +7,18 @@ export function useWorkoutExercises(workoutExercises: UserWorkoutExercise[]) {
     createValidationRule('maxLength', 5),
   ]
 
-  function workoutExercisesLength(id: number): number {
-    return workoutExercises.find(
-      (exercise: UserWorkoutExercise) => exercise.exerciseId === id,
-    )?.sets.length || 0
+  function workoutExercisesLength<T>(id: T): number {
+    return workoutExercises.find((exercise: UserWorkoutExercise) => exercise.exerciseId === id)?.sets.length || 0
   }
 
-  function calculateTonnage(exerciseId: number): number {
+  function calculateTonnage<T>(exerciseId: T): number {
     const exercise = workoutExercises.find(
       (exercise: UserWorkoutExercise) => exercise.exerciseId === exerciseId,
     )
 
-    if (!exercise)
+    if (!exercise) {
       return 0
+    }
 
     return exercise.sets.reduce((total: number, set: UserTrainingSession) => total + (set.weight * set.repeats), 0)
   }
