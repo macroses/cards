@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useDialog } from '~/composables/dialog/useDialog'
-
 const { dialogRef, openDialog, closeDialog } = useDialog()
 
 defineExpose({

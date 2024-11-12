@@ -44,4 +44,9 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+  imports: {
+    dirs: [
+      'composables/**',
+    ],
+  },
 })

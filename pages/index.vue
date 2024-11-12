@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
-import { useSelectedWorkout } from '~/composables/workout/useSelectedWorkout'
-import { useWorkout } from '~/composables/workout/useWorkout'
-
 definePageMeta({ auth: true })
 
 const {

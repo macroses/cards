@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
-
 const { fetchWorkouts } = useGetWorkouts()
 
 onMounted(async () => await fetchWorkouts())

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useWorkoutExercises } from '~/composables/workout/useWorkoutExercises'
 import type { WorkoutExercisesProps } from '~/ts/componentProps'
 
 const props = defineProps<WorkoutExercisesProps>()
