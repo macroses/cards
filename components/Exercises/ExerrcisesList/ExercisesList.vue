@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
-import { useGetExercisesList } from '~/composables/exerciseManagment/useGetExercisesList'
+import { useExercisesList } from '~/composables/exerciseManagment/useExercisesList'
 import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
 
 const props = defineProps<{
@@ -11,38 +11,19 @@ const emit = defineEmits<{
   selectExercise: [exercise: ExerciseServerTemplate]
 }>()
 
-const { exercisesList } = useGetExercisesList()
-
-const activeGroupId = ref<string | null>(null)
-
-function toggleGroup(groupId: string) {
-  activeGroupId.value = activeGroupId.value === groupId ? null : groupId
-}
-
-function isExerciseSelected(exercise: ExerciseServerTemplate) {
-  return props.selectedExercises.some(selected => selected.id === exercise.id)
-}
+const {
+  exercisesList,
+  activeGroupId,
+  modalRef,
+  selectedExerciseForModal,
+  toggleGroup,
+  isExerciseSelected,
+  openModal,
+  closeModal,
+} = useExercisesList({ selectedExercises: props.selectedExercises, emit })
 
 function selectExercise(exercise: ExerciseServerTemplate) {
   emit('selectExercise', exercise)
-}
-
-const modalRef = ref<InstanceType<typeof TheModal> | null>(null)
-
-const selectedExerciseForModal = ref<ExerciseServerTemplate | null>(null)
-
-function openModal(exercise: ExerciseServerTemplate) {
-  selectedExerciseForModal.value = exercise
-  modalRef.value?.openModal()
-}
-
-function closeModal() {
-  if (selectedExerciseForModal.value) {
-    emit('selectExercise', selectedExerciseForModal.value)
-  }
-
-  selectedExerciseForModal.value = null
-  modalRef.value?.closeModal()
 }
 </script>
 

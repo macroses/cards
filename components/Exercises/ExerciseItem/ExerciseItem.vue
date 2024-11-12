@@ -1,12 +1,8 @@
 <script setup lang="ts">
+import type { ExerciseItemProps } from '~/ts/componentProps'
 import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
 
-interface Props {
-  exercise: ExerciseServerTemplate
-  isSelected: boolean
-}
-
-defineProps<Props>()
+defineProps<ExerciseItemProps>()
 
 const emit = defineEmits<{
   select: [exercise: ExerciseServerTemplate]
