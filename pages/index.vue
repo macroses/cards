@@ -63,6 +63,7 @@ function handleChangeDateMode() {
 async function handleDateSelect(date: Date) {
   if (isCopyMode.value && workoutToCopy.value) {
     const success = await copyWorkout(workoutToCopy.value, date)
+
     if (success) {
       await fetchWorkouts()
       cancelCopyMode()
@@ -70,6 +71,7 @@ async function handleDateSelect(date: Date) {
   }
   else if (isDateChangeMode.value && workoutToChangeDate.value) {
     const success = await updateWorkoutDate(workoutToChangeDate.value.id, date)
+
     if (success) {
       await fetchWorkouts()
       cancelDateChangeMode()
