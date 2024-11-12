@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 
-withDefaults(defineProps<WorkoutFunctionsProps>(), {
+const props = withDefaults(defineProps<WorkoutFunctionsProps>(), {
   isCopyMode: false,
   isDateChangeMode: false,
 })
@@ -12,21 +12,26 @@ const emit = defineEmits<{
   (event: 'changeDateMode'): void
 }>()
 
-const { locale } = useI18n()
+const localePath = useLocalePath()
+
+function toWorkout() {
+  navigateTo(localePath(`/workout/run/${props.workout.id}`))
+}
 </script>
 
 <template>
-  <div class="date-menu">
-    <p class="date-menu__event-name">
+  <div
+    class="date-menu"
+    @click="toWorkout"
+  >
+    <div class="date-menu__event-name">
       {{ workout?.title }}
-    </p>
-    <NuxtLink :to="`${locale}/workout/run/${workout.id}`">
-      Перейти в тренировку
-    </NuxtLink>
-    <TheButton @click="emit('deleteWorkout')">
+    </div>
+
+    <TheButton @click.stop="emit('deleteWorkout')">
       Удалить
     </TheButton>
-    <TheButton @click="emit('copyWorkout')">
+    <TheButton @click.stop="emit('copyWorkout')">
       {{ isCopyMode ? 'Отменить копирование' : 'Копировать' }}
     </TheButton>
     <TheButton>Изменить</TheButton>
