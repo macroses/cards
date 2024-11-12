@@ -1,0 +1,87 @@
+.toaster {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.toaster-container {
+  position: relative;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  color: rgb(var(--text-color));
+  font-size: 12px;
+  max-width: 360px;
+  background-color: var(--main-bg);
+  border: 1px solid rgb(var(--accent-color) / 0.3);
+  box-shadow: rgba(0, 0, 0, 0.08) 0 4px 12px;
+}
+
+svg {
+  min-width: 20px;
+}
+
+.close-toast-button {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(var(--text-color));
+  margin-left: auto;
+}
+
+.close-icon {
+  min-width: 14px;
+  position: absolute;
+  z-index: 1;
+}
+
+.progress-ring {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+}
+
+.toast-success {
+  color: rgb(76 175 80);
+  border: 1px solid rgb(76 175 80 / 0.5);
+}
+
+.toast-error {
+  color: rgb(244 67 54);
+  border: 1px solid rgb(244 67 54 / 0.5);
+}
+
+.toast-info {
+  color: rgb(var(--accent-color));
+  border: 1px solid rgb(var(--accent-color) / 0.5);
+}
+
+/* Анимации для TransitionGroup */
+.toast-enter-active,
+.toast-leave-active {
+  transition: all 0.3s ease;
+}
+
+.toast-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}

@@ -5,3 +5,8 @@ export interface Toast {
 }
 
 export type ToastType = 'success' | 'error' | 'info'
+
+export interface ToastProps {
+  ms: number
+  hasClose: boolean
+}

@@ -1,12 +1,6 @@
 <script setup lang="ts">
 definePageMeta({ auth: true })
 
-const { toast } = useToastState()
-
-function debugToast() {
-  toast('Test message for toast, Test message for toast, Test message for toast')
-}
-
 const {
   selectedWorkout,
   selectedDate,
@@ -111,9 +105,6 @@ useSeoMeta({
         @copy-workout="handleCopyWorkout"
         @change-date-mode="handleChangeDateMode"
       />
-      <TheButton @click="debugToast">
-        toast
-      </TheButton>
     </div>
   </div>
 </template>
