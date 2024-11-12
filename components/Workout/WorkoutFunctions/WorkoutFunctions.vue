@@ -4,15 +4,18 @@ import type { IWorkout } from '~/types/GetWorkoutsResponse'
 interface Props {
   workout: IWorkout
   isCopyMode: boolean
+  isDateChangeMode: boolean
 }
 
 withDefaults(defineProps<Props>(), {
   isCopyMode: false,
+  isDateChangeMode: false,
 })
 
 const emit = defineEmits<{
   (event: 'deleteWorkout'): void
   (event: 'copyWorkout'): void
+  (event: 'changeDateMode'): void
 }>()
 
 const { locale } = useI18n()
@@ -33,6 +36,8 @@ const { locale } = useI18n()
       {{ isCopyMode ? 'Отменить копирование' : 'Копировать' }}
     </TheButton>
     <TheButton>Изменить</TheButton>
-    <TheButton>Поменять дату</TheButton>
+    <TheButton @click="emit('changeDateMode')">
+      {{ isDateChangeMode ? 'Отменить изменение даты' : 'Поменять дату' }}
+    </TheButton>
   </div>
 </template>

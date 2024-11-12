@@ -14,10 +14,15 @@ const {
 const {
   deleteWorkout,
   copyWorkout,
+  updateWorkoutDate,
   startCopyMode,
   cancelCopyMode,
+  startDateChangeMode,
+  cancelDateChangeMode,
   isCopyMode,
+  isDateChangeMode,
   workoutToCopy,
+  workoutToChangeDate,
 } = useWorkout()
 
 const { fetchWorkouts } = useGetWorkouts()
@@ -47,13 +52,31 @@ function handleCopyWorkout() {
   startCopyMode(selectedWorkout.value)
 }
 
+function handleChangeDateMode() {
+  if (!selectedWorkout.value)
+    return
+
+  if (isDateChangeMode.value) {
+    cancelDateChangeMode()
+    return
+  }
+
+  startDateChangeMode(selectedWorkout.value)
+}
+
 async function handleDateSelect(date: Date) {
   if (isCopyMode.value && workoutToCopy.value) {
     const success = await copyWorkout(workoutToCopy.value, date)
-
     if (success) {
       await fetchWorkouts()
       cancelCopyMode()
+    }
+  }
+  else if (isDateChangeMode.value && workoutToChangeDate.value) {
+    const success = await updateWorkoutDate(workoutToChangeDate.value.id, date)
+    if (success) {
+      await fetchWorkouts()
+      cancelDateChangeMode()
     }
   }
 }
@@ -71,6 +94,7 @@ useSeoMeta({
         v-model="selectedDate"
         :workouts="workouts"
         :copy-mode="isCopyMode"
+        :date-change-mode="isDateChangeMode"
         @date-select="handleDateSelect"
       />
       <MainNavigation />
@@ -78,8 +102,10 @@ useSeoMeta({
         v-if="selectedWorkout"
         :workout="selectedWorkout"
         :is-copy-mode="isCopyMode"
+        :is-date-change-mode="isDateChangeMode"
         @delete-workout="handleDeleteWorkout"
         @copy-workout="handleCopyWorkout"
+        @change-date-mode="handleChangeDateMode"
       />
     </div>
   </div>

@@ -7,6 +7,7 @@ const props = withDefaults(defineProps<CalendarProps>(), {
   locale: 'en',
   firstDayOfWeek: 1,
   copyMode: false,
+  dateChangeMode: false,
 })
 
 const emit = defineEmits<{
@@ -30,7 +31,7 @@ const {
 } = useCalendar({ ...props, modelValue: modelValue.value })
 
 function selectDate(date: Date | null) {
-  if (props.copyMode && date) {
+  if ((props.copyMode || props.dateChangeMode) && date) {
     emit('dateSelect', date)
     return
   }
@@ -54,7 +55,10 @@ watch(() => props.modelValue, (newValue: Date | null) => {
   <div
     v-auto-animate
     class="calendar"
-    :class="{ 'copy-mode': copyMode }"
+    :class="{
+      'copy-mode': copyMode,
+      'date-change-mode': dateChangeMode,
+    }"
   >
     <div class="calendar-header">
       <TheButton
@@ -134,3 +138,18 @@ watch(() => props.modelValue, (newValue: Date | null) => {
 </template>
 
 <style src="./style.css" />
+
+<style>
+.calendar.date-change-mode::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px dashed rgb(var(--accent-color));
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.calendar.date-change-mode .calendar-day:hover {
+  background-color: rgb(var(--accent-color) / 0.1);
+}
+</style>

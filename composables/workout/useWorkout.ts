@@ -6,6 +6,8 @@ export function useWorkout() {
   const isLoading = ref(false)
   const isCopyMode = ref(false)
   const workoutToCopy = ref<IWorkout | null>(null)
+  const isDateChangeMode = ref(false)
+  const workoutToChangeDate = ref<IWorkout | null>(null)
 
   async function submitWorkout(workout: Workout) {
     if (!workout.title) {
@@ -82,6 +84,37 @@ export function useWorkout() {
     workoutToCopy.value = null
   }
 
+  async function updateWorkoutDate(id: string, newDate: Date) {
+    try {
+      isLoading.value = true
+      await $fetch('/api/workout/update-date', {
+        method: 'PATCH',
+        body: { id, newDate },
+      })
+
+      toast('Дата тренировки успешно изменена', 'success')
+      return true
+    }
+    catch (error: unknown) {
+      console.error('Ошибка при изменении даты тренировки:', error)
+      toast('Ошибка при изменении даты тренировки', 'error')
+      return false
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
+
+  function startDateChangeMode(workout: IWorkout) {
+    isDateChangeMode.value = true
+    workoutToChangeDate.value = workout
+  }
+
+  function cancelDateChangeMode() {
+    isDateChangeMode.value = false
+    workoutToChangeDate.value = null
+  }
+
   return {
     submitWorkout,
     deleteWorkout,
@@ -91,5 +124,10 @@ export function useWorkout() {
     isLoading,
     isCopyMode,
     workoutToCopy,
+    updateWorkoutDate,
+    startDateChangeMode,
+    cancelDateChangeMode,
+    isDateChangeMode,
+    workoutToChangeDate,
   }
 }

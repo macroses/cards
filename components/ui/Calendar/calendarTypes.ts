@@ -6,4 +6,5 @@ export default interface CalendarProps {
   firstDayOfWeek?: 0 | 1
   workouts?: IWorkout[] | null
   copyMode?: boolean
+  dateChangeMode?: boolean
 }
