@@ -1,10 +1,11 @@
+import { MAX_LENGTH } from '~/constants/strings'
 import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces/workoutUserTemplate.interface'
 
 export function useWorkoutExercises(workoutExercises: UserWorkoutExercise[]) {
   const isWorkoutSetValid = ref(false)
 
   const workoutSetRules = [
-    createValidationRule('maxLength', 5),
+    createValidationRule(MAX_LENGTH, 5),
   ]
 
   function workoutExercisesLength<T>(id: T): number {
