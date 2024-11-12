@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Props } from './workoutExerciseTypes'
 import { useWorkoutExercises } from '~/composables/workout/useWorkoutExercises'
+import type { WorkoutExercisesProps } from '~/ts/componentProps'
 
-const props = defineProps<Props>()
+const props = defineProps<WorkoutExercisesProps>()
 
 const emit = defineEmits<{
   toggleExercise: [id: number]

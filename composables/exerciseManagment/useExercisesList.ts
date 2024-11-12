@@ -1,15 +1,8 @@
-import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
+import type { ExercisesListProps } from '~/ts/componentProps'
+import type { ExerciseServerTemplate } from '~/ts/interfaces'
 import { useGetExercisesList } from './useGetExercisesList'
 
-interface UseExercisesListProps {
-  selectedExercises: ExerciseServerTemplate[]
-  emit: (
-    event: 'selectExercise',
-    exercise: ExerciseServerTemplate
-  ) => void
-}
-
-export function useExercisesList({ selectedExercises, emit }: UseExercisesListProps) {
+export function useExercisesList({ selectedExercises, emit }: ExercisesListProps) {
   const { exercisesList } = useGetExercisesList()
 
   const activeGroupId = ref<string | null>(null)

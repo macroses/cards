@@ -3,7 +3,9 @@ const loader = ref(null)
 const parent = useParentElement(loader)
 
 onMounted(() => {
-  parent.value.style.position = 'relative'
+  if (parent.value) {
+    parent.value.style.position = 'relative'
+  }
 })
 </script>
 

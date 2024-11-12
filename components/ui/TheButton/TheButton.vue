@@ -1,12 +1,5 @@
 <script setup lang="ts">
-interface ButtonProps {
-  disabled?: boolean
-  type?: 'button' | 'submit' | 'reset'
-  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger' | 'transparent'
-  iconOnly?: boolean
-  link?: boolean
-  linkPath?: string
-}
+import type { ButtonProps } from '~/ts/componentProps'
 
 withDefaults(defineProps<ButtonProps>(), {
   disabled: false,

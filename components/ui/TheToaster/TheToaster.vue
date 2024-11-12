@@ -1,11 +1,5 @@
 <script setup lang="ts">
-interface Toast {
-  id: number
-  message: string
-  type: 'success' | 'error' | 'info'
-}
-
-type ToastType = 'success' | 'error' | 'info'
+import type { Toast, ToastType } from '~/ts/componentProps'
 
 const toasts = ref<Toast[]>([])
 let toastId = 0

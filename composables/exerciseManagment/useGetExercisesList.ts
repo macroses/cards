@@ -1,4 +1,4 @@
-import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
+import type { ExerciseServerTemplate } from '~/ts/interfaces'
 
 interface ExerciseGroup {
   primary: string

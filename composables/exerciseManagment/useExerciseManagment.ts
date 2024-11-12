@@ -1,5 +1,5 @@
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
-import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
+import type { ExerciseServerTemplate } from '~/ts/interfaces'
 import type { UserWorkout } from '~/ts/interfaces/workoutUserTemplate.interface'
 
 interface Props {

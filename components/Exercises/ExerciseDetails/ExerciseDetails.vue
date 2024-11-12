@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
+import type { ExerciseServerTemplate } from '~/ts/interfaces'
 
 defineProps<{
   exercise: ExerciseServerTemplate | null

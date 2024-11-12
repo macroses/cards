@@ -1,9 +1,5 @@
 <script setup lang="ts">
-interface IconProps {
-  width?: string
-  iconName: string
-  fill?: string
-}
+import type { IconProps } from '~/ts/componentProps'
 
 defineProps<IconProps>()
 </script>

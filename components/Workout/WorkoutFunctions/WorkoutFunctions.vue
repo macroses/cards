@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 
-interface Props {
-  workout: CreateWorkoutResponse
-  isCopyMode: boolean
-  isDateChangeMode: boolean
-}
-
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<WorkoutFunctionsProps>(), {
   isCopyMode: false,
   isDateChangeMode: false,
 })

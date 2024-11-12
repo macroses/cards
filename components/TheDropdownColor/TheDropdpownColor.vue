@@ -3,7 +3,7 @@ import { WORKOUT_COLORS } from '~/constants/workout'
 import type { WorkoutColor } from '~/ts/types/workoutColor.type'
 
 const emit = defineEmits<{
-  dropColor: [color: WorkoutColor]
+  dropColor: [color: WorkoutColor['rgb']]
 }>()
 
 const container = ref<HTMLElement | null>(null)
@@ -11,7 +11,7 @@ const container = ref<HTMLElement | null>(null)
 const defaultColor = ref(WORKOUT_COLORS[0].rgb)
 const isDropDownActive = ref(false)
 
-function dropColor(color: string) {
+function dropColor(color: WorkoutColor['rgb']) {
   isDropDownActive.value = false
   defaultColor.value = color
   emit('dropColor', color)

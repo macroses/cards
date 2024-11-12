@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type Props from './inputTypes'
+import type InputTextProps from '~/ts/componentProps/InputText.prop'
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<InputTextProps>(), {
   type: 'text',
   inputmode: 'text',
   placeholder: '',
