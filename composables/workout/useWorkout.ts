@@ -1,13 +1,14 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
-import type { UserWorkout } from '~/ts/interfaces/workoutUserTemplate.interface'
+import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
 
 export function useWorkout() {
   const { toast } = useToastState()
   const isLoading = ref(false)
-  const isCopyMode = ref(false)
+
   const workoutToCopy = ref<CreateWorkoutResponse | null>(null)
-  const isDateChangeMode = ref(false)
   const workoutToChangeDate = ref<CreateWorkoutResponse | null>(null)
+
+  const isDateChangeMode = ref(false)
+  const isCopyMode = ref(false)
 
   async function submitWorkout(workout: UserWorkout) {
     if (!workout.title) {

@@ -1,5 +1,5 @@
 import { MAX_LENGTH } from '~/constants/strings'
-import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces/workoutUserTemplate.interface'
+import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
 
 export function useWorkoutExercises(workoutExercises: UserWorkoutExercise[]) {
   const isWorkoutSetValid = ref(false)
@@ -26,9 +26,7 @@ export function useWorkoutExercises(workoutExercises: UserWorkoutExercise[]) {
 
   const totalTonnage = computed(() => {
     return workoutExercises.reduce((total: number, exercise: UserWorkoutExercise) => {
-      return total + exercise.sets.reduce((exerciseTotal: number, set: UserTrainingSession) => {
-        return exerciseTotal + (set.weight * set.repeats)
-      }, 0)
+      return total + calculateTonnage(exercise.exerciseId)
     }, 0)
   })
 

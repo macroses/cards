@@ -1,10 +1,10 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import { GLOBAL_WORKOUTS } from '~/constants/strings'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
-const KEY = 'globalWorkouts'
 const API_WORKOUTS = '/api/workout/workouts'
 
 export function useGetWorkouts() {
-  const workouts = useState<CreateWorkoutResponse[] | null>(KEY, () => null)
+  const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 

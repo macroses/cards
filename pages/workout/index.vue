@@ -4,7 +4,7 @@ import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
 import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 import { useWorkout } from '~/composables/workout/useWorkout'
 import { WORKOUT_COLORS } from '~/constants/workout'
-import type { UserWorkout } from '~/ts/interfaces/workoutUserTemplate.interface'
+import type { UserWorkout } from '~/ts/interfaces'
 
 const { t } = useI18n()
 

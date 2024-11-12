@@ -1,7 +1,7 @@
 import type {
   UserTrainingSession,
   UserWorkout,
-} from '~/ts/interfaces/workoutUserTemplate.interface'
+} from '~/ts/interfaces'
 
 export function useWorkoutSets(workout: UserWorkout, exerciseData: Map<number, any>) {
   function addSet(exerciseId: number) {
