@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { GLOBAL_WORKOUTS } from '~/constants/strings'
+import { GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 export function useSelectedWorkout() {

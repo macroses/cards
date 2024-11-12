@@ -1,4 +1,4 @@
-import { GLOBAL_WORKOUTS } from '~/constants/strings'
+import { GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 const API_WORKOUTS = '/api/workout/workouts'

@@ -1,5 +1,9 @@
 import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
 
+const API_CREATE = '/api/workout/create'
+const API_DELETE = '/api/workout/workout'
+const API_UPDATE = '/api/workout/update-date'
+
 export function useWorkout() {
   const { toast } = useToastState()
   const isLoading = ref(false)
@@ -23,7 +27,7 @@ export function useWorkout() {
 
     try {
       isLoading.value = true
-      await $fetch('/api/workout/create', {
+      await $fetch(API_CREATE, {
         method: 'POST',
         body: workout,
       })
@@ -33,6 +37,7 @@ export function useWorkout() {
     }
     catch (error: unknown) {
       console.error('Error create workout', error)
+
       return false
     }
     finally {
@@ -43,7 +48,7 @@ export function useWorkout() {
   async function deleteWorkout(id: string) {
     try {
       isLoading.value = true
-      await $fetch('/api/workout/workout', {
+      await $fetch(API_DELETE, {
         method: 'DELETE',
         body: { id },
       })
@@ -91,9 +96,12 @@ export function useWorkout() {
     try {
       isLoading.value = true
 
-      await $fetch('/api/workout/update-date', {
+      await $fetch(API_UPDATE, {
         method: 'PATCH',
-        body: { id, newDate },
+        body: {
+          id,
+          newDate,
+        },
       })
 
       toast('Дата тренировки успешно изменена', 'success')
