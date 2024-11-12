@@ -1,6 +1,6 @@
-import type { WorkoutExerciseWithSets, WorkoutSet } from '~/types/Workout'
+import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces/workoutUserTemplate.interface'
 
-export function useWorkoutExercises(workoutExercises: WorkoutExerciseWithSets[]) {
+export function useWorkoutExercises(workoutExercises: UserWorkoutExercise[]) {
   const isWorkoutSetValid = ref(false)
 
   const workoutSetRules = [
@@ -9,24 +9,24 @@ export function useWorkoutExercises(workoutExercises: WorkoutExerciseWithSets[])
 
   function workoutExercisesLength(id: number): number {
     return workoutExercises.find(
-      (exercise: WorkoutExerciseWithSets) => exercise.exerciseId === id,
+      (exercise: UserWorkoutExercise) => exercise.exerciseId === id,
     )?.sets.length || 0
   }
 
   function calculateTonnage(exerciseId: number): number {
     const exercise = workoutExercises.find(
-      (exercise: WorkoutExerciseWithSets) => exercise.exerciseId === exerciseId,
+      (exercise: UserWorkoutExercise) => exercise.exerciseId === exerciseId,
     )
 
     if (!exercise)
       return 0
 
-    return exercise.sets.reduce((total: number, set: WorkoutSet) => total + (set.weight * set.repeats), 0)
+    return exercise.sets.reduce((total: number, set: UserTrainingSession) => total + (set.weight * set.repeats), 0)
   }
 
   const totalTonnage = computed(() => {
-    return workoutExercises.reduce((total: number, exercise: WorkoutExerciseWithSets) => {
-      return total + exercise.sets.reduce((exerciseTotal: number, set: WorkoutSet) => {
+    return workoutExercises.reduce((total: number, exercise: UserWorkoutExercise) => {
+      return total + exercise.sets.reduce((exerciseTotal: number, set: UserTrainingSession) => {
         return exerciseTotal + (set.weight * set.repeats)
       }, 0)
     }, 0)

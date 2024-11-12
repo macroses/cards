@@ -1,15 +1,15 @@
-import type { IWorkout } from '~/types/GetWorkoutsResponse'
-import type { Workout } from '~/types/Workout'
+import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import type { UserWorkout } from '~/ts/interfaces/workoutUserTemplate.interface'
 
 export function useWorkout() {
   const { toast } = useToastState()
   const isLoading = ref(false)
   const isCopyMode = ref(false)
-  const workoutToCopy = ref<IWorkout | null>(null)
+  const workoutToCopy = ref<CreateWorkoutResponse | null>(null)
   const isDateChangeMode = ref(false)
-  const workoutToChangeDate = ref<IWorkout | null>(null)
+  const workoutToChangeDate = ref<CreateWorkoutResponse | null>(null)
 
-  async function submitWorkout(workout: Workout) {
+  async function submitWorkout(workout: UserWorkout) {
     if (!workout.title) {
       toast('Введите название тренировки', 'error')
       return false
@@ -60,8 +60,8 @@ export function useWorkout() {
     }
   }
 
-  async function copyWorkout(workout: IWorkout, date: Date) {
-    const workoutCopy: Workout = {
+  async function copyWorkout(workout: CreateWorkoutResponse, date: Date) {
+    const workoutCopy: UserWorkout = {
       title: workout.title,
       color: workout.color,
       workoutDate: date,
@@ -74,7 +74,7 @@ export function useWorkout() {
     return await submitWorkout(workoutCopy)
   }
 
-  function startCopyMode(workout: IWorkout) {
+  function startCopyMode(workout: CreateWorkoutResponse) {
     isCopyMode.value = true
     workoutToCopy.value = workout
   }
@@ -105,7 +105,7 @@ export function useWorkout() {
     }
   }
 
-  function startDateChangeMode(workout: IWorkout) {
+  function startDateChangeMode(workout: CreateWorkoutResponse) {
     isDateChangeMode.value = true
     workoutToChangeDate.value = workout
   }

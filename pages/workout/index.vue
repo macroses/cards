@@ -4,12 +4,12 @@ import { useWorkoutSets } from '~/composables/setsManagment/useSetsManagment'
 import { useGetWorkouts } from '~/composables/workout/useGetWorkouts'
 import { useWorkout } from '~/composables/workout/useWorkout'
 import { WORKOUT_COLORS } from '~/constants/workout'
-import type { Workout } from '~/types/Workout'
+import type { UserWorkout } from '~/ts/interfaces/workoutUserTemplate.interface'
 
 const { t } = useI18n()
 
 const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
-const workout = reactive<Workout>({
+const workout = reactive<UserWorkout>({
   title: '',
   color: WORKOUT_COLORS[0].rgb,
   exercises: [],

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { IWorkout } from '~/types/GetWorkoutsResponse'
+import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
 interface Props {
-  workout: IWorkout
+  workout: CreateWorkoutResponse
   isCopyMode: boolean
   isDateChangeMode: boolean
 }

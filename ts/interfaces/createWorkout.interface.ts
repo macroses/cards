@@ -33,9 +33,3 @@ export interface CreateWorkoutResponse {
     }[]
   }[]
 }
-
-// Error responses
-export interface ApiError {
-  statusCode: number
-  message: string
-}

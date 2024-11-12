@@ -1,10 +1,5 @@
-export enum DIFFICULT_LEVEL {
-  WARM = 1,
-  LOW = 2,
-  MEDIUM = 3,
-  HIGH = 4,
-  MAXIMUM = 5,
-}
+import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
+import type { WorkoutColor } from '~/ts/types/workoutColor.type'
 
 export const WORKOUT_DIFFICULTY = [
   { value: DIFFICULT_LEVEL.WARM, label: '1' },
@@ -14,7 +9,7 @@ export const WORKOUT_DIFFICULTY = [
   { value: DIFFICULT_LEVEL.MAXIMUM, label: '5' },
 ] as const
 
-export const WORKOUT_COLORS = [
+export const WORKOUT_COLORS: WorkoutColor[] = [
   { id: 1, rgb: '213, 0, 0' },
   { id: 2, rgb: '230, 124, 115' },
   { id: 3, rgb: '244, 81, 3' },
@@ -27,5 +22,3 @@ export const WORKOUT_COLORS = [
   { id: 10, rgb: '142, 36, 170' },
   { id: 11, rgb: '97, 97, 97' },
 ] as const
-
-export type WorkoutColor = typeof WORKOUT_COLORS[number]['rgb']

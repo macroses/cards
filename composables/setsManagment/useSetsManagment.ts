@@ -1,15 +1,14 @@
 import type {
-  ExerciseData,
-  Workout,
-  WorkoutSet,
-} from '~/types/Workout'
+  UserTrainingSession,
+  UserWorkout,
+} from '~/ts/interfaces/workoutUserTemplate.interface'
 
-export function useWorkoutSets(workout: Workout, exerciseData: Map<number, ExerciseData>) {
+export function useWorkoutSets(workout: UserWorkout, exerciseData: Map<number, any>) {
   function addSet(exerciseId: number) {
     const data = exerciseData.get(exerciseId)
 
     if (data?.currentWeight && data?.currentRepeats) {
-      const newSet: WorkoutSet = {
+      const newSet: UserTrainingSession = {
         id: crypto.randomUUID(),
         weight: Number(data.currentWeight),
         repeats: Number(data.currentRepeats),

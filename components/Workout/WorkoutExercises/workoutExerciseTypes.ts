@@ -1,20 +1,12 @@
-import type { Exercise } from '~/types/Exercise'
-import type { ExerciseData, WorkoutSet } from '~/types/Workout'
+import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
+import type { WorkoutSet } from '~/ts/interfaces/workoutUserTemplate.interface'
 
 export interface Props {
-  exercises: Exercise[]
+  exercises: ExerciseServerTemplate[]
   activeExerciseId: number | null
-  exerciseData: Map<number, ExerciseData>
+  exerciseData: Map<number, any>
   workoutExercises: {
     exerciseId: number
     sets: WorkoutSet[]
   }[]
-}
-
-export enum DifficultSet {
-  warm = 1,
-  low,
-  medium,
-  high,
-  maximum,
 }

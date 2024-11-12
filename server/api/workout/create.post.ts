@@ -1,5 +1,5 @@
 import { getServerSession } from '#auth'
-import type { CreateWorkoutRequest, CreateWorkoutResponse } from '~/types/CreateWorkout'
+import type { CreateWorkoutRequest, CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
 export default defineEventHandler(async (event): Promise<CreateWorkoutResponse> => {
   const session = await getServerSession(event)

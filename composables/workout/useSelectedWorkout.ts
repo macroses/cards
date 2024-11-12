@@ -1,12 +1,12 @@
 import dayjs from 'dayjs'
-import type { IWorkout } from '~/types/GetWorkoutsResponse'
+import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
 export function useSelectedWorkout() {
   const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
-  const workouts = useState<IWorkout[] | null>('globalWorkouts', () => null)
+  const workouts = useState<CreateWorkoutResponse[] | null>('globalWorkouts', () => null)
 
   const selectedWorkout = computed(() =>
-    workouts.value?.find((workout: IWorkout) => {
+    workouts.value?.find((workout: CreateWorkoutResponse) => {
       return dayjs(workout.workoutDate).isSame(selectedDate.value, 'day')
     }),
   )

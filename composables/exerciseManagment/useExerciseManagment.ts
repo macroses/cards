@@ -1,13 +1,13 @@
-import { DIFFICULT_LEVEL } from '~/constants/workout'
-import type { Exercise } from '~/types/Exercise'
-import type { Workout } from '~/types/Workout'
+import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
+import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
+import type { UserWorkout } from '~/ts/interfaces/workoutUserTemplate.interface'
 
 interface Props {
-  workout: Workout
+  workout: UserWorkout
 }
 
 export function useExerciseManagement({ workout }: Props) {
-  const selectedExercisesList = ref<Exercise[]>([])
+  const selectedExercisesList = ref<ExerciseServerTemplate[]>([])
   const activeExerciseId = ref<number | null>(null)
   const exerciseData = reactive<Map<number, any>>(new Map())
 
@@ -22,8 +22,8 @@ export function useExerciseManagement({ workout }: Props) {
     }
   }
 
-  function selectExercise(exercise: Exercise) {
-    const isExerciseExists = selectedExercisesList.value?.some((existingExercise: Exercise) => existingExercise.id === exercise.id)
+  function selectExercise(exercise: ExerciseServerTemplate) {
+    const isExerciseExists = selectedExercisesList.value?.some((existingExercise: ExerciseServerTemplate) => existingExercise.id === exercise.id)
 
     if (!isExerciseExists) {
       selectedExercisesList.value?.push(exercise)

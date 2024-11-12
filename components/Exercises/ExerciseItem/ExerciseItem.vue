@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { Exercise } from '~/types/Exercise'
+import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
 
 interface Props {
-  exercise: Exercise
+  exercise: ExerciseServerTemplate
   isSelected: boolean
 }
 
 defineProps<Props>()
 
 const emit = defineEmits<{
-  select: [exercise: Exercise]
-  openModal: [exercise: Exercise]
+  select: [exercise: ExerciseServerTemplate]
+  openModal: [exercise: ExerciseServerTemplate]
 }>()
 </script>
 

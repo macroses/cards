@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { DIFFICULT_LEVEL, WORKOUT_DIFFICULTY } from '~/constants/workout'
+import { WORKOUT_DIFFICULTY } from '~/constants/workout'
+import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
 const difficulty = defineModel<DIFFICULT_LEVEL>({
   default: DIFFICULT_LEVEL.WARM,

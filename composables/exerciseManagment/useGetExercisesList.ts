@@ -1,8 +1,8 @@
-import type { Exercise } from '~/types/Exercise'
+import type { ExerciseServerTemplate } from '~/ts/interfaces/ExerciseServerTemplate.interface'
 
 interface ExerciseGroup {
   primary: string
-  exercises: Exercise[]
+  exercises: ExerciseServerTemplate[]
 }
 
 export function useGetExercisesList() {
