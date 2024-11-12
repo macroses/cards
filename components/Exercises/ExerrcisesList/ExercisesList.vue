@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { ExerciseServerTemplate } from '~/ts/interfaces'
 
 const props = defineProps<{
