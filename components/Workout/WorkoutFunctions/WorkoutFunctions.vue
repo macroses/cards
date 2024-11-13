@@ -35,7 +35,7 @@ function toWorkout() {
       {{ isCopyMode ? 'Отменить копирование' : 'Копировать' }}
     </TheButton>
     <TheButton>Изменить</TheButton>
-    <TheButton @click="emit('changeDateMode')">
+    <TheButton @click.stop="emit('changeDateMode')">
       {{ isDateChangeMode ? 'Отменить изменение даты' : 'Поменять дату' }}
     </TheButton>
   </div>

@@ -6,6 +6,7 @@ const API_UPDATE = '/api/workout/update-date'
 
 export function useWorkout() {
   const { toast } = useToastState()
+  const { t } = useI18n()
   const isLoading = ref(false)
 
   const workoutToCopy = ref<CreateWorkoutResponse | null>(null)
@@ -16,23 +17,26 @@ export function useWorkout() {
 
   async function submitWorkout(workout: UserWorkout) {
     if (!workout.title) {
-      toast('Введите название тренировки', 'error')
+      toast(t('toast.enter_workout_name'), 'error')
+
       return false
     }
 
     if (!workout.exercises.length) {
-      toast('Добавьте хотя бы одно упражнение', 'error')
+      toast(t('toast.add_exercise'), 'error')
+
       return false
     }
 
     try {
       isLoading.value = true
+
       await $fetch(API_CREATE, {
         method: 'POST',
         body: workout,
       })
 
-      toast('Тренировка успешно сохранена', 'success')
+      toast(t('toast.workout_created'), 'success')
       return true
     }
     catch (error: unknown) {
@@ -48,18 +52,19 @@ export function useWorkout() {
   async function deleteWorkout(id: string) {
     try {
       isLoading.value = true
+
       await $fetch(API_DELETE, {
         method: 'DELETE',
         body: { id },
       })
 
-      toast('Тренировка успешно удалена', 'success')
+      toast(t('toast.workout_deleted'), 'success')
 
       return true
     }
     catch (error: unknown) {
       console.error('Error delete workout', error)
-      toast('Ошибка при удалении тренировки', 'error')
+      toast(t('toast.workout_delete_error'), 'error')
 
       return false
     }
@@ -104,13 +109,14 @@ export function useWorkout() {
         },
       })
 
-      toast('Дата тренировки успешно изменена', 'success')
+      toast(t('toast.workout_date_changed'))
 
       return true
     }
     catch (error: unknown) {
       console.error('Ошибка при изменении даты тренировки:', error)
-      toast('Ошибка при изменении даты тренировки', 'error')
+
+      toast(t('toast.workout_date_change_error'), 'error')
 
       return false
     }

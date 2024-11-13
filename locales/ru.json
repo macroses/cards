@@ -15,5 +15,15 @@
 
   "workout": {
     "save_workout": "Сохранить тренировку"
+  },
+  
+  "toast": {
+    "enter_workout_name": "Введите название тренировки",
+    "add_exercise": "Добавьте хотя бы одно упражнение",
+    "workout_created": "Тренировка сохранена",
+    "workout_deleted": "Тренировка удалена",
+    "workout_delete_error": "Ошибка при удалении тренировки",
+    "workout_date_changed": "Дата тренировки изменена",
+    "workout_date_change_error": "Не удалось изменить дату"
   }
 }
