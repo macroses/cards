@@ -114,7 +114,7 @@ export function useWorkout() {
       return true
     }
     catch (error: unknown) {
-      console.error('Ошибка при изменении даты тренировки:', error)
+      console.error(t('toast.workout_date_change_error'), error)
 
       toast(t('toast.workout_date_change_error'), 'error')
 

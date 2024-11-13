@@ -14,7 +14,8 @@
   },
 
   "workout": {
-    "save_workout": "Сохранить тренировку"
+    "save_workout": "Сохранить тренировку",
+    "create_workout": "Создать тренировку"
   },
   
   "toast": {
@@ -25,5 +26,15 @@
     "workout_delete_error": "Ошибка при удалении тренировки",
     "workout_date_changed": "Дата тренировки изменена",
     "workout_date_change_error": "Не удалось изменить дату"
+  },
+
+  "error": {
+    "workouts_load_error": "Ошибка при загрузке тренировок",
+    "workout_date_change_error": "Ошибка при изменении даты тренировки"
+  },
+
+  "main_navigation": {
+    "program": "Программа",
+    "body_parameters": "Параметры тела"
   }
 }

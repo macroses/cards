@@ -4,6 +4,7 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces'
 const API_WORKOUTS = '/api/workout/workouts'
 
 export function useGetWorkouts() {
+  const { t } = useI18n()
   const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
@@ -15,7 +16,7 @@ export function useGetWorkouts() {
     }
     catch (err: unknown) {
       console.error(err)
-      error.value = 'Не удалось загрузить тренировки'
+      error.value = t('error.workouts_load_error')
       workouts.value = null
     }
     finally {

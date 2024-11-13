@@ -14,7 +14,8 @@
   },
 
   "workout": {
-    "save_workout": "Save workout"
+    "save_workout": "Save workout",
+    "create_workout": "Create workout"
   },
   
   "toast": {
@@ -25,5 +26,15 @@
     "workout_delete_error": "Workout delete error",
     "workout_date_changed": "Workout date was changed",
     "workout_date_change_error": "Error while changed workout date"
+  },
+
+  "error": {
+    "workouts_load_error": "Error while loading workouts",
+    "workout_date_change_error": "Error while changed workout date"
+  },
+
+  "main_navigation": {
+    "program": "Program",
+    "body_parameters": "Body parameters"
   }
 }
