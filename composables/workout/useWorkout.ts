@@ -80,7 +80,12 @@ export function useWorkout() {
       workoutDate: date,
       exercises: workout.exercises.map(exercise => ({
         exerciseId: exercise.exerciseId,
-        sets: [],
+        sets: exercise.sets.map(set => ({
+          id: crypto.randomUUID(),
+          weight: set.weight,
+          repeats: set.repeats,
+          difficulty: set.difficulty,
+        })),
       })),
     }
 
