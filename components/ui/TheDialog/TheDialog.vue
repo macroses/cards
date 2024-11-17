@@ -1,14 +1,9 @@
 <script setup lang="ts">
-const { dialogRef, openDialog, closeDialog } = useDialog()
 
-defineExpose({
-  openDialog,
-  closeDialog,
-})
 </script>
 
 <template>
-  <dialog ref="dialogRef">
+  <dialog>
     <slot name="title" />
     <slot name="header" />
     <slot name="content" />
@@ -17,7 +12,6 @@ defineExpose({
       variant="ghost"
       icon-only
       class="close-button"
-      @click="closeDialog"
     >
       <TheIcon
         icon-name="xmark"

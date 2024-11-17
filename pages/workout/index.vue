@@ -1,48 +1,5 @@
 <script setup lang="ts">
-import { WORKOUT_COLORS } from '~/constants/workout'
-import type { UserWorkout } from '~/ts/interfaces'
-
-const { t } = useI18n()
-
-const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
-const workout = reactive<UserWorkout>({
-  title: '',
-  color: WORKOUT_COLORS[0].rgb,
-  exercises: [],
-  workoutDate: new Date(selectedDate.value.setHours(12, 0, 0, 0)),
-})
-
-const {
-  selectedExercisesList,
-  activeExerciseId,
-  exerciseData,
-  selectExercise,
-  removeExercise,
-  toggleExercise,
-} = useExerciseManagement({ workout })
-
-const { addSet, removeSet } = useWorkoutSets(workout, exerciseData)
-const { submitWorkout, isLoading } = useWorkout()
-const { fetchWorkouts } = useGetWorkouts()
-
-async function saveWorkout() {
-  const success = await submitWorkout(workout)
-
-  if (success && !isLoading.value) {
-    await fetchWorkouts()
-    navigateTo('/')
-  }
-}
-
-const isCalendarVisible = ref(false)
-function toggleCalendar() {
-  isCalendarVisible.value = !isCalendarVisible.value
-}
-
-watch(selectedDate, (newDate: Date) => {
-  workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
-  isCalendarVisible.value = false
-})
+const { selectedExercisesList, fillExercisesList } = useSelectExercise()
 
 useHead({
   title: 'Workout',
@@ -53,42 +10,19 @@ useHead({
   <WorkoutWrapper>
     <template #description>
       <div v-auto-animate>
-        <WorkoutDescription
-          :selected-date="selectedDate"
-          @workout-title="workout.title = $event"
-          @workout-color="workout.color = $event"
-          @toggle-calendar="toggleCalendar"
-        />
-        <Calendar
-          v-if="isCalendarVisible"
-          v-model="selectedDate"
-        />
+        <!--        <WorkoutDescription /> -->
+        <!--        <Calendar /> -->
       </div>
     </template>
     <template #workout-exercises>
-      <LazyWorkoutExercises
-        :exercises="selectedExercisesList"
-        :active-exercise-id="activeExerciseId"
-        :exercise-data="exerciseData"
-        :workout-exercises="workout.exercises"
-        @toggle-exercise="toggleExercise"
-        @remove-exercise="removeExercise"
-        @add-set="addSet"
-        @remove-set="removeSet"
+      <WorkoutExercises
+        :selected-exercises="selectedExercisesList"
       />
-      <div class="workout-actions">
-        <TheButton
-          :disabled="!workout.title"
-          @click="saveWorkout"
-        >
-          {{ t('workout.save_workout') }}
-        </TheButton>
-      </div>
     </template>
     <template #exercises-list>
       <ExercisesList
         :selected-exercises="selectedExercisesList"
-        @select-exercise="selectExercise"
+        @select-exercise="fillExercisesList"
       />
     </template>
   </WorkoutWrapper>

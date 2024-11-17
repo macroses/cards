@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import type { ExerciseItemProps } from '~/ts/componentProps'
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
 
 defineProps<ExerciseItemProps>()
 
 const emit = defineEmits<{
-  select: [exercise: ExerciseServerTemplate]
-  openModal: [exercise: ExerciseServerTemplate]
+  select: [exercise]
 }>()
 </script>
 
@@ -26,7 +24,6 @@ const emit = defineEmits<{
     </p>
     <TheButton
       variant="transparent"
-      @click.stop="emit('openModal', exercise)"
     >
       <TheIcon
         icon-name="circle-info"

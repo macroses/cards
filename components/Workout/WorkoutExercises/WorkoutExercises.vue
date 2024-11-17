@@ -1,30 +1,9 @@
 <script setup lang="ts">
-import type { WorkoutExercisesProps } from '~/ts/componentProps'
+import type { ExerciseServerTemplate } from '~/ts/interfaces'
 
-const props = defineProps<WorkoutExercisesProps>()
-
-const emit = defineEmits<{
-  toggleExercise: [id: number]
-  removeExercise: [id: number]
-  addSet: [id: number]
-  removeSet: [exerciseId: number, setId: string]
+defineProps<{
+  selectedExercises: ExerciseServerTemplate[]
 }>()
-
-const {
-  isWorkoutSetValid,
-  workoutSetRules,
-  workoutExercisesLength,
-  calculateTonnage,
-  totalTonnage,
-} = useWorkoutExercises(props.workoutExercises)
-
-function getExerciseData(exerciseId: number) {
-  return props.exerciseData.get(exerciseId) || {
-    currentWeight: '',
-    currentRepeats: '',
-    currentDifficulty: 1,
-  }
-}
 </script>
 
 <template>
@@ -32,22 +11,21 @@ function getExerciseData(exerciseId: number) {
     v-auto-animate
     class="workout-exercises-wrapper"
   >
-    <div
+    <!--    <div
       v-if="totalTonnage"
       class="workout-total"
     >
       Total tonnage: <span> {{ (totalTonnage / 1000).toFixed(2) }} T</span>
-    </div>
+    </div> -->
     <ul
-      v-if="exercises.length"
+      v-if="selectedExercises.length"
       v-auto-animate
       class="workout__exercises"
     >
       <li
-        v-for="exercise in exercises"
+        v-for="exercise in selectedExercises"
         :key="exercise.id"
         class="workout__exercises-item"
-        :class="{ active: activeExerciseId === exercise.id }"
       >
         <div
           class="workout__exercises-item-name"
@@ -70,12 +48,6 @@ function getExerciseData(exerciseId: number) {
               />
             </TheButton>
           </div>
-          <div
-            v-if="calculateTonnage(exercise.id) > 0"
-            class="workout__exercise-tonnage"
-          >
-            {{ (calculateTonnage(exercise.id) / 1000).toFixed(2) }} T
-          </div>
           <TheButton
             variant="transparent"
             icon-only
@@ -88,7 +60,7 @@ function getExerciseData(exerciseId: number) {
           </TheButton>
         </div>
 
-        <div class="exercise-form__wr">
+        <!--        <div class="exercise-form__wr">
           <form
             v-auto-animate
             class="exercise-form"
@@ -133,13 +105,13 @@ function getExerciseData(exerciseId: number) {
             >
               <li class="workout-form__sets-header">
                 <div />
-                <div class="workout-form__sets-header--weight">
+                <div class="workout-form__sets-header&#45;&#45;weight">
                   Вес
                 </div>
-                <div class="workout-form__sets-header--repeats">
+                <div class="workout-form__sets-header&#45;&#45;repeats">
                   Repeats
                 </div>
-                <div class="workout-form__sets-header--delete" />
+                <div class="workout-form__sets-header&#45;&#45;delete" />
               </li>
               <li
                 v-for="set in workoutExercises.find(e => e.exerciseId === exercise.id)?.sets"
@@ -147,13 +119,13 @@ function getExerciseData(exerciseId: number) {
                 class="workout-form__sets-item"
               >
                 <div
-                  class="workout-form__sets--difficulty"
+                  class="workout-form__sets&#45;&#45;difficulty"
                   :data-difficulty="set.difficulty"
                 />
-                <div class="workout-form__sets--weight">
+                <div class="workout-form__sets&#45;&#45;weight">
                   {{ set.weight }}
                 </div>
-                <div class="workout-form__sets--repeats">
+                <div class="workout-form__sets&#45;&#45;repeats">
                   {{ set.repeats }}
                 </div>
                 <TheButton
@@ -169,7 +141,7 @@ function getExerciseData(exerciseId: number) {
               </li>
             </ul>
           </form>
-        </div>
+        </div> -->
       </li>
     </ul>
     <p
