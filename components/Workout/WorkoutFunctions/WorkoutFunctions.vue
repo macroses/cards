@@ -13,16 +13,11 @@ const emit = defineEmits<{
 }>()
 
 const localePath = useLocalePath()
-
-function toWorkout() {
-  navigateTo(localePath(`/workout/run/${props.workout.id}`))
-}
 </script>
 
 <template>
   <div
     class="date-menu"
-    @click="toWorkout"
   >
     <div class="date-menu__event-name">
       {{ workout?.title }}
@@ -32,7 +27,7 @@ function toWorkout() {
       Удалить
     </TheButton>
     <TheButton @click.stop="emit('copyWorkout')">
-      {{ isCopyMode ? 'Отменить копирование' : 'Копировать' }}
+      Копировать
     </TheButton>
     <TheButton>Изменить</TheButton>
     <TheButton @click.stop="emit('changeDateMode')">

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import dayjs from 'dayjs'
 import { GLOBAL_DATE, GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
@@ -10,6 +11,12 @@ const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () =>
 function handleDateSelect(date: Date) {
   selectedDate.value = date
 }
+
+const selectedWorkout = computed(() => {
+  return workouts.value?.find((workout: CreateWorkoutResponse) => {
+    return dayjs(workout.workoutDate).isSame(selectedDate.value, 'day')
+  })
+})
 </script>
 
 <template>
@@ -21,6 +28,12 @@ function handleDateSelect(date: Date) {
         @date-select="handleDateSelect"
       />
       <MainNavigation />
+      <WorkoutFunctions
+        v-if="selectedWorkout"
+        :workout="selectedWorkout"
+        :is-copy-mode="false"
+        :is-date-change-mode="false"
+      />
     </div>
   </div>
 </template>
