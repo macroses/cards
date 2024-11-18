@@ -40,6 +40,7 @@ watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 })
 
+// todo удалять все сеты из объекта, если упражнения для него удалены
 watch(workout, () => {
   console.log(workout)
 })
