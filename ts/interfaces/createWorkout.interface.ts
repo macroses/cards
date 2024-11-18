@@ -16,7 +16,6 @@ export interface CreateWorkoutRequest {
   }[]
 }
 
-// Response types
 export interface CreateWorkoutResponse {
   id: string
   userId: string
@@ -25,14 +24,20 @@ export interface CreateWorkoutResponse {
   workoutDate: Date
   createdAt: Date
   updatedAt: Date
+  completed: boolean
+  workoutTime?: number | null
+  startedAt?: Date | null
   exercises: {
     id: string
+    workoutId: string
     exerciseId: number
-    sets: {
-      id: string
-      weight: number
-      repeats: number
-      difficulty: number
-    }[]
+  }[]
+  sets: {
+    id: string
+    workoutId: string
+    exerciseId: number
+    weight: number
+    repeats: number
+    difficulty: number
   }[]
 }

@@ -5,6 +5,7 @@ const API_CREATE = '/api/workout/create'
 export function useSubmitWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
+  const { fetchWorkouts } = useFetchWorkoutsByUserId()
   const isLoading = ref(false)
 
   async function submitWorkout(workout: UserWorkout) {
@@ -17,6 +18,9 @@ export function useSubmitWorkout() {
       })
 
       navigateTo('/')
+
+      // перезапросим список тренировок при успехе
+      await fetchWorkouts()
 
       toast(t('toast.workout_created'), 'success')
       return true
