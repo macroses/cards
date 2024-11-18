@@ -82,7 +82,7 @@ model WorkoutSet {
   id         String  @id @default(cuid())
   workoutId  String
   exerciseId Int
-  weight     Float
+  weight     Int
   repeats    Int
   difficulty Int
   workout    Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)

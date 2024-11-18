@@ -4,12 +4,15 @@ export interface CreateWorkoutRequest {
   color: string
   workoutDate: Date
   exercises: {
+    id: number
+    name: string
+  }[]
+  sessions: {
+    id: string
     exerciseId: number
-    sets: {
-      weight: number
-      repeats: number
-      difficulty: number
-    }[]
+    weight: number | null
+    repeats: number | null
+    difficulty: number
   }[]
 }
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useToggleCalendar } from '~/composables/calendar/useToggleCalendar'
+import { useSubmitWorkout } from '~/composables/workoutManagment/useSubmitWorkout'
 import { WORKOUT_COLORS } from '~/constants'
 import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
@@ -10,6 +11,8 @@ const {
   toggleCalendar,
   selectedDate,
 } = useToggleCalendar()
+
+const { submitWorkout } = useSubmitWorkout()
 
 // User workout object
 const workout = reactive<UserWorkout>({
@@ -72,7 +75,10 @@ watch(selectedDate, (newDate: Date) => {
         @add-set="handleAddSet"
         @remove-set="handleRemoveSet"
       />
-      <TheButton :disabled="!workout.title">
+      <TheButton
+        :disabled="!workout.title"
+        @click="submitWorkout(workout)"
+      >
         {{ t('workout.save_workout') }}
       </TheButton>
     </template>
