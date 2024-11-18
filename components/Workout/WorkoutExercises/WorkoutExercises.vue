@@ -4,7 +4,7 @@ import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
 
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
-  sessions: UserTrainingSession
+  sessions: UserTrainingSession[]
 }>()
 
 const emit = defineEmits<{
@@ -51,7 +51,7 @@ function appendSession(exerciseId: number) {
 }
 
 function getExerciseSessions(exerciseId: number) {
-  return props.sessions.filter(session => session.exerciseId === exerciseId)
+  return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
 </script>
 
