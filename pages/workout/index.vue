@@ -30,6 +30,9 @@ function handleSelectExercise(exercise: UserWorkoutExercise): void {
 
 function handleRemoveExercise(exerciseId: number): void {
   workout.exercises = workout.exercises.filter((exercise: UserWorkoutExercise) => exercise.id !== exerciseId)
+
+  // Delete all sets, which relations to exercise
+  workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.exerciseId !== exerciseId)
 }
 
 function handleAddSet(set: UserTrainingSession) {
@@ -39,16 +42,12 @@ function handleAddSet(set: UserTrainingSession) {
 watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 })
-
-// todo удалять все сеты из объекта, если упражнения для него удалены
-watch(workout, () => {
-  console.log(workout)
-})
 </script>
 
 <template>
   <WorkoutWrapper>
     <template #description>
+      {{ workout.sessions }}
       <div v-auto-animate>
         <WorkoutDescription
           :selected-date="selectedDate"

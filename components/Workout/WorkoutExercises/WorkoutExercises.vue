@@ -8,28 +8,45 @@ defineProps<{
 
 const emit = defineEmits<{
   (event: 'removeExercise', id: number): void
-  (event: 'addSet', exerciseForm): void
-  (event: 'removeSet', id: number): void
+  (event: 'addSet', exerciseForm: ExerciseFormData): void
+  (event: 'removeSet', setId: number): void
 }>()
 
+interface ExerciseFormData {
+  id: string
+  exerciseId: number
+  weight: number | null
+  repeats: number | null
+  difficulty: DIFFICULT_LEVEL
+}
+
 const exerciseForm = reactive({
-  weight: 0,
-  repeats: 0,
+  weight: null,
+  repeats: null,
   difficulty: DIFFICULT_LEVEL.WARM,
 })
 
+const activeExerciseId = ref<number | null>(null)
+
+function toggleExercise(exerciseId: number) {
+  resetExerciseForm()
+  activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
+}
+
+function resetExerciseForm() {
+  exerciseForm.weight = null
+  exerciseForm.repeats = null
+  exerciseForm.difficulty = DIFFICULT_LEVEL.WARM
+}
+
 function appendSession(exerciseId: number) {
   emit('addSet', {
-    exerciseId,
     id: crypto.randomUUID(),
+    exerciseId,
     weight: exerciseForm.weight,
     repeats: exerciseForm.repeats,
     difficulty: exerciseForm.difficulty,
   })
-
-  // Сброс формы
-  exerciseForm.weight = 0
-  exerciseForm.repeats = 0
 }
 </script>
 
@@ -47,9 +64,11 @@ function appendSession(exerciseId: number) {
         v-for="exercise in selectedExercises"
         :key="exercise.id"
         class="workout__exercises-item"
+        :class="{ active: activeExerciseId === exercise.id }"
       >
         <div
           class="workout__exercises-item-name"
+          @click.stop="toggleExercise(exercise.id)"
         >
           <TheIcon
             icon-name="angle-down"
@@ -80,7 +99,7 @@ function appendSession(exerciseId: number) {
           </TheButton>
         </div>
 
-        <div class="">
+        <div class="exercise-form__wr">
           <form
             v-auto-animate
             class="exercise-form"
@@ -88,14 +107,14 @@ function appendSession(exerciseId: number) {
           >
             <div class="exercise-form__main">
               <TheInput
-                v-model="exerciseForm.weight"
+                v-model.number="exerciseForm.weight"
                 placeholder="Вес"
                 type="number"
                 inputmode="numeric"
                 no-clear
               />
               <TheInput
-                v-model="exerciseForm.repeats"
+                v-model.trim.number="exerciseForm.repeats"
                 placeholder="Повторения"
                 type="number"
                 inputmode="numeric"
@@ -112,6 +131,49 @@ function appendSession(exerciseId: number) {
                 Добавить сет
               </TheButton>
             </div>
+
+            <ul
+              v-if=""
+              v-auto-animate
+              class="workout-form__sets"
+            >
+              <li class="workout-form__sets-header">
+                <div />
+                <div class="workout-form__sets-header--weight">
+                  Вес
+                </div>
+                <div class="workout-form__sets-header--repeats">
+                  Repeats
+                </div>
+                <div class="workout-form__sets-header--delete" />
+              </li>
+              <li
+                v-for=""
+                :key="set.id"
+                class="workout-form__sets-item"
+              >
+                <div
+                  class="workout-form__sets--difficulty"
+                  :data-difficulty="set.difficulty"
+                />
+                <div class="workout-form__sets--weight">
+                  {{ set.weight }}
+                </div>
+                <div class="workout-form__sets--repeats">
+                  {{ set.repeats }}
+                </div>
+                <TheButton
+                  variant="transparent"
+                  icon-only
+                  @click="emit('removeSet', set.id)"
+                >
+                  <TheIcon
+                    icon-name="xmark"
+                    width="16px"
+                  />
+                </TheButton>
+              </li>
+            </ul>
           </form>
         </div>
       </li>
