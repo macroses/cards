@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
 
+const props = defineProps<{
+  selectedExercises: UserWorkoutExercise[]
+}>()
+
 const emit = defineEmits<{
   selectExercise: [exercise: UserWorkoutExercise]
 }>()
@@ -12,6 +16,10 @@ function selectExercise(exercise: ExerciseServerTemplate) {
     id: exercise.id,
     name: exercise.name,
   })
+}
+
+function isExerciseAlreadySelected(id: number) {
+  return props.selectedExercises.some(selected => selected.id === id)
 }
 </script>
 
@@ -41,7 +49,7 @@ function selectExercise(exercise: ExerciseServerTemplate) {
           v-for="exercise in group.exercises"
           :key="exercise.id"
           :exercise
-          :is-selected="false"
+          :is-selected="isExerciseAlreadySelected(exercise.id)"
           @select="selectExercise"
         />
       </ul>

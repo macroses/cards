@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { ExerciseItemProps } from '~/ts/componentProps'
+import type { ExerciseServerTemplate } from '~/ts/interfaces'
 
 defineProps<ExerciseItemProps>()
 
 const emit = defineEmits<{
-  select: [exercise]
+  select: [exercise: ExerciseServerTemplate]
 }>()
 </script>
 
