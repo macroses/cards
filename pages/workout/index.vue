@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToggleCalendar } from '~/composables/calendar/useToggleCalendar'
 import { WORKOUT_COLORS } from '~/constants'
-import type { UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
+import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
 const { t } = useI18n()
 
@@ -20,7 +20,7 @@ const workout = reactive<UserWorkout>({
   workoutDate: selectedDate.value,
 })
 
-function handleSelectExercise(exercise: UserWorkoutExercise) {
+function handleSelectExercise(exercise: UserWorkoutExercise): void {
   const isExerciseExists = workout.exercises.some((ex: UserWorkoutExercise) => ex.id === exercise.id)
 
   if (!isExerciseExists) {
@@ -28,19 +28,26 @@ function handleSelectExercise(exercise: UserWorkoutExercise) {
   }
 }
 
-function handleRemoveExercise(exerciseId: number) {
+function handleRemoveExercise(exerciseId: number): void {
   workout.exercises = workout.exercises.filter((exercise: UserWorkoutExercise) => exercise.id !== exerciseId)
+}
+
+function handleAddSet(set: UserTrainingSession) {
+  workout.sessions.push(set)
 }
 
 watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
+})
+
+watch(workout, () => {
+  console.log(workout)
 })
 </script>
 
 <template>
   <WorkoutWrapper>
     <template #description>
-      {{ workout }}
       <div v-auto-animate>
         <WorkoutDescription
           :selected-date="selectedDate"
@@ -58,6 +65,7 @@ watch(selectedDate, (newDate: Date) => {
       <WorkoutExercises
         :selected-exercises="workout.exercises"
         @remove-exercise="handleRemoveExercise"
+        @add-set="handleAddSet"
       />
       <TheButton :disabled="!workout.title">
         {{ t('workout.save_workout') }}

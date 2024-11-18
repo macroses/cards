@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type { UserWorkoutExercise } from '~/ts/interfaces'
 
 defineProps<{
@@ -7,9 +8,29 @@ defineProps<{
 
 const emit = defineEmits<{
   (event: 'removeExercise', id: number): void
-  (event: 'addSet', id: number): void
+  (event: 'addSet', exerciseForm): void
   (event: 'removeSet', id: number): void
 }>()
+
+const exerciseForm = reactive({
+  weight: 0,
+  repeats: 0,
+  difficulty: DIFFICULT_LEVEL.WARM,
+})
+
+function appendSession(exerciseId: number) {
+  emit('addSet', {
+    exerciseId,
+    id: crypto.randomUUID(),
+    weight: exerciseForm.weight,
+    repeats: exerciseForm.repeats,
+    difficulty: exerciseForm.difficulty,
+  })
+
+  // Сброс формы
+  exerciseForm.weight = 0
+  exerciseForm.repeats = 0
+}
 </script>
 
 <template>
@@ -63,16 +84,18 @@ const emit = defineEmits<{
           <form
             v-auto-animate
             class="exercise-form"
-            @submit.prevent="emit('addSet', exercise.id)"
+            @submit.prevent="appendSession(exercise.id)"
           >
             <div class="exercise-form__main">
               <TheInput
+                v-model="exerciseForm.weight"
                 placeholder="Вес"
                 type="number"
                 inputmode="numeric"
                 no-clear
               />
               <TheInput
+                v-model="exerciseForm.repeats"
                 placeholder="Повторения"
                 type="number"
                 inputmode="numeric"
@@ -80,11 +103,13 @@ const emit = defineEmits<{
               />
             </div>
             <div class="exercise-form__submit">
-              <WorkoutDifficulty />
+              <WorkoutDifficulty
+                v-model="exerciseForm.difficulty"
+              />
               <TheButton
                 type="submit"
               >
-                Append
+                Добавить сет
               </TheButton>
             </div>
           </form>
