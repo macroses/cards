@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
 
 const emit = defineEmits<{
-  selectExercise: [exercise: ExerciseServerTemplate]
+  selectExercise: [exercise: UserWorkoutExercise]
 }>()
 
 const { exercisesList } = useFetchExercisesList()
