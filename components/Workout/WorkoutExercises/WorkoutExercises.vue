@@ -4,6 +4,10 @@ import type { ExerciseServerTemplate } from '~/ts/interfaces'
 defineProps<{
   selectedExercises: ExerciseServerTemplate[]
 }>()
+
+const emit = defineEmits<{
+  (event: 'removeExercise'): void
+}>()
 </script>
 
 <template>
@@ -11,12 +15,6 @@ defineProps<{
     v-auto-animate
     class="workout-exercises-wrapper"
   >
-    <!--    <div
-      v-if="totalTonnage"
-      class="workout-total"
-    >
-      Total tonnage: <span> {{ (totalTonnage / 1000).toFixed(2) }} T</span>
-    </div> -->
     <ul
       v-if="selectedExercises.length"
       v-auto-animate
@@ -29,7 +27,6 @@ defineProps<{
       >
         <div
           class="workout__exercises-item-name"
-          @click.stop="emit('toggleExercise', exercise.id)"
         >
           <TheIcon
             icon-name="angle-down"

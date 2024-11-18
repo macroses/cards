@@ -8,7 +8,10 @@ const emit = defineEmits<{
 const { exercisesList } = useFetchExercisesList()
 
 function selectExercise(exercise: ExerciseServerTemplate) {
-  emit('selectExercise', exercise)
+  emit('selectExercise', {
+    id: exercise.id,
+    name: exercise.name,
+  })
 }
 </script>
 
