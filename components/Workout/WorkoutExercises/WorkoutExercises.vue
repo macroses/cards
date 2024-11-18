@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
-import type { UserWorkoutExercise } from '~/ts/interfaces'
+import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
 
-defineProps<{
+const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
+  sessions: UserTrainingSession
 }>()
 
 const emit = defineEmits<{
   (event: 'removeExercise', id: number): void
   (event: 'addSet', exerciseForm: ExerciseFormData): void
-  (event: 'removeSet', setId: number): void
+  (event: 'removeSet', setId: string): void
 }>()
 
 interface ExerciseFormData {
@@ -47,6 +48,10 @@ function appendSession(exerciseId: number) {
     repeats: exerciseForm.repeats,
     difficulty: exerciseForm.difficulty,
   })
+}
+
+function getExerciseSessions(exerciseId: number) {
+  return props.sessions.filter(session => session.exerciseId === exerciseId)
 }
 </script>
 
@@ -133,7 +138,7 @@ function appendSession(exerciseId: number) {
             </div>
 
             <ul
-              v-if=""
+              v-if="getExerciseSessions(exercise.id).length"
               v-auto-animate
               class="workout-form__sets"
             >
@@ -148,7 +153,7 @@ function appendSession(exerciseId: number) {
                 <div class="workout-form__sets-header--delete" />
               </li>
               <li
-                v-for=""
+                v-for="set in getExerciseSessions(exercise.id)"
                 :key="set.id"
                 class="workout-form__sets-item"
               >

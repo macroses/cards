@@ -39,6 +39,10 @@ function handleAddSet(set: UserTrainingSession) {
   workout.sessions.push(set)
 }
 
+function handleRemoveSet(setId: string) {
+  workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.id !== setId)
+}
+
 watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 })
@@ -47,7 +51,6 @@ watch(selectedDate, (newDate: Date) => {
 <template>
   <WorkoutWrapper>
     <template #description>
-      {{ workout.sessions }}
       <div v-auto-animate>
         <WorkoutDescription
           :selected-date="selectedDate"
@@ -63,9 +66,11 @@ watch(selectedDate, (newDate: Date) => {
     </template>
     <template #workout-exercises>
       <WorkoutExercises
+        :sessions="workout.sessions"
         :selected-exercises="workout.exercises"
         @remove-exercise="handleRemoveExercise"
         @add-set="handleAddSet"
+        @remove-set="handleRemoveSet"
       />
       <TheButton :disabled="!workout.title">
         {{ t('workout.save_workout') }}
