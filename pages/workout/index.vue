@@ -57,6 +57,8 @@ const route = useRoute()
 onMounted(() => {
   workoutId.value = route.query
 })
+
+// todo вотчить наличие query параметра. По его наличию в вотчере подставлять полученную тренировку в объект workout
 </script>
 
 <template>
