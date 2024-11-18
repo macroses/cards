@@ -1,5 +1,7 @@
+import { GLOBAL_DATE } from '~/constants'
+
 export function useToggleCalendar() {
-  const selectedDate = useState<Date>('selectedWorkoutDate', () => new Date())
+  const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
   const isCalendarVisible = shallowRef(false)
 
   function toggleCalendar() {
