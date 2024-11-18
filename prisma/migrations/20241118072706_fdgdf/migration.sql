@@ -49,7 +49,9 @@ CREATE TABLE "Workout" (
     "workoutDate" DATETIME NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
-    "completed" BOOLEAN NOT NULL,
+    "completed" BOOLEAN NOT NULL DEFAULT false,
+    "workoutTime" INTEGER,
+    "startedAt" DATETIME,
     CONSTRAINT "Workout_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -64,11 +66,12 @@ CREATE TABLE "WorkoutExercise" (
 -- CreateTable
 CREATE TABLE "WorkoutSet" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "workoutExerciseId" TEXT NOT NULL,
+    "workoutId" TEXT NOT NULL,
+    "exerciseId" INTEGER NOT NULL,
     "weight" REAL NOT NULL,
     "repeats" INTEGER NOT NULL,
     "difficulty" INTEGER NOT NULL,
-    CONSTRAINT "WorkoutSet_workoutExerciseId_fkey" FOREIGN KEY ("workoutExerciseId") REFERENCES "WorkoutExercise" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT "WorkoutSet_workoutId_fkey" FOREIGN KEY ("workoutId") REFERENCES "Workout" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex

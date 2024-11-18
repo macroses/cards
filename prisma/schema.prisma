@@ -54,35 +54,36 @@ model VerificationToken {
 }
 
 model Workout {
-  id          String    @id @default(cuid())
+  id          String            @id @default(cuid())
   userId      String
   title       String
   color       String
   workoutDate DateTime
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  completed   Boolean   @default(false)
-  workoutTime Int?     // Добавляем поле для хранения времени тренировки в миллисекундах
-  startedAt   DateTime? // Добавляем поле для отслеживания начала тренировки
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  completed   Boolean           @default(false)
+  workoutTime Int?
+  startedAt   DateTime?
   exercises   WorkoutExercise[]
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sets        WorkoutSet[]
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([workoutDate], name: "workout_date_idx")
 }
 
 model WorkoutExercise {
-  id          String       @id @default(cuid())
-  workoutId   String
-  exerciseId  Int
-  workout     Workout      @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-  sets        WorkoutSet[]
+  id         String  @id @default(cuid())
+  workoutId  String
+  exerciseId Int
+  workout    Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 }
 
 model WorkoutSet {
-  id                 String          @id @default(cuid())
-  workoutExerciseId  String
-  weight             Float
-  repeats            Int
-  difficulty         Int
-  workoutExercise    WorkoutExercise @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
+  id         String  @id @default(cuid())
+  workoutId  String
+  exerciseId Int
+  weight     Float
+  repeats    Int
+  difficulty Int
+  workout    Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 }

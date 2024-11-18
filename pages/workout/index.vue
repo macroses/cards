@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToggleCalendar } from '~/composables/calendar/useToggleCalendar'
 import { WORKOUT_COLORS } from '~/constants'
-import type { UserWorkout } from '~/ts/interfaces'
+import type { UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
 const { t } = useI18n()
 
@@ -16,19 +16,20 @@ const workout = reactive<UserWorkout>({
   title: '',
   color: WORKOUT_COLORS[0].rgb,
   exercises: [],
+  sessions: [],
   workoutDate: selectedDate.value,
 })
 
-function handleSelectExercise(exercise) {
-  const isExerciseExists = workout.exercises.some(ex => ex.id === exercise.id)
+function handleSelectExercise(exercise: UserWorkoutExercise) {
+  const isExerciseExists = workout.exercises.some((ex: UserWorkoutExercise) => ex.id === exercise.id)
 
   if (!isExerciseExists) {
     workout.exercises.push(exercise)
   }
 }
 
-function handleRemoveExercise(exerciseId) {
-  workout.exercises = workout.exercises.filter(exercise => exercise.id !== exerciseId)
+function handleRemoveExercise(exerciseId: number) {
+  workout.exercises = workout.exercises.filter((exercise: UserWorkoutExercise) => exercise.id !== exerciseId)
 }
 
 watch(selectedDate, (newDate: Date) => {

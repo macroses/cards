@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { UserWorkoutExercise } from '~/ts/interfaces'
 
 defineProps<{
-  selectedExercises: ExerciseServerTemplate[]
+  selectedExercises: UserWorkoutExercise[]
 }>()
 
 const emit = defineEmits<{
-  (event: 'removeExercise'): void
+  (event: 'removeExercise', id: number): void
 }>()
 </script>
 
