@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 
-const props = withDefaults(defineProps<WorkoutFunctionsProps>(), {
+withDefaults(defineProps<WorkoutFunctionsProps>(), {
   isCopyMode: false,
   isDateChangeMode: false,
 })
@@ -10,9 +10,8 @@ const emit = defineEmits<{
   (event: 'deleteWorkout'): void
   (event: 'copyWorkout'): void
   (event: 'changeDateMode'): void
+  (event: 'updateWorkout'): void
 }>()
-
-const localePath = useLocalePath()
 </script>
 
 <template>
@@ -20,7 +19,7 @@ const localePath = useLocalePath()
     class="date-menu"
   >
     <div class="date-menu__event-name">
-      {{ workout?.title }}
+      {{ workoutTitle }}
     </div>
 
     <TheButton @click.stop="emit('deleteWorkout')">
@@ -29,9 +28,11 @@ const localePath = useLocalePath()
     <TheButton @click.stop="emit('copyWorkout')">
       Копировать
     </TheButton>
-    <TheButton>Изменить</TheButton>
+    <TheButton @click="emit('updateWorkout')">
+      Изменить
+    </TheButton>
     <TheButton @click.stop="emit('changeDateMode')">
-      {{ isDateChangeMode ? 'Отменить изменение даты' : 'Поменять дату' }}
+      Поменять дату
     </TheButton>
   </div>
 </template>

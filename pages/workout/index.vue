@@ -23,6 +23,8 @@ const workout = reactive<UserWorkout>({
   workoutDate: selectedDate.value,
 })
 
+const workoutId = ref('')
+
 function handleSelectExercise(exercise: UserWorkoutExercise): void {
   const isExerciseExists = workout.exercises.some((ex: UserWorkoutExercise) => ex.id === exercise.id)
 
@@ -49,11 +51,18 @@ function handleRemoveSet(setId: string) {
 watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 })
+
+const route = useRoute()
+
+onMounted(() => {
+  workoutId.value = route.query
+})
 </script>
 
 <template>
   <WorkoutWrapper>
     <template #description>
+      {{ workoutId }}
       <div v-auto-animate>
         <WorkoutDescription
           :selected-date="selectedDate"

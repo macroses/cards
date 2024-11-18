@@ -5,18 +5,23 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 definePageMeta({ auth: true })
 
+const localePath = useLocalePath()
 const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
 const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
-
-function handleDateSelect(date: Date) {
-  selectedDate.value = date
-}
 
 const selectedWorkout = computed(() => {
   return workouts.value?.find((workout: CreateWorkoutResponse) => {
     return dayjs(workout.workoutDate).isSame(selectedDate.value, 'day')
   })
 })
+
+function handleDateSelect(date: Date) {
+  selectedDate.value = date
+}
+
+function toEditPage() {
+  navigateTo(localePath(`/workout/?edit=${selectedWorkout.value?.id}`))
+}
 </script>
 
 <template>
@@ -30,9 +35,10 @@ const selectedWorkout = computed(() => {
       <MainNavigation />
       <WorkoutFunctions
         v-if="selectedWorkout"
-        :workout="selectedWorkout"
+        :workout-title="selectedWorkout.title"
         :is-copy-mode="false"
         :is-date-change-mode="false"
+        @update-workout="toEditPage"
       />
     </div>
   </div>
