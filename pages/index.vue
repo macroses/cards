@@ -41,10 +41,10 @@ async function handleDateSelect(date: Date) {
 <template>
   <div class="home-page__container">
     <div
-      v-auto-animate
+
       class="home-page__calendar"
     >
-      <div class="calendar-wrap">
+      <div v-auto-animate class="calendar-wrap">
         <Calendar
           v-model="selectedDate"
           :workouts="workouts"
@@ -52,17 +52,16 @@ async function handleDateSelect(date: Date) {
           @date-select="handleDateSelect"
         />
         <MainNavigation />
+        <WorkoutFunctions
+          v-if="selectedWorkout"
+          :workout-title="selectedWorkout.title"
+          :is-copy-mode="isCopyMode"
+          :is-date-change-mode="false"
+          @update-workout="toEditPage"
+          @delete-workout="deleteWorkout(selectedWorkout.id)"
+          @copy-workout="handleCopyWorkout"
+        />
       </div>
-
-      <WorkoutFunctions
-        v-if="selectedWorkout"
-        :workout-title="selectedWorkout.title"
-        :is-copy-mode="isCopyMode"
-        :is-date-change-mode="false"
-        @update-workout="toEditPage"
-        @delete-workout="deleteWorkout(selectedWorkout.id)"
-        @copy-workout="handleCopyWorkout"
-      />
     </div>
   </div>
 </template>

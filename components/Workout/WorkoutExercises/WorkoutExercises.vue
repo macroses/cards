@@ -53,6 +53,14 @@ function appendSession(exerciseId: number) {
 function getExerciseSessions(exerciseId: number) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
+
+function calculateTotalTonnage(): number {
+  return props.sessions.reduce((total: number, session: UserTrainingSession) => {
+    const weight = session.weight || 0
+    const repeats = session.repeats || 0
+    return total + (weight * repeats)
+  }, 0)
+}
 </script>
 
 <template>
@@ -60,6 +68,12 @@ function getExerciseSessions(exerciseId: number) {
     v-auto-animate
     class="workout-exercises-wrapper"
   >
+    <div
+      v-if="calculateTotalTonnage() > 0"
+      class="workout-total"
+    >
+      Total tonnage: {{ (calculateTotalTonnage() / 1000).toFixed(2) }} T
+    </div>
     <ul
       v-if="selectedExercises.length"
       v-auto-animate
@@ -81,17 +95,6 @@ function getExerciseSessions(exerciseId: number) {
             class="workout__exercises__title-icon"
           />
           <span>{{ exercise.name }}</span>
-          <div class="workout__exercises-chart">
-            <TheButton
-              variant="transparent"
-              icon-only
-            >
-              <TheIcon
-                icon-name="chart-waterfall"
-                width="14px"
-              />
-            </TheButton>
-          </div>
           <TheButton
             variant="transparent"
             icon-only
