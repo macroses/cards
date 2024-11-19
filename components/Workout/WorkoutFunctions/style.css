@@ -1,0 +1,12 @@
+.date-menu__functions {
+  display: flex;
+}
+
+.date-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  padding: 12px 12px 12px 16px;
+  border: 1px solid rgb(var(--accent-color) / 0.3);
+}

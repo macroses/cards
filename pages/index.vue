@@ -40,7 +40,10 @@ async function handleDateSelect(date: Date) {
 
 <template>
   <div class="home-page__container">
-    <div class="home-page__calendar">
+    <div
+      v-auto-animate
+      class="home-page__calendar"
+    >
       <Calendar
         v-model="selectedDate"
         :workouts="workouts"
