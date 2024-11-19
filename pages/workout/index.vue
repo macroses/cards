@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { LocationQuery } from '#vue-router'
 import { GLOBAL_WORKOUTS, WORKOUT_COLORS } from '~/constants'
-import type { CreateWorkoutResponse, UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
+import type {
+  CreateWorkoutResponse,
+  UserTrainingSession,
+  UserWorkout,
+  UserWorkoutExercise,
+} from '~/ts/interfaces'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -12,6 +17,7 @@ const {
   selectedDate,
 } = useToggleCalendar()
 
+const { checkWorkoutAccess } = useCheckWorkoutAccess()
 const { submitWorkout } = useSubmitWorkout()
 const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
 
@@ -89,8 +95,12 @@ watch(editableWorkout, (foundWorkout) => {
   })
 })
 
-onMounted(() => {
+onMounted(async () => {
   workoutEditId.value = route.query
+
+  if (workoutEditId.value?.edit) {
+    await checkWorkoutAccess()
+  }
 })
 </script>
 
