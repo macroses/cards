@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useToggleCalendar } from '~/composables/calendar/useToggleCalendar'
-import { useSubmitWorkout } from '~/composables/workoutManagment/useSubmitWorkout'
-import { WORKOUT_COLORS } from '~/constants'
-import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
+import type { LocationQuery } from '#vue-router'
+import { GLOBAL_WORKOUTS, WORKOUT_COLORS } from '~/constants'
+import type { CreateWorkoutResponse, UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
 const { t } = useI18n()
+const route = useRoute()
 
 const {
   isCalendarVisible,
@@ -13,6 +13,8 @@ const {
 } = useToggleCalendar()
 
 const { submitWorkout } = useSubmitWorkout()
+const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
+// const { fetchWorkoutById, data: fetchedWorkout, error, isLoading } = useFetchWorkoutById()
 
 // User workout object
 const workout = reactive<UserWorkout>({
@@ -23,7 +25,7 @@ const workout = reactive<UserWorkout>({
   workoutDate: selectedDate.value,
 })
 
-const workoutId = ref('')
+const workoutEditId = ref<LocationQuery | null>(null)
 
 function handleSelectExercise(exercise: UserWorkoutExercise): void {
   const isExerciseExists = workout.exercises.some((ex: UserWorkoutExercise) => ex.id === exercise.id)
@@ -52,19 +54,28 @@ watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 })
 
-const route = useRoute()
+// watch(workoutEditId, (newId) => {
+//   if (newId?.edit) {
+//     fetchWorkoutById(newId.edit)
+//   }
+// })
 
-onMounted(() => {
-  workoutId.value = route.query
+const editableWorkout = computed(() => {
+  if (!workoutEditId.value?.edit)
+    return null
+
+  return workoutsList.value?.find((workout: CreateWorkoutResponse) => workout.id === workoutEditId.value?.edit)
 })
 
-// todo вотчить наличие query параметра. По его наличию в вотчере подставлять полученную тренировку в объект workout
+onMounted(() => {
+  workoutEditId.value = route.query
+})
 </script>
 
 <template>
   <WorkoutWrapper>
     <template #description>
-      {{ workoutId }}
+      {{ editableWorkout }}
       <div v-auto-animate>
         <WorkoutDescription
           :selected-date="selectedDate"
