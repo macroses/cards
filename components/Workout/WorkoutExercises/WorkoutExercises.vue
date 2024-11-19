@@ -1,29 +1,57 @@
 <script setup lang="ts">
-import type { WorkoutExercisesProps } from '~/ts/componentProps'
+import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
+import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
 
-const props = defineProps<WorkoutExercisesProps>()
-
-const emit = defineEmits<{
-  toggleExercise: [id: number]
-  removeExercise: [id: number]
-  addSet: [id: number]
-  removeSet: [exerciseId: number, setId: string]
+const props = defineProps<{
+  selectedExercises: UserWorkoutExercise[]
+  sessions: UserTrainingSession[]
 }>()
 
-const {
-  isWorkoutSetValid,
-  workoutSetRules,
-  workoutExercisesLength,
-  calculateTonnage,
-  totalTonnage,
-} = useWorkoutExercises(props.workoutExercises)
+const emit = defineEmits<{
+  (event: 'removeExercise', id: number): void
+  (event: 'addSet', exerciseForm: ExerciseFormData): void
+  (event: 'removeSet', setId: string): void
+}>()
 
-function getExerciseData(exerciseId: number) {
-  return props.exerciseData.get(exerciseId) || {
-    currentWeight: '',
-    currentRepeats: '',
-    currentDifficulty: 1,
-  }
+interface ExerciseFormData {
+  id: string
+  exerciseId: number
+  weight: number | null
+  repeats: number | null
+  difficulty: DIFFICULT_LEVEL
+}
+
+const exerciseForm = reactive({
+  weight: null,
+  repeats: null,
+  difficulty: DIFFICULT_LEVEL.WARM,
+})
+
+const activeExerciseId = ref<number | null>(null)
+
+function toggleExercise(exerciseId: number) {
+  resetExerciseForm()
+  activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
+}
+
+function resetExerciseForm() {
+  exerciseForm.weight = null
+  exerciseForm.repeats = null
+  exerciseForm.difficulty = DIFFICULT_LEVEL.WARM
+}
+
+function appendSession(exerciseId: number) {
+  emit('addSet', {
+    id: crypto.randomUUID(),
+    exerciseId,
+    weight: exerciseForm.weight,
+    repeats: exerciseForm.repeats,
+    difficulty: exerciseForm.difficulty,
+  })
+}
+
+function getExerciseSessions(exerciseId: number) {
+  return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
 </script>
 
@@ -32,26 +60,20 @@ function getExerciseData(exerciseId: number) {
     v-auto-animate
     class="workout-exercises-wrapper"
   >
-    <div
-      v-if="totalTonnage"
-      class="workout-total"
-    >
-      Total tonnage: <span> {{ (totalTonnage / 1000).toFixed(2) }} T</span>
-    </div>
     <ul
-      v-if="exercises.length"
+      v-if="selectedExercises.length"
       v-auto-animate
       class="workout__exercises"
     >
       <li
-        v-for="exercise in exercises"
+        v-for="exercise in selectedExercises"
         :key="exercise.id"
         class="workout__exercises-item"
         :class="{ active: activeExerciseId === exercise.id }"
       >
         <div
           class="workout__exercises-item-name"
-          @click.stop="emit('toggleExercise', exercise.id)"
+          @click.stop="toggleExercise(exercise.id)"
         >
           <TheIcon
             icon-name="angle-down"
@@ -70,12 +92,6 @@ function getExerciseData(exerciseId: number) {
               />
             </TheButton>
           </div>
-          <div
-            v-if="calculateTonnage(exercise.id) > 0"
-            class="workout__exercise-tonnage"
-          >
-            {{ (calculateTonnage(exercise.id) / 1000).toFixed(2) }} T
-          </div>
           <TheButton
             variant="transparent"
             icon-only
@@ -92,42 +108,37 @@ function getExerciseData(exerciseId: number) {
           <form
             v-auto-animate
             class="exercise-form"
-            @submit.prevent="emit('addSet', exercise.id)"
+            @submit.prevent="appendSession(exercise.id)"
           >
             <div class="exercise-form__main">
               <TheInput
-                v-model.number="getExerciseData(exercise.id).currentWeight"
+                v-model.number="exerciseForm.weight"
                 placeholder="Вес"
                 type="number"
                 inputmode="numeric"
                 no-clear
-                :validate-rules="workoutSetRules"
-                @validation="isWorkoutSetValid = $event"
               />
               <TheInput
-                v-model.number="getExerciseData(exercise.id).currentRepeats"
+                v-model.trim.number="exerciseForm.repeats"
                 placeholder="Повторения"
                 type="number"
                 inputmode="numeric"
                 no-clear
-                :validate-rules="workoutSetRules"
-                @validation="isWorkoutSetValid = $event"
               />
             </div>
             <div class="exercise-form__submit">
               <WorkoutDifficulty
-                v-model="getExerciseData(exercise.id).currentDifficulty"
+                v-model="exerciseForm.difficulty"
               />
               <TheButton
                 type="submit"
-                :disabled="!isWorkoutSetValid"
               >
-                Append
+                Добавить сет
               </TheButton>
             </div>
 
             <ul
-              v-if="workoutExercisesLength(exercise.id)"
+              v-if="getExerciseSessions(exercise.id).length"
               v-auto-animate
               class="workout-form__sets"
             >
@@ -142,7 +153,7 @@ function getExerciseData(exerciseId: number) {
                 <div class="workout-form__sets-header--delete" />
               </li>
               <li
-                v-for="set in workoutExercises.find(e => e.exerciseId === exercise.id)?.sets"
+                v-for="set in getExerciseSessions(exercise.id)"
                 :key="set.id"
                 class="workout-form__sets-item"
               >
@@ -159,7 +170,7 @@ function getExerciseData(exerciseId: number) {
                 <TheButton
                   variant="transparent"
                   icon-only
-                  @click="emit('removeSet', exercise.id, set.id)"
+                  @click="emit('removeSet', set.id)"
                 >
                   <TheIcon
                     icon-name="xmark"

@@ -1,7 +1,9 @@
 <script setup lang="ts">
-const { fetchWorkouts } = useGetWorkouts()
+const { fetchWorkouts } = useFetchWorkoutsByUserId()
 
-onMounted(async () => await fetchWorkouts())
+onMounted(() => {
+  fetchWorkouts()
+})
 </script>
 
 <template>

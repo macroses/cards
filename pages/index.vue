@@ -1,109 +1,44 @@
 <script setup lang="ts">
+import dayjs from 'dayjs'
+import { GLOBAL_DATE, GLOBAL_WORKOUTS } from '~/constants'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
+
 definePageMeta({ auth: true })
 
-const {
-  selectedWorkout,
-  selectedDate,
-  workouts,
-} = useSelectedWorkout()
+const localePath = useLocalePath()
+const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
+const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
 
-const {
-  deleteWorkout,
-  copyWorkout,
-  updateWorkoutDate,
-  startCopyMode,
-  cancelCopyMode,
-  startDateChangeMode,
-  cancelDateChangeMode,
-  isCopyMode,
-  isDateChangeMode,
-  workoutToCopy,
-  workoutToChangeDate,
-} = useWorkout()
-
-const { fetchWorkouts } = useGetWorkouts()
-
-async function handleDeleteWorkout() {
-  if (!selectedWorkout.value?.id) {
-    return
-  }
-
-  const success = await deleteWorkout(selectedWorkout.value.id)
-
-  if (success) {
-    await fetchWorkouts()
-  }
-}
-
-function handleCopyWorkout() {
-  if (!selectedWorkout.value)
-    return
-
-  if (isCopyMode.value) {
-    cancelCopyMode()
-
-    return
-  }
-
-  startCopyMode(selectedWorkout.value)
-}
-
-function handleChangeDateMode() {
-  if (!selectedWorkout.value)
-    return
-
-  if (isDateChangeMode.value) {
-    cancelDateChangeMode()
-    return
-  }
-
-  startDateChangeMode(selectedWorkout.value)
-}
-
-async function handleDateSelect(date: Date) {
-  if (isCopyMode.value && workoutToCopy.value) {
-    const success = await copyWorkout(workoutToCopy.value, date)
-
-    if (success) {
-      await fetchWorkouts()
-      cancelCopyMode()
-    }
-  }
-  else if (isDateChangeMode.value && workoutToChangeDate.value) {
-    const success = await updateWorkoutDate(workoutToChangeDate.value.id, date)
-
-    if (success) {
-      await fetchWorkouts()
-      cancelDateChangeMode()
-    }
-  }
-}
-
-useSeoMeta({
-  title: 'Home',
+const selectedWorkout = computed(() => {
+  return workouts.value?.find((workout: CreateWorkoutResponse) => {
+    return dayjs(workout.workoutDate).isSame(selectedDate.value, 'day')
+  })
 })
+
+function handleDateSelect(date: Date) {
+  selectedDate.value = date
+}
+
+function toEditPage() {
+  navigateTo(localePath(`/workout/?edit=${selectedWorkout.value?.id}`))
+}
 </script>
 
 <template>
   <div class="home-page__container">
     <div class="home-page__calendar">
-      <TheLoader v-if="!workouts" />
       <Calendar
         v-model="selectedDate"
-        :workouts="workouts"
-        :copy-mode="isCopyMode"
-        :date-change-mode="isDateChangeMode"
+        :workouts
         @date-select="handleDateSelect"
       />
       <MainNavigation />
       <WorkoutFunctions
         v-if="selectedWorkout"
-        :workout="selectedWorkout"
-        :is-copy-mode="isCopyMode"
-        :is-date-change-mode="isDateChangeMode"
-        @delete-workout="handleDeleteWorkout"
-        @copy-workout="handleCopyWorkout"
-        @change-date-mode="handleChangeDateMode"
+        :workout-title="selectedWorkout.title"
+        :is-copy-mode="false"
+        :is-date-change-mode="false"
+        @update-workout="toEditPage"
       />
     </div>
   </div>

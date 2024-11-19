@@ -2,14 +2,24 @@
 import { WORKOUT_COLORS } from '~/constants/workout'
 import type { WorkoutColor } from '~/ts/types/workoutColor.type'
 
+const props = defineProps<{
+  initialColor?: string
+}>()
+
 const emit = defineEmits<{
   dropColor: [color: WorkoutColor['rgb']]
 }>()
 
 const container = ref<HTMLElement | null>(null)
-
 const defaultColor = ref(WORKOUT_COLORS[0].rgb)
 const isDropDownActive = ref(false)
+
+// Следим за изменением начального цвета
+watch(() => props.initialColor, (newColor) => {
+  if (newColor) {
+    defaultColor.value = newColor
+  }
+}, { immediate: true })
 
 function dropColor(color: WorkoutColor['rgb']) {
   isDropDownActive.value = false

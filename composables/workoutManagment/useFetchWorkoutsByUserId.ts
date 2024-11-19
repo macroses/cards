@@ -1,18 +1,18 @@
 import { GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
-const API_WORKOUTS = '/api/workout/workouts'
+const API_WORKOUTS = '/api/workout/workoutsListByUserId'
 
-export function useGetWorkouts() {
+export function useFetchWorkoutsByUserId() {
   const { t } = useI18n()
-  const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
+  const workouts = useState<CreateWorkoutResponse | null>(GLOBAL_WORKOUTS, () => null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
   async function fetchWorkouts() {
     try {
       isLoading.value = true
-      workouts.value = await $fetch<CreateWorkoutResponse[]>(API_WORKOUTS)
+      workouts.value = await $fetch<CreateWorkoutResponse>(API_WORKOUTS)
     }
     catch (err: unknown) {
       console.error(err)

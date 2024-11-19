@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<InputTextProps>(), {
 const emit = defineEmits(['validation'])
 
 const uniqueId = useId() as string
-const modelValue = defineModel<string | number | undefined>({ default: '' })
+const modelValue = defineModel<string | number | undefined | null>({ default: '' })
 const error = ref('')
 
 function validate() {

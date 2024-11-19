@@ -1,6 +1,8 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   selectedDate: Date
+  title?: string
+  color?: string
 }>()
 
 const emit = defineEmits<{
@@ -10,6 +12,13 @@ const emit = defineEmits<{
 }>()
 
 const workoutTitle = ref('')
+
+watch(() => props.title, (newTitle) => {
+  if (newTitle) {
+    workoutTitle.value = newTitle
+  }
+}, { immediate: true })
+
 const isWorkoutNameValid = ref(false)
 
 const workoutNameRules = [
@@ -40,7 +49,10 @@ watch(workoutTitle, (newValue) => {
         @input="changeWorkoutTitle"
         @validation="isWorkoutNameValid = $event"
       />
-      <TheDropdpownColor @drop-color="changeWorkoutColor" />
+      <TheDropdpownColor
+        :initial-color="color"
+        @drop-color="changeWorkoutColor"
+      />
       <TheButton
         variant="secondary"
         @click="$emit('toggleCalendar')"

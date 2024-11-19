@@ -1,7 +1,5 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
-
 export interface WorkoutFunctionsProps {
-  workout: CreateWorkoutResponse
+  workoutTitle: string
   isCopyMode: boolean
   isDateChangeMode: boolean
 }

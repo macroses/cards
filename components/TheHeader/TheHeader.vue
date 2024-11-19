@@ -6,15 +6,8 @@ const { signOut, data } = useAuth()
 const { locale, changeLanguage, initLanguage } = useChangeLanguage()
 const { t } = useI18n()
 
-const dialogRef = ref<InstanceType<typeof TheDialog> | null>(null)
-
-function openSignOutDialog() {
-  dialogRef.value?.openDialog()
-}
-
 function handleSignOut() {
   signOut()
-  dialogRef.value?.closeDialog()
 }
 
 onMounted(() => {
@@ -67,7 +60,6 @@ onMounted(() => {
                 <TheButton
                   icon-only
                   variant="ghost"
-                  @click="openSignOutDialog"
                 >
                   <TheIcon
                     icon-name="right-from-bracket"
@@ -82,7 +74,7 @@ onMounted(() => {
       </nav>
     </div>
 
-    <TheDialog ref="dialogRef">
+    <TheDialog>
       <template #content>
         <div>{{ t('signOutConfirm') }}</div>
       </template>
@@ -94,7 +86,7 @@ onMounted(() => {
           >
             Выйти
           </TheButton>
-          <TheButton @click="dialogRef?.closeDialog()">
+          <TheButton>
             Отмена
           </TheButton>
         </div>

@@ -1,7 +1,6 @@
 import { getServerSession } from '#auth'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
-export default defineEventHandler(async (event): Promise<CreateWorkoutResponse[]> => {
+export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)
 
   if (!session) {
@@ -17,11 +16,8 @@ export default defineEventHandler(async (event): Promise<CreateWorkoutResponse[]
         userId: session.user.id,
       },
       include: {
-        exercises: {
-          include: {
-            sets: true,
-          },
-        },
+        exercises: true,
+        sets: true,
       },
       orderBy: {
         workoutDate: 'desc',
