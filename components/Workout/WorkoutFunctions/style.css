@@ -1,0 +1,17 @@
+.date-menu__functions {
+  display: flex;
+}
+
+.date-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  padding: 20px 12px 0 16px;
+}
+
+.date-menu__event-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
