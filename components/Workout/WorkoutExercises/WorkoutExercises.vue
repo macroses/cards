@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
+import calculateTonnage from '../../../utils/calculateTonnage'
 
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
@@ -53,14 +54,6 @@ function appendSession(exerciseId: number) {
 function getExerciseSessions(exerciseId: number) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
-
-function calculateTotalTonnage(): number {
-  return props.sessions.reduce((total: number, session: UserTrainingSession) => {
-    const weight = session.weight || 0
-    const repeats = session.repeats || 0
-    return total + (weight * repeats)
-  }, 0)
-}
 </script>
 
 <template>
@@ -69,10 +62,10 @@ function calculateTotalTonnage(): number {
     class="workout-exercises-wrapper"
   >
     <div
-      v-if="calculateTotalTonnage() > 0"
+      v-if="calculateTonnage(sessions) > 0"
       class="workout-total"
     >
-      Total tonnage: {{ (calculateTotalTonnage() / 1000).toFixed(2) }} T
+      Total tonnage: {{ (calculateTonnage(sessions)).toFixed(2) }} T
     </div>
     <ul
       v-if="selectedExercises.length"
@@ -130,12 +123,8 @@ function calculateTotalTonnage(): number {
               />
             </div>
             <div class="exercise-form__submit">
-              <WorkoutDifficulty
-                v-model="exerciseForm.difficulty"
-              />
-              <TheButton
-                type="submit"
-              >
+              <WorkoutDifficulty v-model="exerciseForm.difficulty" />
+              <TheButton type="submit">
                 Добавить сет
               </TheButton>
             </div>

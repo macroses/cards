@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LocationQuery } from '#vue-router'
+import { useSelectExercise } from '~/composables/workoutManagment/useSelectExercise'
 import { GLOBAL_WORKOUTS, WORKOUT_COLORS } from '~/constants'
 import type {
   CreateWorkoutResponse,
@@ -30,14 +31,12 @@ const workout = reactive<UserWorkout>({
   workoutDate: selectedDate.value,
 })
 
+const { selectExercise } = useSelectExercise()
+
 const workoutEditId = ref<LocationQuery | null>(null)
 
 function handleSelectExercise(exercise: UserWorkoutExercise): void {
-  const isExerciseExists = workout.exercises.some((ex: UserWorkoutExercise) => ex.id === exercise.id)
-
-  if (!isExerciseExists) {
-    workout.exercises.push(exercise)
-  }
+  selectExercise(exercise, workout)
 }
 
 function handleRemoveExercise(exerciseId: number): void {
