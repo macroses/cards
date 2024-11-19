@@ -4,8 +4,8 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces'
 const API_WORKOUTS = '/api/workout/workoutsListByUserId'
 
 export function useFetchWorkoutsByUserId() {
-  const { t } = useI18n()
   const workouts = useState<CreateWorkoutResponse | null>(GLOBAL_WORKOUTS, () => null)
+  const { t } = useI18n()
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 

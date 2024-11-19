@@ -1,9 +1,4 @@
-import type { CreateWorkoutRequest, UserWorkout } from '~/ts/interfaces'
-
-interface SubmitWorkoutReturn {
-  submitWorkout: (workout: UserWorkout) => Promise<boolean>
-  isLoading: Ref<boolean>
-}
+import type { CreateWorkoutRequest, SubmitWorkoutReturn, UserWorkout } from '~/ts/interfaces'
 
 const API_CREATE = '/api/workout/create'
 const API_UPDATE = '/api/workout/update'
