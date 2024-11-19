@@ -29,6 +29,7 @@ export interface CreateWorkoutResponse {
   startedAt?: Date | null
   exercises: {
     id: string
+    exerciseName: string
     workoutId: string
     exerciseId: number
   }[]

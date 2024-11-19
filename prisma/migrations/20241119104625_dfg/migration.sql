@@ -59,6 +59,7 @@ CREATE TABLE "Workout" (
 CREATE TABLE "WorkoutExercise" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "workoutId" TEXT NOT NULL,
+    "exerciseName" TEXT NOT NULL,
     "exerciseId" INTEGER NOT NULL,
     CONSTRAINT "WorkoutExercise_workoutId_fkey" FOREIGN KEY ("workoutId") REFERENCES "Workout" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -68,7 +69,7 @@ CREATE TABLE "WorkoutSet" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "workoutId" TEXT NOT NULL,
     "exerciseId" INTEGER NOT NULL,
-    "weight" REAL NOT NULL,
+    "weight" INTEGER NOT NULL,
     "repeats" INTEGER NOT NULL,
     "difficulty" INTEGER NOT NULL,
     CONSTRAINT "WorkoutSet_workoutId_fkey" FOREIGN KEY ("workoutId") REFERENCES "Workout" ("id") ON DELETE CASCADE ON UPDATE CASCADE

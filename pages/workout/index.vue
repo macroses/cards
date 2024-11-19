@@ -54,17 +54,40 @@ watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 })
 
-// watch(workoutEditId, (newId) => {
-//   if (newId?.edit) {
-//     fetchWorkoutById(newId.edit)
-//   }
-// })
-
 const editableWorkout = computed(() => {
   if (!workoutEditId.value?.edit)
     return null
 
   return workoutsList.value?.find((workout: CreateWorkoutResponse) => workout.id === workoutEditId.value?.edit)
+})
+
+watch(editableWorkout, (foundWorkout) => {
+  if (!foundWorkout)
+    return
+
+  // Заполняем форму данными из найденной тренировки
+  workout.title = foundWorkout.title
+  workout.color = foundWorkout.color
+  workout.workoutDate = new Date(foundWorkout.workoutDate)
+
+  // Добавляем упражнения
+  foundWorkout.exercises.forEach((exercise) => {
+    handleSelectExercise({
+      id: exercise.exerciseId,
+      name: exercise.exerciseName || '',
+    })
+  })
+
+  // Добавляем сеты
+  foundWorkout.sets.forEach((set) => {
+    handleAddSet({
+      id: crypto.randomUUID(),
+      exerciseId: set.exerciseId,
+      weight: set.weight,
+      repeats: set.repeats,
+      difficulty: set.difficulty,
+    })
+  })
 })
 
 onMounted(() => {
@@ -75,7 +98,7 @@ onMounted(() => {
 <template>
   <WorkoutWrapper>
     <template #description>
-      {{ editableWorkout }}
+      {{ workout }}
       <div v-auto-animate>
         <WorkoutDescription
           :selected-date="selectedDate"

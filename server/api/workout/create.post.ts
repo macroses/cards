@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
       exercises: {
         create: body.exercises.map(exercise => ({
           exerciseId: exercise.id,
+          exerciseName: exercise.name,
         })),
       },
       sets: {
