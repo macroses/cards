@@ -44,13 +44,16 @@ async function handleDateSelect(date: Date) {
       v-auto-animate
       class="home-page__calendar"
     >
-      <Calendar
-        v-model="selectedDate"
-        :workouts="workouts"
-        :copy-mode="isCopyMode"
-        @date-select="handleDateSelect"
-      />
-      <MainNavigation />
+      <div class="calendar-wrap">
+        <Calendar
+          v-model="selectedDate"
+          :workouts="workouts"
+          :copy-mode="isCopyMode"
+          @date-select="handleDateSelect"
+        />
+        <MainNavigation />
+      </div>
+
       <WorkoutFunctions
         v-if="selectedWorkout"
         :workout-title="selectedWorkout.title"

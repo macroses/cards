@@ -27,7 +27,7 @@ const emit = defineEmits<{
         >
           <TheIcon
             icon-name="copy"
-            width="20px"
+            width="18px"
           />
         </TheButton>
       </li>
@@ -39,7 +39,7 @@ const emit = defineEmits<{
         >
           <TheIcon
             icon-name="pen-to-square"
-            width="20px"
+            width="18px"
           />
         </TheButton>
       </li>
@@ -51,7 +51,7 @@ const emit = defineEmits<{
         >
           <TheIcon
             icon-name="trash-can"
-            width="20px"
+            width="18px"
           />
         </TheButton>
       </li>

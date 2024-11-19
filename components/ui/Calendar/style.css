@@ -1,5 +1,12 @@
+.calendar-wrap {
+  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
+  padding: 16px;
+  border-radius: 12px;
+}
+
 .calendar {
   max-width: 524px;
+  border-radius: 12px;
 }
 
 .calendar-header {
@@ -41,6 +48,8 @@
 
 .calendar-day.selected {
   background-color: rgb(var(--accent-color) / 0.3);
+  box-shadow: 0 10px 20px -10px rgb(var(--accent-color) / 0.5);
+  transform: translateY(-3px);
 }
 
 .calendar-day.today .calendar-day__text {
