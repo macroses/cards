@@ -42,6 +42,18 @@ function handleRemoveSet(setId: string) {
   workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.id !== setId)
 }
 
+const isWorkoutValid = computed(() => {
+  if (!workout.exercises.length) {
+    return false
+  }
+
+  const exercisesWithSets = workout.exercises.every((exercise) => {
+    return workout.sessions.some(session => session.exerciseId === exercise.id)
+  })
+
+  return exercisesWithSets && workout.title
+})
+
 watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 })
@@ -78,7 +90,7 @@ onMounted(async () => {
         @remove-set="handleRemoveSet"
       />
       <TheButton
-        :disabled="!workout.title"
+        :disabled="!isWorkoutValid"
         @click="submitWorkout(workout)"
       >
         {{ t('workout.save_workout') }}

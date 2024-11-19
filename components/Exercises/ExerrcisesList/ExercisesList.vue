@@ -21,6 +21,12 @@ function selectExercise(exercise: ExerciseServerTemplate) {
 function isExerciseAlreadySelected(id: number) {
   return props.selectedExercises.some(selected => selected.id === id)
 }
+
+const activeGroupId = ref<string | null>(null)
+
+function toggleGroup(groupId: string) {
+  activeGroupId.value = activeGroupId.value === groupId ? null : groupId
+}
 </script>
 
 <template>
@@ -30,9 +36,11 @@ function isExerciseAlreadySelected(id: number) {
       :key="group.primary"
       v-auto-animate
       class="muscle-item"
+      :class="{ active: activeGroupId === group.primary }"
     >
       <button
         class="muscle-item__title"
+        @click="toggleGroup(group.primary)"
       >
         <TheIcon
           icon-name="angle-down"
@@ -43,6 +51,7 @@ function isExerciseAlreadySelected(id: number) {
         <span class="exercises-count">{{ group.exercises.length }}</span>
       </button>
       <ul
+        v-if="activeGroupId === group.primary"
         class="exercises-list"
       >
         <ExerciseItem
