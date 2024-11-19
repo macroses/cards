@@ -3,13 +3,11 @@ import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 
 withDefaults(defineProps<WorkoutFunctionsProps>(), {
   isCopyMode: false,
-  isDateChangeMode: false,
 })
 
 const emit = defineEmits<{
   (event: 'deleteWorkout'): void
   (event: 'copyWorkout'): void
-  (event: 'changeDateMode'): void
   (event: 'updateWorkout'): void
 }>()
 </script>
@@ -30,9 +28,6 @@ const emit = defineEmits<{
     </TheButton>
     <TheButton @click="emit('updateWorkout')">
       Изменить
-    </TheButton>
-    <TheButton @click.stop="emit('changeDateMode')">
-      Поменять дату
     </TheButton>
   </div>
 </template>
