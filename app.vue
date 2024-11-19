@@ -1,9 +1,7 @@
 <script setup lang="ts">
 const { fetchWorkouts } = useFetchWorkoutsByUserId()
 
-onMounted(() => {
-  fetchWorkouts()
-})
+onMounted(() => fetchWorkouts())
 </script>
 
 <template>

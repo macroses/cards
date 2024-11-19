@@ -10,7 +10,7 @@ export function useDeleteWorkout() {
     try {
       isLoading.value = true
 
-      const successDelete = await $fetch(API_DELETE, {
+      const successDelete = await $fetch<boolean>(API_DELETE, {
         method: 'DELETE',
         body: { id },
       })

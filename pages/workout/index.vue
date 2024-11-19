@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import type { LocationQuery } from '#vue-router'
-import { GLOBAL_WORKOUTS, WORKOUT_COLORS } from '~/constants'
-import type {
-  CreateWorkoutResponse,
-  UserTrainingSession,
-  UserWorkout,
-  UserWorkoutExercise,
-} from '~/ts/interfaces'
+import { useSelectExercise } from '~/composables/workoutManagment/useSelectExercise'
+import { WORKOUT_COLORS } from '~/constants'
+import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
 const { t } = useI18n()
-const route = useRoute()
 
 const {
   isCalendarVisible,
@@ -17,9 +11,7 @@ const {
   selectedDate,
 } = useToggleCalendar()
 
-const { checkWorkoutAccess } = useCheckWorkoutAccess()
 const { submitWorkout } = useSubmitWorkout()
-const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
 
 // User workout object
 const workout = reactive<UserWorkout>({
@@ -30,20 +22,15 @@ const workout = reactive<UserWorkout>({
   workoutDate: selectedDate.value,
 })
 
-const workoutEditId = ref<LocationQuery | null>(null)
+const { editableWorkout, initEditMode } = useEditWorkout(workout)
+const { selectExercise } = useSelectExercise()
 
 function handleSelectExercise(exercise: UserWorkoutExercise): void {
-  const isExerciseExists = workout.exercises.some((ex: UserWorkoutExercise) => ex.id === exercise.id)
-
-  if (!isExerciseExists) {
-    workout.exercises.push(exercise)
-  }
+  selectExercise(exercise, workout)
 }
 
 function handleRemoveExercise(exerciseId: number): void {
   workout.exercises = workout.exercises.filter((exercise: UserWorkoutExercise) => exercise.id !== exerciseId)
-
-  // Delete all sets, which relations to exercise
   workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.exerciseId !== exerciseId)
 }
 
@@ -55,52 +42,24 @@ function handleRemoveSet(setId: string) {
   workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.id !== setId)
 }
 
+const isWorkoutValid = computed(() => {
+  if (!workout.exercises.length) {
+    return false
+  }
+
+  const exercisesWithSets = workout.exercises.every((exercise) => {
+    return workout.sessions.some(session => session.exerciseId === exercise.id)
+  })
+
+  return exercisesWithSets && workout.title
+})
+
 watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 })
 
-const editableWorkout = computed(() => {
-  if (!workoutEditId.value?.edit)
-    return null
-
-  return workoutsList.value?.find((workout: CreateWorkoutResponse) => workout.id === workoutEditId.value?.edit)
-})
-
-watch(editableWorkout, (foundWorkout) => {
-  if (!foundWorkout)
-    return
-
-  // Заполняем форму данными из найденной тренировки
-  workout.title = foundWorkout.title
-  workout.color = foundWorkout.color
-  workout.workoutDate = new Date(foundWorkout.workoutDate)
-
-  // Добавляем упражнения
-  foundWorkout.exercises.forEach((exercise) => {
-    handleSelectExercise({
-      id: exercise.exerciseId,
-      name: exercise.exerciseName || '',
-    })
-  })
-
-  // Добавляем сеты
-  foundWorkout.sets.forEach((set) => {
-    handleAddSet({
-      id: crypto.randomUUID(),
-      exerciseId: set.exerciseId,
-      weight: set.weight,
-      repeats: set.repeats,
-      difficulty: set.difficulty,
-    })
-  })
-})
-
 onMounted(async () => {
-  workoutEditId.value = route.query
-
-  if (workoutEditId.value?.edit) {
-    await checkWorkoutAccess()
-  }
+  await initEditMode()
 })
 </script>
 
@@ -131,7 +90,7 @@ onMounted(async () => {
         @remove-set="handleRemoveSet"
       />
       <TheButton
-        :disabled="!workout.title"
+        :disabled="!isWorkoutValid"
         @click="submitWorkout(workout)"
       >
         {{ t('workout.save_workout') }}
