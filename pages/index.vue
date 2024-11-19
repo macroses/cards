@@ -7,9 +7,12 @@ definePageMeta({ auth: true })
 
 const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
 const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
+const isCopyMode = ref(false)
+const workoutToCopy = ref<string | null>(null)
 
 const localePath = useLocalePath()
 const { deleteWorkout } = useDeleteWorkout()
+const { copyWorkout } = useCopyWorkout()
 
 const selectedWorkout = computed(() => {
   return workouts.value?.find((workout: CreateWorkoutResponse) => {
@@ -20,6 +23,19 @@ const selectedWorkout = computed(() => {
 function toEditPage() {
   navigateTo(localePath(`/workout/?edit=${selectedWorkout.value?.id}`))
 }
+
+async function handleCopyWorkout() {
+  isCopyMode.value = true
+  workoutToCopy.value = selectedWorkout.value?.id || null
+}
+
+async function handleDateSelect(date: Date) {
+  if (isCopyMode.value && workoutToCopy.value) {
+    await copyWorkout(workoutToCopy.value, date)
+    isCopyMode.value = false
+    workoutToCopy.value = null
+  }
+}
 </script>
 
 <template>
@@ -27,17 +43,19 @@ function toEditPage() {
     <div class="home-page__calendar">
       <Calendar
         v-model="selectedDate"
-        :workouts
-        @date-select="selectedDate = $event"
+        :workouts="workouts"
+        :copy-mode="isCopyMode"
+        @date-select="handleDateSelect"
       />
       <MainNavigation />
       <WorkoutFunctions
         v-if="selectedWorkout"
         :workout-title="selectedWorkout.title"
-        :is-copy-mode="false"
+        :is-copy-mode="isCopyMode"
         :is-date-change-mode="false"
         @update-workout="toEditPage"
         @delete-workout="deleteWorkout(selectedWorkout.id)"
+        @copy-workout="handleCopyWorkout"
       />
     </div>
   </div>
