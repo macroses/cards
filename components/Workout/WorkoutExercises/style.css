@@ -6,9 +6,9 @@
 }
 
 .workout-total {
+  flex-grow: 1;
   height: 36px;
   padding-inline: 8px;
-  margin-bottom: 12px;
   border-radius: 8px;
   display: flex;
   gap: 4px;
@@ -50,4 +50,11 @@
   align-items: center;
   gap: 12px;
   font-size: 14px;
+}
+
+.workout-exercises__top {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
 }

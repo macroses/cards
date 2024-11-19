@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import WorkoutTonnage from '~/components/Workout/WorkoutTonnage/WorkoutTonnage.vue'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
-import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
-import calculateTonnage from '../../../utils/calculateTonnage'
+import type {
+  ExerciseFormData,
+  UserTrainingSession,
+  UserWorkoutExercise,
+} from '~/ts/interfaces'
 
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
@@ -14,14 +18,6 @@ const emit = defineEmits<{
   (event: 'addSet', exerciseForm: ExerciseFormData): void
   (event: 'removeSet', setId: string): void
 }>()
-
-interface ExerciseFormData {
-  id: string
-  exerciseId: number
-  weight: number | null
-  repeats: number | null
-  difficulty: DIFFICULT_LEVEL
-}
 
 const exerciseForm = reactive({
   weight: null,
@@ -69,12 +65,11 @@ watch(activeExerciseId, async (newId) => {
     v-auto-animate
     class="workout-exercises-wrapper"
   >
-    <div
-      v-if="calculateTonnage(sessions) > 0"
-      class="workout-total"
-    >
-      Total tonnage: {{ (calculateTonnage(sessions)).toFixed(2) }} T
-    </div>
+    <WorkoutTonnage
+      v-auto-animate
+      :sessions
+      :selected-exercises-length="selectedExercises.length"
+    />
     <ul
       v-if="selectedExercises.length"
       v-auto-animate
