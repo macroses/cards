@@ -14,7 +14,6 @@ const {
 
 const { submitWorkout } = useSubmitWorkout()
 const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
-// const { fetchWorkoutById, data: fetchedWorkout, error, isLoading } = useFetchWorkoutById()
 
 // User workout object
 const workout = reactive<UserWorkout>({
@@ -102,6 +101,8 @@ onMounted(() => {
       <div v-auto-animate>
         <WorkoutDescription
           :selected-date="selectedDate"
+          :title="editableWorkout?.title"
+          :color="editableWorkout?.color"
           @workout-title="workout.title = $event"
           @workout-color="workout.color = $event"
           @toggle-calendar="toggleCalendar"
