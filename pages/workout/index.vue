@@ -85,6 +85,7 @@ onMounted(async () => {
       <WorkoutExercises
         :sessions="workout.sessions"
         :selected-exercises="workout.exercises"
+        :workout-date="workout.workoutDate"
         @remove-exercise="handleRemoveExercise"
         @add-set="handleAddSet"
         @remove-set="handleRemoveSet"

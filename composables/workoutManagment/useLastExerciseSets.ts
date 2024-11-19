@@ -7,11 +7,15 @@ export function useLastExerciseSets() {
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
-  async function fetchLastSets(exerciseId: number) {
+  async function fetchLastSets(exerciseId: number, currentDate: Date) {
     try {
       isLoading.value = true
+
       lastSets.value = await $fetch<WorkoutSet[]>(API_LAST_SETS, {
-        query: { exerciseId },
+        query: {
+          exerciseId,
+          currentDate: currentDate.toISOString(),
+        },
       })
     }
     catch (err) {

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useLastExerciseSets } from '~/composables/workoutManagment/useLastExerciseSets'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
 import calculateTonnage from '../../../utils/calculateTonnage'
@@ -7,6 +6,7 @@ import calculateTonnage from '../../../utils/calculateTonnage'
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
   sessions: UserTrainingSession[]
+  workoutDate: Date
 }>()
 
 const emit = defineEmits<{
@@ -30,6 +30,7 @@ const exerciseForm = reactive({
 })
 
 const activeExerciseId = ref<number | null>(null)
+const { lastSets, fetchLastSets } = useLastExerciseSets()
 
 function toggleExercise(exerciseId: number) {
   resetExerciseForm()
@@ -56,11 +57,9 @@ function getExerciseSessions(exerciseId: number) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
 
-const { lastSets, fetchLastSets } = useLastExerciseSets()
-
 watch(activeExerciseId, async (newId) => {
   if (newId) {
-    await fetchLastSets(newId)
+    await fetchLastSets(newId, props.workoutDate)
   }
 })
 </script>

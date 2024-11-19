@@ -4,6 +4,7 @@ export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)
   const query = getQuery(event)
   const exerciseId = Number(query.exerciseId)
+  const currentDate = query.currentDate ? new Date(query.currentDate as string) : new Date()
 
   if (!session) {
     throw createError({
@@ -20,7 +21,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    // Получаем последнюю тренировку с этим упражнением
+    // Получаем последнюю тренировку с этим упражнением ДО текущей даты
     const lastWorkout = await event.context.prisma.workout.findFirst({
       where: {
         userId: session.user.id,
@@ -28,6 +29,9 @@ export default defineEventHandler(async (event) => {
           some: {
             exerciseId,
           },
+        },
+        workoutDate: {
+          lt: currentDate,
         },
       },
       orderBy: {
@@ -47,12 +51,10 @@ export default defineEventHandler(async (event) => {
 
     return lastWorkout?.sets || []
   }
-  catch (error: unknown) {
-    console.error(error)
-
+  catch (error: any) {
     throw createError({
       statusCode: 500,
-      message: 'Ошибка при получении предыдущих результатов',
+      message: `Ошибка при получении предыдущих результатов: ${error.message}`,
     })
   }
 })
