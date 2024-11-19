@@ -97,7 +97,6 @@ onMounted(() => {
 <template>
   <WorkoutWrapper>
     <template #description>
-      {{ workout }}
       <div v-auto-animate>
         <WorkoutDescription
           :selected-date="selectedDate"
