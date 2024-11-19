@@ -1,19 +1,24 @@
 import type { CreateWorkoutRequest, UserWorkout } from '~/ts/interfaces'
 
+interface SubmitWorkoutReturn {
+  submitWorkout: (workout: UserWorkout) => Promise<boolean>
+  isLoading: Ref<boolean>
+}
+
 const API_CREATE = '/api/workout/create'
 const API_UPDATE = '/api/workout/update'
 
-export function useSubmitWorkout() {
+export function useSubmitWorkout(): SubmitWorkoutReturn {
   const { t } = useI18n()
   const { toast } = useToastState()
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
   const route = useRoute()
   const isLoading = ref(false)
+  const workoutId = route.query.edit as string
 
   async function submitWorkout(workout: UserWorkout) {
     try {
       isLoading.value = true
-      const workoutId = route.query.edit as string
 
       if (workoutId) {
         // Обновление существующей тренировки
@@ -32,17 +37,21 @@ export function useSubmitWorkout() {
           method: 'POST',
           body: workout,
         })
+
         toast(t('toast.workout_created'), 'success')
       }
 
       navigateTo('/')
       await fetchWorkouts()
+
       return true
     }
     catch (error: unknown) {
       console.error('Error submit workout', error)
+
       const errorMessage = workoutId ? t('error.workout_update_error') : t('error.workout_create_error')
       toast(errorMessage, 'error')
+
       return false
     }
     finally {

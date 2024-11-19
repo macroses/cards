@@ -1,6 +1,10 @@
 import type { UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
-export function useSelectExercise() {
+interface SelectExerciseReturn {
+  selectExercise: (exercise: UserWorkoutExercise, workout: UserWorkout) => void
+}
+
+export function useSelectExercise(): SelectExerciseReturn {
   function selectExercise(
     exercise: UserWorkoutExercise,
     workout: UserWorkout,

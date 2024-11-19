@@ -1,6 +1,8 @@
+import type { CheckWorkoutAccessReturn } from '~/ts/interfaces'
+
 const API_CHECK_WORKOUT = '/api/workout/checkAccess'
 
-export function useCheckWorkoutAccess() {
+export function useCheckWorkoutAccess(): CheckWorkoutAccessReturn {
   const route = useRoute()
 
   async function checkWorkoutAccess() {
