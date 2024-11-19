@@ -4,16 +4,22 @@ import type { NuxtError } from '#app'
 defineProps({
   error: Object as () => NuxtError,
 })
+
+const { t } = useI18n()
+const localePath = useLocalePath()
+
+function handleError() {
+  clearError()
+  navigateTo(localePath('/'))
+}
 </script>
 
 <template>
-  <div>
-    <pre>
-      {{ error }}
-    </pre>
+  <div class="error-page">
     <h1>{{ error?.statusCode }}</h1>
-    <NuxtLink to="/">
-      Go back home
-    </NuxtLink>
+    <p>{{ error?.message }}</p>
+    <TheButton @click="handleError">
+      {{ t('back') }}
+    </TheButton>
   </div>
 </template>
