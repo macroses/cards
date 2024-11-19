@@ -25,3 +25,29 @@
   display: flex;
   justify-content: space-between;
 }
+
+.previous-results {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--table-dark-bg);
+}
+
+.previous-results__title {
+  font-size: 14px;
+  color: rgb(var(--text-color) / 0.7);
+  margin-bottom: 8px;
+}
+
+.previous-results__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previous-results__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}

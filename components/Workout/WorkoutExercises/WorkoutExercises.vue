@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useLastExerciseSets } from '~/composables/workoutManagment/useLastExerciseSets'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
 import calculateTonnage from '../../../utils/calculateTonnage'
@@ -54,6 +55,14 @@ function appendSession(exerciseId: number) {
 function getExerciseSessions(exerciseId: number) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
+
+const { lastSets, fetchLastSets } = useLastExerciseSets()
+
+watch(activeExerciseId, async (newId) => {
+  if (newId) {
+    await fetchLastSets(newId)
+  }
+})
 </script>
 
 <template>
@@ -172,6 +181,33 @@ function getExerciseSessions(exerciseId: number) {
               </li>
             </ul>
           </form>
+        </div>
+
+        <div
+          v-if="lastSets.length && activeExerciseId === exercise.id"
+          class="previous-results"
+        >
+          <div class="previous-results__title">
+            Предыдущие результаты:
+          </div>
+          <ul class="previous-results__list">
+            <li
+              v-for="set in lastSets"
+              :key="set.id"
+              class="previous-results__item"
+            >
+              <div
+                class="workout-form__sets--difficulty"
+                :data-difficulty="set.difficulty"
+              />
+              <div class="workout-form__sets--weight">
+                {{ set.weight }}
+              </div>
+              <div class="workout-form__sets--repeats">
+                {{ set.repeats }}
+              </div>
+            </li>
+          </ul>
         </div>
       </li>
     </ul>
