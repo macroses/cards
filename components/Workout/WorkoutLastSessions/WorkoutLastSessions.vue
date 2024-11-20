@@ -3,6 +3,7 @@ interface WorkoutLastSessionProps {
   exerciseId: number
   activeExerciseId: number | null
   workoutDate: Date
+  showSessions: boolean
 }
 
 const props = defineProps<WorkoutLastSessionProps>()
@@ -15,7 +16,7 @@ const exerciseSets = computed(() => {
 
 <template>
   <div
-    v-if="exerciseSets.length && activeExerciseId === exerciseId"
+    v-if="exerciseSets.length && showSessions"
     class="previous-results"
   >
     <div class="previous-results__title">

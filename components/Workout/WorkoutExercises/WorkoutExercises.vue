@@ -25,6 +25,8 @@ const exerciseForm = reactive({
 })
 
 const activeExerciseId = ref<number | null>(null)
+const showLastSessions = ref<number | null>(null)
+const lastSessionsRef = ref(null)
 
 function toggleExercise(exerciseId: number) {
   resetExerciseForm()
@@ -51,9 +53,11 @@ function getExerciseSessions(exerciseId: number) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
 
-function showPreviousSetsResults() {
-
+function showPreviousSetsResults(exerciseId: number | null) {
+  showLastSessions.value = showLastSessions.value === exerciseId ? null : exerciseId
 }
+
+onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
 </script>
 
 <template>
@@ -87,11 +91,14 @@ function showPreviousSetsResults() {
             class="workout__exercises__title-icon"
           />
           <span>{{ exercise.name }}</span>
-          <div class="workout__exercises-item-functions">
+          <div
+            ref="lastSessionsRef"
+            class="workout__exercises-item-functions"
+          >
             <TheButton
               variant="transparent"
               icon-only
-              @click.stop="showPreviousSetsResults"
+              @click.stop="showPreviousSetsResults(exercise.id)"
             >
               <TheIcon
                 icon-name="clock-rotate-left"
@@ -109,11 +116,17 @@ function showPreviousSetsResults() {
               />
             </TheButton>
 
-            <WorkoutLastSessions
-              :exercise-id="exercise.id"
-              :active-exercise-id="activeExerciseId"
-              :workout-date="workoutDate"
-            />
+            <div
+              v-auto-animate
+              class="last-sessions-wrapper"
+            >
+              <WorkoutLastSessions
+                :exercise-id="exercise.id"
+                :active-exercise-id="activeExerciseId"
+                :workout-date="workoutDate"
+                :show-sessions="showLastSessions === exercise.id"
+              />
+            </div>
           </div>
         </div>
 
