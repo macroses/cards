@@ -41,7 +41,7 @@ watch(workoutTitle, (newValue) => {
 
 <template>
   <div class="workout__description">
-    <div class="workout__name">
+    <div v-tooltip="'jjhbkjnkk'" class="workout__name">
       <TheInput
         v-model.trim="workoutTitle"
         placeholder="Workout name"

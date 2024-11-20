@@ -104,6 +104,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
           >
             <TheButton
               v-if="hasPreviousSets(exercise.id)"
+              v-tooltip="'Previous results'"
               variant="transparent"
               icon-only
               @click.stop="showPreviousSetsResults(exercise.id)"
