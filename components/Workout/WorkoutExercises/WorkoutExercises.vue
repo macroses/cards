@@ -28,6 +28,14 @@ const activeExerciseId = ref<number | null>(null)
 const showLastSessions = ref<number | null>(null)
 const lastSessionsRef = ref(null)
 
+const { lastSets } = useLastExerciseSets()
+
+const hasPreviousSets = computed(() => {
+  return (exerciseId: number) => {
+    return lastSets.value[exerciseId]?.length > 0
+  }
+})
+
 function toggleExercise(exerciseId: number) {
   resetExerciseForm()
   activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
@@ -96,6 +104,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
             class="workout__exercises-item-functions"
           >
             <TheButton
+              v-if="hasPreviousSets(exercise.id)"
               variant="transparent"
               icon-only
               @click.stop="showPreviousSetsResults(exercise.id)"

@@ -24,6 +24,7 @@ const workout = reactive<UserWorkout>({
 
 const { editableWorkout, initEditMode } = useEditWorkout(workout)
 const { selectExercise } = useSelectExercise()
+const { fetchLastSets } = useLastExerciseSets()
 
 function handleSelectExercise(exercise: UserWorkoutExercise): void {
   selectExercise(exercise, workout)
@@ -54,8 +55,12 @@ const isWorkoutValid = computed(() => {
   return exercisesWithSets && workout.title
 })
 
-watch(selectedDate, (newDate: Date) => {
+watch(selectedDate, async (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
+
+  for (const exercise of workout.exercises) {
+    await fetchLastSets(exercise.id, workout.workoutDate)
+  }
 })
 
 onMounted(async () => {
