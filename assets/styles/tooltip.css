@@ -8,14 +8,11 @@
   font-size: 12px;
   pointer-events: none;
   white-space: nowrap;
-  
-  /* Добавляем анимацию */
   opacity: 0;
   transform: translateY(5px);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* Активное состояние для анимации */
 .v-tooltip.active {
   opacity: 1;
   transform: translateY(0);
@@ -24,10 +21,35 @@
 .v-tooltip::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  border-width: 4px;
+  border-style: solid;
+}
+
+/* Стрелки для разных позиций */
+.v-tooltip[data-position="top"]::after {
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 4px 4px 0 4px;
-  border-style: solid;
   border-color: rgb(var(--text-color)) transparent transparent transparent;
+}
+
+.v-tooltip[data-position="bottom"]::after {
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-color: transparent transparent rgb(var(--text-color)) transparent;
+}
+
+.v-tooltip[data-position="left"]::after {
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-color: transparent transparent transparent rgb(var(--text-color));
+}
+
+.v-tooltip[data-position="right"]::after {
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-color: transparent rgb(var(--text-color)) transparent transparent;
 }
