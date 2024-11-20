@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import WorkoutLastSessions from '~/components/Workout/WorkoutLastSessions/WorkoutLastSessions.vue'
 import WorkoutTonnage from '~/components/Workout/WorkoutTonnage/WorkoutTonnage.vue'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type {
@@ -26,7 +27,6 @@ const exerciseForm = reactive({
 })
 
 const activeExerciseId = ref<number | null>(null)
-const { lastSets, fetchLastSets } = useLastExerciseSets()
 
 function toggleExercise(exerciseId: number) {
   resetExerciseForm()
@@ -52,12 +52,6 @@ function appendSession(exerciseId: number) {
 function getExerciseSessions(exerciseId: number) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
-
-watch(activeExerciseId, async (newId) => {
-  if (newId) {
-    await fetchLastSets(newId, props.workoutDate)
-  }
-})
 </script>
 
 <template>
@@ -177,7 +171,13 @@ watch(activeExerciseId, async (newId) => {
           </form>
         </div>
 
-        <div
+        <WorkoutLastSessions
+          :exercise-id="exercise.id"
+          :active-exercise-id="activeExerciseId"
+          :workout-date="workoutDate"
+        />
+
+        <!--        <div
           v-if="lastSets.length && activeExerciseId === exercise.id"
           class="previous-results"
         >
@@ -191,18 +191,18 @@ watch(activeExerciseId, async (newId) => {
               class="previous-results__item"
             >
               <div
-                class="workout-form__sets--difficulty"
+                class="workout-form__sets&#45;&#45;difficulty"
                 :data-difficulty="set.difficulty"
               />
-              <div class="workout-form__sets--weight">
+              <div class="workout-form__sets&#45;&#45;weight">
                 {{ set.weight }}
               </div>
-              <div class="workout-form__sets--repeats">
+              <div class="workout-form__sets&#45;&#45;repeats">
                 {{ set.repeats }}
               </div>
             </li>
           </ul>
-        </div>
+        </div> -->
       </li>
     </ul>
     <p
