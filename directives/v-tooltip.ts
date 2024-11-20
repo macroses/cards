@@ -4,8 +4,8 @@ export default {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     const tooltip = document.createElement('div')
     tooltip.className = 'v-tooltip'
+    let showTimeout: ReturnType<typeof setTimeout>
 
-    // Получаем контент и позицию из значения директивы
     const content = typeof binding.value === 'string'
       ? binding.value
       : binding.value?.content
@@ -65,24 +65,32 @@ export default {
     }
 
     el.addEventListener('mouseenter', () => {
-      document.body.appendChild(tooltip)
+      // Добавляем задержку в 500мс перед показом
+      showTimeout = setTimeout(() => {
+        document.body.appendChild(tooltip)
 
-      const { top, left } = calculatePosition()
-      tooltip.style.top = `${top}px`
-      tooltip.style.left = `${left}px`
+        const { top, left } = calculatePosition()
+        tooltip.style.top = `${top}px`
+        tooltip.style.left = `${left}px`
 
-      requestAnimationFrame(() => {
-        tooltip.classList.add('active')
-      })
+        requestAnimationFrame(() => {
+          tooltip.classList.add('active')
+        })
+      }, 500)
     })
 
     el.addEventListener('mouseleave', () => {
-      tooltip.classList.remove('active')
-      setTimeout(() => {
-        if (tooltip.parentNode) {
-          document.body.removeChild(tooltip)
-        }
-      }, 200)
+      // Очищаем таймер, если пользователь убрал курсор до появления тултипа
+      clearTimeout(showTimeout)
+
+      if (tooltip.parentNode) {
+        tooltip.classList.remove('active')
+        setTimeout(() => {
+          if (tooltip.parentNode) {
+            document.body.removeChild(tooltip)
+          }
+        }, 200)
+      }
     })
   },
 }
