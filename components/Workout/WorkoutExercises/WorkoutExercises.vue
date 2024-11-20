@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import WorkoutLastSessions from '~/components/Workout/WorkoutLastSessions/WorkoutLastSessions.vue'
-import WorkoutTonnage from '~/components/Workout/WorkoutTonnage/WorkoutTonnage.vue'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type {
   ExerciseFormData,
@@ -52,6 +50,10 @@ function appendSession(exerciseId: number) {
 function getExerciseSessions(exerciseId: number) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
+
+function showPreviousSetsResults() {
+
+}
 </script>
 
 <template>
@@ -85,16 +87,34 @@ function getExerciseSessions(exerciseId: number) {
             class="workout__exercises__title-icon"
           />
           <span>{{ exercise.name }}</span>
-          <TheButton
-            variant="transparent"
-            icon-only
-            @click="emit('removeExercise', exercise.id)"
-          >
-            <TheIcon
-              icon-name="xmark"
-              width="14px"
+          <div class="workout__exercises-item-functions">
+            <TheButton
+              variant="transparent"
+              icon-only
+              @click.stop="showPreviousSetsResults"
+            >
+              <TheIcon
+                icon-name="clock-rotate-left"
+                width="14px"
+              />
+            </TheButton>
+            <TheButton
+              variant="transparent"
+              icon-only
+              @click="emit('removeExercise', exercise.id)"
+            >
+              <TheIcon
+                icon-name="xmark"
+                width="14px"
+              />
+            </TheButton>
+
+            <WorkoutLastSessions
+              :exercise-id="exercise.id"
+              :active-exercise-id="activeExerciseId"
+              :workout-date="workoutDate"
             />
-          </TheButton>
+          </div>
         </div>
 
         <div class="exercise-form__wr">
@@ -170,39 +190,6 @@ function getExerciseSessions(exerciseId: number) {
             </ul>
           </form>
         </div>
-
-        <WorkoutLastSessions
-          :exercise-id="exercise.id"
-          :active-exercise-id="activeExerciseId"
-          :workout-date="workoutDate"
-        />
-
-        <!--        <div
-          v-if="lastSets.length && activeExerciseId === exercise.id"
-          class="previous-results"
-        >
-          <div class="previous-results__title">
-            Предыдущие результаты:
-          </div>
-          <ul class="previous-results__list">
-            <li
-              v-for="set in lastSets"
-              :key="set.id"
-              class="previous-results__item"
-            >
-              <div
-                class="workout-form__sets&#45;&#45;difficulty"
-                :data-difficulty="set.difficulty"
-              />
-              <div class="workout-form__sets&#45;&#45;weight">
-                {{ set.weight }}
-              </div>
-              <div class="workout-form__sets&#45;&#45;repeats">
-                {{ set.repeats }}
-              </div>
-            </li>
-          </ul>
-        </div> -->
       </li>
     </ul>
     <p

@@ -6,19 +6,16 @@ interface WorkoutLastSessionProps {
 }
 
 const props = defineProps<WorkoutLastSessionProps>()
+const { lastSets } = useLastExerciseSets()
 
-const { lastSets, fetchLastSets } = useLastExerciseSets()
-
-watch(() => props.activeExerciseId, async (newId) => {
-  if (newId) {
-    await fetchLastSets(newId, props.workoutDate)
-  }
+const exerciseSets = computed(() => {
+  return lastSets.value[props.exerciseId] || []
 })
 </script>
 
 <template>
   <div
-    v-if="lastSets.length && activeExerciseId === exerciseId"
+    v-if="exerciseSets.length && activeExerciseId === exerciseId"
     class="previous-results"
   >
     <div class="previous-results__title">
@@ -26,7 +23,7 @@ watch(() => props.activeExerciseId, async (newId) => {
     </div>
     <ul class="previous-results__list">
       <li
-        v-for="set in lastSets"
+        v-for="set in exerciseSets"
         :key="set.id"
         class="previous-results__item"
       >

@@ -31,8 +31,8 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
     workout.workoutDate = new Date(foundWorkout.workoutDate)
 
     // Добавляем упражнения
-    foundWorkout.exercises.forEach((exercise) => {
-      selectExercise({
+    foundWorkout.exercises.forEach(async (exercise) => {
+      await selectExercise({
         id: exercise.exerciseId,
         name: exercise.exerciseName || '',
       }, workout)
