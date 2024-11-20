@@ -74,7 +74,6 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
     class="workout-exercises-wrapper"
   >
     <WorkoutTonnage
-      v-auto-animate
       :sessions
       :selected-exercises-length="selectedExercises.length"
     />
