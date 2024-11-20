@@ -12,10 +12,19 @@ export default {
 
       tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`
       tooltip.style.left = `${rect.left + (rect.width - tooltip.offsetWidth) / 2}px`
+
+      requestAnimationFrame(() => {
+        tooltip.classList.add('active')
+      })
     })
 
     el.addEventListener('mouseleave', () => {
-      document.body.removeChild(tooltip)
+      tooltip.classList.remove('active')
+      setTimeout(() => {
+        if (tooltip.parentNode) {
+          document.body.removeChild(tooltip)
+        }
+      }, 200)
     })
   },
 }

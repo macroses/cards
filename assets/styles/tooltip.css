@@ -4,10 +4,21 @@
   background: rgb(var(--text-color));
   color: var(--main-bg);
   padding: 6px 12px;
-  border-radius: 12px;
+  border-radius: 6px;
   font-size: 12px;
   pointer-events: none;
   white-space: nowrap;
+  
+  /* Добавляем анимацию */
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Активное состояние для анимации */
+.v-tooltip.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .v-tooltip::after {
@@ -19,4 +30,4 @@
   border-width: 4px 4px 0 4px;
   border-style: solid;
   border-color: rgb(var(--text-color)) transparent transparent transparent;
-} 
+}
