@@ -115,7 +115,6 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
               />
             </TheButton>
             <TheButton
-              v-tooltip="{ content: 'Подсказка слева', position: 'left' }"
               variant="transparent"
               icon-only
               @click="emit('removeExercise', exercise.id)"

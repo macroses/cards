@@ -6,6 +6,10 @@ export default {
     tooltip.className = 'v-tooltip'
     let showTimeout: ReturnType<typeof setTimeout>
 
+    // Сохраняем ссылку на тултип в элементе
+    el._tooltip = tooltip
+    el._showTimeout = showTimeout
+
     const content = typeof binding.value === 'string'
       ? binding.value
       : binding.value?.content
@@ -64,6 +68,22 @@ export default {
       return { top, left }
     }
 
+    // Функция для удаления тултипа
+    function removeTooltip() {
+      clearTimeout(showTimeout)
+      if (tooltip.parentNode) {
+        tooltip.classList.remove('active')
+        setTimeout(() => {
+          if (tooltip.parentNode) {
+            document.body.removeChild(tooltip)
+          }
+        }, 200)
+      }
+    }
+
+    // Сохраняем функцию удаления в элементе
+    el._removeTooltip = removeTooltip
+
     el.addEventListener('mouseenter', () => {
       // Добавляем задержку в 500мс перед показом
       showTimeout = setTimeout(() => {
@@ -79,18 +99,25 @@ export default {
       }, 500)
     })
 
-    el.addEventListener('mouseleave', () => {
-      // Очищаем таймер, если пользователь убрал курсор до появления тултипа
-      clearTimeout(showTimeout)
+    el.addEventListener('mouseleave', removeTooltip)
+    el.addEventListener('click', removeTooltip)
+  },
 
-      if (tooltip.parentNode) {
-        tooltip.classList.remove('active')
-        setTimeout(() => {
-          if (tooltip.parentNode) {
-            document.body.removeChild(tooltip)
-          }
-        }, 200)
-      }
-    })
+  unmounted(el: HTMLElement) {
+    // Очищаем таймер
+    if (el._showTimeout) {
+      clearTimeout(el._showTimeout)
+    }
+
+    // Удаляем тултип из DOM
+    if (el._tooltip && el._tooltip.parentNode) {
+      document.body.removeChild(el._tooltip)
+    }
+
+    // Удаляем обработчики событий
+    if (el._removeTooltip) {
+      el.removeEventListener('mouseleave', el._removeTooltip)
+      el.removeEventListener('click', el._removeTooltip)
+    }
   },
 }

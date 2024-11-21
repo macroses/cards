@@ -47,7 +47,6 @@ export function useCalendar(props: {
       })
     }
 
-    // Остальной код остается без изменений...
     for (let i = start.date(); i <= end.date(); i++) {
       days.push({
         date: new Date(start.year(), start.month(), i),

@@ -15,7 +15,12 @@
 
   "workout": {
     "save_workout": "Save workout",
-    "create_workout": "Create workout"
+    "create_workout": "Create workout",
+    "dropdown_color": "Label",
+    "previous_results": "Previous results",
+    "total_tonnage": "Total tonnage",
+    "change_date": "Change date",
+    "copy_workout": "Copy workout"
   },
 
   "toast": {
@@ -25,16 +30,24 @@
     "workout_deleted": "Workout deleted",
     "workout_delete_error": "Workout delete error",
     "workout_date_changed": "Workout date was changed",
-    "workout_date_change_error": "Error while changed workout date"
+    "workout_date_change_error": "Error while changed workout date",
+    "workout_copied": "Workout copied",
+    "workout_copy_error": "Error while copying workout",
+    "workout_updated": "Workout updated"
   },
 
   "error": {
     "workouts_load_error": "Error while loading workouts",
-    "workout_date_change_error": "Error while changed workout date"
+    "workout_date_change_error": "Error while changed workout date",
+    "workout_create_error": "Error while creating workout",
+    "workout_update_error": "Error while updating workout"
   },
 
   "main_navigation": {
     "program": "Program",
-    "body_parameters": "Body parameters"
+    "body_parameters": "Body parameters",
+    "copy_workout": "Copy workout",
+    "edit_workout": "Edit workout",
+    "delete_workout": "Delete workout"
   }
 }
