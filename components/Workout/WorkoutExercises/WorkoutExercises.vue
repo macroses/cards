@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
-import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
-import calculateTonnage from '../../../utils/calculateTonnage'
+import type {
+  ExerciseFormData,
+  UserTrainingSession,
+  UserWorkoutExercise,
+} from '~/ts/interfaces'
 
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
   sessions: UserTrainingSession[]
+  workoutDate: Date
 }>()
 
 const emit = defineEmits<{
@@ -14,14 +18,6 @@ const emit = defineEmits<{
   (event: 'removeSet', setId: string): void
 }>()
 
-interface ExerciseFormData {
-  id: string
-  exerciseId: number
-  weight: number | null
-  repeats: number | null
-  difficulty: DIFFICULT_LEVEL
-}
-
 const exerciseForm = reactive({
   weight: null,
   repeats: null,
@@ -29,6 +25,16 @@ const exerciseForm = reactive({
 })
 
 const activeExerciseId = ref<number | null>(null)
+const showLastSessions = ref<number | null>(null)
+const lastSessionsRef = ref(null)
+
+const { lastSets } = useLastExerciseSets()
+
+const hasPreviousSets = computed(() => {
+  return (exerciseId: number) => {
+    return lastSets.value[exerciseId]?.length > 0
+  }
+})
 
 function toggleExercise(exerciseId: number) {
   resetExerciseForm()
@@ -54,6 +60,12 @@ function appendSession(exerciseId: number) {
 function getExerciseSessions(exerciseId: number) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
+
+function showPreviousSetsResults(exerciseId: number | null) {
+  showLastSessions.value = showLastSessions.value === exerciseId ? null : exerciseId
+}
+
+onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
 </script>
 
 <template>
@@ -61,12 +73,10 @@ function getExerciseSessions(exerciseId: number) {
     v-auto-animate
     class="workout-exercises-wrapper"
   >
-    <div
-      v-if="calculateTonnage(sessions) > 0"
-      class="workout-total"
-    >
-      Total tonnage: {{ (calculateTonnage(sessions)).toFixed(2) }} T
-    </div>
+    <WorkoutTonnage
+      :sessions
+      :selected-exercises-length="selectedExercises.length"
+    />
     <ul
       v-if="selectedExercises.length"
       v-auto-animate
@@ -88,16 +98,46 @@ function getExerciseSessions(exerciseId: number) {
             class="workout__exercises__title-icon"
           />
           <span>{{ exercise.name }}</span>
-          <TheButton
-            variant="transparent"
-            icon-only
-            @click="emit('removeExercise', exercise.id)"
+          <div
+            ref="lastSessionsRef"
+            class="workout__exercises-item-functions"
           >
-            <TheIcon
-              icon-name="xmark"
-              width="14px"
-            />
-          </TheButton>
+            <TheButton
+              v-if="hasPreviousSets(exercise.id)"
+              v-tooltip="'Previous results'"
+              variant="transparent"
+              icon-only
+              @click.stop="showPreviousSetsResults(exercise.id)"
+            >
+              <TheIcon
+                icon-name="clock-rotate-left"
+                width="14px"
+              />
+            </TheButton>
+            <TheButton
+              v-tooltip="{ content: 'Подсказка слева', position: 'left' }"
+              variant="transparent"
+              icon-only
+              @click="emit('removeExercise', exercise.id)"
+            >
+              <TheIcon
+                icon-name="xmark"
+                width="14px"
+              />
+            </TheButton>
+
+            <div
+              v-auto-animate
+              class="last-sessions-wrapper"
+            >
+              <WorkoutLastSessions
+                :exercise-id="exercise.id"
+                :active-exercise-id="activeExerciseId"
+                :workout-date="workoutDate"
+                :show-sessions="showLastSessions === exercise.id"
+              />
+            </div>
+          </div>
         </div>
 
         <div class="exercise-form__wr">

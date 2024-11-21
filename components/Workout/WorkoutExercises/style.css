@@ -6,9 +6,9 @@
 }
 
 .workout-total {
+  flex-grow: 1;
   height: 36px;
   padding-inline: 8px;
-  margin-bottom: 12px;
   border-radius: 8px;
   display: flex;
   gap: 4px;
@@ -24,4 +24,44 @@
 .workout-actions {
   display: flex;
   justify-content: space-between;
+}
+
+.previous-results {
+  border-radius: 8px;
+  background-color: var(--main-bg);
+  border: 1px solid rgb(var(--accent-color) / 0.2);
+  position: absolute;
+  overflow: hidden;
+  top: 36px;
+  right: 12px;
+  z-index: 2;
+  width: 200px;
+  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
+}
+
+.previous-results__title {
+  font-size: 14px;
+  color: rgb(var(--text-color) / 0.7);
+  padding: 8px 8px 4px;
+  background-color: var(--table-dark-bg);
+}
+
+.previous-results__list {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.previous-results__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.workout-exercises__top {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
 }

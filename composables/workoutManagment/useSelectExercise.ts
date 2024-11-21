@@ -4,18 +4,21 @@ interface SelectExerciseReturn {
   selectExercise: (
     exercise: UserWorkoutExercise,
     workout: UserWorkout
-  ) => void
+  ) => Promise<void>
 }
 
 export function useSelectExercise(): SelectExerciseReturn {
-  function selectExercise(
+  const { fetchLastSets } = useLastExerciseSets()
+
+  async function selectExercise(
     exercise: UserWorkoutExercise,
     workout: UserWorkout,
-  ): void {
+  ): Promise<void> {
     const isExerciseExists = workout.exercises.some((ex: UserWorkoutExercise) => ex.id === exercise.id)
 
     if (!isExerciseExists) {
       workout.exercises.push(exercise)
+      await fetchLastSets(exercise.id, workout.workoutDate)
     }
   }
 
