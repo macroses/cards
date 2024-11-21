@@ -54,6 +54,7 @@ watch(workoutTitle, (newValue) => {
         @drop-color="changeWorkoutColor"
       />
       <TheButton
+        v-tooltip="{ content: 'Change date', position: 'bottom' }"
         variant="secondary"
         @click="$emit('toggleCalendar')"
       >

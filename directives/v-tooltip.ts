@@ -19,7 +19,7 @@ export default {
     const calculatePosition = () => {
       const rect = el.getBoundingClientRect()
       const tooltipRect = tooltip.getBoundingClientRect()
-      const spacing = 8 // Отступ от элемента
+      const spacing = 4 // Отступ от элемента
 
       let top, left
 

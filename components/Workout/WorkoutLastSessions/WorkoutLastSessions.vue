@@ -20,7 +20,7 @@ const exerciseSets = computed(() => {
     class="previous-results"
   >
     <div class="previous-results__title">
-      Last results
+      Previous results
     </div>
     <ul class="previous-results__list">
       <li
