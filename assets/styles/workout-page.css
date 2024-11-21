@@ -11,6 +11,8 @@
 
 .workout-data {
   border: 1px solid rgb(var(--border-color));
+  background-color: var(--main-bg);
+  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
   padding: 12px;
   border-radius: 16px;
   display: flex;
@@ -22,6 +24,8 @@
   border: 1px solid rgb(var(--border-color));
   padding: 12px;
   border-radius: 16px;
+  background-color: var(--main-bg);
+  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
 }
 
 .workout__name {

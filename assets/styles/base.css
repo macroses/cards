@@ -44,7 +44,9 @@ body {
   font-family: 'Poppins', 'Montserrat', sans-serif;
   font-size: 15px;
   color: rgb(var(--text-color));
-  background-color: var(--main-bg);
+  /*background-color: var(--main-bg);*/
+  background: linear-gradient(135deg, rgb(var(--accent-color) / 0.1), transparent);
+  min-height: 100vh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
