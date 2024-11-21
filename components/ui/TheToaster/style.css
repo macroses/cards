@@ -29,9 +29,14 @@ svg {
   min-width: 20px;
 }
 
+.toast-message {
+  flex-grow: 1;
+}
+
 .close-toast-button {
   position: relative;
-  width: 24px;
+  max-width: 24px;
+  min-width: 24px;
   height: 24px;
   border: none;
   background: none;

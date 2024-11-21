@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import type { UserTrainingSession } from '~/ts/interfaces'
 
-defineProps<{
+const props = defineProps<{
   sessions: UserTrainingSession[]
   selectedExercisesLength: number
 }>()
+
+const { t } = useI18n()
+
+const totalTonnage = computed(() => {
+  return `${t('workout.total_tonnage')}: ${(calculateTonnage(props.sessions)).toFixed(2)} T`
+})
 </script>
 
 <template>
@@ -16,7 +22,7 @@ defineProps<{
       v-if="calculateTonnage(sessions) > 0"
       class="workout-total"
     >
-      Total tonnage: {{ (calculateTonnage(sessions)).toFixed(2) }} T
+      {{ totalTonnage }}
     </div>
   </div>
 </template>

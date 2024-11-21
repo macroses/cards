@@ -41,7 +41,7 @@
 
 body {
   line-height: 1.6;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', 'Montserrat', sans-serif;
   font-size: 15px;
   color: rgb(var(--text-color));
   background-color: var(--main-bg);

@@ -10,6 +10,8 @@ const emit = defineEmits<{
   (event: 'copyWorkout'): void
   (event: 'updateWorkout'): void
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -21,6 +23,7 @@ const emit = defineEmits<{
     <ul class="date-menu__functions">
       <li class="date-menu__functions-item">
         <TheButton
+          v-tooltip="t('main_navigation.copy_workout')"
           variant="ghost"
           icon-only
           @click.stop="emit('copyWorkout')"
@@ -33,6 +36,7 @@ const emit = defineEmits<{
       </li>
       <li class="date-menu__functions-item">
         <TheButton
+          v-tooltip="t('main_navigation.edit_workout')"
           variant="ghost"
           icon-only
           @click="emit('updateWorkout')"
@@ -45,6 +49,7 @@ const emit = defineEmits<{
       </li>
       <li class="date-menu__functions-item">
         <TheButton
+          v-tooltip="t('main_navigation.delete_workout')"
           variant="ghost"
           icon-only
           @click.stop="emit('deleteWorkout')"

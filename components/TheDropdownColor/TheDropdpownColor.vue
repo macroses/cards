@@ -10,12 +10,14 @@ const emit = defineEmits<{
   dropColor: [color: WorkoutColor['rgb']]
 }>()
 
+const { t } = useI18n()
+
 const container = ref<HTMLElement | null>(null)
 const defaultColor = ref(WORKOUT_COLORS[0].rgb)
 const isDropDownActive = ref(false)
 
 // Следим за изменением начального цвета
-watch(() => props.initialColor, (newColor) => {
+watch(() => props.initialColor, (newColor?: string) => {
   if (newColor) {
     defaultColor.value = newColor
   }
@@ -37,7 +39,7 @@ onClickOutside(container, () => (isDropDownActive.value = false))
     @click="isDropDownActive = !isDropDownActive"
   >
     <div class="title">
-      Label
+      {{ t('workout.dropdown_color') }}
     </div>
     <div
       class="dropdown-color__result"

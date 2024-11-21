@@ -15,7 +15,13 @@
 
   "workout": {
     "save_workout": "Сохранить тренировку",
-    "create_workout": "Создать тренировку"
+    "create_workout": "Создать тренировку",
+    "dropdown_color": "Метка",
+    "previous_results": "Предыдущие результаты",
+    "total_tonnage": "Общий тоннаж",
+    "change_date": "Изменить дату",
+    "copy_workout": "Копировать тренировку",
+    "add_exercise": "Добавьте упражнение"
   },
 
   "toast": {
@@ -25,16 +31,24 @@
     "workout_deleted": "Тренировка удалена",
     "workout_delete_error": "Ошибка при удалении тренировки",
     "workout_date_changed": "Дата тренировки изменена",
-    "workout_date_change_error": "Не удалось изменить дату"
+    "workout_date_change_error": "Не удалось изменить дату",
+    "workout_copied": "Тренировка скопирована",
+    "workout_copy_error": "Ошибка при копировании тренировки",
+    "workout_updated": "Тренировка обновлена"
   },
 
   "error": {
     "workouts_load_error": "Ошибка при загрузке тренировок",
-    "workout_date_change_error": "Ошибка при изменении даты тренировки"
+    "workout_date_change_error": "Ошибка при изменении даты тренировки",
+    "workout_create_error": "Ошибка при создании тренировки",
+    "workout_update_error": "Ошибка при обновлении тренировки"
   },
 
   "main_navigation": {
     "program": "Программа",
-    "body_parameters": "Параметры тела"
+    "body_parameters": "Параметры тела",
+    "copy_workout": "Копировать тренировку",
+    "edit_workout": "Редактировать тренировку",
+    "delete_workout": "Удалить тренировку"
   }
 }

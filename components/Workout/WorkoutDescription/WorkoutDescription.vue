@@ -11,9 +11,11 @@ const emit = defineEmits<{
   (event: 'toggleCalendar'): void
 }>()
 
+const { t } = useI18n()
+
 const workoutTitle = ref('')
 
-watch(() => props.title, (newTitle) => {
+watch(() => props.title, (newTitle?: string) => {
   if (newTitle) {
     workoutTitle.value = newTitle
   }
@@ -34,7 +36,7 @@ function changeWorkoutColor(color: string): void {
   emit('workoutColor', color)
 }
 
-watch(workoutTitle, (newValue) => {
+watch(workoutTitle, (newValue: string) => {
   emit('workoutTitle', newValue || '')
 })
 </script>
@@ -54,7 +56,7 @@ watch(workoutTitle, (newValue) => {
         @drop-color="changeWorkoutColor"
       />
       <TheButton
-        v-tooltip="{ content: 'Change date', position: 'bottom' }"
+        v-tooltip="{ content: t('workout.change_date'), position: 'bottom' }"
         variant="secondary"
         @click="$emit('toggleCalendar')"
       >

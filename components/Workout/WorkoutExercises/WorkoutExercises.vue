@@ -18,6 +18,8 @@ const emit = defineEmits<{
   (event: 'removeSet', setId: string): void
 }>()
 
+const { t } = useI18n()
+
 const exerciseForm = reactive({
   weight: null,
   repeats: null,
@@ -115,7 +117,6 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
               />
             </TheButton>
             <TheButton
-              v-tooltip="{ content: 'Подсказка слева', position: 'left' }"
               variant="transparent"
               icon-only
               @click="emit('removeExercise', exercise.id)"
@@ -219,7 +220,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
       v-else
       class="exercises-empty"
     >
-      Add exercise
+      {{ t('workout.add_exercise') }}
     </p>
   </div>
 </template>

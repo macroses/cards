@@ -19,6 +19,7 @@ export function useCopyWorkout() {
       })
 
       toast(t('toast.workout_copied'), 'success')
+
       await fetchWorkouts()
 
       return true
@@ -26,6 +27,7 @@ export function useCopyWorkout() {
     catch (error: unknown) {
       console.error('Error copy workout', error)
       toast(t('toast.workout_copy_error'), 'error')
+
       return false
     }
     finally {
