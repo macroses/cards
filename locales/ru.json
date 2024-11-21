@@ -19,7 +19,9 @@
     "dropdown_color": "Метка",
     "previous_results": "Предыдущие результаты",
     "total_tonnage": "Общий тоннаж",
-    "change_date": "Изменить дату"
+    "change_date": "Изменить дату",
+    "copy_workout": "Копировать тренировку",
+    "add_exercise": "Добавьте упражнение"
   },
 
   "toast": {
