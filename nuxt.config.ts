@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxt/eslint',
     '@nuxt/image',
+    '@nuxt/test-utils/module',
     '@sidebase/nuxt-auth',
     'dayjs-nuxt',
     '@vee-validate/nuxt',
