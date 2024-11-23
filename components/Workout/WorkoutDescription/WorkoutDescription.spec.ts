@@ -35,7 +35,7 @@ describe('workoutDescription', () => {
       global: {
         plugins: [i18n],
         directives: {
-          tooltip: () => {}, // Мок директивы tooltip
+          tooltip: () => {},
         },
       },
     })
