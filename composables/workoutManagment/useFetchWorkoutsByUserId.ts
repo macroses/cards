@@ -5,6 +5,7 @@ const API_WORKOUTS = '/api/workout/workoutsListByUserId'
 
 export function useFetchWorkoutsByUserId() {
   const workouts = useState<CreateWorkoutResponse | null>(GLOBAL_WORKOUTS, () => null)
+  const { status } = useAuth()
   const { t } = useI18n()
   const isLoading = ref(false)
   const error = ref<string | null>(null)
@@ -12,6 +13,11 @@ export function useFetchWorkoutsByUserId() {
   async function fetchWorkouts() {
     try {
       isLoading.value = true
+
+      if (status.value !== 'authenticated') {
+        return
+      }
+
       workouts.value = await $fetch<CreateWorkoutResponse>(API_WORKOUTS)
     }
     catch (err: unknown) {
