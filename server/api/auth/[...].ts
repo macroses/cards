@@ -11,7 +11,7 @@ const runtimeConfig = useRuntimeConfig()
 const prisma = new PrismaClient()
 
 export default NuxtAuthHandler({
-  secret: 'my-superb-secret',
+  secret: runtimeConfig.API_ROUTE_SECRET,
   pages: {
     signIn: '/login',
   },
@@ -44,13 +44,14 @@ export default NuxtAuthHandler({
       clientSecret: runtimeConfig.GOOGLE_CLIENT_SECRET,
     }),
     // Добавляем провайдер для email/password
+    // @ts-expect-error description
     CredentialsProvider.default({
       name: 'credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Пароль', type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(credentials: any) {
         if (!credentials?.email || !credentials?.password) {
           throw createError({
             statusCode: 400,
