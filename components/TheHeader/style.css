@@ -18,7 +18,15 @@
   margin-left: auto;
 }
 
-/*.header {*/
-/*  background-color: var(--main-bg);*/
-/*  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;*/
-/*}*/
+.user-avatar__placeholder {
+  width: 35px;
+  height: 35px;
+  background-color: rgb(var(--accent-color));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 50%;
+}

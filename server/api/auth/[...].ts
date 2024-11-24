@@ -24,18 +24,21 @@ export default NuxtAuthHandler({
       if (user) {
         token.id = user.id
       }
+
       return token
     },
     async session({ session, token }: { session: Session, token: any }) {
       if (session?.user) {
         session.user.id = token.id
       }
+
       return session
     },
     async signIn({ account, profile }: { account: any, profile: any }) {
       if (account?.provider === 'google') {
         return profile.email_verified && profile.email.endsWith('@gmail.com')
       }
+
       return true
     },
   },

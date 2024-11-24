@@ -10,9 +10,7 @@ function handleSignOut() {
   signOut()
 }
 
-onMounted(() => {
-  initLanguage()
-})
+onMounted(() => initLanguage())
 </script>
 
 <template>
@@ -33,12 +31,16 @@ onMounted(() => {
         >
           <template #summary>
             <NuxtImg
-              :src="data?.user?.image ?? ''"
+              v-if="data?.user?.image"
+              :src="data.user.image"
               width="35px"
               height="35px"
               densities="x1 x2"
               class="avatar"
             />
+            <div class="user-avatar__placeholder">
+              {{ data?.user?.email?.[0] }}
+            </div>
           </template>
           <template #details-content>
             <ul class="header__profile">
