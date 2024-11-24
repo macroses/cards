@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createI18n } from 'vue-i18n'
 import { ref } from 'vue'
+import { createI18n } from 'vue-i18n'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import WorkoutLastSessions from './WorkoutLastSessions.vue'
 

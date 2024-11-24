@@ -60,6 +60,7 @@ onMounted(() => {
                 <TheButton
                   icon-only
                   variant="ghost"
+                  @click="handleSignOut"
                 >
                   <TheIcon
                     icon-name="right-from-bracket"

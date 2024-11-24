@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Provider } from 'next-auth/providers/index'
+import { ref } from 'vue'
 
 definePageMeta({
   layout: 'empty',
@@ -10,15 +11,87 @@ definePageMeta({
 })
 
 const { data: providers } = await useFetch<Provider[]>('/api/auth/providers')
+const { signIn } = useAuth()
+
+const isRegistration = ref(false)
+const email = ref('')
+const password = ref('')
+const error = ref('')
+
+async function handleSubmit() {
+  try {
+    if (isRegistration.value) {
+      // Регистрация
+      await $fetch('/api/auth/register', {
+        method: 'POST',
+        body: { email: email.value, password: password.value },
+      })
+      // После успешной регистрации входим
+      await signIn('credentials', {
+        email: email.value,
+        password: password.value,
+        redirect: true,
+        callbackUrl: '/',
+      })
+    }
+    else {
+      // Вход
+      await signIn('credentials', {
+        email: email.value,
+        password: password.value,
+        redirect: true,
+        callbackUrl: '/',
+      })
+    }
+  }
+  catch (err: any) {
+    error.value = err.message || 'Произошла ошибка'
+  }
+}
 </script>
 
 <template>
   <div class="auth">
-    <ProviderLogin
-      v-for="provider in providers"
-      :key="provider.id"
-      :provider-name="provider.name"
-    />
+    <form class="auth-form" @submit.prevent="handleSubmit">
+      <h2>{{ isRegistration ? 'Регистрация' : 'Вход' }}</h2>
+
+      <TheInput
+        v-model="email"
+        type="email"
+        placeholder="Email"
+        required
+      />
+
+      <TheInput
+        v-model="password"
+        type="password"
+        placeholder="Пароль"
+        required
+      />
+
+      <p v-if="error" class="error">
+        {{ error }}
+      </p>
+
+      <TheButton type="submit">
+        {{ isRegistration ? 'Зарегистрироваться' : 'Войти' }}
+      </TheButton>
+
+      <p class="toggle-mode">
+        {{ isRegistration ? 'Уже есть аккаунт?' : 'Нет аккаунта?' }}
+        <button type="button" @click="isRegistration = !isRegistration">
+          {{ isRegistration ? 'Войти' : 'Зарегистрироваться' }}
+        </button>
+      </p>
+    </form>
+
+    <div class="social-auth">
+      <ProviderLogin
+        v-for="provider in providers"
+        :key="provider.id"
+        :provider-name="provider.name"
+      />
+    </div>
   </div>
 </template>
 
@@ -27,8 +100,44 @@ const { data: providers } = await useFetch<Provider[]>('/api/auth/providers')
   min-height: 100vh;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 24px;
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  border: 1px solid rgb(var(--border-color));
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.error {
+  color: rgb(var(--error-color));
+  font-size: 14px;
+}
+
+.toggle-mode {
+  text-align: center;
+  font-size: 14px;
+
+  button {
+    color: rgb(var(--accent-color));
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 4px;
+  }
+}
+
+.social-auth {
+  display: flex;
   gap: 16px;
 }
 </style>
