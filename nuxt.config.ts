@@ -23,6 +23,10 @@ export default defineNuxtConfig({
     provider: {
       type: 'authjs',
     },
+    // session: {
+    //   enableSessionRefresh: true,
+    //   cookieName: 'next-auth.session-token',
+    // },
   },
   runtimeConfig: {
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,

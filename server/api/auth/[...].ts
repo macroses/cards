@@ -16,19 +16,26 @@ export default NuxtAuthHandler({
     signIn: '/login',
   },
   adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: 'jwt',
+  },
   callbacks: {
-    session: async ({ session, user }: { session: Session, user: User }) => {
-      if (session?.user) {
-        session.user.id = user.id
+    async jwt({ token, user }: { token: any, user: User }) {
+      if (user) {
+        token.id = user.id
       }
-
+      return token
+    },
+    async session({ session, token }: { session: Session, token: any }) {
+      if (session?.user) {
+        session.user.id = token.id
+      }
       return session
     },
     async signIn({ account, profile }: { account: any, profile: any }) {
       if (account?.provider === 'google') {
         return profile.email_verified && profile.email.endsWith('@gmail.com')
       }
-
       return true
     },
   },
@@ -43,46 +50,44 @@ export default NuxtAuthHandler({
       clientId: runtimeConfig.public.GOOGLE_CLIENT_ID,
       clientSecret: runtimeConfig.GOOGLE_CLIENT_SECRET,
     }),
-    // Добавляем провайдер для email/password
     // @ts-expect-error description
     CredentialsProvider.default({
-      name: 'credentials',
+      name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Пароль', type: 'password' },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials: any) {
-        if (!credentials?.email || !credentials?.password) {
-          throw createError({
-            statusCode: 400,
-            message: 'Необходимо указать email и пароль',
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error('Отсутствуют учетные данные')
+          }
+
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
           })
+
+          if (!user || !user.password) {
+            throw new Error('Пользователь не найден')
+          }
+
+          const isValid = await bcrypt.compare(credentials.password, user.password)
+
+          if (!isValid) {
+            throw new Error('Неверный пароль')
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: user.image,
+          }
         }
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        })
-
-        if (!user || !user.password) {
-          throw createError({
-            statusCode: 401,
-            message: 'Неверный email или пароль',
-          })
+        catch (error: any) {
+          console.error('Ошибка авторизации:', error)
+          return null
         }
-
-        const isValidPassword = await bcrypt.compare(
-          credentials.password,
-          user.password,
-        )
-
-        if (!isValidPassword) {
-          throw createError({
-            statusCode: 401,
-            message: 'Неверный email или пароль',
-          })
-        }
-
-        return user
       },
     }),
   ],

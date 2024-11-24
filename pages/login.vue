@@ -26,22 +26,21 @@ async function handleSubmit() {
         method: 'POST',
         body: { email: email.value, password: password.value },
       })
-      // После успешной регистрации входим
-      await signIn('credentials', {
-        email: email.value,
-        password: password.value,
-        redirect: true,
-        callbackUrl: '/',
-      })
+    }
+
+    // Вход
+    const result = await signIn('credentials', {
+      email: email.value,
+      password: password.value,
+      redirect: false, // Изменено на false для ручной обработки
+    })
+
+    if (result?.error) {
+      error.value = result.error
     }
     else {
-      // Вход
-      await signIn('credentials', {
-        email: email.value,
-        password: password.value,
-        redirect: true,
-        callbackUrl: '/',
-      })
+      // Успешная авторизация
+      navigateTo('/')
     }
   }
   catch (err: any) {
