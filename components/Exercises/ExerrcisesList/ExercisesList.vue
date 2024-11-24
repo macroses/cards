@@ -11,6 +11,9 @@ const emit = defineEmits<{
 
 const { exercisesList } = useFetchExercisesList()
 
+const modalRef = ref<HTMLElement | null>(null)
+const selectedExerciseForModal = ref<ExerciseServerTemplate | null>(null)
+
 function selectExercise(exercise: ExerciseServerTemplate) {
   emit('selectExercise', {
     id: exercise.id,
@@ -26,6 +29,24 @@ const activeGroupId = ref<string | null>(null)
 
 function toggleGroup(groupId: string) {
   activeGroupId.value = activeGroupId.value === groupId ? null : groupId
+}
+
+function openModal(exercise: ExerciseServerTemplate) {
+  selectedExerciseForModal.value = exercise
+  modalRef.value?.openModal()
+}
+
+function closeModal() {
+  if (selectedExerciseForModal.value) {
+    emit('selectExercise', selectedExerciseForModal.value)
+  }
+
+  selectedExerciseForModal.value = null
+  modalRef.value?.closeModal()
+}
+
+function isExerciseSelected(exerciseId: number) {
+  return props.selectedExercises.some(selected => selected.id === exerciseId)
 }
 </script>
 
@@ -60,10 +81,27 @@ function toggleGroup(groupId: string) {
           :exercise
           :is-selected="isExerciseAlreadySelected(exercise.id)"
           @select="selectExercise"
+          @open-modal="openModal"
         />
       </ul>
     </li>
   </ul>
+  <Teleport to="body">
+    <TheModal
+      ref="modalRef"
+      bottom-modal
+    >
+      <template #content>
+        <ExerciseDetails :exercise="selectedExerciseForModal" />
+        <TheButton
+          v-if="!isExerciseSelected(selectedExerciseForModal?.id)"
+          @click="closeModal"
+        >
+          Добавить упражнение
+        </TheButton>
+      </template>
+    </TheModal>
+  </Teleport>
 </template>
 
 <style src='./style.css' />

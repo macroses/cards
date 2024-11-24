@@ -17,3 +17,8 @@
 .header__details {
   margin-left: auto;
 }
+
+/*.header {*/
+/*  background-color: var(--main-bg);*/
+/*  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;*/
+/*}*/

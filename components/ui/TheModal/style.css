@@ -22,7 +22,7 @@
   max-width: 90%;
   min-width: 300px;
   position: relative;
-  box-shadow: 0 10px 20px rgb(0 0 0 / 20%);
+  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
 
   .bottomModal & {
     border-bottom-left-radius: 0;

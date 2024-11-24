@@ -6,6 +6,7 @@ defineProps<ExerciseItemProps>()
 
 const emit = defineEmits<{
   select: [exercise: ExerciseServerTemplate]
+  openModal: [exercise: ExerciseServerTemplate]
 }>()
 </script>
 
@@ -25,6 +26,7 @@ const emit = defineEmits<{
     </p>
     <TheButton
       variant="transparent"
+      @click.stop="emit('openModal', exercise)"
     >
       <TheIcon
         icon-name="circle-info"
