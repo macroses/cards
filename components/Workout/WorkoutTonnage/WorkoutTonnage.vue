@@ -15,14 +15,9 @@ const totalTonnage = computed(() => {
 
 <template>
   <div
-    v-auto-animate
-    class="workout-exercises__top"
+    class="workout-total"
+    :class="{ visible: calculateTonnage(sessions) > 0 }"
   >
-    <div
-      v-if="calculateTonnage(sessions) > 0"
-      class="workout-total"
-    >
-      {{ totalTonnage }}
-    </div>
+    {{ totalTonnage }}
   </div>
 </template>

@@ -96,3 +96,11 @@
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 }
+
+.exercise-details__wrapper {
+  display: flex;
+}
+
+.body-modal .modal {
+  max-width: 600px;
+}

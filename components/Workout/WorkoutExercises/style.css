@@ -5,9 +5,12 @@
   gap: 12px;
 }
 
+.workout-exercises-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .workout-total {
-  flex-grow: 1;
-  height: 36px;
   padding-inline: 8px;
   border-radius: 8px;
   display: flex;
@@ -15,7 +18,21 @@
   font-size: 14px;
   align-items: center;
   background-color: var(--table-dark-bg);
-  margin-bottom: 12px;
+
+  height: 0;
+  transition: height 0.3s ease-in-out,
+              opacity 0.3s ease-in-out,
+              padding-block 0.3s ease-in-out,
+              margin-bottom 0.3s ease-in-out;
+  opacity: 0;
+  padding-block: 0;
+
+  &.visible {
+    height: 36px;
+    opacity: 1;
+    padding-block: 12px;
+    margin-bottom: 12px;
+  }
 
   & span {
     font-weight: 500;
@@ -58,10 +75,4 @@
   align-items: center;
   gap: 12px;
   font-size: 14px;
-}
-
-.workout-exercises__top {
-  display: flex;
-  gap: 8px;
-  align-items: center;
 }

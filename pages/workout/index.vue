@@ -71,20 +71,18 @@ onMounted(async () => {
 <template>
   <WorkoutWrapper>
     <template #description>
-      <div v-auto-animate>
-        <WorkoutDescription
-          :selected-date="selectedDate"
-          :title="editableWorkout?.title"
-          :color="editableWorkout?.color"
-          @workout-title="workout.title = $event"
-          @workout-color="workout.color = $event"
-          @toggle-calendar="toggleCalendar"
-        />
-        <Calendar
-          v-if="isCalendarVisible"
-          v-model="selectedDate"
-        />
-      </div>
+      <WorkoutDescription
+        :selected-date="selectedDate"
+        :title="editableWorkout?.title"
+        :color="editableWorkout?.color"
+        @workout-title="workout.title = $event"
+        @workout-color="workout.color = $event"
+        @toggle-calendar="toggleCalendar"
+      />
+      <Calendar
+        v-if="isCalendarVisible"
+        v-model="selectedDate"
+      />
     </template>
     <template #workout-exercises>
       <WorkoutExercises

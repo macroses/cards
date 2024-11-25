@@ -127,10 +127,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
               />
             </TheButton>
 
-            <div
-              v-auto-animate
-              class="last-sessions-wrapper"
-            >
+            <div class="last-sessions-wrapper">
               <WorkoutLastSessions
                 :exercise-id="exercise.id"
                 :active-exercise-id="activeExerciseId"

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
 
 const props = defineProps<{
@@ -11,7 +12,7 @@ const emit = defineEmits<{
 
 const { exercisesList } = useFetchExercisesList()
 
-const modalRef = ref<HTMLElement | null>(null)
+const modalRef = ref <typeof TheModal | null>(null)
 const selectedExerciseForModal = ref<ExerciseServerTemplate | null>(null)
 
 function selectExercise(exercise: ExerciseServerTemplate) {
@@ -90,15 +91,24 @@ function isExerciseSelected(exerciseId: number) {
     <TheModal
       ref="modalRef"
       bottom-modal
+      class="body-modal"
     >
       <template #content>
-        <ExerciseDetails :exercise="selectedExerciseForModal" />
-        <TheButton
-          v-if="!isExerciseSelected(selectedExerciseForModal?.id)"
-          @click="closeModal"
-        >
-          Добавить упражнение
-        </TheButton>
+        <div class="exercise-details__wrapper">
+          <BodySvg
+            body-part="Lats"
+            :secondary-part="['Traps']"
+          />
+          <div class="exercise-details__description">
+            <ExerciseDetails :exercise="selectedExerciseForModal" />
+            <TheButton
+              v-if="selectedExerciseForModal && !isExerciseSelected(selectedExerciseForModal.id)"
+              @click="closeModal"
+            >
+              Добавить упражнение
+            </TheButton>
+          </div>
+        </div>
       </template>
     </TheModal>
   </Teleport>
