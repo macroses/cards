@@ -1697,7 +1697,7 @@ onMounted(() => {
 <style scoped>
 svg {
   display: inline-block;
-  min-width: 300px;
+  min-width: 270px;
   height: 300px;
   margin: 0 auto;
 }

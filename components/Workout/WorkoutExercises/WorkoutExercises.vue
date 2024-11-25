@@ -38,6 +38,8 @@ const hasPreviousSets = computed(() => {
   }
 })
 
+const isAppendSessionDisable = computed(() => !exerciseForm.weight || !exerciseForm.repeats)
+
 function toggleExercise(exerciseId: number) {
   resetExerciseForm()
   activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
@@ -50,12 +52,14 @@ function resetExerciseForm() {
 }
 
 function appendSession(exerciseId: number) {
+  if (!exerciseForm.weight || !exerciseForm.repeats) {
+    return
+  }
+
   emit('addSet', {
     id: crypto.randomUUID(),
     exerciseId,
-    weight: exerciseForm.weight,
-    repeats: exerciseForm.repeats,
-    difficulty: exerciseForm.difficulty,
+    ...exerciseForm,
   })
 }
 
@@ -165,7 +169,10 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
             </div>
             <div class="exercise-form__submit">
               <WorkoutDifficulty v-model="exerciseForm.difficulty" />
-              <TheButton type="submit">
+              <TheButton
+                type="submit"
+                :disabled="isAppendSessionDisable"
+              >
                 Добавить сет
               </TheButton>
             </div>
