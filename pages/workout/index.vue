@@ -3,6 +3,10 @@ import { useSelectExercise } from '~/composables/workoutManagment/useSelectExerc
 import { WORKOUT_COLORS } from '~/constants'
 import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
+definePageMeta({
+  middleware: ['workout-access', 'auth'],
+})
+
 const { t } = useI18n()
 
 const {

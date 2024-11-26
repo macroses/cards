@@ -9,8 +9,9 @@ const difficulty = defineModel<DIFFICULT_LEVEL>({
 
 <template>
   <div
-    class="difficulty-buttons"
+    v-tooltip="'Сложность'"
     :data-difficulty="difficulty"
+    class="difficulty-buttons"
   >
     <button
       v-for="level in WORKOUT_DIFFICULTY"

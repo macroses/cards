@@ -11,7 +11,6 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
   const route = useRoute()
   const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
   const workoutEditId = ref<LocationQuery | null>(null)
-  const { checkWorkoutAccess } = useCheckWorkoutAccess()
   const { selectExercise } = useSelectExercise()
 
   const editableWorkout = computed(() => {
@@ -53,9 +52,6 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
   async function initEditMode() {
     // query param for initial edit mode
     workoutEditId.value = route.query
-
-    if (workoutEditId.value?.edit)
-      await checkWorkoutAccess()
   }
 
   return {
