@@ -2,10 +2,13 @@ import process from 'node:process'
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
+
   experimental: {
     viewTransition: true,
   },
+
   css: ['~/assets/styles/main.css'],
+
   modules: [
     '@nuxtjs/i18n',
     '@nuxt/eslint',
@@ -17,17 +20,15 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@formkit/auto-animate/nuxt',
   ],
+
   auth: {
     globalAppMiddleware: true,
     baseURL: `http://localhost:${process.env.PORT || 3000}`,
     provider: {
       type: 'authjs',
     },
-    // session: {
-    //   enableSessionRefresh: true,
-    //   cookieName: 'next-auth.session-token',
-    // },
   },
+
   runtimeConfig: {
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
@@ -37,21 +38,28 @@ export default defineNuxtConfig({
       GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     },
   },
+
   i18n: {
     vueI18n: './i18n.config.ts',
     defaultLocale: 'en',
     locales: ['en', 'ru'],
     strategy: 'prefix',
   },
+
   components: [
     {
       path: '~/components',
       pathPrefix: false,
     },
   ],
+
   imports: {
     dirs: [
       'composables/**',
     ],
+  },
+
+  devtools: {
+    enabled: true,
   },
 })
