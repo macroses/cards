@@ -1,5 +1,6 @@
 .main-navigation {
   display: flex;
   justify-content: center;
+  padding-top: 12px;
   gap: 12px;
 }
