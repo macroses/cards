@@ -8,10 +8,39 @@
   align-items: center;
   border-radius: 12px;
   padding: 20px 12px 0 16px;
+  position: relative;
 }
 
 .date-menu__event-name {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.date-menu__start-workout .modal{
+  max-width: 350px;
+}
+
+.date-menu__start-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.date-menu__start-workout {
+  & p:first-child {
+    margin-bottom: 12px;
+  }
+}
+
+.start-workout {
+  display: block;
+  background-color: var(--INDIAN);
+  color: #fff;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  position: absolute;
+  height: 60px;
+  left: 50%;
+  transform: translateX(-50%);
 }

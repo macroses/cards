@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 
 withDefaults(defineProps<WorkoutFunctionsProps>(), {
@@ -13,6 +14,15 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const runWorkoutConfirm = ref<typeof TheModal | null>(null)
+
+function openRunWorkoutConfirm() {
+  runWorkoutConfirm.value?.openModal()
+}
+
+function closeRunWorkoutConfirm() {
+  runWorkoutConfirm.value?.closeModal()
+}
 </script>
 
 <template>
@@ -22,11 +32,6 @@ const localePath = useLocalePath()
     </div>
 
     <ul class="date-menu__functions">
-      <li>
-        <NuxtLink :to="localePath(`/workout/run/${workoutId}`)">
-          play
-        </NuxtLink>
-      </li>
       <li class="date-menu__functions-item">
         <TheButton
           v-tooltip="t('main_navigation.copy_workout')"
@@ -40,7 +45,10 @@ const localePath = useLocalePath()
           />
         </TheButton>
       </li>
-      <li class="date-menu__functions-item">
+      <li
+        v-if="!isWorkoutCompleted"
+        class="date-menu__functions-item"
+      >
         <TheButton
           v-tooltip="t('main_navigation.edit_workout')"
           variant="ghost"
@@ -67,6 +75,45 @@ const localePath = useLocalePath()
         </TheButton>
       </li>
     </ul>
+
+    <button
+      class="start-workout"
+      @click="openRunWorkoutConfirm"
+    >
+      Start
+    </button>
+
+    <TheModal
+      ref="runWorkoutConfirm"
+      :is-outside-close="false"
+      :has-close-button="false"
+      class="date-menu__start-workout"
+    >
+      <template #content>
+        <TheIcon
+          icon-name="lightbulb"
+          width="20px"
+        />
+        <p>Вы приступите к выполнению тренировки.</p>
+        <p>Это следует делать, <b>если вы готовы начать прямо сейчас</b></p>
+      </template>
+      <template #footer>
+        <div class="date-menu__start-footer">
+          <TheButton
+            variant="ghost"
+            @click="closeRunWorkoutConfirm"
+          >
+            отменить
+          </TheButton>
+          <TheButton
+            link
+            :link-path="localePath(`/workout/run/${workoutId}`)"
+          >
+            начать
+          </TheButton>
+        </div>
+      </template>
+    </TheModal>
   </div>
 </template>
 

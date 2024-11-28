@@ -1,7 +1,15 @@
 <script setup lang="ts">
-defineProps<{
+interface ModalProps {
+  isOutsideClose?: boolean
   bottomModal?: boolean
-}>()
+  hasCloseButton?: boolean
+}
+
+const props = withDefaults(defineProps<ModalProps>(), {
+  isOutsideClose: true,
+  bottomModal: false,
+  hasCloseButton: true,
+})
 
 const isOpen = ref(false)
 const modalRef = ref<HTMLDivElement | null>(null)
@@ -17,7 +25,7 @@ function closeModal() {
 }
 
 function handleBackdropClick(event: MouseEvent) {
-  if (event.target === modalRef.value) {
+  if (event.target === modalRef.value && props.isOutsideClose) {
     closeModal()
   }
 }
@@ -48,6 +56,7 @@ defineExpose({
           <slot name="title" />
           <slot name="header" />
           <button
+            v-if="hasCloseButton"
             class="close-button"
             @click="closeModal"
           >
