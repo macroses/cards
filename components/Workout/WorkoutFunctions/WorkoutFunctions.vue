@@ -12,6 +12,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -21,6 +22,11 @@ const { t } = useI18n()
     </div>
 
     <ul class="date-menu__functions">
+      <li>
+        <NuxtLink :to="localePath(`/workout/run/${workoutId}`)">
+          play
+        </NuxtLink>
+      </li>
       <li class="date-menu__functions-item">
         <TheButton
           v-tooltip="t('main_navigation.copy_workout')"

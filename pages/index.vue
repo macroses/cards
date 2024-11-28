@@ -52,6 +52,7 @@ async function handleDateSelect(date: Date) {
         <WorkoutFunctions
           v-if="selectedWorkout"
           :workout-title="selectedWorkout.title"
+          :workout-id="selectedWorkout.id"
           :is-copy-mode="isCopyMode"
           @update-workout="toEditPage"
           @delete-workout="deleteWorkout(selectedWorkout.id)"
