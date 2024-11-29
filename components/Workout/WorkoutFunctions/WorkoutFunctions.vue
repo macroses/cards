@@ -94,12 +94,12 @@ function closeRunWorkoutConfirm() {
       class="date-menu__start-workout"
     >
       <template #content>
-        <TheIcon
-          icon-name="lightbulb"
-          width="20px"
-        />
-        <p>Вы приступите к выполнению тренировки.</p>
-        <p>Это следует делать, <b>если вы готовы начать прямо сейчас</b></p>
+        <div class="date-menu__start-content">
+          <div class="date-menu__start-text">
+            <p>Вы приступите к выполнению тренировки.</p>
+            <p>Это следует делать, <b>если вы готовы начать прямо сейчас</b></p>
+          </div>
+        </div>
       </template>
       <template #footer>
         <div class="date-menu__start-footer">

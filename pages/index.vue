@@ -36,6 +36,11 @@ async function handleDateSelect(date: Date) {
     workoutToCopy.value = null
   }
 }
+
+function handleDeleteWorkout(id: string) {
+  isCopyMode.value = false
+  deleteWorkout(id)
+}
 </script>
 
 <template>
@@ -56,10 +61,30 @@ async function handleDateSelect(date: Date) {
           :is-workout-completed="selectedWorkout.completed"
           :is-copy-mode="isCopyMode"
           @update-workout="toEditPage"
-          @delete-workout="deleteWorkout(selectedWorkout.id)"
+          @delete-workout="handleDeleteWorkout(selectedWorkout.id)"
           @copy-workout="handleCopyWorkout"
         />
       </div>
     </div>
+
+    <Transition>
+      <div
+        v-if="isCopyMode"
+        v-auto-animate
+        class="copy-mode__popup"
+      >
+        Выберите дату для копирования
+        <TheButton
+          variant="secondary"
+          icon-only
+          @click="isCopyMode = false"
+        >
+          <TheIcon
+            icon-name="xmark"
+            width="20px"
+          />
+        </TheButton>
+      </div>
+    </Transition>
   </div>
 </template>

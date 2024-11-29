@@ -119,23 +119,6 @@
   transform: translateX(-50%);
 }
 
-.calendar.copy-mode {
-  position: relative;
-}
-
-.calendar.copy-mode::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 2px dashed rgb(var(--accent-color));
-  border-radius: 12px;
-  pointer-events: none;
-}
-
-.calendar.copy-mode .calendar-day:hover {
-  background-color: rgb(var(--accent-color) / 0.1);
-}
-
 .calendar.date-change-mode::after {
   content: '';
   position: absolute;
@@ -147,4 +130,49 @@
 
 .calendar.date-change-mode .calendar-day:hover {
   background-color: rgb(var(--accent-color) / 0.1);
+}
+
+/* copy mode glow */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.calendar-wrap:has(.copy-mode)::before,
+.calendar-wrap:has(.copy-mode)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    rgb(255, 0, 0),
+    rgb(0, 0, 255),
+    rgb(230, 0, 255)
+  );
+  border-radius: inherit;
+  animation: rotation 3s linear infinite;
+}
+
+.calendar-wrap::after {
+  filter: blur(20px);
+}
+
+@keyframes rotation {
+  0% {
+    opacity: 0;
+    --gradient-angle: 0deg;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    --gradient-angle: 180deg;
+    transform: sscale(2);
+  }
+  100% {
+    opacity: 0;
+    --gradient-angle: 360deg;
+    transform: sscale(2);
+  }
 }

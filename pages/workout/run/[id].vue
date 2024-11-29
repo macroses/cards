@@ -1,9 +1,7 @@
 <script setup lang="ts">
 const { runWorkout, initRunMode } = useRunWorkout()
 
-onMounted(async () => {
-  await initRunMode()
-})
+onMounted(async () => await initRunMode())
 </script>
 
 <template>
