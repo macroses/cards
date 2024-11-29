@@ -76,12 +76,16 @@ function closeRunWorkoutConfirm() {
       </li>
     </ul>
 
-    <button
-      class="start-workout"
-      @click="openRunWorkoutConfirm"
-    >
-      Start
-    </button>
+    <div class="start-workout__wr">
+      <button
+        class="start-workout__button"
+        @click="openRunWorkoutConfirm"
+      >
+        Start
+      </button>
+      <div class="first-ring" />
+      <div class="second-ring" />
+    </div>
 
     <TheModal
       ref="runWorkoutConfirm"
