@@ -231,11 +231,12 @@
 }
 
 .copy-mode__popup {
-  position: fixed;
+  width: 350px;
+  position: absolute;
   top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: calc(50% - 175px);
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 12px;
   background-color: var(--main-bg);

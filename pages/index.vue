@@ -60,6 +60,8 @@ function handleDeleteWorkout(id: string) {
           :workout-id="selectedWorkout.id"
           :is-workout-completed="selectedWorkout.completed"
           :is-copy-mode="isCopyMode"
+          :inert="isCopyMode"
+          :class="{ copyWorkout: isCopyMode }"
           @update-workout="toEditPage"
           @delete-workout="handleDeleteWorkout(selectedWorkout.id)"
           @copy-workout="handleCopyWorkout"

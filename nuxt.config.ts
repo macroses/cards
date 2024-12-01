@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@vueuse/nuxt',
     '@formkit/auto-animate/nuxt',
+    '@vueuse/motion/nuxt',
   ],
 
   auth: {

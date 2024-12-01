@@ -25,6 +25,7 @@
     "@vee-validate/nuxt": "^4.13.2",
     "@vite-pwa/nuxt": "^0.10.5",
     "@vueuse/core": "^11.1.0",
+    "@vueuse/motion": "^2.2.6",
     "@vueuse/nuxt": "^11.1.0",
     "clsx": "^2.1.1",
     "dayjs-nuxt": "^2.1.11",
