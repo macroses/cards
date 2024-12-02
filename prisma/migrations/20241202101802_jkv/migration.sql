@@ -29,6 +29,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT,
     "email" TEXT,
+    "password" TEXT,
     "emailVerified" DATETIME,
     "image" TEXT
 );
@@ -95,6 +96,9 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token"
 
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
+
+-- CreateIndex
+CREATE INDEX "Workout_userId_idx" ON "Workout"("userId");
 
 -- CreateIndex
 CREATE INDEX "workout_date_idx" ON "Workout"("workoutDate");

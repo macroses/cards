@@ -27,6 +27,7 @@ export interface CreateWorkoutResponse {
   completed: boolean
   workoutTime?: number | null
   startedAt?: Date | null
+  endedAt?: Date | null
   exercises: {
     id: string
     exerciseName: string
