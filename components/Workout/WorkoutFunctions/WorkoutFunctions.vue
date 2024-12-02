@@ -2,7 +2,7 @@
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 
-withDefaults(defineProps<WorkoutFunctionsProps>(), {
+const props = withDefaults(defineProps<WorkoutFunctionsProps>(), {
   isCopyMode: false,
 })
 
@@ -15,9 +15,15 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const localePath = useLocalePath()
 const runWorkoutConfirm = ref<typeof TheModal | null>(null)
+const { startWorkout } = useStartWorkout()
 
 function openRunWorkoutConfirm() {
   runWorkoutConfirm.value?.openModal()
+}
+
+async function handleStartWorkout() {
+  await startWorkout(props.workoutId)
+  navigateTo(localePath(`/workout/run/${props.workoutId}`))
 }
 
 function closeRunWorkoutConfirm() {
@@ -110,8 +116,7 @@ function closeRunWorkoutConfirm() {
             отменить
           </TheButton>
           <TheButton
-            link
-            :link-path="localePath(`/workout/run/${workoutId}`)"
+            @click="handleStartWorkout"
           >
             начать
           </TheButton>
