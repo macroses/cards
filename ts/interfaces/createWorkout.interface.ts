@@ -13,6 +13,7 @@ export interface CreateWorkoutRequest {
     weight: number | null
     repeats: number | null
     difficulty: number
+    completed: boolean
   }[]
 }
 
@@ -40,5 +41,6 @@ export interface CreateWorkoutResponse {
     weight: number
     repeats: number
     difficulty: number
+    completed: boolean
   }[]
 }

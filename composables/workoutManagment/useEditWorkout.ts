@@ -45,6 +45,7 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
         weight: set.weight,
         repeats: set.repeats,
         difficulty: set.difficulty,
+        completed: set.completed,
       })
     })
   })

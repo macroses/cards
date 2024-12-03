@@ -6,4 +6,5 @@ export interface ExerciseFormData {
   weight: number | null
   repeats: number | null
   difficulty: DIFFICULT_LEVEL
+  completed: boolean
 }
