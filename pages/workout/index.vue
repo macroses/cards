@@ -24,6 +24,9 @@ const workout = reactive<UserWorkout>({
   exercises: [],
   sessions: [],
   workoutDate: selectedDate.value,
+  startedAt: null,
+  endedAt: null,
+  completed: false,
 })
 
 const { editableWorkout, initEditMode } = useEditWorkout(workout)

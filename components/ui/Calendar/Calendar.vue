@@ -29,6 +29,16 @@ const {
   nowMonth,
 } = useCalendar({ ...props, modelValue: modelValue.value })
 
+const { activeWorkout } = useWorkoutTimer()
+
+function isRunningWorkout(date: Date) {
+  if (!activeWorkout.value?.startedAt) {
+    return false
+  }
+
+  return dayjs(activeWorkout.value.startedAt).format('YYYY-MM-DD') === dayjs(date).format('YYYY-MM-DD')
+}
+
 function selectDate(date: Date | null) {
   if ((props.copyMode || props.dateChangeMode) && date) {
     emit('dateSelect', date)
@@ -120,6 +130,7 @@ watch(() => props.modelValue, (newValue: Date | null) => {
           'selected': isSelected(day.date),
           'today': isToday(day.date),
           'other-month': !day.isCurrentMonth,
+          'running-workout': isRunningWorkout(day.date),
         }"
         @click="selectDate(day.date)"
       >

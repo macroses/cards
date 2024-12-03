@@ -33,6 +33,10 @@
 
   --INDIAN: 11, 176, 11;
 
+  --radius-default: 12px;
+  --radius-sm: 6px;
+  --radius-lg: 20px;
+
   font-family: 'Poppins', sans-serif;
 }
 

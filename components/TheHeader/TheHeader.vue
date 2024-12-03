@@ -27,57 +27,62 @@ onMounted(() => initLanguage())
             width="32"
           />
         </NuxtLink>
-        <div v-if="activeWorkout" class="header__timer">
-          {{ timer }}
+        <div class="header__functions">
+          <button
+            v-if="activeWorkout"
+            class="header__timer"
+          >
+            {{ timer }}
+          </button>
+          <TheDetails
+            class="header__details"
+          >
+            <template #summary>
+              <NuxtImg
+                v-if="data?.user?.image"
+                :src="data.user.image"
+                width="36px"
+                height="36px"
+                densities="x1 x2"
+                class="avatar"
+              />
+              <div class="user-avatar__placeholder">
+                {{ data?.user?.email?.[0] }}
+              </div>
+            </template>
+            <template #details-content>
+              <ul class="header__profile">
+                <li class="header__profile-lang">
+                  <TheButton
+                    :variant="locale === 'en' ? 'outline' : 'ghost'"
+                    @click="changeLanguage('en')"
+                  >
+                    En
+                  </TheButton>
+                  <TheButton
+                    :variant="locale === 'ru' ? 'outline' : 'ghost'"
+                    @click="changeLanguage('ru')"
+                  >
+                    Ru
+                  </TheButton>
+                </li>
+                <li>
+                  <TheButton
+                    icon-only
+                    variant="ghost"
+                    @click="handleSignOut"
+                  >
+                    <TheIcon
+                      icon-name="right-from-bracket"
+                      width="20px"
+                    />
+                    Logout
+                  </TheButton>
+                </li>
+              </ul>
+            </template>
+          </TheDetails>
         </div>
-        <TheDetails
-          class="header__details"
-        >
-          <template #summary>
-            <NuxtImg
-              v-if="data?.user?.image"
-              :src="data.user.image"
-              width="35px"
-              height="35px"
-              densities="x1 x2"
-              class="avatar"
-            />
-            <div class="user-avatar__placeholder">
-              {{ data?.user?.email?.[0] }}
-            </div>
-          </template>
-          <template #details-content>
-            <ul class="header__profile">
-              <li class="header__profile-lang">
-                <TheButton
-                  :variant="locale === 'en' ? 'outline' : 'ghost'"
-                  @click="changeLanguage('en')"
-                >
-                  En
-                </TheButton>
-                <TheButton
-                  :variant="locale === 'ru' ? 'outline' : 'ghost'"
-                  @click="changeLanguage('ru')"
-                >
-                  Ru
-                </TheButton>
-              </li>
-              <li>
-                <TheButton
-                  icon-only
-                  variant="ghost"
-                  @click="handleSignOut"
-                >
-                  <TheIcon
-                    icon-name="right-from-bracket"
-                    width="20px"
-                  />
-                  Logout
-                </TheButton>
-              </li>
-            </ul>
-          </template>
-        </TheDetails>
       </nav>
     </div>
 
@@ -103,24 +108,3 @@ onMounted(() => initLanguage())
 </template>
 
 <style src='./style.css' />
-
-<style>
-.header__timer {
-  font-family: monospace;
-  font-size: 1.2rem;
-  color: rgb(var(--accent-color));
-  margin-right: auto;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>
