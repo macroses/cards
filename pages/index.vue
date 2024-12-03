@@ -20,6 +20,10 @@ const selectedWorkout = computed(() => {
   })
 })
 
+const isWorkoutActive = computed(() => {
+  return Boolean(selectedWorkout.value?.startedAt && !selectedWorkout.value.endedAt)
+})
+
 function toEditPage() {
   navigateTo(localePath(`/workout/?edit=${selectedWorkout.value?.id}`))
 }
@@ -60,6 +64,7 @@ function handleDeleteWorkout(id: string) {
           :workout-id="selectedWorkout.id"
           :is-workout-completed="selectedWorkout.completed"
           :is-copy-mode="isCopyMode"
+          :is-workout-active="isWorkoutActive"
           :inert="isCopyMode"
           :class="{ copyWorkout: isCopyMode }"
           @update-workout="toEditPage"

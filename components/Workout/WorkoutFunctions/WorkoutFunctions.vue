@@ -4,6 +4,7 @@ import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 
 const props = withDefaults(defineProps<WorkoutFunctionsProps>(), {
   isCopyMode: false,
+  isWorkoutActive: false,
 })
 
 const emit = defineEmits<{
@@ -16,11 +17,25 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const runWorkoutConfirm = ref<typeof TheModal | null>(null)
 const { startWorkout } = useStartWorkout()
+const { activeWorkout } = useWorkoutTimer()
+
+const showStartButton = computed(() => {
+  return !activeWorkout.value || props.isWorkoutActive
+})
+
+const showWorkoutFunctions = computed(() => {
+  return showStartButton.value && !activeWorkout.value
+})
 
 function openRunWorkoutConfirm() {
+  if (props.isWorkoutActive) {
+    // Если это активная тренировка, сразу переходим на страницу
+    navigateTo(localePath(`/workout/run/${props.workoutId}`))
+    return
+  }
+
   runWorkoutConfirm.value?.openModal()
 }
-
 async function handleStartWorkout() {
   await startWorkout(props.workoutId)
   navigateTo(localePath(`/workout/run/${props.workoutId}`))
@@ -37,7 +52,10 @@ function closeRunWorkoutConfirm() {
       {{ workoutTitle }}
     </div>
 
-    <ul class="date-menu__functions">
+    <ul
+      v-if="showWorkoutFunctions"
+      class="date-menu__functions"
+    >
       <li class="date-menu__functions-item">
         <TheButton
           v-tooltip="t('main_navigation.copy_workout')"
@@ -82,12 +100,20 @@ function closeRunWorkoutConfirm() {
       </li>
     </ul>
 
-    <div class="start-workout__wr">
+    <p v-else>
+      Need to finish workout
+    </p>
+
+    <div
+      v-if="showStartButton"
+      class="start-workout__wr"
+    >
       <button
         class="start-workout__button"
+        :class="{ activeWorkout: isWorkoutActive }"
         @click="openRunWorkoutConfirm"
       >
-        Start
+        {{ isWorkoutActive ? 'Go on' : 'Start' }}
       </button>
       <div class="first-ring" />
       <div class="second-ring" />

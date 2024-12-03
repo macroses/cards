@@ -1,3 +1,5 @@
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
+
 const API_START = '/api/start-workout/startWorkout'
 
 export function useStartWorkout() {
@@ -9,13 +11,16 @@ export function useStartWorkout() {
     try {
       isLoading.value = true
 
-      const workout = await $fetch(API_START, {
+      const workout = await $fetch<CreateWorkoutResponse>(API_START, {
         method: 'PUT',
         body: { workoutId },
       })
 
       const { startTimer } = useWorkoutTimer()
-      startTimer(new Date(workout.startedAt))
+
+      if (workout.startedAt) {
+        startTimer(new Date(workout.startedAt))
+      }
 
       return true
     }

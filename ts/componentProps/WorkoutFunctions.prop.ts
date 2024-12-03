@@ -3,4 +3,5 @@ export interface WorkoutFunctionsProps {
   isCopyMode: boolean
   workoutId: string
   isWorkoutCompleted?: boolean
+  isWorkoutActive: boolean
 }
