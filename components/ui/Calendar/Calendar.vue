@@ -31,14 +31,6 @@ const {
 
 const { activeWorkout } = useWorkoutTimer()
 
-function isRunningWorkout(date: Date) {
-  if (!activeWorkout.value?.startedAt) {
-    return false
-  }
-
-  return dayjs(activeWorkout.value.startedAt).format('YYYY-MM-DD') === dayjs(date).format('YYYY-MM-DD')
-}
-
 function selectDate(date: Date | null) {
   if ((props.copyMode || props.dateChangeMode) && date) {
     emit('dateSelect', date)
@@ -57,6 +49,18 @@ function getWorkoutForDate(date: Date) {
 
 watch(() => props.modelValue, (newValue: Date | null) => {
   selectedDate.value = newValue
+})
+
+watchEffect(() => {
+  if (activeWorkout.value?.startedAt) {
+    // console.log('Active workout date:', new Date(activeWorkout.value.startedAt))
+    console.log(activeWorkout.value)
+  }
+})
+
+const isRunningWorkout = computed(() => (date: Date) => {
+  const workout = getWorkoutForDate(date)
+  return workout?.startedAt && !workout?.endedAt
 })
 </script>
 

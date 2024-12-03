@@ -139,6 +139,13 @@
   inherits: false;
 }
 
+/* running workout */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+
 .calendar-wrap:has(.copy-mode)::before,
 .calendar-wrap:has(.copy-mode)::after {
   content: "";
@@ -174,5 +181,34 @@
     opacity: 0;
     --gradient-angle: 360deg;
     transform: sscale(2);
+  }
+}
+
+/* running workout */
+.calendar-day.running-workout {
+  --border-angle: 0turn;
+  --main-bg: conic-gradient(
+    from var(--border-angle),
+    #fff,
+    #fff 5%,
+    #fff 60%,
+    #fff 95%
+  );
+
+  border: solid 1px transparent;
+  --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
+
+  background:
+    var(--main-bg) padding-box,
+    var(--gradient-border) border-box,
+    var(--main-bg) border-box;
+
+  background-position: center center;
+  animation: bg-spin 3s linear infinite;
+}
+
+@keyframes bg-spin {
+  to {
+    --border-angle: 1turn;
   }
 }

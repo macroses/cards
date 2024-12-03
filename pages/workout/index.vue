@@ -23,7 +23,7 @@ const workout = reactive<UserWorkout>({
   color: WORKOUT_COLORS[0].rgb,
   exercises: [],
   sessions: [],
-  workoutDate: selectedDate.value,
+  workoutDate: new Date(selectedDate.value.setHours(12, 0, 0, 0)),
   startedAt: null,
   endedAt: null,
   completed: false,
