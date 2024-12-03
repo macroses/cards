@@ -19,5 +19,7 @@ export interface UserWorkout {
   color: string
   exercises: UserWorkoutExercise[]
   sessions: UserTrainingSession[]
-  workoutDate: Date
+  startedAt: Date | null
+  endedAt: Date | null
+  completed: boolean
 }

@@ -5,6 +5,7 @@ const localePath = useLocalePath()
 const { signOut, data } = useAuth()
 const { locale, changeLanguage, initLanguage } = useChangeLanguage()
 const { t } = useI18n()
+const { timer, activeWorkout } = useWorkoutTimer()
 
 function handleSignOut() {
   signOut()
@@ -26,6 +27,9 @@ onMounted(() => initLanguage())
             width="32"
           />
         </NuxtLink>
+        <div v-if="activeWorkout" class="header__timer">
+          {{ timer }}
+        </div>
         <TheDetails
           class="header__details"
         >
@@ -99,3 +103,24 @@ onMounted(() => initLanguage())
 </template>
 
 <style src='./style.css' />
+
+<style>
+.header__timer {
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: rgb(var(--accent-color));
+  margin-right: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

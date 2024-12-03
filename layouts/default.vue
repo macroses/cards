@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import { GLOBAL_WORKOUTS } from '@/constants'
+import type { UserWorkout } from '~/ts/interfaces'
+
+const { fetchWorkouts } = useFetchWorkoutsByUserId()
+const { checkActiveWorkout } = useWorkoutTimer()
+const { status } = useAuth()
+const workouts = useState<UserWorkout[]>(GLOBAL_WORKOUTS)
+
+watch(status, async (newStatus) => {
+  if (newStatus === 'authenticated') {
+    await fetchWorkouts()
+    checkActiveWorkout(workouts.value)
+  }
+})
+
+onMounted(async () => {
+  await fetchWorkouts()
+  checkActiveWorkout(workouts.value)
+})
+</script>
+
 <template>
   <TheHeader />
   <main>

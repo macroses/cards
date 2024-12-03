@@ -9,10 +9,13 @@ export function useStartWorkout() {
     try {
       isLoading.value = true
 
-      await $fetch(API_START, {
+      const workout = await $fetch(API_START, {
         method: 'PUT',
         body: { workoutId },
       })
+
+      const { startTimer } = useWorkoutTimer()
+      startTimer(new Date(workout.startedAt))
 
       return true
     }
