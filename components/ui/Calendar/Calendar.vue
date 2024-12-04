@@ -29,8 +29,6 @@ const {
   nowMonth,
 } = useCalendar({ ...props, modelValue: modelValue.value })
 
-const { activeWorkout } = useWorkoutTimer()
-
 function selectDate(date: Date | null) {
   if ((props.copyMode || props.dateChangeMode) && date) {
     emit('dateSelect', date)
@@ -49,13 +47,6 @@ function getWorkoutForDate(date: Date) {
 
 watch(() => props.modelValue, (newValue: Date | null) => {
   selectedDate.value = newValue
-})
-
-watchEffect(() => {
-  if (activeWorkout.value?.startedAt) {
-    // console.log('Active workout date:', new Date(activeWorkout.value.startedAt))
-    console.log(activeWorkout.value)
-  }
 })
 
 const isRunningWorkout = computed(() => (date: Date) => {

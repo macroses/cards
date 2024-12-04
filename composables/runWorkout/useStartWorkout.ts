@@ -1,3 +1,4 @@
+import { GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 const API_START = '/api/start-workout/startWorkout'
@@ -6,20 +7,30 @@ export function useStartWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = ref(false)
+  const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
 
   async function startWorkout(workoutId: string) {
     try {
       isLoading.value = true
 
-      const workout = await $fetch<CreateWorkoutResponse>(API_START, {
+      const updatedWorkout = await $fetch<CreateWorkoutResponse>(API_START, {
         method: 'PUT',
         body: { workoutId },
       })
 
+      // Обновляем тренировку локально в списке
+      if (workoutsList.value) {
+        workoutsList.value = workoutsList.value.map(workout =>
+          workout.id === workoutId
+            ? { ...workout, startedAt: updatedWorkout.startedAt }
+            : workout,
+        )
+      }
+
       const { startTimer } = useWorkoutTimer()
 
-      if (workout.startedAt) {
-        startTimer(new Date(workout.startedAt))
+      if (updatedWorkout.startedAt) {
+        startTimer(new Date(updatedWorkout.startedAt))
       }
 
       return true
@@ -27,7 +38,6 @@ export function useStartWorkout() {
     catch (error: unknown) {
       console.error('Error starting workout:', error)
       toast(t('toast.workout_start_error'), 'error')
-
       return false
     }
     finally {
