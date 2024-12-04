@@ -30,7 +30,7 @@ export function useStartWorkout() {
       const { startTimer } = useWorkoutTimer()
 
       if (updatedWorkout.startedAt) {
-        startTimer(new Date(updatedWorkout.startedAt))
+        startTimer(new Date(updatedWorkout.startedAt), updatedWorkout.id)
       }
 
       return true

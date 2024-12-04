@@ -53,6 +53,28 @@ const isRunningWorkout = computed(() => (date: Date) => {
   const workout = getWorkoutForDate(date)
   return workout?.startedAt && !workout?.endedAt
 })
+
+const touchStartX = ref(0)
+
+function onTouchStart(event: TouchEvent) {
+  touchStartX.value = event.touches[0].clientX
+}
+
+function onTouchEnd(event: TouchEvent) {
+  const touchEndX = event.changedTouches[0].clientX
+  const diffX = touchStartX.value - touchEndX
+
+  const minSwipeDistance = 50
+
+  if (Math.abs(diffX) > minSwipeDistance) {
+    if (diffX > 0) {
+      nextMonth()
+    }
+    else {
+      previousMonth()
+    }
+  }
+}
 </script>
 
 <template>
@@ -63,6 +85,8 @@ const isRunningWorkout = computed(() => (date: Date) => {
       'copy-mode': copyMode,
       'date-change-mode': dateChangeMode,
     }"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
   >
     <div class="calendar-header">
       <TheButton

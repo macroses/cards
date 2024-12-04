@@ -28,12 +28,13 @@ onMounted(() => initLanguage())
           />
         </NuxtLink>
         <div class="header__functions">
-          <button
+          <NuxtLink
             v-if="activeWorkout"
             class="header__timer"
+            :to="localePath(`/workout/run/${activeWorkout.id}`)"
           >
             {{ timer }}
-          </button>
+          </NuxtLink>
           <TheDetails
             class="header__details"
           >

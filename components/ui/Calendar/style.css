@@ -8,6 +8,7 @@
 .calendar {
   max-width: 524px;
   border-radius: 12px;
+  touch-action: pan-y pinch-zoom;
 }
 
 .calendar-header {
@@ -195,6 +196,7 @@
     #fff 95%
   );
 
+  outline-color: transparent;
   border: solid 1px transparent;
   --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
 

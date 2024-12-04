@@ -7,14 +7,14 @@ const GLOBAL_ACTIVE_WORKOUT = 'active-workout'
 export function useWorkoutTimer() {
   const timer = useState<string>(GLOBAL_WORKOUT_TIMER, () => INITIAL_TIME)
   const intervalId = ref<NodeJS.Timeout | null>(null)
-  const activeWorkout = useState<{ startedAt: Date } | null>(GLOBAL_ACTIVE_WORKOUT, () => null)
+  const activeWorkout = useState<{ startedAt: Date, id: string } | null>(GLOBAL_ACTIVE_WORKOUT, () => null)
 
-  function startTimer(startDate: Date) {
+  function startTimer(startDate: Date, workoutId: string) {
     if (intervalId.value) {
       return
     }
 
-    activeWorkout.value = { startedAt: startDate }
+    activeWorkout.value = { startedAt: startDate, id: workoutId }
 
     intervalId.value = setInterval(() => {
       const elapsed = Date.now() - new Date(startDate).getTime()
@@ -30,10 +30,10 @@ export function useWorkoutTimer() {
   }
 
   function checkActiveWorkout(workouts: UserWorkout[]) {
-    const activeWorkout = workouts.find(w => w.startedAt && !w.endedAt)
+    const startedWorkout = workouts.find(w => w.startedAt && !w.endedAt)
 
-    if (activeWorkout?.startedAt) {
-      startTimer(new Date(activeWorkout.startedAt))
+    if (startedWorkout?.startedAt) {
+      startTimer(new Date(startedWorkout.startedAt), startedWorkout.id)
     }
   }
 
