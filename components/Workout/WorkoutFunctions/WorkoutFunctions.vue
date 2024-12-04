@@ -20,11 +20,11 @@ const { startWorkout } = useStartWorkout()
 const { activeWorkout } = useWorkoutTimer()
 
 const showStartButton = computed(() => {
-  return !activeWorkout.value || props.isWorkoutActive
-})
+  if (props.isWorkoutCompleted) {
+    return false
+  }
 
-const showWorkoutFunctions = computed(() => {
-  return showStartButton.value && !activeWorkout.value
+  return !activeWorkout.value || props.isWorkoutActive
 })
 
 function openRunWorkoutConfirm() {
@@ -49,11 +49,15 @@ function closeRunWorkoutConfirm() {
 <template>
   <div class="date-menu">
     <div class="date-menu__event-name">
+      <TheIcon
+        v-if="isWorkoutCompleted"
+        icon-name="badge-check"
+        width="18px"
+      />
       {{ workoutTitle }}
     </div>
 
     <ul
-      v-if="showWorkoutFunctions"
       class="date-menu__functions"
     >
       <li class="date-menu__functions-item">
@@ -70,7 +74,7 @@ function closeRunWorkoutConfirm() {
         </TheButton>
       </li>
       <li
-        v-if="!isWorkoutCompleted"
+        v-if="!isWorkoutCompleted && !isWorkoutActive"
         class="date-menu__functions-item"
       >
         <TheButton
@@ -99,10 +103,6 @@ function closeRunWorkoutConfirm() {
         </TheButton>
       </li>
     </ul>
-
-    <p v-else>
-      Need to finish workout
-    </p>
 
     <div
       v-if="showStartButton"
