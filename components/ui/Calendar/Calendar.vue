@@ -54,6 +54,11 @@ const isRunningWorkout = computed(() => (date: Date) => {
   return workout?.startedAt && !workout?.endedAt
 })
 
+const isWorkoutCompleted = computed(() => (date: Date) => {
+  const workout = getWorkoutForDate(date)
+  return workout?.completed
+})
+
 const touchStartX = ref(0)
 
 function onTouchStart(event: TouchEvent) {
@@ -85,7 +90,7 @@ function onTouchEnd(event: TouchEvent) {
       'copy-mode': copyMode,
       'date-change-mode': dateChangeMode,
     }"
-    @touchstart="onTouchStart"
+    @touchstart.passive="onTouchStart"
     @touchend="onTouchEnd"
   >
     <div class="calendar-header">
@@ -150,6 +155,7 @@ function onTouchEnd(event: TouchEvent) {
           'today': isToday(day.date),
           'other-month': !day.isCurrentMonth,
           'running-workout': isRunningWorkout(day.date),
+          'completed': isWorkoutCompleted(day.date),
         }"
         @click="selectDate(day.date)"
       >
