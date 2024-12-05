@@ -4,7 +4,11 @@ const { endWorkout } = useFinishWorkout()
 
 async function handleEndWorkout() {
   if (runWorkout.value) {
-    await endWorkout(runWorkout.value.id)
+    const success = await endWorkout(runWorkout.value.id)
+
+    if (success) {
+      navigateTo('/')
+    }
   }
 }
 
