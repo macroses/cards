@@ -24,11 +24,11 @@ const isWorkoutActive = computed(() => {
   return Boolean(selectedWorkout.value?.startedAt && !selectedWorkout.value.endedAt)
 })
 
-function toEditPage() {
+function toEditPage(): void {
   navigateTo(localePath(`/workout/?edit=${selectedWorkout.value?.id}`))
 }
 
-async function handleCopyWorkout() {
+async function handleCopyWorkout(): Promise<void> {
   isCopyMode.value = true
   workoutToCopy.value = selectedWorkout.value?.id || null
 }

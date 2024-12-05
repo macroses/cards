@@ -9,6 +9,21 @@ async function handleEndWorkout() {
 }
 
 onMounted(async () => await initRunMode())
+
+// Добавим computed свойство для группировки сетов по упражнениям
+const exerciseSets = computed(() => {
+  if (!runWorkout.value) {
+    return {}
+  }
+
+  return runWorkout.value.sets.reduce((acc, set) => {
+    if (!acc[set.exerciseId]) {
+      acc[set.exerciseId] = []
+    }
+    acc[set.exerciseId].push(set)
+    return acc
+  }, {} as Record<number, typeof runWorkout.value.sets>)
+})
 </script>
 
 <template>
@@ -18,8 +33,33 @@ onMounted(async () => await initRunMode())
     </button>
     <h1>{{ runWorkout.title }}</h1>
     <ul>
-      <li v-for="exercise in runWorkout.exercises" :key="exercise.id">
-        {{ exercise.exerciseName }}
+      <li
+        v-for="exercise in runWorkout.exercises"
+        :key="exercise.exerciseId"
+        class="exercise-item"
+      >
+        <div class="exercise-name">
+          {{ exercise.exerciseName }}
+        </div>
+        <!-- Добавляем список сетов для каждого упражнения -->
+        <ul v-if="exerciseSets[exercise.exerciseId]?.length" class="sets-list">
+          <li
+            v-for="set in exerciseSets[exercise.exerciseId]"
+            :key="set.id"
+            class="set-item"
+          >
+            <div
+              class="workout-form__sets--difficulty"
+              :data-difficulty="set.difficulty"
+            />
+            <div class="workout-form__sets--weight">
+              {{ set.weight }}
+            </div>
+            <div class="workout-form__sets--repeats">
+              {{ set.repeats }}
+            </div>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
