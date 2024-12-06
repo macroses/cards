@@ -10,13 +10,15 @@ export function useWorkoutTimer() {
   const activeWorkout = useState<{ startedAt: Date, id: string } | null>(GLOBAL_ACTIVE_WORKOUT, () => null)
 
   function startTimer(startDate: Date, workoutId: string) {
-    if (intervalId.value) {
-      return
-    }
-
     activeWorkout.value = { startedAt: startDate, id: workoutId }
 
     intervalId.value = setInterval(() => {
+      if (!activeWorkout.value) {
+        cleanup()
+
+        return
+      }
+
       const elapsed = Date.now() - new Date(startDate).getTime()
       timer.value = formattedTime(elapsed)
     }, 1000)
@@ -38,7 +40,7 @@ export function useWorkoutTimer() {
   }
 
   function cleanup() {
-    if (intervalId.value !== null) {
+    if (intervalId.value) {
       clearInterval(intervalId.value)
       intervalId.value = null
     }
