@@ -21,6 +21,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  & svg {
+    color: green;
+  }
 }
 
 .date-menu__start-workout .modal{

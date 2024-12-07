@@ -51,7 +51,8 @@ function closeRunWorkoutConfirm() {
     <div class="date-menu__event-name">
       <TheIcon
         v-if="isWorkoutCompleted"
-        icon-name="badge-check"
+        v-tooltip="t('Workout completed')"
+        icon-name="circle-check"
         width="18px"
       />
       {{ workoutTitle }}

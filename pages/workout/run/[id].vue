@@ -31,37 +31,46 @@ const exerciseSets = computed(() => {
 </script>
 
 <template>
-  <div v-if="runWorkout">
+  <div
+    v-if="runWorkout"
+    class="run"
+  >
     <button @click="handleEndWorkout">
       finish
     </button>
-    <h1>{{ runWorkout.title }}</h1>
-    <ul>
+    <h1 class="run__title">
+      {{ runWorkout.title }}
+    </h1>
+    <ul class="run__exercises-list">
       <li
         v-for="exercise in runWorkout.exercises"
         :key="exercise.exerciseId"
-        class="exercise-item"
+        class="run__exercise-item"
       >
-        <div class="exercise-name">
+        <div class="run__exercise">
           {{ exercise.exerciseName }}
         </div>
-        <!-- Добавляем список сетов для каждого упражнения -->
-        <ul v-if="exerciseSets[exercise.exerciseId]?.length" class="sets-list">
+        <ul
+          v-if="exerciseSets[exercise.exerciseId]?.length"
+          class="run__sets"
+        >
           <li
             v-for="set in exerciseSets[exercise.exerciseId]"
             :key="set.id"
-            class="set-item"
+            class="run__set-item"
           >
             <div
-              class="workout-form__sets--difficulty"
-              :data-difficulty="set.difficulty"
-            />
-            <div class="workout-form__sets--weight">
+              class="run__set-difficulty"
+            >
+              {{ set.difficulty }}
+            </div>
+            <div class="run__set-weight">
               {{ set.weight }}
             </div>
-            <div class="workout-form__sets--repeats">
+            <div class="run__set-repeats">
               {{ set.repeats }}
             </div>
+            <TheCheckbox v-model="set.completed" />
           </li>
         </ul>
       </li>
