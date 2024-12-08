@@ -27,6 +27,20 @@ const exerciseSets = computed(() => {
   }, {} as Record<number, typeof runWorkout.value.sets>)
 })
 
+// Добавляем реактивное состояние для отслеживания редактируемых полей
+const editingState = ref<{
+  setId: string | null
+  field: 'weight' | 'repeats' | null
+}>({
+  setId: null,
+  field: null,
+})
+
+// Объединенная функция для обработки редактирования
+function handleEdit(setId: string, field: 'weight' | 'repeats') {
+  editingState.value = { setId, field }
+}
+
 onMounted(async () => await initRunMode())
 </script>
 
@@ -66,18 +80,27 @@ onMounted(async () => await initRunMode())
             </div>
             <div
               class="run__set-weight"
-              @click="handleEditWeight(set.id)"
+              @click="handleEdit(set.id, 'weight')"
             >
               <TheInput
+                v-if="editingState.setId === set.id && editingState.field === 'weight'"
                 placeholder="weight"
               />
-              {{ set.weight }}
+              <span v-else>
+                {{ set.weight }}
+              </span>
             </div>
             <div
               class="run__set-repeats"
-              @click="handleEditRepeats(set.id)"
+              @click="handleEdit(set.id, 'repeats')"
             >
-              {{ set.repeats }}
+              <TheInput
+                v-if="editingState.setId === set.id && editingState.field === 'repeats'"
+                placeholder="repeats"
+              />
+              <span v-else>
+                {{ set.repeats }}
+              </span>
             </div>
             <TheButton
               variant="ghost"
