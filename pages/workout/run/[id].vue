@@ -2,7 +2,7 @@
 const { runWorkout, initRunMode } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
 
-async function handleEndWorkout() {
+async function handleFinishWorkout() {
   if (runWorkout.value) {
     const success = await endWorkout(runWorkout.value.id)
 
@@ -49,7 +49,7 @@ onMounted(async () => await initRunMode())
     v-if="runWorkout"
     class="run"
   >
-    <button @click="handleEndWorkout">
+    <button @click="handleFinishWorkout">
       finish
     </button>
     <h1 class="run__title">
