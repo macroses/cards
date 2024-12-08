@@ -64,10 +64,19 @@ onMounted(async () => await initRunMode())
             >
               {{ set.difficulty }}
             </div>
-            <div class="run__set-weight">
+            <div
+              class="run__set-weight"
+              @click="handleEditWeight(set.id)"
+            >
+              <TheInput
+                placeholder="weight"
+              />
               {{ set.weight }}
             </div>
-            <div class="run__set-repeats">
+            <div
+              class="run__set-repeats"
+              @click="handleEditRepeats(set.id)"
+            >
               {{ set.repeats }}
             </div>
             <TheButton
