@@ -12,8 +12,6 @@ async function handleEndWorkout() {
   }
 }
 
-onMounted(async () => await initRunMode())
-
 // Добавим computed свойство для группировки сетов по упражнениям
 const exerciseSets = computed(() => {
   if (!runWorkout.value) {
@@ -28,6 +26,8 @@ const exerciseSets = computed(() => {
     return acc
   }, {} as Record<number, typeof runWorkout.value.sets>)
 })
+
+onMounted(async () => await initRunMode())
 </script>
 
 <template>
@@ -62,15 +62,26 @@ const exerciseSets = computed(() => {
             <div
               class="run__set-difficulty"
             >
+              <TheInput class="current-result--difficulty" />
               {{ set.difficulty }}
             </div>
             <div class="run__set-weight">
+              <TheInput class="current-result--weight" />
               {{ set.weight }}
             </div>
             <div class="run__set-repeats">
+              <TheInput class="current-result--repeats" />
               {{ set.repeats }}
             </div>
-            <TheCheckbox v-model="set.completed" />
+            <TheButton
+              variant="ghost"
+              icon-only
+            >
+              <TheIcon
+                icon-name="circle-check"
+                width="18px"
+              />
+            </TheButton>
           </li>
         </ul>
       </li>
