@@ -62,15 +62,12 @@ onMounted(async () => await initRunMode())
             <div
               class="run__set-difficulty"
             >
-              <TheInput class="current-result--difficulty" />
               {{ set.difficulty }}
             </div>
             <div class="run__set-weight">
-              <TheInput class="current-result--weight" />
               {{ set.weight }}
             </div>
             <div class="run__set-repeats">
-              <TheInput class="current-result--repeats" />
               {{ set.repeats }}
             </div>
             <TheButton
