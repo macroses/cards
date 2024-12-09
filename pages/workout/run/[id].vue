@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
 
+interface EditingState {
+  setId: string | null
+  field: 'weight' | 'repeats' | null
+}
+
 const { runWorkout, initRunMode } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
 
@@ -28,10 +33,7 @@ const exerciseSets = computed(() => {
   }, {} as Record<number, typeof runWorkout.value.sets>)
 })
 
-const editingState = ref<{
-  setId: string | null
-  field: 'weight' | 'repeats' | null
-}>({
+const editingState = ref<EditingState>({
   setId: null,
   field: null,
 })
@@ -46,6 +48,14 @@ function handleEdit(setId: string, field: 'weight' | 'repeats') {
       inputRefs.value[setId]?.focus()
     }
   })
+}
+
+function setInputRef(setId: string): (el: any) => void {
+  return (el) => {
+    if (el) {
+      inputRefs.value[setId] = el
+    }
+  }
 }
 
 onMounted(async () => await initRunMode())
@@ -91,7 +101,7 @@ onMounted(async () => await initRunMode())
             >
               <TheInput
                 v-if="editingState.setId === set.id && editingState.field === 'weight'"
-                :ref="el => { if (el) inputRefs[set.id] = el }"
+                :ref="setInputRef(set.id)"
                 v-model="set.weight"
                 placeholder="Вес"
                 type="number"
@@ -107,7 +117,7 @@ onMounted(async () => await initRunMode())
             >
               <TheInput
                 v-if="editingState.setId === set.id && editingState.field === 'repeats'"
-                :ref="el => { if (el) inputRefs[set.id] = el }"
+                :ref="setInputRef(set.id)"
                 v-model="set.repeats"
                 placeholder="Повторения"
                 type="number"
