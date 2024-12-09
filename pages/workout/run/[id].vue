@@ -50,6 +50,10 @@ function handleEdit(setId: string, field: 'weight' | 'repeats') {
   })
 }
 
+function handleInputSubmit() {
+  editingState.value = { setId: null, field: null }
+}
+
 function setInputRef(setId: string): (el: any) => void {
   return (el) => {
     if (el) {
@@ -106,6 +110,7 @@ onMounted(async () => await initRunMode())
                 placeholder="Вес"
                 type="number"
                 inputmode="numeric"
+                @keyup.enter="handleInputSubmit"
               />
               <span v-else>
                 {{ set.weight }}
@@ -122,6 +127,7 @@ onMounted(async () => await initRunMode())
                 placeholder="Повторения"
                 type="number"
                 inputmode="numeric"
+                @keyup.enter="handleInputSubmit"
               />
               <span v-else>
                 {{ set.repeats }}
