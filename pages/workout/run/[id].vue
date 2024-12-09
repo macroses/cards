@@ -28,7 +28,9 @@ const exerciseSets = computed(() => {
     if (!acc[set.exerciseId]) {
       acc[set.exerciseId] = []
     }
+
     acc[set.exerciseId].push(set)
+
     return acc
   }, {} as Record<number, typeof runWorkout.value.sets>)
 })
