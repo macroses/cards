@@ -10,10 +10,16 @@ const props = withDefaults(defineProps<InputTextProps>(), {
 })
 
 const emit = defineEmits(['validation'])
+const input = ref<HTMLInputElement | null>(null)
 
 const uniqueId = useId() as string
 const modelValue = defineModel<string | number | undefined | null>({ default: '' })
 const error = ref('')
+
+// Экспортируем метод focus
+defineExpose({
+  focus: () => input.value?.focus(),
+})
 
 function validate() {
   for (const rule of props.validateRules) {
@@ -22,7 +28,6 @@ function validate() {
     if (!result.isValid) {
       error.value = result.message
       emit('validation', false)
-
       return
     }
   }
@@ -38,10 +43,11 @@ watch(modelValue, () => validate())
   <label class="input-wrapper">
     <input
       :id="uniqueId"
+      ref="input"
       v-model="modelValue"
-      :placeholder
+      :placeholder="placeholder"
       class="input"
-      :type
+      :type="type"
       :inputmode="inputmode"
       autocomplete="off"
       :class="{ 'input--error': error }"

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TheInput from '@/components/ui/TheInput/TheInput.vue'
+
 const { runWorkout, initRunMode } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
 
@@ -12,7 +14,6 @@ async function handleFinishWorkout() {
   }
 }
 
-// Добавим computed свойство для группировки сетов по упражнениям
 const exerciseSets = computed(() => {
   if (!runWorkout.value) {
     return {}
@@ -27,7 +28,6 @@ const exerciseSets = computed(() => {
   }, {} as Record<number, typeof runWorkout.value.sets>)
 })
 
-// Добавляем реактивное состояние для отслеживания редактируемых полей
 const editingState = ref<{
   setId: string | null
   field: 'weight' | 'repeats' | null
@@ -36,9 +36,16 @@ const editingState = ref<{
   field: null,
 })
 
-// Объединенная функция для обработки редактирования
+const inputRefs = ref<Record<string, InstanceType<typeof TheInput>>>({})
+
 function handleEdit(setId: string, field: 'weight' | 'repeats') {
   editingState.value = { setId, field }
+
+  nextTick(() => {
+    if (inputRefs.value[setId]) {
+      inputRefs.value[setId]?.focus()
+    }
+  })
 }
 
 onMounted(async () => await initRunMode())
@@ -84,7 +91,11 @@ onMounted(async () => await initRunMode())
             >
               <TheInput
                 v-if="editingState.setId === set.id && editingState.field === 'weight'"
-                placeholder="weight"
+                :ref="el => { if (el) inputRefs[set.id] = el }"
+                v-model="set.weight"
+                placeholder="Вес"
+                type="number"
+                inputmode="numeric"
               />
               <span v-else>
                 {{ set.weight }}
@@ -96,7 +107,11 @@ onMounted(async () => await initRunMode())
             >
               <TheInput
                 v-if="editingState.setId === set.id && editingState.field === 'repeats'"
-                placeholder="repeats"
+                :ref="el => { if (el) inputRefs[set.id] = el }"
+                v-model="set.repeats"
+                placeholder="Повторения"
+                type="number"
+                inputmode="numeric"
               />
               <span v-else>
                 {{ set.repeats }}
