@@ -1,3 +1,14 @@
+.run {
+  display: flex;
+
+}
+
+.run__current,
+.run__initial {
+  flex: 1;
+}
+
 .run__set-item {
   display: flex;
+  gap: 12px;
 }

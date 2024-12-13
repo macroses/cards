@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<InputTextProps>(), {
   validateRules: () => ([]),
 })
 
-const emit = defineEmits(['validation'])
+const emit = defineEmits(['validation', 'blur'])
 const input = ref<HTMLInputElement | null>(null)
 
 const uniqueId = useId() as string
@@ -36,6 +36,11 @@ function validate() {
   emit('validation', true)
 }
 
+function onBlur() {
+  emit('blur')
+  validate()
+}
+
 watch(modelValue, () => validate())
 </script>
 
@@ -51,7 +56,7 @@ watch(modelValue, () => validate())
       :inputmode="inputmode"
       autocomplete="off"
       :class="{ 'input--error': error }"
-      @blur="validate"
+      @blur="onBlur"
     >
     <button
       v-if="modelValue && !noClear"

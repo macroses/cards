@@ -11,7 +11,7 @@ export function useRunWorkout(): RunWorkoutReturn {
   const route = useRoute()
   const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
   const workoutRunId = ref<string | null>(null)
-  const originalWorkout = ref<CreateWorkoutResponse | null>(null)
+  const originalWorkout = shallowRef<CreateWorkoutResponse | null>(null)
 
   const runWorkout = computed(() => {
     if (!workoutRunId.value)
