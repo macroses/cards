@@ -8,6 +8,7 @@ interface EditingState {
 
 const { runWorkout, initRunMode, originalWorkout } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
+const chart = useTemplateRef('chart')
 
 async function handleFinishWorkout() {
   if (runWorkout.value) {
@@ -65,6 +66,81 @@ function setInputRef(setId: string): (el: any) => void {
 }
 
 onMounted(async () => await initRunMode())
+
+// chart
+function getData(): ECOption {
+  if (!originalWorkout.value || !runWorkout.value) {
+    return {
+      animation: false,
+      tooltip: {
+        className: 'echarts-tooltip',
+      },
+      toolbox: {
+        show: false,
+      },
+      xAxis: { type: 'category' },
+      yAxis: {},
+      series: [],
+    }
+  }
+
+  // Подготавливаем данные для графика
+  const exerciseData = runWorkout.value.exercises.map((exercise) => {
+    const originalSets = originalWorkout.value?.sets.filter(
+      set => set.exerciseId === exercise.exerciseId,
+    ) || []
+
+    const currentSets = runWorkout.value?.sets.filter(
+      set => set.exerciseId === exercise.exerciseId,
+    ) || []
+
+    return {
+      exerciseName: exercise.exerciseName,
+      original: originalSets.map(set => set.weight),
+      current: currentSets.map(set => set.weight),
+    }
+  })
+
+  return {
+    animation: true,
+    tooltip: {
+      className: 'echarts-tooltip',
+      trigger: 'axis',
+    },
+    legend: {
+      data: ['Предыдущая тренировка', 'Текущая тренировка'],
+    },
+    toolbox: {
+      show: false,
+    },
+    xAxis: {
+      type: 'category',
+      data: exerciseData.map(d => d.exerciseName),
+    },
+    yAxis: {
+      type: 'value',
+      name: 'Вес (кг)',
+    },
+    series: [
+      {
+        name: 'Предыдущая тренировка',
+        type: 'bar',
+        data: exerciseData.map(d => d.original.length ? Math.max(...d.original) : 0),
+      },
+      {
+        name: 'Текущая тренировка',
+        type: 'bar',
+        data: exerciseData.map(d => d.current.length ? Math.max(...d.current) : 0),
+      },
+    ],
+  }
+}
+
+const option = shallowRef(getData())
+
+watch([originalWorkout, runWorkout], () => {
+  option.value = getData()
+}, { deep: true })
 </script>
 
 <template>
@@ -154,7 +230,11 @@ onMounted(async () => await initRunMode())
     </div>
 
     <div class="run__initial">
-      {{ originalWorkout }}
+      <VChart
+        ref="chart"
+        :option="option"
+      />
+      <!--      {{ originalWorkout }} -->
       <!--      <ul> -->
       <!--        <li v-for="item in originalWorkout" :key="item.id"> -->
       <!--          {{ item }} -->

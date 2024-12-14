@@ -30,6 +30,7 @@
     "clsx": "^2.1.1",
     "dayjs-nuxt": "^2.1.11",
     "nuxt": "^3.14.1592",
+    "nuxt-echarts": "^0.2.4",
     "nuxt-time": "^1.0.2",
     "vue": "latest",
     "vue-router": "latest"

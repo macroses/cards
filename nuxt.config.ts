@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@formkit/auto-animate/nuxt',
     '@vueuse/motion/nuxt',
+    'nuxt-echarts',
   ],
 
   auth: {
@@ -62,5 +63,20 @@ export default defineNuxtConfig({
 
   devtools: {
     enabled: true,
+  },
+
+  echarts: {
+    ssr: true,
+    renderer: ['canvas', 'svg'],
+    charts: ['BarChart', 'MapChart'],
+    components: [
+      'DatasetComponent',
+      'GridComponent',
+      'TooltipComponent',
+      'ToolboxComponent',
+      'GeoComponent',
+      'VisualMapComponent',
+      'LegendComponent',
+    ],
   },
 })
