@@ -132,7 +132,7 @@ function getData(): ECOption {
         data: exerciseChartData.map(d => d.original),
         itemStyle: {
           // color: 'rgba(128, 128, 128, 0.5)' // серый цвет для предыдущей тренировки
-          borderRadius: [8, 8, 0, 0]
+          borderRadius: [8, 8, 0, 0],
         },
       },
       {
@@ -141,8 +141,8 @@ function getData(): ECOption {
         data: exerciseChartData.map(d => d.current),
         itemStyle: {
           // color: 'rgba(128, 128, 128, 0.5)' // серый цвет для предыдущей тренировки
-          borderRadius: [8, 8, 0, 0]
-        }
+          borderRadius: [8, 8, 0, 0],
+        },
       },
     ],
   }
@@ -155,6 +155,13 @@ watch([originalWorkout, runWorkout], () => {
 }, { deep: true })
 
 //  todo: добавить время для сетов, придумать реализацию запушивания времени на сервер
+
+function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') {
+  const value = (event.target as HTMLInputElement).value
+  if (value === '') {
+    set[field] = 0
+  }
+}
 </script>
 
 <template>
@@ -202,6 +209,7 @@ watch([originalWorkout, runWorkout], () => {
                   inputmode="numeric"
                   @keyup.enter="handleInputSubmit"
                   @blur="handleInputSubmit"
+                  @input="handleInputChange($event, set, 'weight')"
                 />
                 <span v-else>
                   {{ set.weight }}
@@ -220,6 +228,7 @@ watch([originalWorkout, runWorkout], () => {
                   inputmode="numeric"
                   @keyup.enter="handleInputSubmit"
                   @blur="handleInputSubmit"
+                  @input="handleInputChange($event, set, 'repeats')"
                 />
                 <span v-else>
                   {{ set.repeats }}
