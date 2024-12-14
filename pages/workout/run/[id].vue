@@ -8,7 +8,6 @@ interface EditingState {
 
 const { runWorkout, initRunMode, originalWorkout } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
-const chart = useTemplateRef('chart')
 
 async function handleFinishWorkout() {
   if (runWorkout.value) {
@@ -84,8 +83,7 @@ function getData(): ECOption {
     }
   }
 
-  // Подготавливаем данные для графика
-  const exerciseData = runWorkout.value.exercises.map((exercise) => {
+  const exerciseChartData = runWorkout.value.exercises.map((exercise) => {
     const originalSets = originalWorkout.value?.sets.filter(
       set => set.exerciseId === exercise.exerciseId,
     ) || []
@@ -96,8 +94,8 @@ function getData(): ECOption {
 
     return {
       exerciseName: exercise.exerciseName,
-      original: originalSets.map(set => set.weight),
-      current: currentSets.map(set => set.weight),
+      original: originalSets.reduce((total, set) => total + ((set.weight || 0) * (set.repeats || 0)), 0),
+      current: currentSets.reduce((total, set) => total + ((set.weight || 0) * (set.repeats || 0)), 0),
     }
   })
 
@@ -109,28 +107,42 @@ function getData(): ECOption {
     },
     legend: {
       data: ['Предыдущая тренировка', 'Текущая тренировка'],
+      bottom: 0,
     },
     toolbox: {
       show: false,
     },
     xAxis: {
       type: 'category',
-      data: exerciseData.map(d => d.exerciseName),
+      data: exerciseChartData.map(d => d.exerciseName),
     },
     yAxis: {
       type: 'value',
-      name: 'Вес (кг)',
+      name: 'Суммарный вес (кг)',
+      nameTextStyle: {
+        padding: [0, 0, 0, 400],
+        fontWeight: 600,
+        color: 'rgb(var(--text-color))',
+      },
     },
     series: [
       {
         name: 'Предыдущая тренировка',
         type: 'bar',
-        data: exerciseData.map(d => d.original.length ? Math.max(...d.original) : 0),
+        data: exerciseChartData.map(d => d.original),
+        itemStyle: {
+          // color: 'rgba(128, 128, 128, 0.5)' // серый цвет для предыдущей тренировки
+          borderRadius: [8, 8, 0, 0]
+        },
       },
       {
         name: 'Текущая тренировка',
         type: 'bar',
-        data: exerciseData.map(d => d.current.length ? Math.max(...d.current) : 0),
+        data: exerciseChartData.map(d => d.current),
+        itemStyle: {
+          // color: 'rgba(128, 128, 128, 0.5)' // серый цвет для предыдущей тренировки
+          borderRadius: [8, 8, 0, 0]
+        }
       },
     ],
   }
@@ -141,6 +153,8 @@ const option = shallowRef(getData())
 watch([originalWorkout, runWorkout], () => {
   option.value = getData()
 }, { deep: true })
+
+//  todo: добавить время для сетов, придумать реализацию запушивания времени на сервер
 </script>
 
 <template>
@@ -149,9 +163,6 @@ watch([originalWorkout, runWorkout], () => {
     class="run"
   >
     <div class="run__current">
-      <button @click="handleFinishWorkout">
-        finish
-      </button>
       <h1 class="run__title">
         {{ runWorkout.title }}
       </h1>
@@ -227,11 +238,13 @@ watch([originalWorkout, runWorkout], () => {
           </ul>
         </li>
       </ul>
+      <button @click="handleFinishWorkout">
+        finish
+      </button>
     </div>
 
     <div class="run__initial">
       <VChart
-        ref="chart"
         :option="option"
       />
       <!--      {{ originalWorkout }} -->
