@@ -15,7 +15,7 @@ export interface UserWorkoutExercise {
 }
 
 export interface UserWorkout {
-  id: string
+  id?: string
   title: string
   color: string
   exercises: UserWorkoutExercise[]

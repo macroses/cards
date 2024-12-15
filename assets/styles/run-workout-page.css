@@ -1,6 +1,6 @@
 .run {
   display: flex;
-
+  aalign-items: flex-start;
 }
 
 .run__current,

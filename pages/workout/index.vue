@@ -4,7 +4,10 @@ import { WORKOUT_COLORS } from '~/constants'
 import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
 definePageMeta({
-  middleware: ['workout-access', 'auth'],
+  middleware: [
+    'workout-access',
+    'auth',
+  ],
 })
 
 const { t } = useI18n()
