@@ -5,7 +5,7 @@ export function useRunWorkoutChart() {
 
   function getData<T extends CreateWorkoutResponse>(
     originalWorkout: T | null,
-    runWorkout: T | null,
+    runWorkout: T | null | undefined,
   ): ECOption {
     if (!originalWorkout || !runWorkout) {
       return {

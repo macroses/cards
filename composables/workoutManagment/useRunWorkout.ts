@@ -14,8 +14,9 @@ export function useRunWorkout(): RunWorkoutReturn {
   const originalWorkout = shallowRef<CreateWorkoutResponse | null>(null)
 
   const runWorkout = computed(() => {
-    if (!workoutRunId.value)
+    if (!workoutRunId.value) {
       return null
+    }
 
     return workoutsList.value?.find((workout: CreateWorkoutResponse) => workout.id === workoutRunId.value)
   })

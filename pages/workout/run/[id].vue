@@ -72,10 +72,9 @@ watch([originalWorkout, runWorkout], () => {
   option.value = getData(originalWorkout.value, runWorkout.value)
 }, { deep: true })
 
-//  todo: добавить время для сетов, придумать реализацию запушивания времени на сервер
-
 function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') {
   const value = (event.target as HTMLInputElement).value
+
   if (value === '') {
     set[field] = 0
   }
@@ -109,9 +108,7 @@ function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') 
               :key="set.id"
               class="run__set-item"
             >
-              <div
-                class="run__set-difficulty"
-              >
+              <div class="run__set-difficulty">
                 {{ set.difficulty }}
               </div>
               <div
@@ -171,15 +168,7 @@ function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') 
     </div>
 
     <div class="run__initial">
-      <VChart
-        :option="option"
-      />
-      <!--      {{ originalWorkout }} -->
-      <!--      <ul> -->
-      <!--        <li v-for="item in originalWorkout" :key="item.id"> -->
-      <!--          {{ item }} -->
-      <!--        </li> -->
-      <!--      </ul> -->
+      <VChart :option="option" />
     </div>
   </div>
   <div v-else>
