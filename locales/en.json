@@ -34,7 +34,9 @@
     "workout_date_change_error": "Error while changed workout date",
     "workout_copied": "Workout copied",
     "workout_copy_error": "Error while copying workout",
-    "workout_updated": "Workout updated"
+    "workout_updated": "Workout updated",
+    "workout_ended": "Workout finished",
+    "workout_completed": "Workout completed"
   },
 
   "error": {
@@ -50,5 +52,11 @@
     "copy_workout": "Copy workout",
     "edit_workout": "Edit workout",
     "delete_workout": "Delete workout"
+  },
+
+  "charts": {
+    "original": "Planned",
+    "current": "Current",
+    "total_tonnage": "Total tonnage (kg)"
   }
 }

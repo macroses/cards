@@ -51,7 +51,7 @@ function closeRunWorkoutConfirm() {
     <div class="date-menu__event-name">
       <TheIcon
         v-if="isWorkoutCompleted"
-        v-tooltip="t('Workout completed')"
+        v-tooltip="t('toast.workout_completed')"
         icon-name="circle-check"
         width="18px"
       />

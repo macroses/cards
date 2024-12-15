@@ -34,7 +34,9 @@
     "workout_date_change_error": "Не удалось изменить дату",
     "workout_copied": "Тренировка скопирована",
     "workout_copy_error": "Ошибка при копировании тренировки",
-    "workout_updated": "Тренировка обновлена"
+    "workout_updated": "Тренировка обновлена",
+    "workout_ended": "Тренировка завершена",
+    "workout_completed": "Тренировка завершена"
   },
 
   "error": {
@@ -50,5 +52,11 @@
     "copy_workout": "Копировать тренировку",
     "edit_workout": "Редактировать тренировку",
     "delete_workout": "Удалить тренировку"
+  },
+
+  "charts": {
+    "original": "Запланировано",
+    "current": "На данный момент",
+    "total_tonnage": "Суммарный вес (кг)"
   }
 }

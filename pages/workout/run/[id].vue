@@ -8,6 +8,8 @@ interface EditingState {
 
 const { runWorkout, initRunMode, originalWorkout } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
+const { getData } = useRunWorkoutChart()
+const option = shallowRef(getData(originalWorkout.value, runWorkout.value))
 
 async function handleFinishWorkout() {
   if (runWorkout.value) {
@@ -66,92 +68,8 @@ function setInputRef(setId: string): (el: any) => void {
 
 onMounted(async () => await initRunMode())
 
-// chart
-function getData(): ECOption {
-  if (!originalWorkout.value || !runWorkout.value) {
-    return {
-      animation: false,
-      tooltip: {
-        className: 'echarts-tooltip',
-      },
-      toolbox: {
-        show: false,
-      },
-      xAxis: { type: 'category' },
-      yAxis: {},
-      series: [],
-    }
-  }
-
-  const exerciseChartData = runWorkout.value.exercises.map((exercise) => {
-    const originalSets = originalWorkout.value?.sets.filter(
-      set => set.exerciseId === exercise.exerciseId,
-    ) || []
-
-    const currentSets = runWorkout.value?.sets.filter(
-      set => set.exerciseId === exercise.exerciseId,
-    ) || []
-
-    return {
-      exerciseName: exercise.exerciseName,
-      original: originalSets.reduce((total, set) => total + ((set.weight || 0) * (set.repeats || 0)), 0),
-      current: currentSets.reduce((total, set) => total + ((set.weight || 0) * (set.repeats || 0)), 0),
-    }
-  })
-
-  return {
-    animation: true,
-    tooltip: {
-      className: 'echarts-tooltip',
-      trigger: 'axis',
-    },
-    legend: {
-      data: ['Предыдущая тренировка', 'Текущая тренировка'],
-      bottom: 0,
-    },
-    toolbox: {
-      show: false,
-    },
-    xAxis: {
-      type: 'category',
-      data: exerciseChartData.map(d => d.exerciseName),
-    },
-    yAxis: {
-      type: 'value',
-      name: 'Суммарный вес (кг)',
-      nameTextStyle: {
-        padding: [0, 0, 0, 400],
-        fontWeight: 600,
-        color: 'rgb(var(--text-color))',
-      },
-    },
-    series: [
-      {
-        name: 'Предыдущая тренировка',
-        type: 'bar',
-        data: exerciseChartData.map(d => d.original),
-        itemStyle: {
-          // color: 'rgba(128, 128, 128, 0.5)' // серый цвет для предыдущей тренировки
-          borderRadius: [8, 8, 0, 0],
-        },
-      },
-      {
-        name: 'Текущая тренировка',
-        type: 'bar',
-        data: exerciseChartData.map(d => d.current),
-        itemStyle: {
-          // color: 'rgba(128, 128, 128, 0.5)' // серый цвет для предыдущей тренировки
-          borderRadius: [8, 8, 0, 0],
-        },
-      },
-    ],
-  }
-}
-
-const option = shallowRef(getData())
-
 watch([originalWorkout, runWorkout], () => {
-  option.value = getData()
+  option.value = getData(originalWorkout.value, runWorkout.value)
 }, { deep: true })
 
 //  todo: добавить время для сетов, придумать реализацию запушивания времени на сервер
