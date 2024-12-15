@@ -66,6 +66,17 @@ function setInputRef(setId: string): (el: any) => void {
   }
 }
 
+const activeExercises = ref<Set<number>>(new Set())
+
+function toggleExercise(exerciseId: number) {
+  if (activeExercises.value.has(exerciseId)) {
+    activeExercises.value.delete(exerciseId)
+  }
+  else {
+    activeExercises.value.add(exerciseId)
+  }
+}
+
 onMounted(async () => await initRunMode())
 
 watch([originalWorkout, runWorkout], () => {
@@ -96,70 +107,78 @@ function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') 
           :key="exercise.exerciseId"
           class="run__exercise-item"
         >
-          <div class="run__exercise">
+          <div
+            class="run__exercise"
+            @click="toggleExercise(exercise.exerciseId)"
+          >
             {{ exercise.exerciseName }}
           </div>
-          <ul
-            v-if="exerciseSets[exercise.exerciseId]?.length"
-            class="run__sets"
+          <div
+            class="run__sets-container"
+            :class="{ active: activeExercises.has(exercise.exerciseId) }"
           >
-            <li
-              v-for="set in exerciseSets[exercise.exerciseId]"
-              :key="set.id"
-              class="run__set-item"
+            <ul
+              v-if="exerciseSets[exercise.exerciseId]?.length"
+              class="run__sets"
             >
-              <div class="run__set-difficulty">
-                {{ set.difficulty }}
-              </div>
-              <div
-                class="run__set-weight"
-                @click="handleEdit(set.id, 'weight')"
+              <li
+                v-for="set in exerciseSets[exercise.exerciseId]"
+                :key="set.id"
+                class="run__set-item"
               >
-                <TheInput
-                  v-if="editingState.setId === set.id && editingState.field === 'weight'"
-                  :ref="setInputRef(set.id)"
-                  v-model="set.weight"
-                  placeholder="Вес"
-                  type="number"
-                  inputmode="numeric"
-                  @keyup.enter="handleInputSubmit"
-                  @blur="handleInputSubmit"
-                  @input="handleInputChange($event, set, 'weight')"
-                />
-                <span v-else>
-                  {{ set.weight }}
-                </span>
-              </div>
-              <div
-                class="run__set-repeats"
-                @click="handleEdit(set.id, 'repeats')"
-              >
-                <TheInput
-                  v-if="editingState.setId === set.id && editingState.field === 'repeats'"
-                  :ref="setInputRef(set.id)"
-                  v-model="set.repeats"
-                  placeholder="Повторения"
-                  type="number"
-                  inputmode="numeric"
-                  @keyup.enter="handleInputSubmit"
-                  @blur="handleInputSubmit"
-                  @input="handleInputChange($event, set, 'repeats')"
-                />
-                <span v-else>
-                  {{ set.repeats }}
-                </span>
-              </div>
-              <TheButton
-                variant="ghost"
-                icon-only
-              >
-                <TheIcon
-                  icon-name="circle-check"
-                  width="18px"
-                />
-              </TheButton>
-            </li>
-          </ul>
+                <div class="run__set-difficulty">
+                  {{ set.difficulty }}
+                </div>
+                <div
+                  class="run__set-weight"
+                  @click="handleEdit(set.id, 'weight')"
+                >
+                  <TheInput
+                    v-if="editingState.setId === set.id && editingState.field === 'weight'"
+                    :ref="setInputRef(set.id)"
+                    v-model="set.weight"
+                    placeholder="Вес"
+                    type="number"
+                    inputmode="numeric"
+                    @keyup.enter="handleInputSubmit"
+                    @blur="handleInputSubmit"
+                    @input="handleInputChange($event, set, 'weight')"
+                  />
+                  <span v-else>
+                    {{ set.weight }}
+                  </span>
+                </div>
+                <div
+                  class="run__set-repeats"
+                  @click="handleEdit(set.id, 'repeats')"
+                >
+                  <TheInput
+                    v-if="editingState.setId === set.id && editingState.field === 'repeats'"
+                    :ref="setInputRef(set.id)"
+                    v-model="set.repeats"
+                    placeholder="Повторения"
+                    type="number"
+                    inputmode="numeric"
+                    @keyup.enter="handleInputSubmit"
+                    @blur="handleInputSubmit"
+                    @input="handleInputChange($event, set, 'repeats')"
+                  />
+                  <span v-else>
+                    {{ set.repeats }}
+                  </span>
+                </div>
+                <TheButton
+                  variant="ghost"
+                  icon-only
+                >
+                  <TheIcon
+                    icon-name="circle-check"
+                    width="18px"
+                  />
+                </TheButton>
+              </li>
+            </ul>
+          </div>
         </li>
       </ul>
       <button @click="handleFinishWorkout">

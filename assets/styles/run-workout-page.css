@@ -12,3 +12,22 @@
   display: flex;
   gap: 12px;
 }
+
+.run__sets-container {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.3s;
+
+  &.active {
+    grid-template-rows: 1fr;
+  }
+}
+
+.run__sets {
+  min-height: 0;
+}
+
+.run__initial {
+  min-height: 350px;
+}
