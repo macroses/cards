@@ -6,6 +6,7 @@ export function useRunWorkoutChart() {
   function getData<T extends CreateWorkoutResponse>(
     originalWorkout: T | null,
     runWorkout: T | null | undefined,
+    activeExercises?: Set<number>,
   ): ECOption {
     if (!originalWorkout || !runWorkout) {
       return {
@@ -32,6 +33,7 @@ export function useRunWorkoutChart() {
       ) || []
 
       return {
+        exerciseId: exercise.exerciseId,
         exerciseName: exercise.exerciseName,
         original: originalSets.reduce((total, set) => total + ((set.weight || 0) * (set.repeats || 0)), 0),
         current: currentSets.reduce((total, set) => total + ((set.weight || 0) * (set.repeats || 0)), 0),
@@ -68,18 +70,26 @@ export function useRunWorkoutChart() {
         {
           name: t('charts.original'),
           type: 'bar',
-          data: exerciseChartData.map(d => d.original),
-          itemStyle: {
-            borderRadius: [8, 8, 0, 0],
-          },
+          data: exerciseChartData.map(d => ({
+            value: d.original,
+            itemStyle: {
+              borderRadius: [8, 8, 0, 0],
+              opacity: activeExercises?.has(d.exerciseId) ? 1 : 0.3,
+              color: activeExercises?.has(d.exerciseId) ? '#409EFF' : undefined,
+            },
+          })),
         },
         {
           name: t('charts.current'),
           type: 'bar',
-          data: exerciseChartData.map(d => d.current),
-          itemStyle: {
-            borderRadius: [8, 8, 0, 0],
-          },
+          data: exerciseChartData.map(d => ({
+            value: d.current,
+            itemStyle: {
+              borderRadius: [8, 8, 0, 0],
+              opacity: activeExercises?.has(d.exerciseId) ? 1 : 0.3,
+              color: activeExercises?.has(d.exerciseId) ? '#67C23A' : undefined,
+            },
+          })),
         },
       ],
     }

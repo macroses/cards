@@ -9,7 +9,8 @@ interface EditingState {
 const { runWorkout, initRunMode, originalWorkout } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
-const option = shallowRef(getData(originalWorkout.value, runWorkout.value))
+const activeExercises = ref<Set<number>>(new Set())
+const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))
 
 async function handleFinishWorkout() {
   if (runWorkout.value) {
@@ -66,8 +67,6 @@ function setInputRef(setId: string): (el: any) => void {
   }
 }
 
-const activeExercises = ref<Set<number>>(new Set())
-
 function toggleExercise(exerciseId: number) {
   if (activeExercises.value.has(exerciseId)) {
     activeExercises.value.delete(exerciseId)
@@ -83,20 +82,31 @@ function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') 
   }
 }
 
-watchEffect(() => option.value = getData(originalWorkout.value, runWorkout.value))
+watchEffect(() => {
+  option.value = getData(originalWorkout.value, runWorkout.value, activeExercises.value)
+})
 
-onMounted(async () => await initRunMode())
+onMounted(async () => {
+  await initRunMode()
+
+  if (runWorkout.value && runWorkout.value.exercises.length > 0) {
+    activeExercises.value.add(runWorkout.value.exercises[0].exerciseId)
+  }
+})
 </script>
 
 <template>
+  <h1
+    v-if="runWorkout"
+    class="run__title"
+  >
+    {{ runWorkout.title }}
+  </h1>
   <div
     v-if="runWorkout"
     class="run"
   >
     <div class="run__current">
-      <h1 class="run__title">
-        {{ runWorkout.title }}
-      </h1>
       <ul class="run__exercises-list">
         <li
           v-for="exercise in runWorkout.exercises"
@@ -105,8 +115,13 @@ onMounted(async () => await initRunMode())
         >
           <div
             class="run__exercise"
+            :class="{ active: activeExercises.has(exercise.exerciseId) }"
             @click="toggleExercise(exercise.exerciseId)"
           >
+            <TheIcon
+              icon-name="angle-down"
+              width="14px"
+            />
             {{ exercise.exerciseName }}
           </div>
           <div

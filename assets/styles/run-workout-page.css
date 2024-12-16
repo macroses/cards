@@ -1,6 +1,7 @@
 .run {
   display: flex;
   aalign-items: flex-start;
+  gap: 24px;
 }
 
 .run__current,
@@ -29,5 +30,37 @@
 }
 
 .run__initial {
-  min-height: 450px;
+  height: 450px;
+}
+
+.run__exercise {
+  height: 44px;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-inline: 12px 24px;
+  border-radius: 12px;
+  transition: box-shadow 0.3s, background-color 0.3s;
+
+  &:hover {
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
+  }
+
+  &.active {
+    background-color: var(--table-dark-bg);
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
+    border-bottom-color: rgb(var(--border-color));
+  }
+}
+
+.run__exercises-list,
+.run__initial {
+  padding: 12px;
+  border-radius: 16px;
+  background-color: #fff;
+  border: 1px solid rgb(var(--border-color));
+  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
 }
