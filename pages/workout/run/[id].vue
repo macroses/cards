@@ -77,19 +77,15 @@ function toggleExercise(exerciseId: number) {
   }
 }
 
-onMounted(async () => await initRunMode())
-
-watch([originalWorkout, runWorkout], () => {
-  option.value = getData(originalWorkout.value, runWorkout.value)
-}, { deep: true })
-
 function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') {
-  const value = (event.target as HTMLInputElement).value
-
-  if (value === '') {
+  if (!(event.target as HTMLInputElement).value) {
     set[field] = 0
   }
 }
+
+watchEffect(() => option.value = getData(originalWorkout.value, runWorkout.value))
+
+onMounted(async () => await initRunMode())
 </script>
 
 <template>
