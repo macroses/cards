@@ -11,7 +11,20 @@
 
 .run__set-item {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  height: 36px;
+}
+
+.run__set-weight,
+.run__set-repeats {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.run__set-weight--value,
+.run__set-repeats--value{
+  padding-left: 11px;
 }
 
 .run__sets-container {
@@ -50,6 +63,7 @@
   }
 
   &.active {
+    margin-bottom: 8px;
     background-color: var(--table-dark-bg);
     box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
     border-bottom-color: rgb(var(--border-color));

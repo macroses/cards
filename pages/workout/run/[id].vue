@@ -155,9 +155,12 @@ onMounted(async () => {
                     @blur="handleInputSubmit"
                     @input="handleInputChange($event, set, 'weight')"
                   />
-                  <span v-else>
+                  <div
+                    v-else
+                    class="run__set-weight--value"
+                  >
                     {{ set.weight }}
-                  </span>
+                  </div>
                 </div>
                 <div
                   class="run__set-repeats"
@@ -174,10 +177,14 @@ onMounted(async () => {
                     @blur="handleInputSubmit"
                     @input="handleInputChange($event, set, 'repeats')"
                   />
-                  <span v-else>
+                  <div
+                    v-else
+                    class="run__set-repeats--value"
+                  >
                     {{ set.repeats }}
-                  </span>
+                  </div>
                 </div>
+                <div class="time" />
                 <TheButton
                   variant="ghost"
                   icon-only
