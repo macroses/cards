@@ -15,6 +15,7 @@ const { runWorkout, initRunMode, originalWorkout } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
 const { activeWorkout } = useWorkoutTimer()
+
 const activeExercises = ref<Set<number>>(new Set())
 const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))
 const setTimes = ref<Record<string, SetTime>>({})
