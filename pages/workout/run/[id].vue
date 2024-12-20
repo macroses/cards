@@ -15,6 +15,7 @@ const { runWorkout, initRunMode, originalWorkout } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
 const { activeWorkout } = useWorkoutTimer()
+const { updateSetTime } = useSetTime()
 
 const activeExercises = ref<Set<number>>(new Set())
 const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))
@@ -95,7 +96,7 @@ function formatTime(time: SetTime): string {
   return `${time.minutes}:${time.seconds.toString().padStart(2, '0')}`
 }
 
-function handleSetTime(setId: string) {
+async function handleSetTime(setId: string) {
   const currentTime = Date.now()
 
   if (lastSetTime.value === null && activeWorkout.value?.startedAt) {
@@ -103,12 +104,14 @@ function handleSetTime(setId: string) {
     const minutes = Math.floor(timeDiff / 60000)
     const seconds = Math.floor((timeDiff % 60000) / 1000)
     setTimes.value[setId] = { minutes, seconds }
+    await updateSetTime(setId, { minutes, seconds })
   }
   else if (lastSetTime.value) {
     const timeDiff = currentTime - lastSetTime.value
     const minutes = Math.floor(timeDiff / 60000)
     const seconds = Math.floor((timeDiff % 60000) / 1000)
     setTimes.value[setId] = { minutes, seconds }
+    await updateSetTime(setId, { minutes, seconds })
   }
 
   lastSetTime.value = currentTime
