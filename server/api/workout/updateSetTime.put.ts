@@ -11,9 +11,9 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { setId, seconds } = await readBody(event)
+    const { setId, timestamp } = await readBody(event)
 
-    if (!setId || typeof seconds !== 'number') {
+    if (!setId || typeof timestamp !== 'number') {
       throw createError({
         statusCode: 400,
         message: 'Некорректные данные',
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
     const set = await event.context.prisma.workoutSet.update({
       where: { id: setId },
-      data: { setTime: seconds },
+      data: { setTime: timestamp },
     })
 
     return set

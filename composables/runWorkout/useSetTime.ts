@@ -1,27 +1,19 @@
 const API_UPDATE_SET_TIME = '/api/workout/updateSetTime'
 
-export interface SetTime {
-  minutes: number
-  seconds: number
-}
-
 export function useSetTime() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = ref(false)
 
-  async function updateSetTime(setId: string, time: SetTime) {
+  async function updateSetTime(setId: string, timestamp: number) {
     try {
       isLoading.value = true
-
-      // Конвертируем время в секунды
-      const seconds = time.minutes * 60 + time.seconds
 
       await $fetch(API_UPDATE_SET_TIME, {
         method: 'PUT',
         body: {
           setId,
-          seconds,
+          timestamp,
         },
       })
 

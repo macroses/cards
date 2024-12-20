@@ -6,11 +6,6 @@ interface EditingState {
   field: 'weight' | 'repeats' | null
 }
 
-interface SetTime {
-  minutes: number
-  seconds: number
-}
-
 const { runWorkout, initRunMode, originalWorkout, isLoading } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
@@ -19,7 +14,7 @@ const { updateSetTime } = useSetTime()
 
 const activeExercises = ref<Set<number>>(new Set())
 const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))
-const setTimes = ref<Record<string, SetTime>>({})
+const setTimes = ref<Record<string, number>>({})
 const lastSetTime = ref<number | null>(null)
 
 async function handleFinishWorkout() {
@@ -92,26 +87,38 @@ function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') 
   }
 }
 
-function formatTime(time: SetTime): string {
-  return `${time.minutes}:${time.seconds.toString().padStart(2, '0')}`
+function formatTime(timestamp: number): string {
+  if (!activeWorkout.value?.startedAt)
+    return '--:--'
+
+  const sortedSetTimes = Object.entries(setTimes.value)
+    .sort(([, a], [, b]) => a - b)
+    .map(([id, time]) => ({ id, time }))
+
+  const currentSetIndex = sortedSetTimes.findIndex(set => set.time === timestamp)
+  const previousSet = currentSetIndex > 0 ? sortedSetTimes[currentSetIndex - 1] : null
+
+  const startTime = previousSet
+    ? previousSet.time
+    : new Date(activeWorkout.value.startedAt).getTime()
+
+  const timeDiff = timestamp - startTime
+  const minutes = Math.floor(timeDiff / 60000)
+  const seconds = Math.floor((timeDiff % 60000) / 1000)
+
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`
 }
 
 async function handleSetTime(setId: string) {
   const currentTime = Date.now()
 
-  if (lastSetTime.value === null && activeWorkout.value?.startedAt) {
-    const timeDiff = currentTime - new Date(activeWorkout.value.startedAt).getTime()
-    const minutes = Math.floor(timeDiff / 60000)
-    const seconds = Math.floor((timeDiff % 60000) / 1000)
-    setTimes.value[setId] = { minutes, seconds }
-    await updateSetTime(setId, { minutes, seconds })
+  if (!lastSetTime.value && activeWorkout.value?.startedAt) {
+    setTimes.value[setId] = currentTime
+    await updateSetTime(setId, currentTime)
   }
   else if (lastSetTime.value) {
-    const timeDiff = currentTime - lastSetTime.value
-    const minutes = Math.floor(timeDiff / 60000)
-    const seconds = Math.floor((timeDiff % 60000) / 1000)
-    setTimes.value[setId] = { minutes, seconds }
-    await updateSetTime(setId, { minutes, seconds })
+    setTimes.value[setId] = currentTime
+    await updateSetTime(setId, currentTime)
   }
 
   lastSetTime.value = currentTime
@@ -126,10 +133,8 @@ async function initSetTimes() {
     return
 
   runWorkout.value.sets.forEach((set) => {
-    if (typeof set.setTime === 'number' && set.setTime > 0) {
-      const minutes = Math.floor(set.setTime / 60)
-      const seconds = set.setTime % 60
-      setTimes.value[set.id] = { minutes, seconds }
+    if (set.setTime) {
+      setTimes.value[set.id] = Number(set.setTime)
     }
   })
 }
