@@ -22,6 +22,7 @@ export default defineEventHandler(async (event) => {
       title: body.title,
       color: body.color,
       workoutDate: body.workoutDate,
+      completed: false,
       exercises: {
         create: body.exercises.map(exercise => ({
           exerciseId: exercise.id,
