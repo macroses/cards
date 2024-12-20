@@ -35,7 +35,8 @@ export default defineEventHandler(async (event) => {
           weight: set.weight || 0,
           repeats: set.repeats || 0,
           difficulty: set.difficulty,
-          completed: set.completed,
+          completed: set.completed || false,
+          setTime: set.setTime || null,
         })),
       },
     }

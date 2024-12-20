@@ -46,6 +46,7 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
         repeats: set.repeats,
         difficulty: set.difficulty,
         completed: set.completed,
+        setTime: set.setTime || null,
       })
     })
   })
