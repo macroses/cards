@@ -51,8 +51,8 @@ CREATE TABLE "Workout" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "completed" BOOLEAN NOT NULL DEFAULT false,
-    "workoutTime" INTEGER,
     "startedAt" DATETIME,
+    "endedAt" DATETIME,
     CONSTRAINT "Workout_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -73,6 +73,7 @@ CREATE TABLE "WorkoutSet" (
     "weight" INTEGER NOT NULL,
     "repeats" INTEGER NOT NULL,
     "difficulty" INTEGER NOT NULL,
+    "completed" BOOLEAN NOT NULL DEFAULT false,
     CONSTRAINT "WorkoutSet_workoutId_fkey" FOREIGN KEY ("workoutId") REFERENCES "Workout" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
