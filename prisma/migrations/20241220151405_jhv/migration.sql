@@ -73,7 +73,7 @@ CREATE TABLE "WorkoutSet" (
     "weight" INTEGER NOT NULL,
     "repeats" INTEGER NOT NULL,
     "difficulty" INTEGER NOT NULL,
-    "setTime" INTEGER NOT NULL,
+    "setTime" INTEGER,
     "completed" BOOLEAN NOT NULL DEFAULT false,
     CONSTRAINT "WorkoutSet_workoutId_fkey" FOREIGN KEY ("workoutId") REFERENCES "Workout" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
