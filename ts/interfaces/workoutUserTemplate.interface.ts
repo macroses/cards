@@ -7,6 +7,7 @@ export interface UserTrainingSession {
   repeats: number | null
   difficulty: DIFFICULT_LEVEL
   completed: boolean
+  setTime: string | null
 }
 
 export interface UserWorkoutExercise {
