@@ -11,7 +11,7 @@ interface SetTime {
   seconds: number
 }
 
-const { runWorkout, initRunMode, originalWorkout } = useRunWorkout()
+const { runWorkout, initRunMode, originalWorkout, isLoading } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
 const { activeWorkout } = useWorkoutTimer()
@@ -120,6 +120,25 @@ async function handleSetTime(setId: string) {
 watchEffect(() => {
   option.value = getData(originalWorkout.value, runWorkout.value, activeExercises.value)
 })
+
+async function initSetTimes() {
+  if (!runWorkout.value?.sets)
+    return
+
+  runWorkout.value.sets.forEach((set) => {
+    if (typeof set.setTime === 'number' && set.setTime > 0) {
+      const minutes = Math.floor(set.setTime / 60)
+      const seconds = set.setTime % 60
+      setTimes.value[set.id] = { minutes, seconds }
+    }
+  })
+}
+
+watch([runWorkout, isLoading], ([workout, loading]) => {
+  if (workout && !loading) {
+    initSetTimes()
+  }
+}, { immediate: true })
 
 onMounted(async () => {
   await initRunMode()

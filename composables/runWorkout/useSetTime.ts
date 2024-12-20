@@ -1,9 +1,9 @@
 const API_UPDATE_SET_TIME = '/api/workout/updateSetTime'
 
 export interface SetTime {
-    minutes: number
-    seconds: number
-  }
+  minutes: number
+  seconds: number
+}
 
 export function useSetTime() {
   const { t } = useI18n()
@@ -42,4 +42,4 @@ export function useSetTime() {
     updateSetTime,
     isLoading,
   }
-} 
+}
