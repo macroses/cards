@@ -1,7 +1,6 @@
-import { GLOBAL_WORKOUTS } from '~/constants'
+import { API_END, GLOBAL_WORKOUTS } from '~/constants'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
-
-const API_END = '/api/finish-workout/finishWorkout'
 
 export function useFinishWorkout() {
   const { t } = useI18n()
@@ -38,12 +37,12 @@ export function useFinishWorkout() {
       // Останавливаем таймер
       stopTimer()
 
-      toast(t('toast.workout_ended'), 'success')
+      toast(t('toast.workout_ended'), ToastStatusesEnum.SUCCESS)
       return true
     }
     catch (error: unknown) {
       console.error('Error ending workout:', error)
-      toast(t('toast.workout_end_error'), 'error')
+      toast(t('toast.workout_end_error'), ToastStatusesEnum.ERROR)
       return false
     }
     finally {

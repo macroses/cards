@@ -1,4 +1,5 @@
-const API_DELETE = '/api/workout/workoutDelete'
+import { API_DELETE } from '~/constants'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useDeleteWorkout() {
   const { t } = useI18n()
@@ -16,7 +17,7 @@ export function useDeleteWorkout() {
       })
 
       if (successDelete) {
-        toast(t('toast.workout_deleted'), 'success')
+        toast(t('toast.workout_deleted'), ToastStatusesEnum.SUCCESS)
         await fetchWorkouts()
       }
 
@@ -24,7 +25,7 @@ export function useDeleteWorkout() {
     }
     catch (error: unknown) {
       console.error('Error delete workout', error)
-      toast(t('toast.workout_delete_error'), 'error')
+      toast(t('toast.workout_delete_error'), ToastStatusesEnum.ERROR)
 
       return false
     }

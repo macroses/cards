@@ -1,8 +1,9 @@
+import {
+  GLOBAL_ACTIVE_WORKOUT,
+  GLOBAL_WORKOUT_TIMER,
+  INITIAL_TIME,
+} from '~/constants'
 import type { UserWorkout } from '~/ts/interfaces'
-
-const GLOBAL_WORKOUT_TIMER = 'workout-timer'
-const INITIAL_TIME = '00:00:00'
-const GLOBAL_ACTIVE_WORKOUT = 'active-workout'
 
 export function useWorkoutTimer() {
   const timer = useState<string>(GLOBAL_WORKOUT_TIMER, () => INITIAL_TIME)
@@ -34,7 +35,7 @@ export function useWorkoutTimer() {
   function checkActiveWorkout(workouts: UserWorkout[]) {
     const startedWorkout = workouts.find(w => w.startedAt && !w.endedAt)
 
-    if (startedWorkout?.startedAt) {
+    if (startedWorkout?.startedAt && startedWorkout.id) {
       startTimer(new Date(startedWorkout.startedAt), startedWorkout.id)
     }
   }

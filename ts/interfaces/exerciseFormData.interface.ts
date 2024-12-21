@@ -7,5 +7,5 @@ export interface ExerciseFormData {
   repeats: number | null
   difficulty: DIFFICULT_LEVEL
   completed: boolean
-  setTime: number | null
+  setTime: string | null
 }

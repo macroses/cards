@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
-
-interface EditingState {
-  setId: string | null
-  field: 'weight' | 'repeats' | null
-}
+import type { EditingState } from '~/ts/interfaces'
 
 const { runWorkout, initRunMode, originalWorkout, isLoading } = useRunWorkout()
 const { endWorkout } = useFinishWorkout()
@@ -134,13 +130,14 @@ async function initSetTimes() {
 
   runWorkout.value.sets.forEach((set) => {
     if (set.setTime) {
-      setTimes.value[set.id] = Number(set.setTime)
+      const timestamp = new Date(set.setTime).getTime()
+      setTimes.value[set.id] = timestamp
     }
   })
 }
 
-watch([runWorkout, isLoading], ([workout, loading]) => {
-  if (workout && !loading) {
+watch([runWorkout], ([workout]: [typeof runWorkout.value]) => {
+  if (workout && workout.sets) {
     initSetTimes()
   }
 }, { immediate: true })

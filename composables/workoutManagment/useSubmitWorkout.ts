@@ -1,8 +1,11 @@
-import { GLOBAL_WORKOUTS } from '~/constants'
-import type { CreateWorkoutRequest, CreateWorkoutResponse, SubmitWorkoutReturn, UserWorkout } from '~/ts/interfaces'
-
-const API_CREATE = '/api/workout/create'
-const API_UPDATE = '/api/workout/update'
+import { API_CREATE, API_UPDATE, GLOBAL_WORKOUTS } from '~/constants'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
+import type {
+  CreateWorkoutRequest,
+  CreateWorkoutResponse,
+  SubmitWorkoutReturn,
+  UserWorkout,
+} from '~/ts/interfaces'
 
 export function useSubmitWorkout(): SubmitWorkoutReturn {
   const { t } = useI18n()
@@ -13,12 +16,12 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
   const workoutId = route.query.edit as string
   const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
 
-  // Check if workout has changed
   function hasWorkoutChanged(newWorkout: UserWorkout): boolean {
     if (!workoutId)
       return true
 
     const originalWorkout = workoutsList.value.find(w => w.id === workoutId)
+
     if (!originalWorkout)
       return true
 
@@ -56,13 +59,11 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
       isLoading.value = true
 
       if (workoutId) {
-        // Проверяем, были ли изменения
         if (!hasWorkoutChanged(workout)) {
           navigateTo('/')
           return true
         }
 
-        // Обновление существующей тренировки
         await $fetch<CreateWorkoutRequest>(API_UPDATE, {
           method: 'PUT',
           body: {
@@ -70,15 +71,14 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
             id: workoutId,
           },
         })
-        toast(t('toast.workout_updated'), 'success')
+        toast(t('toast.workout_updated'), ToastStatusesEnum.SUCCESS)
       }
       else {
-        // Создание новой тренировки
         await $fetch<CreateWorkoutRequest>(API_CREATE, {
           method: 'POST',
           body: workout,
         })
-        toast(t('toast.workout_created'), 'success')
+        toast(t('toast.workout_created'), ToastStatusesEnum.SUCCESS)
       }
 
       navigateTo('/')
@@ -89,7 +89,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
     catch (error: unknown) {
       console.error('Error submit workout', error)
       const errorMessage = workoutId ? t('error.workout_update_error') : t('error.workout_create_error')
-      toast(errorMessage, 'error')
+      toast(errorMessage, ToastStatusesEnum.ERROR)
       return false
     }
     finally {

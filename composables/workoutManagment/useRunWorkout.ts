@@ -1,18 +1,9 @@
-import { GLOBAL_WORKOUTS } from '~/constants'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
-
-interface RunWorkoutReturn {
-  runWorkout: ComputedRef<CreateWorkoutResponse | null | undefined>
-  originalWorkout: Ref<CreateWorkoutResponse | null>
-  initRunMode: () => Promise<void>
-  isLoading: Ref<boolean>
-}
-
-const API_GET_WORKOUT = '/api/workout/getWorkout'
+import { API_GET_WORKOUT, GLOBAL_WORKOUTS } from '~/constants'
+import type { CreateWorkoutResponse, RunWorkoutReturn } from '~/ts/interfaces'
 
 export function useRunWorkout(): RunWorkoutReturn {
   const route = useRoute()
-  const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
+  const workoutsList = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
   const workoutRunId = ref<string | null>(null)
   const originalWorkout = shallowRef<CreateWorkoutResponse | null>(null)
   const isLoading = ref(false)
@@ -28,12 +19,14 @@ export function useRunWorkout(): RunWorkoutReturn {
   async function fetchWorkout(id: string) {
     try {
       isLoading.value = true
+
       const workout = await $fetch<CreateWorkoutResponse>(API_GET_WORKOUT, {
         query: { id },
       })
 
       if (workoutsList.value) {
         const index = workoutsList.value.findIndex(w => w.id === workout.id)
+
         if (index !== -1) {
           workoutsList.value[index] = workout
         }
@@ -62,6 +55,7 @@ export function useRunWorkout(): RunWorkoutReturn {
 
   async function initRunMode() {
     workoutRunId.value = route.params.id as string
+
     if (workoutRunId.value) {
       await fetchWorkout(workoutRunId.value)
     }

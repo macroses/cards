@@ -1,7 +1,5 @@
 import type { WorkoutSet } from '@prisma/client'
-
-const API_LAST_SETS = '/api/workout/getLastExerciseSets'
-const GLOBAL_LAST_SETS = 'global-last-sets'
+import { API_LAST_SETS, GLOBAL_LAST_SETS } from '~/constants'
 
 export function useLastExerciseSets() {
   const lastSets = useState<Record<number, WorkoutSet[]>>(GLOBAL_LAST_SETS, () => ({}))

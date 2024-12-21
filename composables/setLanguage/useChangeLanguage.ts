@@ -1,6 +1,5 @@
 import { useI18n } from 'vue-i18n'
-
-const LANGUAGE_KEY = 'selectedLanguage'
+import { LANGUAGE_KEY } from '~/constants'
 
 export function useChangeLanguage() {
   const { locale, setLocale } = useI18n()

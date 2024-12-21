@@ -1,4 +1,5 @@
-const API_COPY = '/api/workout/workoutCopy'
+import { API_COPY } from '~/constants'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useCopyWorkout() {
   const { t } = useI18n()
@@ -18,7 +19,7 @@ export function useCopyWorkout() {
         },
       })
 
-      toast(t('toast.workout_copied'), 'success')
+      toast(t('toast.workout_copied'), ToastStatusesEnum.SUCCESS)
 
       await fetchWorkouts()
 
@@ -26,7 +27,7 @@ export function useCopyWorkout() {
     }
     catch (error: unknown) {
       console.error('Error copy workout', error)
-      toast(t('toast.workout_copy_error'), 'error')
+      toast(t('toast.workout_copy_error'), ToastStatusesEnum.ERROR)
 
       return false
     }

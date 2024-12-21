@@ -1,7 +1,6 @@
-import { GLOBAL_WORKOUTS } from '~/constants'
+import { API_START, GLOBAL_WORKOUTS } from '~/constants'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
-
-const API_START = '/api/start-workout/startWorkout'
 
 export function useStartWorkout() {
   const { t } = useI18n()
@@ -37,7 +36,7 @@ export function useStartWorkout() {
     }
     catch (error: unknown) {
       console.error('Error starting workout:', error)
-      toast(t('toast.workout_start_error'), 'error')
+      toast(t('toast.workout_start_error'), ToastStatusesEnum.ERROR)
       return false
     }
     finally {

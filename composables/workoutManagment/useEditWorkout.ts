@@ -24,12 +24,10 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
     if (!foundWorkout)
       return
 
-    // Заполняем форму данными из найденной тренировки
     workout.title = foundWorkout.title
     workout.color = foundWorkout.color
     workout.workoutDate = new Date(foundWorkout.workoutDate)
 
-    // Добавляем упражнения
     foundWorkout.exercises.forEach(async (exercise) => {
       await selectExercise({
         id: exercise.exerciseId,
@@ -37,7 +35,6 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
       }, workout)
     })
 
-    // Добавляем сеты
     foundWorkout.sets.forEach((set) => {
       workout.sessions.push({
         id: crypto.randomUUID(),
@@ -52,7 +49,6 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
   })
 
   async function initEditMode() {
-    // query param for initial edit mode
     workoutEditId.value = route.query
   }
 

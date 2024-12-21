@@ -90,5 +90,5 @@ model WorkoutSet {
   repeats   Int     @default(0)
   difficulty Int     @default(1)
   completed Boolean  @default(false)
-  setTime   BigInt?
+  setTime   String?
 }

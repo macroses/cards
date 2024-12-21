@@ -1,5 +1,4 @@
-const API_EXERCISES_LIST_URL = '/api/exercises/exercises'
-const KEY_EXERCISES_LIST = 'get-exercises-list'
+import { API_EXERCISES_LIST_URL, KEY_EXERCISES_LIST } from '~/constants'
 
 export function useFetchExercisesList() {
   const { data: exercisesList } = useAsyncData(

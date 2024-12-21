@@ -1,4 +1,5 @@
-const API_UPDATE_SET_TIME = '/api/workout/updateSetTime'
+import { API_UPDATE_SET_TIME } from '~/constants'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useSetTime() {
   const { t } = useI18n()
@@ -17,12 +18,11 @@ export function useSetTime() {
         },
       })
 
-      toast(t('toast.set_time_updated'), 'success')
       return true
     }
     catch (error: unknown) {
       console.error('Error updating set time:', error)
-      toast(t('toast.set_time_update_error'), 'error')
+      toast(t('toast.set_time_update_error'), ToastStatusesEnum.ERROR)
       return false
     }
     finally {

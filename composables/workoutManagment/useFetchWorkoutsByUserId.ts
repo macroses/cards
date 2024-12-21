@@ -1,7 +1,9 @@
-import { GLOBAL_WORKOUTS } from '~/constants'
+import {
+  API_WORKOUTS,
+  AUTHENTICATED,
+  GLOBAL_WORKOUTS,
+} from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
-
-const API_WORKOUTS = '/api/workout/workoutsListByUserId'
 
 export function useFetchWorkoutsByUserId() {
   const workouts = useState<CreateWorkoutResponse | null>(GLOBAL_WORKOUTS, () => null)
@@ -14,7 +16,7 @@ export function useFetchWorkoutsByUserId() {
     try {
       isLoading.value = true
 
-      if (status.value !== 'authenticated') {
+      if (status.value !== AUTHENTICATED) {
         return
       }
 

@@ -1,11 +1,8 @@
-import type { UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
-
-interface SelectExerciseReturn {
-  selectExercise: (
-    exercise: UserWorkoutExercise,
-    workout: UserWorkout
-  ) => Promise<void>
-}
+import type {
+  SelectExerciseReturn,
+  UserWorkout,
+  UserWorkoutExercise,
+} from '~/ts/interfaces'
 
 export function useSelectExercise(): SelectExerciseReturn {
   const { fetchLastSets } = useLastExerciseSets()
