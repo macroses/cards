@@ -59,6 +59,16 @@ const exerciseSets = computed(() => {
   }, {} as Record<number, typeof runWorkout.value.sets>)
 })
 
+const isExerciseCompleted = computed(() => {
+  return (exerciseId: number) => {
+    const exerciseSetsArray = exerciseSets.value[exerciseId] || []
+    if (!exerciseSetsArray.length)
+      return false
+
+    return exerciseSetsArray.every(set => setTimes.value[set.id])
+  }
+})
+
 watchEffect(() => {
   option.value = getData(originalWorkout.value, runWorkout.value, activeExercises.value)
 })
@@ -68,6 +78,14 @@ watch([runWorkout], ([workout]: [typeof runWorkout.value]) => {
     initSetTimes(workout.sets)
   }
 }, { immediate: true })
+
+watch(setTimes, () => {
+  activeExercises.value.forEach((exerciseId) => {
+    if (isExerciseCompleted.value(exerciseId)) {
+      activeExercises.value.delete(exerciseId)
+    }
+  })
+}, { deep: true })
 
 onMounted(async () => {
   await initRunMode()
@@ -99,14 +117,17 @@ onMounted(async () => {
           >
             <div
               class="run__exercise"
-              :class="{ active: activeExercises.has(exercise.exerciseId) }"
+              :class="{
+                active: activeExercises.has(exercise.exerciseId),
+                done: isExerciseCompleted(exercise.exerciseId),
+              }"
               @click="toggleExercise(exercise.exerciseId)"
             >
               <TheIcon
                 icon-name="angle-down"
                 width="14px"
               />
-              {{ exercise.exerciseName }}
+              <span>{{ exercise.exerciseName }}</span>
             </div>
             <div
               class="run__sets-container"
