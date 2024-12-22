@@ -83,7 +83,7 @@ function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') 
   }
 }
 
-function formatTime(timestamp: number): string {
+function formatSetTime(timestamp: number): string {
   if (!activeWorkout.value?.startedAt)
     return '--:--'
 
@@ -242,7 +242,7 @@ onMounted(async () => {
                     </div>
                   </div>
                   <div class="time">
-                    {{ setTimes[set.id] ? formatTime(setTimes[set.id]) : '--:--' }}
+                    {{ setTimes[set.id] ? formatSetTime(setTimes[set.id]) : '--:--' }}
                   </div>
                   <TheButton
                     v-if="!setTimes[set.id]"
