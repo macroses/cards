@@ -116,6 +116,36 @@ onMounted(async () => {
                 v-if="exerciseSets[exercise.exerciseId]?.length"
                 class="run__sets"
               >
+                <li class="run__sets-header">
+                  <div>
+                    <TheIcon
+                      icon-name="chart-simple"
+                      width="14px"
+                    />
+                    Level
+                  </div>
+                  <div>
+                    <TheIcon
+                      icon-name="weight-hanging"
+                      width="14px"
+                    />
+                    Weight
+                  </div>
+                  <div>
+                    <TheIcon
+                      icon-name="repeat"
+                      width="14px"
+                    />
+                    Repeat
+                  </div>
+                  <div>
+                    <TheIcon
+                      icon-name="clock"
+                      width="14px"
+                    />
+                    Time
+                  </div>
+                </li>
                 <li
                   v-for="set in exerciseSets[exercise.exerciseId]"
                   :key="set.id"
@@ -168,21 +198,20 @@ onMounted(async () => {
                       {{ set.repeats }}
                     </div>
                   </div>
-                  <div class="time">
-                    {{ setTimes[set.id] ? formatSetTime(setTimes[set.id]) : '--:--' }}
+                  <div class="run__set-time">
+                    {{ setTimes[set.id] ? formatSetTime(setTimes[set.id]) : '' }}
+                    <TheButton
+                      v-if="!setTimes[set.id]"
+                      variant="secondary"
+                      icon-only
+                      @click="handleSetTime(set.id)"
+                    >
+                      <TheIcon
+                        icon-name="clock"
+                        width="18px"
+                      />
+                    </TheButton>
                   </div>
-                  <TheButton
-                    v-if="!setTimes[set.id]"
-                    variant="ghost"
-                    icon-only
-                    class="run__set-time"
-                    @click="handleSetTime(set.id)"
-                  >
-                    <TheIcon
-                      icon-name="circle-check"
-                      width="18px"
-                    />
-                  </TheButton>
                 </li>
               </ul>
             </div>
