@@ -173,7 +173,7 @@ onMounted(async () => {
                   class="run__set-item"
                 >
                   <div class="run__set-difficulty">
-                    {{ set.difficulty }}
+                    <WorkoutDifficulty v-model="set.difficulty" />
                   </div>
                   <div
                     class="run__set-weight"

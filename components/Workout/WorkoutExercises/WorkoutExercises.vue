@@ -59,6 +59,8 @@ function appendSession(exerciseId: number) {
   emit('addSet', {
     id: crypto.randomUUID(),
     exerciseId,
+    completed: false,
+    setTime: null,
     ...exerciseForm,
   })
 }
@@ -166,9 +168,6 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
                 inputmode="numeric"
                 no-clear
               />
-            </div>
-            <div class="exercise-form__submit">
-              <WorkoutDifficulty v-model="exerciseForm.difficulty" />
               <TheButton
                 type="submit"
                 :disabled="isAppendSessionDisable"
@@ -176,14 +175,12 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
                 Добавить сет
               </TheButton>
             </div>
-
             <ul
               v-if="getExerciseSessions(exercise.id).length"
               v-auto-animate
               class="workout-form__sets"
             >
               <li class="workout-form__sets-header">
-                <div />
                 <div class="workout-form__sets-header--weight">
                   Вес
                 </div>
@@ -197,10 +194,6 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
                 :key="set.id"
                 class="workout-form__sets-item"
               >
-                <div
-                  class="workout-form__sets--difficulty"
-                  :data-difficulty="set.difficulty"
-                />
                 <div class="workout-form__sets--weight">
                   {{ set.weight }}
                 </div>

@@ -1,7 +1,7 @@
 .run {
   display: flex;
-  aalign-items: flex-start;
-  gap: 24px;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .run__current,
@@ -24,12 +24,12 @@
 }
 
 .run__set-difficulty {
-  flex: 1;
+  flex: 2;
 }
 
 .run__set-weight,
 .run__set-repeats {
-  flex: 1;
+  flex: 2;
   display: flex;
   align-items: center;
   border-radius: 12px;
@@ -110,7 +110,7 @@
 
 .run__exercises-list,
 .run__initial {
-  padding: 12px;
+  padding: 12px 12px 0;
   border-radius: 16px;
   background-color: #fff;
   border: 1px solid rgb(var(--border-color));
@@ -132,6 +132,10 @@
     gap: 8px;
     font-size: 14px;
     font-weight: 500;
-    flex: 1;
+    flex: 2;
+
+    &:last-child {
+      flex: 1;
+    }
   }
 }
