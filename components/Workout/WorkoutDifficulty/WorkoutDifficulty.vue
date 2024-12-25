@@ -2,9 +2,18 @@
 import { WORKOUT_DIFFICULTY } from '~/constants/workout'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
+const emit = defineEmits<{
+  (event: 'difficultyChange', difficulty: DIFFICULT_LEVEL): void
+}>()
+
 const difficulty = defineModel<DIFFICULT_LEVEL>({
   default: DIFFICULT_LEVEL.WARM,
 })
+
+function handleDifficultyChange(level: DIFFICULT_LEVEL) {
+  difficulty.value = level
+  emit('difficultyChange', level)
+}
 </script>
 
 <template>
@@ -19,7 +28,7 @@ const difficulty = defineModel<DIFFICULT_LEVEL>({
       type="button"
       class="difficulty-button"
       :class="{ active: difficulty === level.value }"
-      @click="difficulty = level.value"
+      @click="handleDifficultyChange(level.value)"
     >
       {{ level.label }}
     </button>

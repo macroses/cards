@@ -19,7 +19,9 @@ export function useEditingSetState() {
   }
 
   function handleInputSubmit() {
-    editingState.value = { setId: null, field: null }
+    if (editingState.value.setId && editingState.value.field) {
+      editingState.value = { setId: null, field: null }
+    }
   }
 
   function setInputRef(setId: string): (el: any) => void {

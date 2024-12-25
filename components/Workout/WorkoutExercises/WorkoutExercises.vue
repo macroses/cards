@@ -20,7 +20,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-const exerciseForm = reactive({
+const exerciseForm = reactive<Partial<UserTrainingSession>>({
   weight: null,
   repeats: null,
   difficulty: DIFFICULT_LEVEL.WARM,
@@ -172,7 +172,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
                 type="submit"
                 :disabled="isAppendSessionDisable"
               >
-                Добавить сет
+                Добавить
               </TheButton>
             </div>
             <ul

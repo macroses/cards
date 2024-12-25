@@ -3,6 +3,7 @@ import TheInput from '@/components/ui/TheInput/TheInput.vue'
 
 const { endWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
+const { updateSets } = useUpdateSet()
 
 const {
   runWorkout,
@@ -35,10 +36,14 @@ const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activ
 
 async function handleFinishWorkout() {
   if (runWorkout.value) {
-    const success = await endWorkout(runWorkout.value.id)
+    const success = await updateSets(runWorkout.value.sets)
 
     if (success) {
-      navigateTo('/')
+      const workoutEnded = await endWorkout(runWorkout.value.id)
+
+      if (workoutEnded) {
+        navigateTo('/')
+      }
     }
   }
 }
