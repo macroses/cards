@@ -41,6 +41,11 @@ function onBlur() {
   validate()
 }
 
+function handleClear(e: Event) {
+  e.preventDefault()
+  modelValue.value = ''
+}
+
 watch(modelValue, () => validate())
 </script>
 
@@ -61,7 +66,8 @@ watch(modelValue, () => validate())
     <button
       v-if="modelValue && !noClear"
       class="close-button"
-      @click="modelValue = ''"
+      type="button"
+      @mousedown.prevent="handleClear"
     >
       <TheIcon
         icon-name="xmark"

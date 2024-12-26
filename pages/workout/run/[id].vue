@@ -199,7 +199,7 @@ onMounted(async () => {
                       v-else
                       class="run__set-weight--value"
                     >
-                      {{ set.weight }}
+                      {{ set.weight || 0 }}
                     </div>
                   </div>
                   <div
@@ -221,7 +221,7 @@ onMounted(async () => {
                       v-else
                       class="run__set-repeats--value"
                     >
-                      {{ set.repeats }}
+                      {{ set.repeats || 0 }}
                     </div>
                   </div>
                   <div class="run__set-time">
