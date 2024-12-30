@@ -1,3 +1,5 @@
+import type { UserTrainingSession } from '~/ts/interfaces'
+
 export function useSetTimeManagement() {
   const setTimes = ref<Record<string, number>>({})
   const lastSetTime = ref<number | null>(null)
@@ -5,8 +7,9 @@ export function useSetTimeManagement() {
   const { activeWorkout } = useWorkoutTimer()
 
   function formatSetTime(timestamp: number): string {
-    if (!activeWorkout.value?.startedAt)
-      return '--:--'
+    if (!activeWorkout.value?.startedAt) {
+      return ''
+    }
 
     const sortedSetTimes = Object.entries(setTimes.value)
       .sort(([, a], [, b]) => a - b)
@@ -23,7 +26,7 @@ export function useSetTimeManagement() {
     const minutes = Math.floor(timeDiff / 60000)
     const seconds = Math.floor((timeDiff % 60000) / 1000)
 
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
+    return `${minutes} : ${seconds.toString().padStart(2, '0')}`
   }
 
   async function handleSetTime(setId: string) {
@@ -41,9 +44,10 @@ export function useSetTimeManagement() {
     lastSetTime.value = currentTime
   }
 
-  async function initSetTimes(sets: any[]) {
-    if (!sets)
+  async function initSetTimes(sets: UserTrainingSession[]) {
+    if (!sets) {
       return
+    }
 
     sets.forEach((set) => {
       if (set.setTime) {

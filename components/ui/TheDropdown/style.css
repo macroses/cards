@@ -66,8 +66,31 @@
 .dropdown__list-item {
   padding: 4px 12px;
   cursor: pointer;
-}
 
-.dropdown__list-item:hover {
-  background: #f7fafc;
+  &.difficulty-1 {
+    background-color: var(--difficulty-1);
+  }
+
+  &.difficulty-2 {
+    background-color: var(--difficulty-2);
+    color: white;
+  }
+
+  &.difficulty-3 {
+    background-color: var(--difficulty-3);
+  }
+
+  &.difficulty-4 {
+    background-color: var(--difficulty-4);
+    color: white;
+  }
+
+  &.difficulty-5 {
+    background-color: var(--difficulty-5);
+    color: white;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
 }

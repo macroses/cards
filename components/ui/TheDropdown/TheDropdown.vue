@@ -42,6 +42,7 @@ onClickOutside(dropdown, () => isOpen.value = false)
           v-for="item in list"
           :key="item"
           class="dropdown__list-item"
+          :class="`difficulty-${item}`"
           @click="selectValue(item)"
         >
           {{ item }}
