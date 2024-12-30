@@ -12,7 +12,7 @@
 .run__set-item {
   position: relative;
   display: flex;
-  gap: 4px;
+  gap: 8px;
   align-items: center;
   height: 48px;
   padding: 6px 12px;

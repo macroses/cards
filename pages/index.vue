@@ -58,7 +58,7 @@ function handleDeleteWorkout(id: string) {
           @date-select="handleDateSelect"
         />
         <MainNavigation />
-        <WorkoutFunctions
+        <LazyWorkoutFunctions
           v-if="selectedWorkout"
           :workout-title="selectedWorkout.title"
           :workout-id="selectedWorkout.id"
