@@ -178,7 +178,7 @@ onMounted(async () => {
                   class="run__set-item"
                 >
                   <div class="run__set-difficulty">
-                    <WorkoutDifficulty v-model="set.difficulty" />
+                    <TheDropdown v-model="set.difficulty" />
                   </div>
                   <div
                     class="run__set-weight"

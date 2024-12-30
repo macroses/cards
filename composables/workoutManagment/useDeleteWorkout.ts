@@ -6,6 +6,7 @@ export function useDeleteWorkout() {
   const { toast } = useToastState()
   const isLoading = ref(false)
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
+  const { stopTimer } = useWorkoutTimer()
 
   async function deleteWorkout(id: string) {
     try {
@@ -17,6 +18,7 @@ export function useDeleteWorkout() {
       })
 
       if (successDelete) {
+        stopTimer()
         toast(t('toast.workout_deleted'), ToastStatusesEnum.SUCCESS)
         await fetchWorkouts()
       }

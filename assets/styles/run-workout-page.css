@@ -24,7 +24,7 @@
 }
 
 .run__set-difficulty {
-  flex: 2;
+  flex: 1;
 }
 
 .run__set-weight,
@@ -32,7 +32,7 @@
   flex: 2;
   display: flex;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 8px;
   outline: 1px solid var(--table-dark-bg);
   height: 100%;
   
@@ -57,11 +57,18 @@
 .run__sets-container {
   display: grid;
   grid-template-rows: 0fr;
-  overflow: hidden;
   transition: grid-template-rows 0.3s, padding 0.3s;
 
+  &:not(.active) {
+    overflow: hidden;
+  }
+
+  &:not(.active) .run__sets {
+    padding: 0;
+  }
+
   &.active {
-    padding-block: 8px 12px;
+    padding-block: 8px 0;
     grid-template-rows: 1fr;
   }
 
@@ -74,7 +81,7 @@
   min-height: 0;
   border-radius: 12px;
   border-color: transparent;
-  overflow: hidden;
+  padding-bottom: 4px;
 }
 
 .run__initial {
@@ -110,8 +117,8 @@
 
 .run__exercises-list,
 .run__initial {
-  padding: 12px 12px 0;
-  border-radius: 16px;
+  padding: 12px;
+  border-radius: 24px;
   background-color: #fff;
   border: 1px solid rgb(var(--border-color));
   box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
@@ -123,7 +130,8 @@
   width: 100%;
   background-color: var(--table-dark-bg);
   padding-block: 4px;
-  /*border: 1px solid rgb(var(--border-color));*/
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 
   & div {
     display: flex;
@@ -133,6 +141,10 @@
     font-size: 14px;
     font-weight: 500;
     flex: 2;
+
+    &:first-child {
+      flex: 1;
+    }
 
     &:last-child {
       flex: 1;
