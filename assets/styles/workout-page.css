@@ -14,7 +14,7 @@
   background-color: var(--main-bg);
   box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
   padding: 12px;
-  border-radius: 16px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -23,7 +23,7 @@
 .muscles-list {
   border: 1px solid rgb(var(--border-color));
   padding: 12px;
-  border-radius: 16px;
+  border-radius: 20px;
   background-color: var(--main-bg);
   box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
 }
@@ -191,12 +191,10 @@
   width: 60px;
 }
 
-.workout-form__sets--weight {
+.workout-form__sets--weight,
+.workout-form__sets--repeats{
   flex: 1;
-}
-
-.workout-form__sets--repeats {
-  flex: 1;
+  padding-left: 12px;
 }
 
 .workout-form__sets-header {
@@ -215,6 +213,7 @@
 .workout-form__sets-header--weight,
 .workout-form__sets-header--repeats {
   flex: 1;
+  padding-left: 12px;
 }
 
 .workout__exercise-tonnage {

@@ -8,6 +8,7 @@ export function useFinishWorkout() {
   const isLoading = ref(false)
   const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
   const { stopTimer } = useWorkoutTimer()
+  const { fetchWorkouts } = useFetchWorkoutsByUserId()
 
   async function endWorkout(workoutId: string) {
     try {
@@ -38,6 +39,7 @@ export function useFinishWorkout() {
       stopTimer()
 
       toast(t('toast.workout_ended'), ToastStatusesEnum.SUCCESS)
+      await fetchWorkouts()
       return true
     }
     catch (error: unknown) {
