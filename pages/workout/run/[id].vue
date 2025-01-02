@@ -174,8 +174,15 @@ onMounted(async () => {
               class="run__sets-container"
               :class="{ active: activeExercises.has(exercise.exerciseId) }"
             >
+              <TheButton
+                v-if="!exerciseSets[exercise.exerciseId]?.length"
+                class="run__add-set"
+                @click="addNewSet(exercise.exerciseId)"
+              >
+                Добавить сет
+              </TheButton>
               <ul
-                v-if="exerciseSets[exercise.exerciseId]?.length"
+                v-else
                 v-auto-animate
                 class="run__sets"
               >
