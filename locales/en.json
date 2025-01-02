@@ -21,7 +21,9 @@
     "total_tonnage": "Total tonnage",
     "change_date": "Change date",
     "copy_workout": "Copy workout",
-    "add_exercise": "Add exercise"
+    "add_exercise": "Add exercise",
+    "no_time_warning": "No time in sets",
+    "no_time_description": "There are no sets with time in the workout. The workout will be stopped and not saved."
   },
 
   "toast": {
@@ -58,5 +60,9 @@
     "original": "Planned",
     "current": "Current",
     "total_tonnage": "Total tonnage (kg)"
+  },
+
+  "common": {
+    "ok": "OK"
   }
 }

@@ -7,6 +7,7 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interf
 const { endWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
 const { updateSets } = useUpdateSet()
+const { fetchWorkouts } = useFetchWorkoutsByUserId()
 
 const {
   runWorkout,
@@ -39,9 +40,22 @@ const { t } = useI18n()
 const { toast } = useToastState()
 
 const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))
+const noTimeModal = ref()
+const { stopTimer } = useWorkoutTimer()
+
+function checkSetsHaveTime(): boolean {
+  if (!runWorkout.value)
+    return false
+  return runWorkout.value.sets.some((set: CreateWorkoutResponse['sets'][0]) => setTimes.value[set.id])
+}
 
 async function handleFinishWorkout() {
   if (runWorkout.value) {
+    if (!checkSetsHaveTime()) {
+      noTimeModal.value?.openModal()
+      return
+    }
+
     const success = await updateSets(runWorkout.value.sets)
 
     if (success) {
@@ -50,6 +64,26 @@ async function handleFinishWorkout() {
       if (workoutEnded) {
         navigateTo('/')
       }
+    }
+  }
+}
+
+async function handleConfirmNoTime() {
+  if (runWorkout.value) {
+    try {
+      await $fetch('/api/workout/resetWorkout', {
+        method: 'PUT',
+        body: {
+          workoutId: runWorkout.value.id,
+        },
+      })
+      stopTimer()
+      navigateTo('/')
+      await fetchWorkouts()
+    }
+    catch (error) {
+      console.error('Error resetting workout:', error)
+      toast(t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
     }
   }
 }
@@ -307,5 +341,18 @@ onMounted(async () => {
     <div v-else>
       Тренировка не найдена
     </div>
+    <TheModal ref="noTimeModal">
+      <template #title>
+        <h3>{{ t('workout.no_time_warning') }}</h3>
+      </template>
+      <template #content>
+        <p>{{ t('workout.no_time_description') }}</p>
+      </template>
+      <template #footer>
+        <TheButton @click="handleConfirmNoTime">
+          {{ t('common.ok') }}
+        </TheButton>
+      </template>
+    </TheModal>
   </div>
 </template>
