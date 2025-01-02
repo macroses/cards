@@ -54,25 +54,6 @@ export default defineEventHandler(async (event) => {
       },
     })
 
-    // Получаем оставшиеся сеты
-    const remainingSets = await event.context.prisma.workoutSet.findMany({
-      where: { workoutId },
-      select: { exerciseId: true },
-    })
-
-    // Получаем ID упражнений с оставшимися сетами
-    const exerciseIdsWithSets = new Set(remainingSets.map(set => set.exerciseId))
-
-    // Удаляем упражнения без сетов
-    await event.context.prisma.workoutExercise.deleteMany({
-      where: {
-        workoutId,
-        exerciseId: {
-          notIn: Array.from(exerciseIdsWithSets),
-        },
-      },
-    })
-
     const updatedWorkout = await event.context.prisma.workout.update({
       where: { id: workoutId },
       data: {
