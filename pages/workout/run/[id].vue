@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
+import { API_CREATE_SET } from '~/constants/api'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
+import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
 const { endWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
@@ -32,6 +35,9 @@ const {
   initSetTimes,
 } = useSetTimeManagement()
 
+const { t } = useI18n()
+const { toast } = useToastState()
+
 const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))
 
 async function handleFinishWorkout() {
@@ -48,12 +54,38 @@ async function handleFinishWorkout() {
   }
 }
 
+async function addNewSet(exerciseId: number) {
+  if (runWorkout.value) {
+    try {
+      const newSet = await $fetch(API_CREATE_SET, {
+        method: 'POST',
+        body: {
+          workoutId: runWorkout.value.id,
+          exerciseId,
+          weight: 0,
+          repeats: 0,
+          difficulty: 1,
+        },
+      })
+
+      runWorkout.value.sets.push(newSet)
+    }
+    catch (error) {
+      console.error('Error creating set:', error)
+      toast(t('toast.set_create_error'), ToastStatusesEnum.ERROR)
+    }
+  }
+}
+
 const exerciseSets = computed(() => {
   if (!runWorkout.value) {
     return {}
   }
 
-  return runWorkout.value.sets.reduce((acc, set) => {
+  return runWorkout.value.sets.reduce((
+    acc: Record<number, CreateWorkoutResponse['sets']>,
+    set: CreateWorkoutResponse['sets'][0],
+  ) => {
     if (!acc[set.exerciseId]) {
       acc[set.exerciseId] = []
     }
@@ -61,16 +93,18 @@ const exerciseSets = computed(() => {
     acc[set.exerciseId].push(set)
 
     return acc
-  }, {} as Record<number, typeof runWorkout.value.sets>)
+  }, {})
 })
 
 const isExerciseCompleted = computed(() => {
-  return (exerciseId: number) => {
+  return function (exerciseId: number): boolean {
     const exerciseSetsArray = exerciseSets.value[exerciseId] || []
-    if (!exerciseSetsArray.length)
-      return false
 
-    return exerciseSetsArray.every(set => setTimes.value[set.id])
+    if (!exerciseSetsArray.length) {
+      return false
+    }
+
+    return exerciseSetsArray.every((set: CreateWorkoutResponse['sets'][0]) => setTimes.value[set.id])
   }
 })
 
@@ -85,7 +119,7 @@ watch([runWorkout], ([workout]: [typeof runWorkout.value]) => {
 }, { immediate: true })
 
 watch(setTimes, () => {
-  activeExercises.value.forEach((exerciseId) => {
+  activeExercises.value.forEach((exerciseId: number) => {
     if (isExerciseCompleted.value(exerciseId)) {
       activeExercises.value.delete(exerciseId)
     }
@@ -114,7 +148,9 @@ onMounted(async () => {
       class="run"
     >
       <div class="run__current">
-        <ul class="run__exercises-list">
+        <ul
+          class="run__exercises-list"
+        >
           <li
             v-for="exercise in runWorkout.exercises"
             :key="exercise.exerciseId"
@@ -140,6 +176,7 @@ onMounted(async () => {
             >
               <ul
                 v-if="exerciseSets[exercise.exerciseId]?.length"
+                v-auto-animate
                 class="run__sets"
               >
                 <li class="run__sets-header">
@@ -238,6 +275,14 @@ onMounted(async () => {
                       />
                     </TheButton>
                   </div>
+                </li>
+                <li class="run__set-item run__set-item--add">
+                  <TheButton
+                    class="run__add-set"
+                    @click="addNewSet(exercise.exerciseId)"
+                  >
+                    Добавить сет
+                  </TheButton>
                 </li>
               </ul>
             </div>

@@ -23,13 +23,21 @@
   }
 }
 
+.run__set-item--add {
+  justify-content: flex-end;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
 .run__set-difficulty {
-  flex: 1;
+  flex: 2;
 }
 
 .run__set-weight,
 .run__set-repeats {
-  flex: 2;
+  flex: 3;
   display: flex;
   align-items: center;
   border-radius: 8px;
@@ -140,10 +148,10 @@
     gap: 8px;
     font-size: 14px;
     font-weight: 500;
-    flex: 2;
+    flex: 3;
 
     &:first-child {
-      flex: 1;
+      flex: 2;
     }
 
     &:last-child {
