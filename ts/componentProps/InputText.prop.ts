@@ -1,14 +1,14 @@
-interface Rule {
-  (value: string): {
-    isValid: boolean
-    message: string
-  }
-}
+type InputMode = `${'' | 'text' | 'search' | 'email' | 'tel' | 'url' | 'none' | 'numeric' | 'decimal'}`
 
 export default interface InputTextProps {
   type?: string
   noClear?: boolean
-  inputmode?: 'text' | 'search' | 'email' | 'tel' | 'url' | 'none' | 'numeric' | 'decimal'
+  inputmode?: InputMode
   placeholder: string
-  validateRules?: Rule[]
+  validateRules?: Array<(value: string) => ValidationResult>
+}
+
+interface ValidationResult {
+  isValid: boolean
+  message: string
 }

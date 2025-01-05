@@ -44,9 +44,13 @@ export function useRunWorkout(): RunWorkoutReturn {
 
       return workout
     }
-    catch (error) {
+    catch (error: any) {
       console.error('Error fetching workout:', error)
-      return null
+
+      throw showError({
+        statusCode: error.statusCode || 404,
+        message: error.message || 'Тренировка не найдена',
+      })
     }
     finally {
       isLoading.value = false
