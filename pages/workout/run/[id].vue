@@ -308,6 +308,7 @@ onMounted(async () => {
                       v-if="!setTimes[set.id]"
                       variant="secondary"
                       icon-only
+                      :disabled="!set.repeats || !set.weight"
                       @click="handleSetTime(set.id)"
                     >
                       <TheIcon
