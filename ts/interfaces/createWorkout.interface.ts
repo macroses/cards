@@ -3,11 +3,11 @@ export interface CreateWorkoutRequest {
   title: string
   color: string
   workoutDate: Date
-  exercises: {
+  exercises: Array<{
     id: number
     name: string
-  }[]
-  sessions: {
+  }>
+  sessions: Array<{
     id: string
     exerciseId: number
     weight: number | null
@@ -15,7 +15,7 @@ export interface CreateWorkoutRequest {
     difficulty: number
     completed: boolean
     setTime: string | null
-  }[]
+  }>
 }
 
 export interface CreateWorkoutResponse {
@@ -29,13 +29,13 @@ export interface CreateWorkoutResponse {
   completed: boolean
   startedAt?: Date | null
   endedAt?: Date | null
-  exercises: {
+  exercises: Array<{
     id: string
     exerciseName: string
     workoutId: string
     exerciseId: number
-  }[]
-  sets: {
+  }>
+  sets: Array<{
     id: string
     workoutId: string
     exerciseId: number
@@ -44,5 +44,5 @@ export interface CreateWorkoutResponse {
     difficulty: number
     completed: boolean
     setTime: string | null
-  }[]
+  }>
 }

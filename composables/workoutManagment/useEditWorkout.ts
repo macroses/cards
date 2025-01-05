@@ -2,10 +2,10 @@ import type { LocationQuery } from '#vue-router'
 import { GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
 
-interface EditWorkoutReturn {
+type EditWorkoutReturn = Readonly<{
   editableWorkout: ComputedRef<CreateWorkoutResponse | null | undefined>
   initEditMode: () => Promise<void>
-}
+}>
 
 export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
   const route = useRoute()

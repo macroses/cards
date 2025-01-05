@@ -1,4 +1,5 @@
 import { getServerSession } from '#auth'
+import type { UserTrainingSession } from '~/ts/interfaces'
 
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)
@@ -22,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
     // Обновляем все сеты одним запросом
     await event.context.prisma.$transaction(
-      sets.map(set =>
+      sets.map((set: UserTrainingSession) =>
         event.context.prisma.workoutSet.update({
           where: { id: set.id },
           data: {

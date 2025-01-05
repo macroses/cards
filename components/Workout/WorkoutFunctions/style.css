@@ -100,6 +100,7 @@
   aspect-ratio: 1;
   height: 60px;
   border: 0;
+  cursor: pointer;
   z-index: 1;
 
   &.activeWorkout {

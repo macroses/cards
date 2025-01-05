@@ -1,10 +1,23 @@
 import type { DirectiveBinding } from 'vue'
 
+type TooltipElement = HTMLElement & {
+  _tooltip?: HTMLDivElement
+  _showTimeout?: ReturnType<typeof setTimeout>
+  _removeTooltip?: () => void
+}
+
+type Position = 'top' | 'bottom' | 'left' | 'right'
+
+type TooltipBinding = string | {
+  content: string
+  position?: Position
+}
+
 export default {
-  mounted(el: HTMLElement, binding: DirectiveBinding) {
+  mounted(el: TooltipElement, binding: DirectiveBinding<TooltipBinding>) {
     const tooltip = document.createElement('div')
     tooltip.className = 'v-tooltip'
-    let showTimeout: ReturnType<typeof setTimeout>
+    let showTimeout: ReturnType<typeof setTimeout> | undefined
 
     // Сохраняем ссылку на тултип в элементе
     el._tooltip = tooltip

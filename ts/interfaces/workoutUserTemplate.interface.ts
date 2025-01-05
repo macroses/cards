@@ -15,14 +15,15 @@ export interface UserWorkoutExercise {
   name: string
 }
 
-export interface UserWorkout {
-  id?: string
+export interface UserWorkout extends Required<{
   title: string
   color: string
-  exercises: UserWorkoutExercise[]
-  sessions: UserTrainingSession[]
+  exercises: Array<UserWorkoutExercise>
+  sessions: Array<UserTrainingSession>
   workoutDate: Date
+  completed: boolean
+}> {
+  id?: string
   startedAt: Date | null
   endedAt: Date | null
-  completed: boolean
 }
