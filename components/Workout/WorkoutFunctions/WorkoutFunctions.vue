@@ -16,6 +16,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const localePath = useLocalePath()
 const runWorkoutConfirm = ref<typeof TheModal | null>(null)
+const readWorkoutResults = ref<typeof TheModal | null>(null)
 const { startWorkout } = useStartWorkout()
 const { activeWorkout } = useWorkoutTimer()
 
@@ -44,6 +45,10 @@ async function handleStartWorkout() {
 function closeRunWorkoutConfirm() {
   runWorkoutConfirm.value?.closeModal()
 }
+
+function showResultModal() {
+  readWorkoutResults.value?.openModal()
+}
 </script>
 
 <template>
@@ -54,6 +59,7 @@ function closeRunWorkoutConfirm() {
         v-tooltip="t('toast.workout_completed')"
         icon-name="circle-check"
         width="18px"
+        @click="showResultModal"
       />
       {{ workoutTitle }}
     </div>
@@ -119,6 +125,15 @@ function closeRunWorkoutConfirm() {
       <div class="first-ring" />
       <div class="second-ring" />
     </div>
+
+    <!--    todo here -->
+    <TheModal
+      ref="readWorkoutResults"
+    >
+      <template #content>
+        fsdfsdfs
+      </template>
+    </TheModal>
 
     <TheModal
       ref="runWorkoutConfirm"
