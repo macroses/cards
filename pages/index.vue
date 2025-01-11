@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
+import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { GLOBAL_DATE, GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
@@ -45,6 +46,30 @@ function handleDeleteWorkout(id: string) {
   isCopyMode.value = false
   deleteWorkout(id)
 }
+
+const readWorkoutResults = ref<typeof TheModal | null>(null)
+function showResultModal() {
+  readWorkoutResults.value?.openModal()
+}
+
+const exerciseSets = computed(() => {
+  if (!selectedWorkout.value) {
+    return {} as Record<number, CreateWorkoutResponse['sets']>
+  }
+
+  return selectedWorkout.value.sets.reduce((
+    acc: Record<number, CreateWorkoutResponse['sets']>,
+    set: CreateWorkoutResponse['sets'][0],
+  ) => {
+    if (!acc[set.exerciseId]) {
+      acc[set.exerciseId] = []
+    }
+
+    acc[set.exerciseId].push(set)
+
+    return acc
+  }, {})
+})
 </script>
 
 <template>
@@ -70,6 +95,7 @@ function handleDeleteWorkout(id: string) {
           @update-workout="toEditPage"
           @delete-workout="handleDeleteWorkout(selectedWorkout.id)"
           @copy-workout="handleCopyWorkout"
+          @open-results="showResultModal"
         />
       </div>
     </div>
@@ -93,5 +119,33 @@ function handleDeleteWorkout(id: string) {
         </TheButton>
       </div>
     </Transition>
+
+    <TheModal ref="readWorkoutResults">
+      <template #title>
+        {{ selectedWorkout?.title }}
+      </template>
+      <template #content>
+        <ul class="workout-results">
+          <li
+            v-for="exercise in selectedWorkout?.exercises"
+            :key="exercise.exerciseId"
+            class="workout-results__exercise"
+          >
+            <h3>{{ exercise.exerciseName }}</h3>
+            <ul class="workout-results__sets">
+              <li
+                v-for="set in exerciseSets[exercise.exerciseId]"
+                :key="set.id"
+                class="workout-results__set"
+              >
+                <span>сложность: {{ set.difficulty }}</span>
+                <span>Вес: {{ set.weight }}кг</span>
+                <span>Повторений: {{ set.repeats }}</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </template>
+    </TheModal>
   </div>
 </template>

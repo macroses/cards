@@ -11,12 +11,13 @@ const emit = defineEmits<{
   (event: 'deleteWorkout'): void
   (event: 'copyWorkout'): void
   (event: 'updateWorkout'): void
+  (event: 'openResults'): void
 }>()
 
 const { t } = useI18n()
 const localePath = useLocalePath()
 const runWorkoutConfirm = ref<typeof TheModal | null>(null)
-const readWorkoutResults = ref<typeof TheModal | null>(null)
+
 const { startWorkout } = useStartWorkout()
 const { activeWorkout } = useWorkoutTimer()
 
@@ -30,7 +31,6 @@ const showStartButton = computed(() => {
 
 function openRunWorkoutConfirm() {
   if (props.isWorkoutActive) {
-    // Если это активная тренировка, сразу переходим на страницу
     navigateTo(localePath(`/workout/run/${props.workoutId}`))
     return
   }
@@ -45,10 +45,6 @@ async function handleStartWorkout() {
 function closeRunWorkoutConfirm() {
   runWorkoutConfirm.value?.closeModal()
 }
-
-function showResultModal() {
-  readWorkoutResults.value?.openModal()
-}
 </script>
 
 <template>
@@ -59,7 +55,7 @@ function showResultModal() {
         v-tooltip="t('toast.workout_completed')"
         icon-name="circle-check"
         width="18px"
-        @click="showResultModal"
+        @click="$emit('openResults')"
       />
       {{ workoutTitle }}
     </div>
@@ -125,15 +121,6 @@ function showResultModal() {
       <div class="first-ring" />
       <div class="second-ring" />
     </div>
-
-    <!--    todo here -->
-    <TheModal
-      ref="readWorkoutResults"
-    >
-      <template #content>
-        fsdfsdfs
-      </template>
-    </TheModal>
 
     <TheModal
       ref="runWorkoutConfirm"
