@@ -20,11 +20,9 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const formattedTime = new Date(timestamp).toISOString()
-
     const set = await event.context.prisma.workoutSet.update({
       where: { id: setId },
-      data: { setTime: formattedTime },
+      data: { setTime: timestamp },
     })
 
     return set
