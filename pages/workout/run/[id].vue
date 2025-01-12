@@ -45,8 +45,10 @@ const noTimeModal = ref()
 const { stopTimer } = useWorkoutTimer()
 
 function checkSetsHaveTime(): boolean {
-  if (!runWorkout.value)
+  if (!runWorkout.value) {
     return false
+  }
+
   return runWorkout.value.sets.some((set: CreateWorkoutResponse['sets'][0]) => setTimes.value[set.id])
 }
 
