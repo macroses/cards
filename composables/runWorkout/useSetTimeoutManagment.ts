@@ -13,14 +13,16 @@ export function useSetTimeManagement() {
   }
 
   async function handleSetTime(setId: string) {
-    if (!activeWorkout.value?.startedAt) return
+    if (!activeWorkout.value?.startedAt)
+      return
 
     const currentTimeInSeconds = Math.floor((Date.now() - new Date(activeWorkout.value.startedAt).getTime()) / 1000)
-    
+
     let secondsFromPrevious: number
     if (!lastSetTime.value) {
       secondsFromPrevious = currentTimeInSeconds
-    } else {
+    }
+    else {
       secondsFromPrevious = currentTimeInSeconds - lastSetTime.value
     }
 
@@ -30,13 +32,39 @@ export function useSetTimeManagement() {
   }
 
   function initSetTimes(sets: UserTrainingSession[]) {
-    if (!sets) return
+    if (!sets)
+      return
 
+    // Сначала инициализируем времена для всех сетов
     sets.forEach((set) => {
       if (set.setTime) {
         setTimes.value[set.id] = set.setTime
       }
     })
+
+    // Находим последний сет с временем
+    const setsWithTime = sets
+      .filter(set => set.setTime && set.setTimeAddedAt)
+      .sort((a, b) => {
+        if (!a.setTimeAddedAt || !b.setTimeAddedAt)
+          return 0
+        return new Date(b.setTimeAddedAt).getTime() - new Date(a.setTimeAddedAt).getTime()
+      })
+
+    // Вычисляем общее время от начала тренировки для последнего сета
+    const lastSetWithTime = setsWithTime[0]
+    if (lastSetWithTime && lastSetWithTime.setTime) {
+      let totalTime = 0
+      for (const set of sets) {
+        if (set.setTime) {
+          totalTime += set.setTime
+          if (set.id === lastSetWithTime.id) {
+            break
+          }
+        }
+      }
+      lastSetTime.value = totalTime
+    }
   }
 
   return {

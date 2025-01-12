@@ -8,6 +8,7 @@ export interface UserTrainingSession {
   difficulty: DIFFICULT_LEVEL
   completed: boolean
   setTime?: number | null
+  setTimeAddedAt?: string | null
 }
 
 export interface UserWorkoutExercise {
