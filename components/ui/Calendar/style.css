@@ -154,7 +154,7 @@
   inset: 0;
   z-index: -1;
   background: conic-gradient(
-    from var(--gradient-angle),
+    from var(--gradient-angle) in oklch,
     rgb(255, 0, 0),
     rgb(0, 0, 255),
     rgb(230, 0, 255)
@@ -198,7 +198,7 @@
 
   outline-color: transparent;
   border: solid 1px transparent;
-  --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
+  --gradient-border: conic-gradient(from var(--border-angle) in oklch, transparent 25%, #08f, #f03 99%, transparent);
 
   background:
     var(--main-bg) padding-box,

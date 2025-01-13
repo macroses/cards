@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { GLOBAL_DATE, GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
+
+dayjs.extend(duration)
 
 definePageMeta({ auth: true })
 
@@ -70,6 +73,14 @@ const exerciseSets = computed(() => {
     return acc
   }, {})
 })
+
+function setTime(time: number | null): string {
+  if (!time) {
+    return ''
+  }
+
+  return dayjs.duration(time, 'seconds').format('mm:ss')
+}
 </script>
 
 <template>
@@ -120,10 +131,10 @@ const exerciseSets = computed(() => {
       </div>
     </Transition>
 
-    <TheModal ref="readWorkoutResults">
-      <template #title>
-        {{ selectedWorkout?.title }}
-      </template>
+    <TheModal
+      ref="readWorkoutResults"
+      class="workout-results__modal"
+    >
       <template #content>
         <ul class="workout-results">
           <li
@@ -131,18 +142,29 @@ const exerciseSets = computed(() => {
             :key="exercise.exerciseId"
             class="workout-results__exercise"
           >
-            <h3>{{ exercise.exerciseName }}</h3>
-            <ul class="workout-results__sets">
-              <li
+            <div class="workout-results__exercise-name">
+              {{ exercise.exerciseName }}
+            </div>
+            <table class="workout-results__sets">
+              <thead>
+                <tr>
+                  <th>Сложность</th>
+                  <th>Вес</th>
+                  <th>Повторы</th>
+                  <th>Время</th>
+                </tr>
+              </thead>
+              <tr
                 v-for="set in exerciseSets[exercise.exerciseId]"
                 :key="set.id"
                 class="workout-results__set"
               >
-                <span>сложность: {{ set.difficulty }}</span>
-                <span>Вес: {{ set.weight }}кг</span>
-                <span>Повторений: {{ set.repeats }}</span>
-              </li>
-            </ul>
+                <td>{{ set.difficulty }}</td>
+                <td>{{ set.weight }}</td>
+                <td>{{ set.repeats }}</td>
+                <td>{{ setTime(set.setTime) }}</td>
+              </tr>
+            </table>
           </li>
         </ul>
       </template>

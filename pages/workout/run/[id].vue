@@ -80,6 +80,7 @@ async function handleConfirmNoTime() {
           workoutId: runWorkout.value.id,
         },
       })
+
       stopTimer()
       navigateTo('/')
       await fetchWorkouts()
@@ -191,10 +192,7 @@ onMounted(async () => {
             >
               <div
                 class="run__exercise"
-                :class="{
-                  active: activeExercises.has(exercise.exerciseId),
-                  done: isExerciseCompleted(exercise.exerciseId),
-                }"
+                :class="{ done: isExerciseCompleted(exercise.exerciseId) }"
                 @click="toggleExercise(exercise.exerciseId)"
               >
                 <TheIcon

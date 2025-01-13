@@ -119,7 +119,7 @@
   }
 
   &.done {
-    background: linear-gradient(135deg, rgb(11 176 11 / 0.2), transparent 10%);
+    background: linear-gradient(135deg in oklch, rgb(11 176 11 / 0.2), transparent 10%);
   }
 }
 

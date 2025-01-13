@@ -49,22 +49,20 @@ defineExpose({
       :class="{ bottomModal }"
       @click="handleBackdropClick"
     >
-      <div
-        class="modal"
-      >
+      <div class="modal">
+        <button
+          v-if="hasCloseButton"
+          class="close-button"
+          @click="closeModal"
+        >
+          <TheIcon
+            icon-name="xmark"
+            width="20px"
+          />
+        </button>
         <div class="modal-header">
           <slot name="title" />
           <slot name="header" />
-          <button
-            v-if="hasCloseButton"
-            class="close-button"
-            @click="closeModal"
-          >
-            <TheIcon
-              icon-name="xmark"
-              width="20px"
-            />
-          </button>
         </div>
         <div class="modal-content">
           <slot name="content" />
