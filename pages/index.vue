@@ -159,7 +159,14 @@ function setTime(time: number | null): string {
                 :key="set.id"
                 class="workout-results__set"
               >
-                <td>{{ set.difficulty }}</td>
+                <td>
+                  <div
+                    class="workout-results__set-difficulty"
+                    :class="`difficulty-${set.difficulty}`"
+                  >
+                    {{ set.difficulty }}
+                  </div>
+                </td>
                 <td>{{ set.weight }}</td>
                 <td>{{ set.repeats }}</td>
                 <td>{{ setTime(set.setTime) }}</td>

@@ -270,6 +270,10 @@
 
   th, td {
     width: 25%;
+
+    &:nth-child(1) {
+      width: 60px;
+    }
   }
 
   th:nth-child(1) {
@@ -279,5 +283,30 @@
   & th {
     font-size: 13px;
     font-weight: 600;
+  }
+}
+
+.workout-results__set-difficulty {
+  text-align: center;
+  border-radius: 8px;
+
+  &.difficulty-1 {
+    background-color: var(--difficulty-1);
+  }
+
+  &.difficulty-2 {
+    background-color: var(--difficulty-2);
+  }
+
+  &.difficulty-3 {
+    background-color: var(--difficulty-3);
+  }
+
+  &.difficulty-4 {
+    background-color: var(--difficulty-4);
+  }
+
+  &.difficulty-5 {
+    background-color: var(--difficulty-5);
   }
 }
