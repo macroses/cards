@@ -68,7 +68,7 @@ export default defineNuxtConfig({
   echarts: {
     ssr: true,
     renderer: ['canvas', 'svg'],
-    charts: ['BarChart', 'MapChart'],
+    charts: ['LineChart', 'BarChart', 'MapChart'],
     components: [
       'DatasetComponent',
       'GridComponent',
@@ -77,6 +77,7 @@ export default defineNuxtConfig({
       'GeoComponent',
       'VisualMapComponent',
       'LegendComponent',
+      'TitleComponent',
     ],
   },
 })
