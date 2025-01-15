@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
 interface WorkoutResultsProps {
@@ -8,6 +9,7 @@ interface WorkoutResultsProps {
 
 const props = defineProps<WorkoutResultsProps>()
 const { getExerciseData } = useWorkoutResults()
+const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS)
 
 const chartOption = ref<any>(null)
 const selectedChartType = ref<'weight' | 'repeats' | 'time'>('weight')
@@ -41,139 +43,66 @@ watch(() => props.selectedExerciseId, () => {
 </script>
 
 <template>
-  <div class="workout-results">
-    <div class="workout-results__content">
-      <!--      <div class="workout-results__exercises"> -->
-      <!--        <ul class="workout-results__exercises-list"> -->
-      <!--          <li -->
-      <!--            v-for="exercise in workout.exercises" -->
-      <!--            :key="exercise.exerciseId" -->
-      <!--            class="workout-results__exercise-item" -->
-      <!--            :class="{ active: props.selectedExerciseId === exercise.exerciseId }" -->
-      <!--          > -->
-      <!--            {{ exercise.exerciseName }} -->
-      <!--          </li> -->
-      <!--        </ul> -->
-      <!--      </div> -->
-      <div class="workout-results__chart-container">
-        <div class="workout-results__chart-controls">
-          <button
-            class="workout-results__chart-button"
-            :class="{ active: selectedChartType === 'weight' }"
-            @click="selectChartType('weight')"
-          >
-            <TheIcon
-              icon-name="weight-hanging"
-              width="14px"
-            />
-            Weight
-          </button>
-          <button
-            class="workout-results__chart-button"
-            :class="{ active: selectedChartType === 'repeats' }"
-            @click="selectChartType('repeats')"
-          >
-            <TheIcon
-              icon-name="repeat"
-              width="14px"
-            />
-            Repeats
-          </button>
-          <button
-            class="workout-results__chart-button"
-            :class="{ active: selectedChartType === 'time' }"
-            @click="selectChartType('time')"
-          >
-            <TheIcon
-              icon-name="clock"
-              width="14px"
-            />
-            Time
-          </button>
-        </div>
-        <div class="workout-results__chart">
-          <VChart
-            v-if="chartOption"
-            :option="chartOption"
-            autoresize
-            @init="onChartInit"
-          />
-        </div>
-      </div>
+  <div class="workout-results__charts">
+    <div class="chart-controls">
+      <TheButton
+        :variant="selectedChartType === 'weight' ? 'primary' : 'secondary'"
+        @click="selectChartType('weight')"
+      >
+        {{ $t('workout.weight') }}
+      </TheButton>
+      <TheButton
+        :variant="selectedChartType === 'repeats' ? 'primary' : 'secondary'"
+        @click="selectChartType('repeats')"
+      >
+        {{ $t('workout.repeats') }}
+      </TheButton>
+      <TheButton
+        :variant="selectedChartType === 'time' ? 'primary' : 'secondary'"
+        @click="selectChartType('time')"
+      >
+        {{ $t('workout.time') }}
+      </TheButton>
     </div>
+
+    <div class="chart-container">
+      <v-chart
+        v-if="chartOption"
+        class="chart"
+        :option="chartOption"
+        autoresize
+        @init="onChartInit"
+      />
+    </div>
+
+    <WorkoutProgress
+      v-if="workouts"
+      :workout="workout"
+      :workouts="workouts"
+      :selected-exercise-id="selectedExerciseId"
+    />
   </div>
 </template>
 
 <style scoped>
-.workout-results {
-  padding: 20px;
-  width: 100%;
-}
-
-.workout-results__content {
+.workout-results__charts {
+  flex: 3;
   display: flex;
-  gap: 20px;
-  width: 100%;
-  position: sticky;
-  top: 0;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.workout-results__exercises {
-  width: 200px;
-  flex-shrink: 0;
-}
-
-.workout-results__exercises-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.workout-results__exercise-item {
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background-color 0.2s;
-}
-
-.workout-results__exercise-item:hover {
-  background-color: var(--table-dark-bg);
-}
-
-.workout-results__exercise-item.active {
-  color: blue;
-}
-
-.workout-results__chart-container {
-  flex: 1;
-  min-width: 0; /* Важно для корректной работы flexbox */
-}
-
-.workout-results__chart-controls {
+.chart-controls {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.workout-results__chart-button {
-  display: flex;
-  align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  background-color: var(--table-dark-bg);
-  color: inherit;
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
-.workout-results__chart-button.active {
-  color: white;
+.chart-container {
+  flex: 1;
+  max-height: 350px;
 }
 
-.workout-results__chart {
-  width: 100%;
-  height: 400px;
+.chart {
+  height: 100%;
 }
 </style>

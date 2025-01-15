@@ -142,6 +142,7 @@ function setTime(time: number | null): string {
 
     <TheModal
       ref="readWorkoutResults"
+      :has-close-button="false"
       class="workout-results__modal"
     >
       <template #content>
@@ -218,7 +219,7 @@ function setTime(time: number | null): string {
 }
 
 .workout-results {
-  flex: 1;
+  flex: 2;
   list-style: none;
   padding: 0;
   margin: 0;
