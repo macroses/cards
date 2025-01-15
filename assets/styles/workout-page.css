@@ -258,8 +258,14 @@
 
 .workout-results__exercise-name {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
+  margin-bottom: 4px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
 
   &.active {
     color: rgb(var(--accent-color));

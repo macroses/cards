@@ -55,6 +55,9 @@ const selectedExerciseId = ref<number | null>(null)
 
 function showResultModal() {
   readWorkoutResults.value?.openModal()
+  if (selectedWorkout.value?.exercises.length) {
+    selectedExerciseId.value = selectedWorkout.value.exercises[0].exerciseId
+  }
 }
 
 function handleExerciseClick(exerciseId: number) {
@@ -155,6 +158,17 @@ function setTime(time: number | null): string {
                 @click="handleExerciseClick(exercise.exerciseId)"
               >
                 {{ exercise.exerciseName }}
+                <TheButton
+                  v-if="selectedExerciseId !== exercise.exerciseId"
+                  variant="secondary"
+                  icon-only
+                  @click="handleExerciseClick(exercise.exerciseId)"
+                >
+                  <TheIcon
+                    icon-name="angle-right"
+                    width="20px"
+                  />
+                </TheButton>
               </div>
               <table class="workout-results__sets">
                 <thead>
@@ -212,11 +226,6 @@ function setTime(time: number | null): string {
 
 .workout-results__exercise {
   margin-bottom: 20px;
-}
-
-.workout-results__exercise-name {
-  font-weight: 600;
-  margin-bottom: 10px;
 }
 
 .workout-results__sets {

@@ -114,6 +114,8 @@ watch(() => props.selectedExerciseId, () => {
   display: flex;
   gap: 20px;
   width: 100%;
+  position: sticky;
+  top: 0;
 }
 
 .workout-results__exercises {
