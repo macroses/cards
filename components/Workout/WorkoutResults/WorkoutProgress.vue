@@ -172,14 +172,15 @@ function formatTime(seconds: number): string {
 
 <style scoped>
 .workout-progress {
-  border-radius: 8px;
-  padding-inline: 16px;
+  border-radius: 12px;
+  padding: 16px;
   margin-top: -40px;
+  border: 1px solid rgb(var(--border-color));
 }
 
 .workout-progress__title {
-  font-size: 16px;
   margin: 0 0 16px;
+  font-size: 14px;
 }
 
 .workout-progress__date {

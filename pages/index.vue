@@ -218,6 +218,11 @@ function setTime(time: number | null): string {
 .workout-results__container {
   display: flex;
   gap: 20px;
+  height: 100%;
+}
+
+.workout-results__wr {
+
 }
 
 .workout-results {
@@ -256,5 +261,6 @@ function setTime(time: number | null): string {
 .workout-results__wr {
   height: 100%;
   flex: 2;
+  overflow: auto;
 }
 </style>

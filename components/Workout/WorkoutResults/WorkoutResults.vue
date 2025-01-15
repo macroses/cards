@@ -87,7 +87,7 @@ watch(() => props.selectedExerciseId, () => {
 
 <style scoped>
 .workout-results__charts {
-  flex: 3;
+  flex: 2;
   display: flex;
   flex-direction: column;
   gap: 16px;
