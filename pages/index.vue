@@ -136,45 +136,100 @@ function setTime(time: number | null): string {
       class="workout-results__modal"
     >
       <template #content>
-        <ul class="workout-results">
-          <li
-            v-for="exercise in selectedWorkout?.exercises"
-            :key="exercise.exerciseId"
-            class="workout-results__exercise"
-          >
-            <div class="workout-results__exercise-name">
-              {{ exercise.exerciseName }}
-            </div>
-            <table class="workout-results__sets">
-              <thead>
-                <tr>
-                  <th>Сложность</th>
-                  <th>Вес</th>
-                  <th>Повторы</th>
-                  <th>Время</th>
-                </tr>
-              </thead>
-              <tr
-                v-for="set in exerciseSets[exercise.exerciseId]"
-                :key="set.id"
-                class="workout-results__set"
+        <div class="workout-results__container">
+          <ul class="workout-results">
+            <li
+              v-for="exercise in selectedWorkout?.exercises"
+              :key="exercise.exerciseId"
+              class="workout-results__exercise"
+            >
+              <div
+                class="workout-results__exercise-name"
               >
-                <td>
-                  <div
-                    class="workout-results__set-difficulty"
-                    :class="`difficulty-${set.difficulty}`"
-                  >
-                    {{ set.difficulty }}
-                  </div>
-                </td>
-                <td>{{ set.weight }}</td>
-                <td>{{ set.repeats }}</td>
-                <td>{{ setTime(set.setTime) }}</td>
-              </tr>
-            </table>
-          </li>
-        </ul>
+                {{ exercise.exerciseName }}
+              </div>
+              <table class="workout-results__sets">
+                <thead>
+                  <tr>
+                    <th>Difficulty</th>
+                    <th>Weight</th>
+                    <th>Repeats</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tr
+                  v-for="set in exerciseSets[exercise.exerciseId]"
+                  :key="set.id"
+                  class="workout-results__set"
+                >
+                  <td>
+                    <div
+                      class="workout-results__set-difficulty"
+                      :class="`difficulty-${set.difficulty}`"
+                    >
+                      {{ set.difficulty }}
+                    </div>
+                  </td>
+                  <td>{{ set.weight }}</td>
+                  <td>{{ set.repeats }}</td>
+                  <td>{{ setTime(set.setTime) }}</td>
+                </tr>
+              </table>
+            </li>
+          </ul>
+
+          <WorkoutResults
+            v-if="selectedWorkout"
+            :workout="selectedWorkout"
+          />
+        </div>
       </template>
     </TheModal>
   </div>
 </template>
+
+<style scoped>
+.workout-results__container {
+  display: flex;
+  gap: 20px;
+}
+
+.workout-results {
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.workout-results__exercise {
+  margin-bottom: 20px;
+}
+
+.workout-results__exercise-name {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.workout-results__sets {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.workout-results__sets th,
+.workout-results__sets td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--table-dark-bg);
+}
+
+.workout-results__set-difficulty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 12px;
+}
+</style>
