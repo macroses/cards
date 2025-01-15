@@ -3,24 +3,19 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interf
 
 interface WorkoutResultsProps {
   workout: CreateWorkoutResponse
+  selectedExerciseId: number | null
 }
 
 const props = defineProps<WorkoutResultsProps>()
 const { getExerciseData } = useWorkoutResults()
 
-const selectedExerciseId = ref<number | null>(null)
 const chartOption = ref<any>(null)
 const selectedChartType = ref<'weight' | 'repeats' | 'time'>('weight')
 const chartInstance = ref<any>(null)
 
-function selectExercise(exerciseId: number) {
-  selectedExerciseId.value = exerciseId
-  updateChart()
-}
-
 async function updateChart() {
-  if (selectedExerciseId.value !== null) {
-    const data = getExerciseData(props.workout, selectedExerciseId.value)
+  if (props.selectedExerciseId !== null) {
+    const data = getExerciseData(props.workout, props.selectedExerciseId)
     chartOption.value = data[selectedChartType.value]
 
     await nextTick()
@@ -40,29 +35,26 @@ function onChartInit(chart: any) {
   chartInstance.value = chart
 }
 
-onMounted(async () => {
-  if (props.workout.exercises.length > 0) {
-    selectExercise(props.workout.exercises[0].exerciseId)
-  }
-})
+watch(() => props.selectedExerciseId, () => {
+  updateChart()
+}, { immediate: true })
 </script>
 
 <template>
   <div class="workout-results">
     <div class="workout-results__content">
-      <div class="workout-results__exercises">
-        <ul class="workout-results__exercises-list">
-          <li
-            v-for="exercise in workout.exercises"
-            :key="exercise.exerciseId"
-            class="workout-results__exercise-item"
-            :class="{ active: selectedExerciseId === exercise.exerciseId }"
-            @click="selectExercise(exercise.exerciseId)"
-          >
-            {{ exercise.exerciseName }}
-          </li>
-        </ul>
-      </div>
+      <!--      <div class="workout-results__exercises"> -->
+      <!--        <ul class="workout-results__exercises-list"> -->
+      <!--          <li -->
+      <!--            v-for="exercise in workout.exercises" -->
+      <!--            :key="exercise.exerciseId" -->
+      <!--            class="workout-results__exercise-item" -->
+      <!--            :class="{ active: props.selectedExerciseId === exercise.exerciseId }" -->
+      <!--          > -->
+      <!--            {{ exercise.exerciseName }} -->
+      <!--          </li> -->
+      <!--        </ul> -->
+      <!--      </div> -->
       <div class="workout-results__chart-container">
         <div class="workout-results__chart-controls">
           <button

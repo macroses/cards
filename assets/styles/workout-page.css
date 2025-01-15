@@ -259,6 +259,11 @@
 .workout-results__exercise-name {
   font-size: 16px;
   font-weight: 500;
+  cursor: pointer;
+
+  &.active {
+    color: rgb(var(--accent-color));
+  }
 }
 
 .workout-results__sets {

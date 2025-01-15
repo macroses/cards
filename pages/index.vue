@@ -51,8 +51,14 @@ function handleDeleteWorkout(id: string) {
 }
 
 const readWorkoutResults = ref<typeof TheModal | null>(null)
+const selectedExerciseId = ref<number | null>(null)
+
 function showResultModal() {
   readWorkoutResults.value?.openModal()
+}
+
+function handleExerciseClick(exerciseId: number) {
+  selectedExerciseId.value = exerciseId
 }
 
 const exerciseSets = computed(() => {
@@ -145,6 +151,8 @@ function setTime(time: number | null): string {
             >
               <div
                 class="workout-results__exercise-name"
+                :class="{ active: selectedExerciseId === exercise.exerciseId }"
+                @click="handleExerciseClick(exercise.exerciseId)"
               >
                 {{ exercise.exerciseName }}
               </div>
@@ -181,6 +189,7 @@ function setTime(time: number | null): string {
           <WorkoutResults
             v-if="selectedWorkout"
             :workout="selectedWorkout"
+            :selected-exercise-id="selectedExerciseId"
           />
         </div>
       </template>
