@@ -282,6 +282,8 @@
 
   th, td {
     width: 25%;
+    padding: 8px;
+    text-align: left;
 
     &:nth-child(1) {
       width: 60px;
@@ -292,15 +294,32 @@
     text-align: center;
   }
 
+  & tr:not(:last-child) {
+    border-bottom: 1px solid ;
+  }
+
   & th {
     font-size: 13px;
     font-weight: 600;
   }
 }
 
+.workout-results__set td:first-child {
+  text-align: center;
+}
+
+
 .workout-results__set-difficulty {
   text-align: center;
   border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 12px;
 
   &.difficulty-1 {
     background-color: var(--difficulty-1);

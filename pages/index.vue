@@ -217,12 +217,8 @@ function setTime(time: number | null): string {
 <style scoped>
 .workout-results__container {
   display: flex;
-  gap: 20px;
+  gap: 8px;
   height: 100%;
-}
-
-.workout-results__wr {
-
 }
 
 .workout-results {
@@ -235,32 +231,10 @@ function setTime(time: number | null): string {
   margin-bottom: 20px;
 }
 
-.workout-results__sets {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.workout-results__sets th,
-.workout-results__sets td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid var(--table-dark-bg);
-}
-
-.workout-results__set-difficulty {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  font-weight: 600;
-  font-size: 12px;
-}
-
 .workout-results__wr {
   height: 100%;
   flex: 2;
   overflow: auto;
+  padding-right: 12px;
 }
 </style>
