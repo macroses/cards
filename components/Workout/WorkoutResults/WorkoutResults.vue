@@ -16,8 +16,8 @@ const selectedChartType = ref<'weight' | 'repeats' | 'time'>('weight')
 const chartInstance = ref<any>(null)
 
 async function updateChart() {
-  if (props.selectedExerciseId !== null) {
-    const data = getExerciseData(props.workout, props.selectedExerciseId)
+  if (props.selectedExerciseId !== null && workouts.value) {
+    const data = getExerciseData(props.workout, props.selectedExerciseId, workouts.value)
     chartOption.value = data[selectedChartType.value]
 
     await nextTick()
@@ -71,6 +71,7 @@ watch(() => props.selectedExerciseId, () => {
         class="chart"
         :option="chartOption"
         autoresize
+        style="height: 100%"
         @init="onChartInit"
       />
     </div>
@@ -94,12 +95,14 @@ watch(() => props.selectedExerciseId, () => {
 
 .chart-controls {
   display: flex;
+  justify-content: flex-end;
   gap: 8px;
 }
 
 .chart-container {
   flex: 1;
   max-height: 350px;
+  min-height: 350px;
 }
 
 .chart {

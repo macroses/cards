@@ -147,59 +147,61 @@ function setTime(time: number | null): string {
     >
       <template #content>
         <div class="workout-results__container">
-          <ul class="workout-results">
-            <li
-              v-for="exercise in selectedWorkout?.exercises"
-              :key="exercise.exerciseId"
-              class="workout-results__exercise"
-            >
-              <div
-                class="workout-results__exercise-name"
-                :class="{ active: selectedExerciseId === exercise.exerciseId }"
-                @click="handleExerciseClick(exercise.exerciseId)"
+          <div class="workout-results__wr">
+            <ul class="workout-results">
+              <li
+                v-for="exercise in selectedWorkout?.exercises"
+                :key="exercise.exerciseId"
+                class="workout-results__exercise"
               >
-                {{ exercise.exerciseName }}
-                <TheButton
-                  v-if="selectedExerciseId !== exercise.exerciseId"
-                  variant="secondary"
-                  icon-only
+                <div
+                  class="workout-results__exercise-name"
+                  :class="{ active: selectedExerciseId === exercise.exerciseId }"
                   @click="handleExerciseClick(exercise.exerciseId)"
                 >
-                  <TheIcon
-                    icon-name="angle-right"
-                    width="20px"
-                  />
-                </TheButton>
-              </div>
-              <table class="workout-results__sets">
-                <thead>
-                  <tr>
-                    <th>Difficulty</th>
-                    <th>Weight</th>
-                    <th>Repeats</th>
-                    <th>Time</th>
+                  {{ exercise.exerciseName }}
+                  <TheButton
+                    v-if="selectedExerciseId !== exercise.exerciseId"
+                    variant="secondary"
+                    icon-only
+                    @click="handleExerciseClick(exercise.exerciseId)"
+                  >
+                    <TheIcon
+                      icon-name="angle-right"
+                      width="20px"
+                    />
+                  </TheButton>
+                </div>
+                <table class="workout-results__sets">
+                  <thead>
+                    <tr>
+                      <th>Difficulty</th>
+                      <th>Weight</th>
+                      <th>Repeats</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tr
+                    v-for="set in exerciseSets[exercise.exerciseId]"
+                    :key="set.id"
+                    class="workout-results__set"
+                  >
+                    <td>
+                      <div
+                        class="workout-results__set-difficulty"
+                        :class="`difficulty-${set.difficulty}`"
+                      >
+                        {{ set.difficulty }}
+                      </div>
+                    </td>
+                    <td>{{ set.weight }}</td>
+                    <td>{{ set.repeats }}</td>
+                    <td>{{ setTime(set.setTime) }}</td>
                   </tr>
-                </thead>
-                <tr
-                  v-for="set in exerciseSets[exercise.exerciseId]"
-                  :key="set.id"
-                  class="workout-results__set"
-                >
-                  <td>
-                    <div
-                      class="workout-results__set-difficulty"
-                      :class="`difficulty-${set.difficulty}`"
-                    >
-                      {{ set.difficulty }}
-                    </div>
-                  </td>
-                  <td>{{ set.weight }}</td>
-                  <td>{{ set.repeats }}</td>
-                  <td>{{ setTime(set.setTime) }}</td>
-                </tr>
-              </table>
-            </li>
-          </ul>
+                </table>
+              </li>
+            </ul>
+          </div>
 
           <WorkoutResults
             v-if="selectedWorkout"
@@ -219,7 +221,6 @@ function setTime(time: number | null): string {
 }
 
 .workout-results {
-  flex: 2;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -250,5 +251,10 @@ function setTime(time: number | null): string {
   border-radius: 50%;
   font-weight: 600;
   font-size: 12px;
+}
+
+.workout-results__wr {
+  height: 100%;
+  flex: 2;
 }
 </style>

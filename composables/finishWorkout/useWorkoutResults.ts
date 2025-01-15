@@ -1,62 +1,137 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
 export function useWorkoutResults() {
-  const getExerciseData = (workout: CreateWorkoutResponse, exerciseId: number) => {
+  const { t } = useI18n()
+
+  const getExerciseData = (workout: CreateWorkoutResponse, exerciseId: number, workouts: CreateWorkoutResponse[]) => {
     const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
+
+    // Находим предыдущую тренировку с тем же упражнением
+    const previousWorkout = workouts
+      .filter(w =>
+        w.id !== workout.id
+        && w.completed
+        && new Date(w.workoutDate) < new Date(workout.workoutDate)
+        && w.exercises.some(e => e.exerciseId === exerciseId),
+      )
+      .sort((a, b) => new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime())[0]
+
+    const previousSets = previousWorkout?.sets.filter(set => set.exerciseId === exerciseId) || []
+
+    // Создаем массив с номерами сетов для оси X, берем максимальное количество сетов
+    const maxSets = Math.max(exerciseSets.length, previousSets.length)
+    const xAxisData = Array.from({ length: maxSets }, (_, i) => `Сет ${i + 1}`)
 
     return {
       weight: {
         xAxis: {
           type: 'category',
-          data: exerciseSets.map((_, index) => `Сет ${index + 1}`),
+          data: xAxisData,
         },
         yAxis: {
           type: 'value',
-          name: 'Вес (кг)',
+          name: t('workout.weight'),
         },
-        series: [{
-          data: exerciseSets.map(set => set.weight),
-          type: 'line',
-          smooth: true,
-        }],
+        series: [
+          {
+            name: t('workout.current_workout'),
+            data: exerciseSets.map(set => set.weight),
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              width: 3,
+            },
+          },
+          {
+            name: t('workout.previous_workout'),
+            data: previousSets.map(set => set.weight),
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              type: 'dashed',
+              width: 2,
+            },
+          },
+        ],
         tooltip: {
           trigger: 'axis',
+        },
+        legend: {
+          show: true,
         },
       },
       repeats: {
         xAxis: {
           type: 'category',
-          data: exerciseSets.map((_, index) => `Сет ${index + 1}`),
+          data: xAxisData,
         },
         yAxis: {
           type: 'value',
-          name: 'Повторения',
+          name: t('workout.repeats'),
         },
-        series: [{
-          data: exerciseSets.map(set => set.repeats),
-          type: 'line',
-          smooth: true,
-        }],
+        series: [
+          {
+            name: t('workout.current_workout'),
+            data: exerciseSets.map(set => set.repeats),
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              width: 3,
+            },
+          },
+          {
+            name: t('workout.previous_workout'),
+            data: previousSets.map(set => set.repeats),
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              type: 'dashed',
+              width: 2,
+            },
+          },
+        ],
         tooltip: {
           trigger: 'axis',
+        },
+        legend: {
+          show: true,
         },
       },
       time: {
         xAxis: {
           type: 'category',
-          data: exerciseSets.map((_, index) => `Сет ${index + 1}`),
+          data: xAxisData,
         },
         yAxis: {
           type: 'value',
-          name: 'Время (сек)',
+          name: t('workout.time'),
         },
-        series: [{
-          data: exerciseSets.map(set => set.setTime || 0),
-          type: 'line',
-          smooth: true,
-        }],
+        series: [
+          {
+            name: t('workout.current_workout'),
+            data: exerciseSets.map(set => set.setTime || 0),
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              width: 3,
+            },
+          },
+          {
+            name: t('workout.previous_workout'),
+            data: previousSets.map(set => set.setTime || 0),
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              type: 'dashed',
+              width: 2,
+            },
+          },
+        ],
         tooltip: {
           trigger: 'axis',
+        },
+        legend: {
+          show: true,
         },
       },
     }

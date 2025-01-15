@@ -23,7 +23,18 @@
     "copy_workout": "Copy workout",
     "add_exercise": "Add exercise",
     "no_time_warning": "No time in sets",
-    "no_time_description": "There are no sets with time in the workout. The workout will be stopped and not saved."
+    "no_time_description": "There are no sets with time in the workout. The workout will be stopped and not saved.",
+    "difficulty": "Difficulty",
+    "weight": "Weight",
+    "repeats": "Repeats",
+    "time": "Time",
+    "progress_comparison": "Comparison with previous workout",
+    "no_previous_workout": "No data from previous workout",
+    "average": "Average",
+    "maximum": "Maximum",
+    "results": "Workout results",
+    "current_workout": "Current workout",
+    "previous_workout": "Previous workout"
   },
 
   "toast": {
@@ -38,7 +49,10 @@
     "workout_copy_error": "Error while copying workout",
     "workout_updated": "Workout updated",
     "workout_ended": "Workout finished",
-    "workout_completed": "Workout completed"
+    "workout_completed": "Workout completed",
+    "set_update_error": "Error while updating set",
+    "set_create_error": "Error while creating set",
+    "sets_update_error": "Error while updating sets"
   },
 
   "error": {
