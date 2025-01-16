@@ -51,7 +51,7 @@ function formatTime(seconds: number): string {
               {{ t('workout.average') }}
             </div>
             <div class="metric__current">
-              {{ progress.weight.current.toFixed(1) }} кг
+              {{ progress.weight.current.toFixed(1) }}
             </div>
             <div
               class="metric__change"
@@ -68,7 +68,7 @@ function formatTime(seconds: number): string {
               {{ t('workout.maximum') }}
             </div>
             <div class="metric__current">
-              {{ progress.weight.max.current.toFixed(1) }} кг
+              {{ progress.weight.max.current.toFixed(1) }}
             </div>
             <div
               class="metric__change"
@@ -166,6 +166,48 @@ function formatTime(seconds: number): string {
           </div>
         </div>
       </div>
+
+      <div class="workout-progress__metric">
+        <div class="metric__label">
+          {{ t('workout.volume') }}
+        </div>
+        <div class="metric__values">
+          <div class="metric__group">
+            <div class="metric__subtitle">
+              {{ t('workout.average') }}
+            </div>
+            <div class="metric__current">
+              {{ progress.volume.current.toFixed(1) }}
+            </div>
+            <div
+              class="metric__change"
+              :class="{
+                'metric__change--positive': progress.volume.change > 0,
+                'metric__change--negative': progress.volume.change < 0,
+              }"
+            >
+              {{ formatChange(progress.volume.change) }}
+            </div>
+          </div>
+          <div class="metric__group">
+            <div class="metric__subtitle">
+              {{ t('workout.maximum') }}
+            </div>
+            <div class="metric__current">
+              {{ progress.volume.max.current.toFixed(1) }}
+            </div>
+            <div
+              class="metric__change"
+              :class="{
+                'metric__change--positive': progress.volume.max.change > 0,
+                'metric__change--negative': progress.volume.max.change < 0,
+              }"
+            >
+              {{ formatChange(progress.volume.max.change) }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <p
@@ -181,6 +223,7 @@ function formatTime(seconds: number): string {
   border-radius: 12px;
   margin-top: -40px;
   border: 1px solid rgb(var(--border-color));
+  overflow: hidden;
 }
 
 .workout-progress__empty {
@@ -196,6 +239,7 @@ function formatTime(seconds: number): string {
 .workout-progress__title {
   padding: 12px;
   font-size: 14px;
+  background-color: rgb(var(--accent-color) / 0.1);
 }
 
 .workout-progress__date {
@@ -204,7 +248,7 @@ function formatTime(seconds: number): string {
 
 .workout-progress__metrics {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   justify-content: space-between;
   padding-bottom: 8px;
 }
@@ -240,7 +284,7 @@ function formatTime(seconds: number): string {
 }
 
 .metric__current {
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 600;
 }
 

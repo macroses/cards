@@ -68,11 +68,6 @@ export function useWorkoutResults() {
         yAxis: {
           type: 'value',
           name: t('workout.repeats'),
-          scale: true,
-          splitNumber: 5,
-          axisLabel: {
-            margin: 2,
-          },
         },
         series: [
           {
@@ -139,6 +134,43 @@ export function useWorkoutResults() {
           show: true,
         },
       },
+      volume: {
+        xAxis: {
+          type: 'category',
+          data: xAxisData,
+        },
+        yAxis: {
+          type: 'value',
+          name: t('workout.volume'),
+        },
+        series: [
+          {
+            name: t('workout.current_workout'),
+            data: exerciseSets.map(set => set.weight * set.repeats),
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              width: 3,
+            },
+          },
+          {
+            name: t('workout.previous_workout'),
+            data: previousSets.map(set => set.weight * set.repeats),
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              type: 'dashed',
+              width: 2,
+            },
+          },
+        ],
+        tooltip: {
+          trigger: 'axis',
+        },
+        legend: {
+          show: true,
+        },
+      },
     }
   }
 
@@ -165,12 +197,14 @@ export function useWorkoutResults() {
       weight: currentSets.reduce((sum, set) => sum + set.weight, 0) / currentSets.length,
       repeats: currentSets.reduce((sum, set) => sum + set.repeats, 0) / currentSets.length,
       time: currentSets.reduce((sum, set) => sum + (set.setTime || 0), 0) / currentSets.length,
+      volume: currentSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0) / currentSets.length,
     }
 
     const previousAvg = {
       weight: previousSets.reduce((sum, set) => sum + set.weight, 0) / previousSets.length,
       repeats: previousSets.reduce((sum, set) => sum + set.repeats, 0) / previousSets.length,
       time: previousSets.reduce((sum, set) => sum + (set.setTime || 0), 0) / previousSets.length,
+      volume: previousSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0) / previousSets.length,
     }
 
     // Рассчитываем максимальные значения
@@ -178,12 +212,14 @@ export function useWorkoutResults() {
       weight: Math.max(...currentSets.map(set => set.weight)),
       repeats: Math.max(...currentSets.map(set => set.repeats)),
       time: Math.max(...currentSets.map(set => set.setTime || 0)),
+      volume: Math.max(...currentSets.map(set => set.weight * set.repeats)),
     }
 
     const previousMax = {
       weight: Math.max(...previousSets.map(set => set.weight)),
       repeats: Math.max(...previousSets.map(set => set.repeats)),
       time: Math.max(...previousSets.map(set => set.setTime || 0)),
+      volume: Math.max(...previousSets.map(set => set.weight * set.repeats)),
     }
 
     // Рассчитываем процентное изменение
@@ -222,6 +258,16 @@ export function useWorkoutResults() {
           current: currentMax.time,
           previous: previousMax.time,
           change: getPercentChange(currentMax.time, previousMax.time),
+        },
+      },
+      volume: {
+        current: currentAvg.volume,
+        previous: previousAvg.volume,
+        change: getPercentChange(currentAvg.volume, previousAvg.volume),
+        max: {
+          current: currentMax.volume,
+          previous: previousMax.volume,
+          change: getPercentChange(currentMax.volume, previousMax.volume),
         },
       },
       previousWorkoutDate: previousWorkout.workoutDate,

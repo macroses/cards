@@ -12,7 +12,7 @@ const { getExerciseData } = useWorkoutResults()
 const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS)
 
 const chartOption = ref<any>(null)
-const selectedChartType = ref<'weight' | 'repeats' | 'time'>('weight')
+const selectedChartType = ref<'weight' | 'repeats' | 'time' | 'volume'>('weight')
 const chartInstance = ref<any>(null)
 
 async function updateChart() {
@@ -28,7 +28,7 @@ async function updateChart() {
   }
 }
 
-function selectChartType(type: 'weight' | 'repeats' | 'time') {
+function selectChartType(type: 'weight' | 'repeats' | 'time' | 'volume') {
   selectedChartType.value = type
   updateChart()
 }
@@ -63,6 +63,12 @@ watch(() => props.selectedExerciseId, () => {
       >
         {{ $t('workout.time') }}
       </TheButton>
+      <TheButton
+        :variant="selectedChartType === 'volume' ? 'primary' : 'secondary'"
+        @click="selectChartType('volume')"
+      >
+        {{ $t('workout.volume') }}
+      </TheButton>
     </div>
 
     <div class="chart-container">
@@ -87,7 +93,7 @@ watch(() => props.selectedExerciseId, () => {
 
 <style scoped>
 .workout-results__charts {
-  flex: 2;
+  flex: 5;
   display: flex;
   flex-direction: column;
   gap: 16px;

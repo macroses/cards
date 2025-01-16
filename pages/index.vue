@@ -233,7 +233,7 @@ function setTime(time: number | null): string {
 
 .workout-results__wr {
   height: 100%;
-  flex: 2;
+  flex: 4;
   overflow: auto;
   padding-right: 12px;
 }
