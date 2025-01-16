@@ -68,6 +68,11 @@ export function useWorkoutResults() {
         yAxis: {
           type: 'value',
           name: t('workout.repeats'),
+          scale: true,
+          splitNumber: 5,
+          axisLabel: {
+            margin: 2,
+          },
         },
         series: [
           {

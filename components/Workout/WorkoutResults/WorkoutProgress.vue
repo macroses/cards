@@ -168,10 +168,26 @@ function formatTime(seconds: number): string {
       </div>
     </div>
   </div>
+  <p
+    v-else
+    class="workout-progress__empty"
+  >
+    {{ $t('workout.no_data') }}
+  </p>
 </template>
 
 <style scoped>
 .workout-progress {
+  border-radius: 12px;
+  margin-top: -40px;
+  border: 1px solid rgb(var(--border-color));
+}
+
+.workout-progress__empty {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 12px;
   margin-top: -40px;
   border: 1px solid rgb(var(--border-color));

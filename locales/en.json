@@ -34,7 +34,8 @@
     "maximum": "Maximum",
     "results": "Workout results",
     "current_workout": "Current workout",
-    "previous_workout": "Previous workout"
+    "previous_workout": "Previous workout",
+    "no_data": "No data from previous workout"
   },
 
   "toast": {

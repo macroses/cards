@@ -312,8 +312,10 @@
 .workout-results__set-difficulty {
   text-align: center;
   border-radius: 8px;
-  font-weight: 600;
   font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &.difficulty-1 {
     background-color: var(--difficulty-1);
