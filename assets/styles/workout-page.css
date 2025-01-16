@@ -282,7 +282,7 @@
 
   th, td {
     width: 25%;
-    padding: 8px;
+    padding: 2px 8px;
     text-align: left;
 
     &:nth-child(1) {
@@ -312,12 +312,6 @@
 .workout-results__set-difficulty {
   text-align: center;
   border-radius: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
   font-weight: 600;
   font-size: 12px;
 

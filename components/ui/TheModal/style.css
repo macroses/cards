@@ -16,7 +16,7 @@
 }
 
 .modal {
-  max-height: 95dvh;
+  max-height: 86dvh;
   background: var(--main-bg);
   border-radius: 12px;
   padding: 12px;

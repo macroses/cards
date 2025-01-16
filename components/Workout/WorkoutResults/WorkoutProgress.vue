@@ -173,13 +173,12 @@ function formatTime(seconds: number): string {
 <style scoped>
 .workout-progress {
   border-radius: 12px;
-  padding: 16px;
   margin-top: -40px;
   border: 1px solid rgb(var(--border-color));
 }
 
 .workout-progress__title {
-  margin: 0 0 16px;
+  padding: 12px;
   font-size: 14px;
 }
 
@@ -190,23 +189,28 @@ function formatTime(seconds: number): string {
 .workout-progress__metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  justify-content: space-between;
+  padding-bottom: 8px;
 }
 
 .workout-progress__metric {
-  padding: 12px;
   border-radius: 6px;
 }
 
 .metric__label {
   font-size: 14px;
+  font-weight: 500;
+  padding-block: 4px;
   margin-bottom: 8px;
+  text-align: center;
+  background-color: var(--table-dark-bg);
 }
 
 .metric__values {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding-left: 24px;
 }
 
 .metric__group {
