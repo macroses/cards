@@ -217,7 +217,6 @@ function setTime(time: number | null): string {
 <style scoped>
 .workout-results__container {
   display: flex;
-  gap: 8px;
   height: 100%;
 }
 
