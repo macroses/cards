@@ -175,7 +175,6 @@ function setTime(time: number | null): string {
                 <table class="workout-results__sets">
                   <thead>
                     <tr>
-                      <th>Difficulty</th>
                       <th>Weight</th>
                       <th>Repeats</th>
                       <th>Time</th>
@@ -185,15 +184,8 @@ function setTime(time: number | null): string {
                     v-for="set in exerciseSets[exercise.exerciseId]"
                     :key="set.id"
                     class="workout-results__set"
+                    :class="`difficulty-${set.difficulty}`"
                   >
-                    <td>
-                      <div
-                        class="workout-results__set-difficulty"
-                        :class="`difficulty-${set.difficulty}`"
-                      >
-                        {{ set.difficulty }}
-                      </div>
-                    </td>
                     <td>{{ set.weight }}</td>
                     <td>{{ set.repeats }}</td>
                     <td>{{ setTime(set.setTime) }}</td>

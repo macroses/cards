@@ -177,7 +177,7 @@ function formatTime(seconds: number): string {
               {{ t('workout.average') }}
             </div>
             <div class="metric__current">
-              {{ progress.volume.current.toFixed(1) }}
+              {{ progress.volume.current.toFixed(0) }}
             </div>
             <div
               class="metric__change"
@@ -194,7 +194,7 @@ function formatTime(seconds: number): string {
               {{ t('workout.maximum') }}
             </div>
             <div class="metric__current">
-              {{ progress.volume.max.current.toFixed(1) }}
+              {{ progress.volume.max.current.toFixed(0) }}
             </div>
             <div
               class="metric__change"

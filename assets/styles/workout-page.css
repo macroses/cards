@@ -279,23 +279,16 @@
   table-layout: fixed;
   border: 1px solid rgb(var(--border-color));
   border-radius: 12px;
+  border-collapse: collapse;
+  overflow: hidden;
+
+  & thead {
+    background-color: var(--table-dark-bg);
+  }
 
   th, td {
-    width: 25%;
+    width: 33.33333%;
     padding: 2px 8px;
-    text-align: left;
-
-    &:nth-child(1) {
-      width: 60px;
-    }
-  }
-
-  th:nth-child(1) {
-    text-align: center;
-  }
-
-  & tr:not(:last-child) {
-    border-bottom: 1px solid ;
   }
 
   & th {
@@ -304,10 +297,28 @@
   }
 }
 
-.workout-results__set td:first-child {
-  text-align: center;
-}
 
+.workout-results__set {
+  &.difficulty-1 {
+    background: linear-gradient(to right, rgb(236 236 236 / 0.2), transparent 30%);
+  }
+
+  &.difficulty-2 {
+    background: linear-gradient(to right, rgb(0 196 32 / 0.2), transparent 30%);
+  }
+
+  &.difficulty-3 {
+    background: linear-gradient(to right, rgb(255 203 41 / 0.3), transparent 30%);
+  }
+
+  &.difficulty-4 {
+    background: linear-gradient(to right, rgb(255 148 148 / 0.5), transparent 30%);
+  }
+
+  &.difficulty-5 {
+    background: linear-gradient(to right, rgb(225 37 37 / 0.5), transparent 30%);
+  }
+}
 
 .workout-results__set-difficulty {
   text-align: center;
@@ -316,24 +327,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  &.difficulty-1 {
-    background-color: var(--difficulty-1);
-  }
-
-  &.difficulty-2 {
-    background-color: var(--difficulty-2);
-  }
-
-  &.difficulty-3 {
-    background-color: var(--difficulty-3);
-  }
-
-  &.difficulty-4 {
-    background-color: var(--difficulty-4);
-  }
-
-  &.difficulty-5 {
-    background-color: var(--difficulty-5);
-  }
+  border-radius: 50%;
 }
