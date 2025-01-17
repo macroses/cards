@@ -288,10 +288,11 @@
 
   th, td {
     width: 33.33333%;
-    padding: 2px 8px;
+    padding: 2px 12px;
   }
 
   & th {
+    padding-block: 4px;
     font-size: 13px;
     font-weight: 600;
   }
