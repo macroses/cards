@@ -3,6 +3,21 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interf
 export function useWorkoutResults() {
   const { t } = useI18n()
 
+  const findPreviousWorkout = (
+    currentWorkout: CreateWorkoutResponse,
+    exerciseId: number,
+    workouts: CreateWorkoutResponse[],
+  ) => {
+    return workouts
+      .filter(w =>
+        w.id !== currentWorkout.id
+        && w.completed
+        && new Date(w.workoutDate) < new Date(currentWorkout.workoutDate)
+        && w.exercises.some(e => e.exerciseId === exerciseId),
+      )
+      .sort((a, b) => new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime())[0]
+  }
+
   const getExerciseData = (
     workout: CreateWorkoutResponse,
     exerciseId: number,
@@ -10,16 +25,7 @@ export function useWorkoutResults() {
   ) => {
     const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
 
-    // Находим предыдущую тренировку с тем же упражнением
-    const previousWorkout = workouts
-      .filter(w =>
-        w.id !== workout.id
-        && w.completed
-        && new Date(w.workoutDate) < new Date(workout.workoutDate)
-        && w.exercises.some(e => e.exerciseId === exerciseId),
-      )
-      .sort((a, b) => new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime())[0]
-
+    const previousWorkout = findPreviousWorkout(workout, exerciseId, workouts)
     const previousSets = previousWorkout?.sets.filter(set => set.exerciseId === exerciseId) || []
 
     // Создаем массив с номерами сетов для оси X, берем максимальное количество сетов
@@ -179,15 +185,7 @@ export function useWorkoutResults() {
   }
 
   const getProgressData = (currentWorkout: CreateWorkoutResponse, exerciseId: number, workouts: CreateWorkoutResponse[]) => {
-    // Находим предыдущую тренировку с тем же упражнением
-    const previousWorkout = workouts
-      .filter(w =>
-        w.id !== currentWorkout.id
-        && w.completed
-        && new Date(w.workoutDate) < new Date(currentWorkout.workoutDate)
-        && w.exercises.some(e => e.exerciseId === exerciseId),
-      )
-      .sort((a, b) => new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime())[0]
+    const previousWorkout = findPreviousWorkout(currentWorkout, exerciseId, workouts)
 
     if (!previousWorkout) {
       return null
