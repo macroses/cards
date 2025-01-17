@@ -18,173 +18,108 @@ export function useWorkoutResults() {
       .sort((a, b) => new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime())[0]
   }
 
+  const createChartConfig = (
+    xAxisData: string[],
+    yAxisName: string,
+    currentData: number[],
+    previousData: number[],
+  ) => ({
+    xAxis: {
+      type: 'category',
+      data: xAxisData,
+    },
+    yAxis: {
+      type: 'value',
+      name: yAxisName,
+    },
+    series: [
+      {
+        name: t('workout.current_workout'),
+        data: currentData,
+        type: 'line',
+        smooth: true,
+        lineStyle: {
+          width: 3,
+        },
+      },
+      {
+        name: t('workout.previous_workout'),
+        data: previousData,
+        type: 'line',
+        smooth: true,
+        lineStyle: {
+          type: 'dashed',
+          width: 2,
+        },
+      },
+    ],
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+      show: true,
+    },
+  })
+
   const getExerciseData = (
     workout: CreateWorkoutResponse,
     exerciseId: number,
     workouts: CreateWorkoutResponse[],
   ) => {
     const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
-
     const previousWorkout = findPreviousWorkout(workout, exerciseId, workouts)
     const previousSets = previousWorkout?.sets.filter(set => set.exerciseId === exerciseId) || []
 
-    // Создаем массив с номерами сетов для оси X, берем максимальное количество сетов
     const maxSets = Math.max(exerciseSets.length, previousSets.length)
     const xAxisData = Array.from({ length: maxSets }, (_, i) => `${t('workout.set')} ${i + 1}`)
 
-    return {
+    const metrics = {
       weight: {
-        xAxis: {
-          type: 'category',
-          data: xAxisData,
-        },
-        yAxis: {
-          type: 'value',
-          name: t('workout.weight'),
-        },
-        series: [
-          {
-            name: t('workout.current_workout'),
-            data: exerciseSets.map(set => set.weight),
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              width: 3,
-            },
-          },
-          {
-            name: t('workout.previous_workout'),
-            data: previousSets.map(set => set.weight),
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              type: 'dashed',
-              width: 2,
-            },
-          },
-        ],
-        tooltip: {
-          trigger: 'axis',
-        },
-        legend: {
-          show: true,
-        },
+        name: t('workout.weight'),
+        current: (set: any) => set.weight,
+        previous: (set: any) => set.weight,
       },
       repeats: {
-        xAxis: {
-          type: 'category',
-          data: xAxisData,
-        },
-        yAxis: {
-          type: 'value',
-          name: t('workout.repeats'),
-        },
-        series: [
-          {
-            name: t('workout.current_workout'),
-            data: exerciseSets.map(set => set.repeats),
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              width: 3,
-            },
-          },
-          {
-            name: t('workout.previous_workout'),
-            data: previousSets.map(set => set.repeats),
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              type: 'dashed',
-              width: 2,
-            },
-          },
-        ],
-        tooltip: {
-          trigger: 'axis',
-        },
-        legend: {
-          show: true,
-        },
+        name: t('workout.repeats'),
+        current: (set: any) => set.repeats,
+        previous: (set: any) => set.repeats,
       },
       time: {
-        xAxis: {
-          type: 'category',
-          data: xAxisData,
-        },
-        yAxis: {
-          type: 'value',
-          name: t('workout.time'),
-        },
-        series: [
-          {
-            name: t('workout.current_workout'),
-            data: exerciseSets.map(set => set.setTime || 0),
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              width: 3,
-            },
-          },
-          {
-            name: t('workout.previous_workout'),
-            data: previousSets.map(set => set.setTime || 0),
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              type: 'dashed',
-              width: 2,
-            },
-          },
-        ],
-        tooltip: {
-          trigger: 'axis',
-        },
-        legend: {
-          show: true,
-        },
+        name: t('workout.time'),
+        current: (set: any) => set.setTime || 0,
+        previous: (set: any) => set.setTime || 0,
       },
       volume: {
-        xAxis: {
-          type: 'category',
-          data: xAxisData,
-        },
-        yAxis: {
-          type: 'value',
-          name: t('workout.volume'),
-        },
-        series: [
-          {
-            name: t('workout.current_workout'),
-            data: exerciseSets.map(set => set.weight * set.repeats),
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              width: 3,
-            },
-          },
-          {
-            name: t('workout.previous_workout'),
-            data: previousSets.map(set => set.weight * set.repeats),
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              type: 'dashed',
-              width: 2,
-            },
-          },
-        ],
-        tooltip: {
-          trigger: 'axis',
-        },
-        legend: {
-          show: true,
-        },
+        name: t('workout.volume'),
+        current: (set: any) => set.weight * set.repeats,
+        previous: (set: any) => set.weight * set.repeats,
       },
+    }
+
+    return Object.entries(metrics).reduce((acc, [key, metric]) => ({
+      ...acc,
+      [key]: createChartConfig(
+        xAxisData,
+        metric.name,
+        exerciseSets.map(metric.current),
+        previousSets.map(metric.previous),
+      ),
+    }), {})
+  }
+
+  const calculateStats = (sets: any[], getValue: (set: any) => number) => {
+    const values = sets.map(getValue)
+    return {
+      avg: values.reduce((sum, val) => sum + val, 0) / values.length,
+      max: Math.max(...values),
     }
   }
 
-  const getProgressData = (currentWorkout: CreateWorkoutResponse, exerciseId: number, workouts: CreateWorkoutResponse[]) => {
+  const getProgressData = (
+    currentWorkout: CreateWorkoutResponse,
+    exerciseId: number,
+    workouts: CreateWorkoutResponse[],
+  ) => {
     const previousWorkout = findPreviousWorkout(currentWorkout, exerciseId, workouts)
 
     if (!previousWorkout) {
@@ -194,84 +129,42 @@ export function useWorkoutResults() {
     const currentSets = currentWorkout.sets.filter(set => set.exerciseId === exerciseId)
     const previousSets = previousWorkout.sets.filter(set => set.exerciseId === exerciseId)
 
-    // Рассчитываем средние значения
-    const currentAvg = {
-      weight: currentSets.reduce((sum, set) => sum + set.weight, 0) / currentSets.length,
-      repeats: currentSets.reduce((sum, set) => sum + set.repeats, 0) / currentSets.length,
-      time: currentSets.reduce((sum, set) => sum + (set.setTime || 0), 0) / currentSets.length,
-      volume: currentSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0) / currentSets.length,
-    }
-
-    const previousAvg = {
-      weight: previousSets.reduce((sum, set) => sum + set.weight, 0) / previousSets.length,
-      repeats: previousSets.reduce((sum, set) => sum + set.repeats, 0) / previousSets.length,
-      time: previousSets.reduce((sum, set) => sum + (set.setTime || 0), 0) / previousSets.length,
-      volume: previousSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0) / previousSets.length,
-    }
-
-    // Рассчитываем максимальные значения
-    const currentMax = {
-      weight: Math.max(...currentSets.map(set => set.weight)),
-      repeats: Math.max(...currentSets.map(set => set.repeats)),
-      time: Math.max(...currentSets.map(set => set.setTime || 0)),
-      volume: Math.max(...currentSets.map(set => set.weight * set.repeats)),
-    }
-
-    const previousMax = {
-      weight: Math.max(...previousSets.map(set => set.weight)),
-      repeats: Math.max(...previousSets.map(set => set.repeats)),
-      time: Math.max(...previousSets.map(set => set.setTime || 0)),
-      volume: Math.max(...previousSets.map(set => set.weight * set.repeats)),
-    }
-
-    // Рассчитываем процентное изменение
     const getPercentChange = (current: number, previous: number) => {
-      if (previous === 0)
+      if (previous === 0) {
         return current > 0 ? 100 : 0
+      }
+
       return ((current - previous) / previous) * 100
     }
 
+    const metrics = {
+      weight: (set: any) => set.weight,
+      repeats: (set: any) => set.repeats,
+      time: (set: any) => set.setTime || 0,
+      volume: (set: any) => set.weight * set.repeats,
+    }
+
+    const result = Object.entries(metrics).reduce((acc, [key, getValue]) => {
+      const current = calculateStats(currentSets, getValue)
+      const previous = calculateStats(previousSets, getValue)
+
+      return {
+        ...acc,
+        [key]: {
+          current: current.avg,
+          previous: previous.avg,
+          change: getPercentChange(current.avg, previous.avg),
+          max: {
+            current: current.max,
+            previous: previous.max,
+            change: getPercentChange(current.max, previous.max),
+          },
+        },
+      }
+    }, {})
+
     return {
-      weight: {
-        current: currentAvg.weight,
-        previous: previousAvg.weight,
-        change: getPercentChange(currentAvg.weight, previousAvg.weight),
-        max: {
-          current: currentMax.weight,
-          previous: previousMax.weight,
-          change: getPercentChange(currentMax.weight, previousMax.weight),
-        },
-      },
-      repeats: {
-        current: currentAvg.repeats,
-        previous: previousAvg.repeats,
-        change: getPercentChange(currentAvg.repeats, previousAvg.repeats),
-        max: {
-          current: currentMax.repeats,
-          previous: previousMax.repeats,
-          change: getPercentChange(currentMax.repeats, previousMax.repeats),
-        },
-      },
-      time: {
-        current: currentAvg.time,
-        previous: previousAvg.time,
-        change: getPercentChange(currentAvg.time, previousAvg.time),
-        max: {
-          current: currentMax.time,
-          previous: previousMax.time,
-          change: getPercentChange(currentMax.time, previousMax.time),
-        },
-      },
-      volume: {
-        current: currentAvg.volume,
-        previous: previousAvg.volume,
-        change: getPercentChange(currentAvg.volume, previousAvg.volume),
-        max: {
-          current: currentMax.volume,
-          previous: previousMax.volume,
-          change: getPercentChange(currentMax.volume, previousMax.volume),
-        },
-      },
+      ...result,
       previousWorkoutDate: previousWorkout.workoutDate,
     }
   }

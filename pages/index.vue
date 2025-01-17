@@ -205,27 +205,3 @@ function setTime(time: number | null): string {
     </LazyTheModal>
   </div>
 </template>
-
-<style scoped>
-.workout-results__container {
-  display: flex;
-  height: 100%;
-}
-
-.workout-results {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.workout-results__exercise {
-  margin-bottom: 20px;
-}
-
-.workout-results__wr {
-  height: 100%;
-  flex: 4;
-  overflow: auto;
-  padding-right: 12px;
-}
-</style>
