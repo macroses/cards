@@ -36,7 +36,8 @@
     "results": "Workout results",
     "current_workout": "Current workout",
     "previous_workout": "Previous workout",
-    "no_data": "No data from previous workout"
+    "no_data": "No data from previous workout",
+    "set": "Set"
   },
 
   "toast": {

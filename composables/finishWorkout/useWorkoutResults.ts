@@ -3,7 +3,11 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interf
 export function useWorkoutResults() {
   const { t } = useI18n()
 
-  const getExerciseData = (workout: CreateWorkoutResponse, exerciseId: number, workouts: CreateWorkoutResponse[]) => {
+  const getExerciseData = (
+    workout: CreateWorkoutResponse,
+    exerciseId: number,
+    workouts: CreateWorkoutResponse[],
+  ) => {
     const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
 
     // Находим предыдущую тренировку с тем же упражнением
@@ -20,7 +24,7 @@ export function useWorkoutResults() {
 
     // Создаем массив с номерами сетов для оси X, берем максимальное количество сетов
     const maxSets = Math.max(exerciseSets.length, previousSets.length)
-    const xAxisData = Array.from({ length: maxSets }, (_, i) => `Сет ${i + 1}`)
+    const xAxisData = Array.from({ length: maxSets }, (_, i) => `${t('workout.set')} ${i + 1}`)
 
     return {
       weight: {

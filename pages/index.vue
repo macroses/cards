@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import TheModal from '~/components/ui/TheModal/TheModal.vue'
+import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { GLOBAL_DATE, GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
@@ -140,7 +140,7 @@ function setTime(time: number | null): string {
       </div>
     </Transition>
 
-    <TheModal
+    <LazyTheModal
       ref="readWorkoutResults"
       :has-close-button="false"
       class="workout-results__modal"
@@ -202,7 +202,7 @@ function setTime(time: number | null): string {
           />
         </div>
       </template>
-    </TheModal>
+    </LazyTheModal>
   </div>
 </template>
 
