@@ -13,8 +13,9 @@ export function useSetTimeManagement() {
   }
 
   async function handleSetTime(setId: string) {
-    if (!activeWorkout.value?.startedAt)
+    if (!activeWorkout.value?.startedAt) {
       return
+    }
 
     const currentTimeInSeconds = Math.floor((Date.now() - new Date(activeWorkout.value.startedAt).getTime()) / 1000)
 
@@ -32,8 +33,9 @@ export function useSetTimeManagement() {
   }
 
   function initSetTimes(sets: UserTrainingSession[]) {
-    if (!sets)
+    if (!sets) {
       return
+    }
 
     // Сначала инициализируем времена для всех сетов
     sets.forEach((set) => {
@@ -55,14 +57,17 @@ export function useSetTimeManagement() {
     const lastSetWithTime = setsWithTime[0]
     if (lastSetWithTime && lastSetWithTime.setTime) {
       let totalTime = 0
+
       for (const set of sets) {
         if (set.setTime) {
           totalTime += set.setTime
+
           if (set.id === lastSetWithTime.id) {
             break
           }
         }
       }
+
       lastSetTime.value = totalTime
     }
   }

@@ -15,7 +15,7 @@ export function useEditingSetState() {
       if (inputRefs.value[setId]) {
         inputRefs.value[setId]?.focus()
       }
-    })
+    }).then()
   }
 
   function handleInputSubmit() {

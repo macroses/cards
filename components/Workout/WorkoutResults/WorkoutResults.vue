@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { GLOBAL_WORKOUTS } from '~/constants'
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interfaces'
 
 interface WorkoutResultsProps {
   workout: CreateWorkoutResponse
@@ -8,19 +8,28 @@ interface WorkoutResultsProps {
 }
 
 const props = defineProps<WorkoutResultsProps>()
+
 const { getExerciseData } = useWorkoutResults()
 const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS)
+const { t } = useI18n()
 
-const chartOption = ref<any>(null)
-const selectedChartType = ref<'weight' | 'repeats' | 'time' | 'volume'>('weight')
+const chartOption = ref<MetricCharts[ChartType] | null>(null)
+const selectedChartType = ref<ChartType>('weight')
 const chartInstance = ref<any>(null)
 
-async function updateChart() {
+const chartTypes = ref<Array<{ type: ChartType, label: string }>>([
+  { type: 'weight', label: t('workout.weight') },
+  { type: 'repeats', label: t('workout.repeats') },
+  { type: 'time', label: t('workout.time') },
+  { type: 'volume', label: t('workout.volume') },
+])
+
+function updateChart() {
   if (props.selectedExerciseId !== null && workouts.value) {
     const data = getExerciseData(props.workout, props.selectedExerciseId, workouts.value)
     chartOption.value = data[selectedChartType.value]
 
-    await nextTick()
+    nextTick()
 
     if (chartInstance.value) {
       chartInstance.value.resize()
@@ -28,7 +37,7 @@ async function updateChart() {
   }
 }
 
-function selectChartType(type: 'weight' | 'repeats' | 'time' | 'volume') {
+function selectChartType(type: ChartType) {
   selectedChartType.value = type
   updateChart()
 }
@@ -46,28 +55,12 @@ watch(() => props.selectedExerciseId, () => {
   <div class="workout-results__charts">
     <div class="chart-controls">
       <TheButton
-        :variant="selectedChartType === 'weight' ? 'primary' : 'secondary'"
-        @click="selectChartType('weight')"
+        v-for="chart in chartTypes"
+        :key="chart.type"
+        :variant="selectedChartType === chart.type ? 'primary' : 'secondary'"
+        @click="selectChartType(chart.type)"
       >
-        {{ $t('workout.weight') }}
-      </TheButton>
-      <TheButton
-        :variant="selectedChartType === 'repeats' ? 'primary' : 'secondary'"
-        @click="selectChartType('repeats')"
-      >
-        {{ $t('workout.repeats') }}
-      </TheButton>
-      <TheButton
-        :variant="selectedChartType === 'time' ? 'primary' : 'secondary'"
-        @click="selectChartType('time')"
-      >
-        {{ $t('workout.time') }}
-      </TheButton>
-      <TheButton
-        :variant="selectedChartType === 'volume' ? 'primary' : 'secondary'"
-        @click="selectChartType('volume')"
-      >
-        {{ $t('workout.volume') }}
+        {{ chart.label }}
       </TheButton>
     </div>
 
@@ -91,27 +84,4 @@ watch(() => props.selectedExerciseId, () => {
   </div>
 </template>
 
-<style scoped>
-.workout-results__charts {
-  flex: 5;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.chart-controls {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.chart-container {
-  flex: 1;
-  max-height: 350px;
-  min-height: 350px;
-}
-
-.chart {
-  height: 100%;
-}
-</style>
+<style src="./style.css" />

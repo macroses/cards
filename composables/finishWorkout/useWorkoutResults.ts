@@ -1,4 +1,12 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import type {
+  CreateWorkoutResponse,
+  MetricCharts,
+  MetricFn,
+  Metrics,
+  ProgressData,
+  ProgressMetrics,
+  WorkoutSet,
+} from '~/ts/interfaces/'
 
 export function useWorkoutResults() {
   const { t } = useI18n()
@@ -59,13 +67,13 @@ export function useWorkoutResults() {
     legend: {
       show: true,
     },
-  })
+  } as const)
 
   const getExerciseData = (
     workout: CreateWorkoutResponse,
     exerciseId: number,
     workouts: CreateWorkoutResponse[],
-  ) => {
+  ): MetricCharts => {
     const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
     const previousWorkout = findPreviousWorkout(workout, exerciseId, workouts)
     const previousSets = previousWorkout?.sets.filter(set => set.exerciseId === exerciseId) || []
@@ -73,26 +81,26 @@ export function useWorkoutResults() {
     const maxSets = Math.max(exerciseSets.length, previousSets.length)
     const xAxisData = Array.from({ length: maxSets }, (_, i) => `${t('workout.set')} ${i + 1}`)
 
-    const metrics = {
+    const metrics: Metrics = {
       weight: {
         name: t('workout.weight'),
-        current: (set: any) => set.weight,
-        previous: (set: any) => set.weight,
+        current: set => set.weight,
+        previous: set => set.weight,
       },
       repeats: {
         name: t('workout.repeats'),
-        current: (set: any) => set.repeats,
-        previous: (set: any) => set.repeats,
+        current: set => set.repeats,
+        previous: set => set.repeats,
       },
       time: {
         name: t('workout.time'),
-        current: (set: any) => set.setTime || 0,
-        previous: (set: any) => set.setTime || 0,
+        current: set => set.setTime || 0,
+        previous: set => set.setTime || 0,
       },
       volume: {
         name: t('workout.volume'),
-        current: (set: any) => set.weight * set.repeats,
-        previous: (set: any) => set.weight * set.repeats,
+        current: set => set.weight * set.repeats,
+        previous: set => set.weight * set.repeats,
       },
     }
 
@@ -104,10 +112,10 @@ export function useWorkoutResults() {
         exerciseSets.map(metric.current),
         previousSets.map(metric.previous),
       ),
-    }), {})
+    }), {} as MetricCharts)
   }
 
-  const calculateStats = (sets: any[], getValue: (set: any) => number) => {
+  const calculateStats = (sets: WorkoutSet[], getValue: MetricFn) => {
     const values = sets.map(getValue)
     return {
       avg: values.reduce((sum, val) => sum + val, 0) / values.length,
@@ -119,7 +127,7 @@ export function useWorkoutResults() {
     currentWorkout: CreateWorkoutResponse,
     exerciseId: number,
     workouts: CreateWorkoutResponse[],
-  ) => {
+  ): ProgressData | null => {
     const previousWorkout = findPreviousWorkout(currentWorkout, exerciseId, workouts)
 
     if (!previousWorkout) {
@@ -137,11 +145,11 @@ export function useWorkoutResults() {
       return ((current - previous) / previous) * 100
     }
 
-    const metrics = {
-      weight: (set: any) => set.weight,
-      repeats: (set: any) => set.repeats,
-      time: (set: any) => set.setTime || 0,
-      volume: (set: any) => set.weight * set.repeats,
+    const metrics: ProgressMetrics = {
+      weight: set => set.weight,
+      repeats: set => set.repeats,
+      time: set => set.setTime || 0,
+      volume: set => set.weight * set.repeats,
     }
 
     const result = Object.entries(metrics).reduce((acc, [key, getValue]) => {
@@ -161,11 +169,11 @@ export function useWorkoutResults() {
           },
         },
       }
-    }, {})
+    }, {} as Omit<ProgressData, 'previousWorkoutDate'>)
 
     return {
-      ...result,
       previousWorkoutDate: previousWorkout.workoutDate,
+      ...result,
     }
   }
 
