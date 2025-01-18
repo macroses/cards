@@ -81,5 +81,30 @@
 
   "common": {
     "ok": "OK"
+  },
+
+  "statistics": {
+    "generalStats": "Общая статистика",
+    "totalWorkouts": "Всего тренировок",
+    "completedWorkouts": "Завершённых тренировок",
+    "completionRate": "Процент завершения",
+    "averageDuration": "Средняя продолжительность",
+    "longestStreak": "Самая длинная серия",
+    "days": "дней",
+    "minutes": "мин",
+    "seconds": "сек",
+    "frequentExercises": "Частые упражнения",
+    "exerciseStats": "Статистика упражнения",
+    "maxWeight": "Максимальный вес",
+    "avgWeight": "Средний вес",
+    "avgRepeats": "Среднее кол-во повторений",
+    "totalSets": "Всего подходов",
+    "completedSets": "Выполнено подходов",
+    "weightProgress": "Прогресс по весам",
+    "kg": "кг",
+    "activeDays": "Активные дни",
+    "difficultyDistribution": "Распределение сложности",
+    "avgRestTime": "Среднее время отдыха",
+    "monthlyProgress": "Прогресс по месяцам"
   }
 }

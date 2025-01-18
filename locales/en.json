@@ -81,5 +81,30 @@
 
   "common": {
     "ok": "OK"
+  },
+
+  "statistics": {
+    "generalStats": "General Statistics",
+    "totalWorkouts": "Total Workouts",
+    "completedWorkouts": "Completed Workouts",
+    "completionRate": "Completion Rate",
+    "averageDuration": "Average Duration",
+    "longestStreak": "Longest Streak",
+    "days": "days",
+    "minutes": "min",
+    "seconds": "sec",
+    "frequentExercises": "Frequent Exercises",
+    "exerciseStats": "Exercise Statistics",
+    "maxWeight": "Maximum Weight",
+    "avgWeight": "Average Weight",
+    "avgRepeats": "Average Repeats",
+    "totalSets": "Total Sets",
+    "completedSets": "Completed Sets",
+    "weightProgress": "Weight Progress",
+    "kg": "kg",
+    "activeDays": "Active Days",
+    "difficultyDistribution": "Difficulty Distribution",
+    "avgRestTime": "Average Rest Time",
+    "monthlyProgress": "Monthly Progress"
   }
 }

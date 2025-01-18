@@ -118,6 +118,8 @@ function setTime(time: number | null): string {
           @open-results="showResultModal"
         />
       </div>
+
+      <WorkoutStatistics v-if="workouts" />
     </div>
 
     <Transition>
