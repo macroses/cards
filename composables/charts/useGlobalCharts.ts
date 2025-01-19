@@ -1,59 +1,69 @@
-import type { CreateWorkoutResponse, ExerciseServerTemplate, WorkoutSet } from '~/ts/interfaces'
+import type { ECBasicOption } from 'echarts/types/dist/shared'
+import type {
+  ChartData,
+  ChartsApiResponse,
+  DurationData,
+  ExerciseData,
+  ExerciseServerTemplate,
+  GlobalChartsReturn,
+} from '~/ts/interfaces'
 
-interface ChartData {
-  date: Date
-  volume: number
-  intensity: number
-}
-
-interface ExerciseData {
-  date: Date
-  maxWeight: number
-  avgWeight: number
-  setsCount: number
-}
-
-interface DurationData {
-  date: Date
-  duration: number
-  avgSetTime: number
-}
-
-export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
+export function useGlobalCharts(): GlobalChartsReturn {
   const { t } = useI18n()
   const dayjs = useDayjs()
   const { exercisesList } = useFetchExercisesList()
 
-  const volumeChartOption = ref<any>(null)
-  const exerciseChartOption = ref<any>(null)
-  const durationChartOption = ref<any>(null)
+  const volumeChartOption = ref<ECBasicOption | null>(null)
+  const exerciseChartOption = ref<ECBasicOption | null>(null)
+  const durationChartOption = ref<ECBasicOption | null>(null)
   const selectedExercise = ref<number | null>(null)
   const popularExercises = ref<number[]>([])
+  const isLoading = ref(false)
+  const error = ref<string | null>(null)
 
-  function calculateVolumeAndIntensity() {
-    if (!workouts.value?.length)
-      return
+  async function fetchChartsData() {
+    try {
+      isLoading.value = true
+      const data = await $fetch<ChartsApiResponse>('/api/statistics/getChartsData')
 
-    const data: ChartData[] = workouts.value.map((workout: CreateWorkoutResponse) => {
-      const totalVolume = workout.sets.reduce((sum: number, set: WorkoutSet) => {
-        if (!set.weight || !set.repeats)
-          return sum
-        return sum + (set.weight * set.repeats)
-      }, 0)
+      const volumeDataWithDates = data.volumeData.map(item => ({
+        volume: Number(item.volume),
+        intensity: Number(item.intensity),
+        date: new Date(item.date),
+      })) satisfies ChartData[]
 
-      const totalDuration = workout.sets.reduce((sum: number, set: WorkoutSet) => {
-        return sum + (set.setTime || 0)
-      }, 0)
+      const durationDataWithDates = data.durationData.map(item => ({
+        duration: Number(item.duration),
+        avgSetTime: Number(item.avgSetTime),
+        date: new Date(item.date),
+      })) satisfies DurationData[]
 
-      const intensity = totalDuration > 0 ? totalVolume / totalDuration : 0
+      updateVolumeChart(volumeDataWithDates)
+      updateDurationChart(durationDataWithDates)
+      popularExercises.value = data.popularExercises
 
-      return {
-        date: workout.workoutDate,
-        volume: totalVolume / 1000,
-        intensity,
+      if (!selectedExercise.value && data.popularExercises.length > 0) {
+        selectedExercise.value = data.popularExercises[0]
       }
-    })
 
+      if (selectedExercise.value) {
+        const exerciseDataWithDates = data.exerciseData[selectedExercise.value].map(item => ({
+          ...item,
+          date: new Date(item.date),
+        })) satisfies ExerciseData[]
+        updateExerciseChart(exerciseDataWithDates)
+      }
+    }
+    catch (err) {
+      console.error('Ошибка при загрузке данных графиков:', err)
+      error.value = 'Ошибка при загрузке данных графиков'
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
+
+  function updateVolumeChart(data: ChartData[]) {
     volumeChartOption.value = {
       tooltip: {
         trigger: 'axis',
@@ -99,27 +109,7 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
     }
   }
 
-  function updateExerciseChart() {
-    if (!selectedExercise.value || !workouts.value?.length)
-      return
-
-    const exerciseData = workouts.value.map((workout: CreateWorkoutResponse) => {
-      const sets = workout.sets.filter((set: WorkoutSet) => set.exerciseId === selectedExercise.value)
-      if (!sets.length)
-        return null
-
-      const maxWeight = Math.max(...sets.map((s: WorkoutSet) => s.weight))
-      const avgWeight = sets.reduce((sum: number, s: WorkoutSet) => sum + s.weight, 0) / sets.length
-      const setsCount = sets.length
-
-      return {
-        date: workout.workoutDate,
-        maxWeight,
-        avgWeight,
-        setsCount,
-      }
-    }).filter((item): item is ExerciseData => item !== null)
-
+  function updateExerciseChart(data: ExerciseData[]) {
     exerciseChartOption.value = {
       tooltip: { trigger: 'axis' },
       legend: {
@@ -127,7 +117,7 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
       },
       xAxis: {
         type: 'category',
-        data: exerciseData.map((item: ExerciseData) => dayjs(item.date).format('DD.MM.YYYY')),
+        data: data.map((item: ExerciseData) => dayjs(item.date).format('DD.MM.YYYY')),
       },
       yAxis: [
         {
@@ -143,7 +133,7 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
         {
           name: t('dashboard.maxWeight'),
           type: 'line',
-          data: exerciseData.map((item: ExerciseData) => item.maxWeight),
+          data: data.map((item: ExerciseData) => item.maxWeight),
           smooth: true,
           lineStyle: { width: 3 },
           symbolSize: 8,
@@ -151,7 +141,7 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
         {
           name: t('dashboard.avgWeight'),
           type: 'line',
-          data: exerciseData.map((item: ExerciseData) => Number(item.avgWeight.toFixed(1))),
+          data: data.map((item: ExerciseData) => Number(item.avgWeight.toFixed(1))),
           smooth: true,
           lineStyle: { width: 3 },
           symbolSize: 8,
@@ -160,7 +150,7 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
           name: t('dashboard.setsCount'),
           type: 'bar',
           yAxisIndex: 1,
-          data: exerciseData.map((item: ExerciseData) => item.setsCount),
+          data: data.map((item: ExerciseData) => item.setsCount),
           barWidth: '60%',
           itemStyle: { borderRadius: [8, 8, 0, 0] },
         },
@@ -168,24 +158,7 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
     }
   }
 
-  function calculateDurationChart() {
-    if (!workouts.value?.length)
-      return
-
-    const data: DurationData[] = workouts.value.map((workout: CreateWorkoutResponse) => {
-      const duration = workout.sets.reduce((sum: number, set: WorkoutSet) => {
-        return sum + (set.setTime || 0)
-      }, 0)
-
-      const avgSetTime = duration / workout.sets.length
-
-      return {
-        date: workout.workoutDate,
-        duration,
-        avgSetTime,
-      }
-    })
-
+  function updateDurationChart(data: DurationData[]) {
     durationChartOption.value = {
       tooltip: { trigger: 'axis' },
       legend: {
@@ -219,28 +192,6 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
     }
   }
 
-  function calculatePopularExercises() {
-    if (!workouts.value?.length)
-      return
-
-    const exerciseCounts: Record<number, number> = {}
-
-    workouts.value.forEach((workout: CreateWorkoutResponse) => {
-      workout.exercises.forEach((exercise) => {
-        if (exercise.exerciseId)
-          exerciseCounts[exercise.exerciseId] = (exerciseCounts[exercise.exerciseId] || 0) + 1
-      })
-    })
-
-    popularExercises.value = Object.entries(exerciseCounts)
-      .sort(([, a], [, b]) => (b || 0) - (a || 0))
-      .slice(0, 10)
-      .map(([id]) => Number.parseInt(id))
-
-    if (!selectedExercise.value && popularExercises.value.length > 0)
-      selectedExercise.value = popularExercises.value[0]
-  }
-
   function getExerciseName(exerciseId: number): string {
     for (const group of exercisesList.value || []) {
       const exercise = group.exercises.find((e: ExerciseServerTemplate) => e.id === exerciseId)
@@ -250,7 +201,11 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
     return `Exercise ${exerciseId}`
   }
 
-  const charts = computed(() => [
+  const charts = computed<Array<{
+    title: string
+    option: ECBasicOption | null
+    type: 'default' | 'exercise'
+  }>>(() => [
     {
       title: 'dashboard.volumeAndIntensity',
       option: volumeChartOption.value,
@@ -268,20 +223,18 @@ export function useGlobalCharts(workouts: Ref<CreateWorkoutResponse[]>) {
     },
   ])
 
-  watch(() => workouts.value, () => {
-    calculateVolumeAndIntensity()
-    calculatePopularExercises()
-    calculateDurationChart()
-  }, { immediate: true })
+  onMounted(async () => {
+    await fetchChartsData()
+  })
 
-  watch(() => selectedExercise.value, () => {
-    updateExerciseChart()
-  }, { immediate: true })
+  watch(() => selectedExercise.value, fetchChartsData)
 
   return {
     charts,
     selectedExercise,
     popularExercises,
     getExerciseName,
+    isLoading,
+    error,
   }
 }
