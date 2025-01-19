@@ -1,0 +1,32 @@
+import { API_GLOBAL_STATISTICS } from '~/constants'
+
+export function useGlobalStatistics() {
+  const statistics = ref(null)
+  const isLoading = ref(false)
+  const error = ref<string | null>(null)
+
+  async function fetchStatistics() {
+    try {
+      isLoading.value = true
+      statistics.value = await $fetch(API_GLOBAL_STATISTICS)
+    }
+    catch (err) {
+      console.error('Ошибка при загрузке статистики:', err)
+      error.value = 'Ошибка при загрузке статистики'
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
+
+  onMounted(() => {
+    fetchStatistics()
+  })
+
+  return {
+    statistics,
+    isLoading,
+    error,
+    fetchStatistics,
+  }
+}

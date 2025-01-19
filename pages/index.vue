@@ -118,7 +118,7 @@ function setTime(time: number | null): string {
         />
       </div>
       <div class="global-statistics">
-        hgj
+        <GlobalStatistics :workouts="workouts" />
       </div>
     </div>
 

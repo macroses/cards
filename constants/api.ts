@@ -12,3 +12,5 @@ export const API_LAST_SETS = '/api/workout/getLastExerciseSets'
 
 export const API_CREATE = '/api/workout/create'
 export const API_UPDATE = '/api/workout/update'
+
+export const API_GLOBAL_STATISTICS = '/api/statistics/getGlobalStatistics'
