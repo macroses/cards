@@ -295,57 +295,62 @@ watch(() => props.workouts, () => {
 watch(() => selectedExercise.value, () => {
   updateExerciseChart()
 }, { immediate: true })
+
+const charts = computed(() => [
+  {
+    title: 'dashboard.volumeAndIntensity',
+    option: volumeChartOption.value,
+    type: 'default',
+  },
+  {
+    title: 'dashboard.exerciseProgress',
+    option: exerciseChartOption.value,
+    type: 'exercise',
+  },
+  {
+    title: 'dashboard.durationAndSetTime',
+    option: durationChartOption.value,
+    type: 'default',
+  },
+])
 </script>
 
 <template>
   <div class="dashboard-charts__list">
-    <!-- График объема и интенсивности -->
-    <div class="chart-container">
+    <div
+      v-for="(chart, index) in charts"
+      :key="index"
+      class="chart-container"
+    >
       <h3 class="chart-container__title">
-        {{ t('dashboard.volumeAndIntensity') }}
+        {{ t(chart.title) }}
       </h3>
-      <v-chart
-        v-if="volumeChartOption"
-        class="chart"
-        :option="volumeChartOption"
-        autoresize
-      />
-    </div>
 
-    <!-- График упражнений -->
-    <div class="chart-container">
-      <h3 class="chart-container__title">
-        {{ t('dashboard.exerciseProgress') }}
-      </h3>
-      <div class="exercise-chart-container">
-        <div class="exercise-list">
-          <TheButton
-            v-for="exerciseId in popularExercises"
-            :key="exerciseId"
-            :variant="selectedExercise === exerciseId ? 'primary' : 'secondary'"
-            @click="selectedExercise = exerciseId"
-          >
-            {{ getExerciseName(exerciseId) }}
-          </TheButton>
+      <template v-if="chart.type === 'exercise'">
+        <div class="exercise-chart-container">
+          <div class="exercise-list">
+            <TheButton
+              v-for="exerciseId in popularExercises"
+              :key="exerciseId"
+              :variant="selectedExercise === exerciseId ? 'primary' : 'secondary'"
+              @click="selectedExercise = exerciseId"
+            >
+              {{ getExerciseName(exerciseId) }}
+            </TheButton>
+          </div>
+          <v-chart
+            v-if="exerciseChartOption"
+            class="chart"
+            :option="exerciseChartOption"
+            autoresize
+          />
         </div>
-        <v-chart
-          v-if="exerciseChartOption"
-          class="chart"
-          :option="exerciseChartOption"
-          autoresize
-        />
-      </div>
-    </div>
+      </template>
 
-    <!-- График продолжительности -->
-    <div class="chart-container">
-      <h3 class="chart-container__title">
-        {{ t('dashboard.durationAndSetTime') }}
-      </h3>
       <v-chart
-        v-if="durationChartOption"
+        v-else-if="chart.option"
         class="chart"
-        :option="durationChartOption"
+        :option="chart.option"
         autoresize
       />
     </div>
