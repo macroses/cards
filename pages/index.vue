@@ -117,9 +117,15 @@ function setTime(time: number | null): string {
           @open-results="showResultModal"
         />
       </div>
+      <div class="global-statistics">
+        hgj
+      </div>
     </div>
 
-    <div v-if="workouts" class="dashboard__charts">
+    <div
+      v-if="workouts"
+      class="dashboard__charts"
+    >
       <DashboardCharts :workouts="workouts" />
     </div>
 
@@ -226,29 +232,5 @@ function setTime(time: number | null): string {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-}
-
-.dashboard__charts {
-  border-radius: 8px;
-  padding: 1rem;
-}
-
-.copy-mode__popup {
-  position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 1rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-}
-
-@media (max-width: 1024px) {
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
 }
 </style>

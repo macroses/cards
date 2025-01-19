@@ -13,8 +13,7 @@
 
 .chart-container {
   flex: 1;
-  max-height: 350px;
-  min-height: 350px;
+  max-height: 310px;
 }
 
 .chart {
@@ -87,7 +86,7 @@
 
 .metric__current {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .metric__change {

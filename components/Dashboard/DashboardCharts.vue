@@ -298,10 +298,12 @@ watch(() => selectedExercise.value, () => {
 </script>
 
 <template>
-  <div class="dashboard-charts">
+  <div class="dashboard-charts__list">
     <!-- График объема и интенсивности -->
     <div class="chart-container">
-      <h3>{{ t('dashboard.volumeAndIntensity') }}</h3>
+      <h3 class="chart-container__title">
+        {{ t('dashboard.volumeAndIntensity') }}
+      </h3>
       <v-chart
         v-if="volumeChartOption"
         class="chart"
@@ -312,18 +314,19 @@ watch(() => selectedExercise.value, () => {
 
     <!-- График упражнений -->
     <div class="chart-container">
-      <h3>{{ t('dashboard.exerciseProgress') }}</h3>
+      <h3 class="chart-container__title">
+        {{ t('dashboard.exerciseProgress') }}
+      </h3>
       <div class="exercise-chart-container">
         <div class="exercise-list">
-          <button
+          <TheButton
             v-for="exerciseId in popularExercises"
             :key="exerciseId"
-            class="exercise-button"
-            :class="{ active: selectedExercise === exerciseId }"
+            :variant="selectedExercise === exerciseId ? 'primary' : 'secondary'"
             @click="selectedExercise = exerciseId"
           >
             {{ getExerciseName(exerciseId) }}
-          </button>
+          </TheButton>
         </div>
         <v-chart
           v-if="exerciseChartOption"
@@ -336,7 +339,9 @@ watch(() => selectedExercise.value, () => {
 
     <!-- График продолжительности -->
     <div class="chart-container">
-      <h3>{{ t('dashboard.durationAndSetTime') }}</h3>
+      <h3 class="chart-container__title">
+        {{ t('dashboard.durationAndSetTime') }}
+      </h3>
       <v-chart
         v-if="durationChartOption"
         class="chart"
@@ -347,52 +352,11 @@ watch(() => selectedExercise.value, () => {
   </div>
 </template>
 
+<style src="./style.css" />
+
 <style scoped>
-.dashboard-charts {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.chart-container {
-  border-radius: 8px;
-  padding: 1rem;
-}
-
 .chart {
   height: 300px;
   width: 100%;
-}
-
-.exercise-chart-container {
-  display: flex;
-  gap: 1rem;
-}
-
-.exercise-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-width: 150px;
-}
-
-.exercise-button {
-  padding: 0.5rem;
-  border-radius: 4px;
-  background: none;
-  cursor: pointer;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-}
-
-.exercise-button.active {
-  color: blueviolet;
-}
-
-h3 {
-  margin-bottom: 1rem;
 }
 </style>
