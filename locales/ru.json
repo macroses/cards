@@ -81,5 +81,21 @@
 
   "common": {
     "ok": "OK"
+  },
+
+  "dashboard": {
+    "volumeAndIntensity": "Объем и интенсивность",
+    "volume": "Объем (тонн)",
+    "intensity": "Интенсивность",
+    "exerciseProgress": "Прогресс упражнений",
+    "maxWeight": "Максимальный вес",
+    "avgWeight": "Средний вес",
+    "setsCount": "Количество подходов",
+    "duration": "Продолжительность",
+    "durationAndSetTime": "Продолжительность тренировок",
+    "avgSetTime": "Среднее время подхода",
+    "time": "Время",
+    "weight": "Вес",
+    "sets": "Подходы"
   }
 }

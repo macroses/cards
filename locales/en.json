@@ -81,5 +81,21 @@
 
   "common": {
     "ok": "OK"
+  },
+
+  "dashboard": {
+    "volumeAndIntensity": "Volume and Intensity",
+    "volume": "Volume (tons)",
+    "intensity": "Intensity",
+    "exerciseProgress": "Exercise Progress",
+    "maxWeight": "Max Weight",
+    "avgWeight": "Average Weight",
+    "setsCount": "Sets Count",
+    "duration": "Duration",
+    "durationAndSetTime": "Workout Duration",
+    "avgSetTime": "Average Set Time",
+    "time": "Time",
+    "weight": "Weight",
+    "sets": "Sets"
   }
 }

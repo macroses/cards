@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { GLOBAL_DATE, GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
@@ -120,13 +119,16 @@ function setTime(time: number | null): string {
       </div>
     </div>
 
+    <div v-if="workouts" class="dashboard__charts">
+      <DashboardCharts :workouts="workouts" />
+    </div>
+
     <Transition>
       <div
         v-if="isCopyMode"
-        v-auto-animate
         class="copy-mode__popup"
       >
-        Выберите дату для копирования
+        {{ $t('workout.selectDateToCopy') }}
         <TheButton
           variant="secondary"
           icon-only
@@ -205,3 +207,48 @@ function setTime(time: number | null): string {
     </LazyTheModal>
   </div>
 </template>
+
+<style scoped>
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.dashboard__calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard__charts {
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.copy-mode__popup {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+@media (max-width: 1024px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
