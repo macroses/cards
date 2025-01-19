@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreateWorkoutResponse, WorkoutSet } from '~/ts/interfaces'
+import type { CreateWorkoutResponse, ExerciseServerTemplate, WorkoutSet } from '~/ts/interfaces'
 
 interface Props {
   workouts: CreateWorkoutResponse[]
@@ -27,6 +27,9 @@ interface DurationData {
 const props = defineProps<Props>()
 const { t } = useI18n()
 const dayjs = useDayjs()
+
+// Получаем список упражнений
+const { exercisesList } = useFetchExercisesList()
 
 // Состояния для графиков
 const volumeChartOption = ref<any>(null)
@@ -265,6 +268,20 @@ function calculatePopularExercises() {
     .sort(([, a], [, b]) => (b || 0) - (a || 0))
     .slice(0, 10)
     .map(([id]) => Number.parseInt(id))
+
+  // Выбираем первое упражнение по умолчанию, если еще не выбрано
+  if (!selectedExercise.value && popularExercises.value.length > 0)
+    selectedExercise.value = popularExercises.value[0]
+}
+
+// Функция для получения названия упражнения по ID
+function getExerciseName(exerciseId: number): string {
+  for (const group of exercisesList.value || []) {
+    const exercise = group.exercises.find((e: ExerciseServerTemplate) => e.id === exerciseId)
+    if (exercise)
+      return exercise.name
+  }
+  return `Exercise ${exerciseId}`
 }
 
 // Инициализация графиков при изменении тренировок
@@ -305,7 +322,7 @@ watch(() => selectedExercise.value, () => {
             :class="{ active: selectedExercise === exerciseId }"
             @click="selectedExercise = exerciseId"
           >
-            {{ exerciseId }}
+            {{ getExerciseName(exerciseId) }}
           </button>
         </div>
         <v-chart
@@ -365,10 +382,14 @@ watch(() => selectedExercise.value, () => {
   background: none;
   cursor: pointer;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .exercise-button.active {
-  color: blue
+  color: blueviolet;
 }
 
 h3 {
