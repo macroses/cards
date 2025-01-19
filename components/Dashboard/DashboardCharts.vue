@@ -1,17 +1,10 @@
 <script setup lang="ts">
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
-
-const props = defineProps<{
-  workouts: CreateWorkoutResponse[]
-}>()
-
-const workoutsRef = toRef(props, 'workouts')
 const {
   charts,
   selectedExercise,
   popularExercises,
   getExerciseName,
-} = useGlobalCharts(workoutsRef)
+} = useGlobalCharts()
 </script>
 
 <template>

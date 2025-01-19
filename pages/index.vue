@@ -126,7 +126,7 @@ function setTime(time: number | null): string {
       v-if="workouts"
       class="dashboard__charts"
     >
-      <DashboardCharts :workouts="workouts" />
+      <DashboardCharts />
     </div>
 
     <Transition>
