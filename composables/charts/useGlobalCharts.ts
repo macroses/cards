@@ -20,6 +20,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const popularExercises = ref<number[]>([])
   const isLoading = ref(false)
   const error = ref<string | null>(null)
+  const exerciseData = ref<Record<number, ExerciseData[]>>({})
 
   async function fetchChartsData() {
     try {
@@ -41,17 +42,25 @@ export function useGlobalCharts(): GlobalChartsReturn {
       updateVolumeChart(volumeDataWithDates)
       updateDurationChart(durationDataWithDates)
       popularExercises.value = data.popularExercises
+      
+      // Сохраняем данные всех упражнений
+      exerciseData.value = Object.fromEntries(
+        Object.entries(data.exerciseData).map(([id, data]) => [
+          id,
+          data.map(item => ({
+            ...item,
+            date: new Date(item.date),
+          })),
+        ]),
+      )
 
-      if (!selectedExercise.value && data.popularExercises.length > 0) {
+      const shouldUpdateExercise = selectedExercise.value === null && data.popularExercises.length > 0
+      if (shouldUpdateExercise) {
         selectedExercise.value = data.popularExercises[0]
       }
-
+      
       if (selectedExercise.value) {
-        const exerciseDataWithDates = data.exerciseData[selectedExercise.value].map(item => ({
-          ...item,
-          date: new Date(item.date),
-        })) satisfies ExerciseData[]
-        updateExerciseChart(exerciseDataWithDates)
+        updateExerciseChart(exerciseData.value[selectedExercise.value])
       }
     }
     catch (err) {
@@ -227,7 +236,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
     await fetchChartsData()
   })
 
-  watch(() => selectedExercise.value, fetchChartsData)
+  watch(() => selectedExercise.value, (newValue) => {
+    if (newValue !== null && exerciseData.value[newValue]) {
+      updateExerciseChart(exerciseData.value[newValue])
+    }
+  })
 
   return {
     charts,
