@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import * as argon2 from 'argon2'
 
 const prisma = new PrismaClient()
 
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Хешируем пароль
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await argon2.hash(password)
 
     // Создаем пользователя
     const user = await prisma.user.create({

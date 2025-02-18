@@ -2,7 +2,7 @@ import type { Session, User } from 'next-auth'
 import { NuxtAuthHandler } from '#auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import * as argon2 from 'argon2'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
@@ -74,7 +74,7 @@ export default NuxtAuthHandler({
             throw new Error('Пользователь не найден')
           }
 
-          const isValid = await bcrypt.compare(credentials.password, user.password)
+          const isValid = await argon2.verify(user.password, credentials.password)
 
           if (!isValid) {
             throw new Error('Неверный пароль')
