@@ -28,6 +28,10 @@ const isWorkoutActive = computed(() => {
   return Boolean(selectedWorkout.value?.startedAt && !selectedWorkout.value.endedAt)
 })
 
+const isStatisticVisible = computed(() => {
+  return workouts.value && workouts.value?.filter(workout => workout.completed).length > 4
+})
+
 function toEditPage(): void {
   navigateTo(localePath(`/workout/?edit=${selectedWorkout.value?.id}`))
 }
@@ -118,13 +122,16 @@ function setTime(time: number | null): string {
           @open-results="showResultModal"
         />
       </div>
-      <div class="global-statistics">
+      <div
+        v-if="isStatisticVisible"
+        class="global-statistics"
+      >
         <GlobalStatistics :workouts="workouts" />
       </div>
     </div>
 
     <div
-      v-if="workouts"
+      v-if="isStatisticVisible"
       class="dashboard__charts"
     >
       <DashboardCharts />
