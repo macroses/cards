@@ -97,5 +97,14 @@
     "time": "Time",
     "weight": "Weight",
     "sets": "Sets"
+  },
+  
+  "statistics": {
+    "global_title": "Statistics",
+    "total_tonnage": "Total tonnage",
+    "max_tonnage": "Max tonnage per workout",
+    "avg_duration": "Average duration",
+    "avg_set_time": "Set average time",
+    "completed_workouts": "Completed workouts"
   }
 }

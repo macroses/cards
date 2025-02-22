@@ -37,7 +37,6 @@ const {
   initSetTimes,
 } = useSetTimeManagement()
 
-const { t } = useI18n()
 const { toast } = useToastState()
 
 const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))

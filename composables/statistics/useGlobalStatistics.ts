@@ -1,7 +1,8 @@
 import { API_GLOBAL_STATISTICS } from '~/constants'
+import type { Statistics } from '~/ts/interfaces'
 
 export function useGlobalStatistics() {
-  const statistics = ref(null)
+  const statistics = ref<Statistics | null>(null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
@@ -19,9 +20,7 @@ export function useGlobalStatistics() {
     }
   }
 
-  onMounted(() => {
-    fetchStatistics()
-  })
+  onMounted(() => fetchStatistics())
 
   return {
     statistics,

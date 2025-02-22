@@ -10,7 +10,7 @@ export interface Metric {
 export type Metrics = Record<'weight' | 'repeats' | 'time' | 'volume', Metric>
 export type ProgressMetrics = Record<'weight' | 'repeats' | 'time' | 'volume', MetricFn>
 
-export interface ChartData {
+export interface WorkoutChartData {
   xAxis: { type: 'category', data: string[] }
   yAxis: { type: 'value', name: string }
   series: Array<{
@@ -43,5 +43,5 @@ export interface ProgressData {
   previousWorkoutDate: Date
 }
 
-export type MetricCharts = Record<keyof Metrics, ChartData>
+export type MetricCharts = Record<keyof Metrics, WorkoutChartData>
 export type ChartType = keyof MetricCharts
