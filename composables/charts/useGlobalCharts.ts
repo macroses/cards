@@ -42,7 +42,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
       updateVolumeChart(volumeDataWithDates)
       updateDurationChart(durationDataWithDates)
       popularExercises.value = data.popularExercises
-      
+
       // Сохраняем данные всех упражнений
       exerciseData.value = Object.fromEntries(
         Object.entries(data.exerciseData).map(([id, data]) => [
@@ -58,7 +58,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
       if (shouldUpdateExercise) {
         selectedExercise.value = data.popularExercises[0]
       }
-      
+
       if (selectedExercise.value) {
         updateExerciseChart(exerciseData.value[selectedExercise.value])
       }

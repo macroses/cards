@@ -142,7 +142,7 @@ function setTime(time: number | null): string {
         v-if="isCopyMode"
         class="copy-mode__popup"
       >
-        {{ $t('workout.selectDateToCopy') }}
+        {{ $t('workout.select_date_to_copy') }}
         <TheButton
           variant="secondary"
           icon-only

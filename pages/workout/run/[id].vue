@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
+import { MAX_LENGTH_NUMBER } from '~/constants'
 import { API_CREATE_SET } from '~/constants/api'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
@@ -264,6 +265,7 @@ onMounted(async () => {
                         v-model="set.weight"
                         placeholder="Вес"
                         type="number"
+                        :max="MAX_LENGTH_NUMBER"
                         inputmode="numeric"
                         @keyup.enter="handleInputSubmit"
                         @blur="handleInputSubmit"
@@ -286,6 +288,7 @@ onMounted(async () => {
                         v-model="set.repeats"
                         placeholder="Повторения"
                         type="number"
+                        :max="MAX_LENGTH_NUMBER"
                         inputmode="numeric"
                         @keyup.enter="handleInputSubmit"
                         @blur="handleInputSubmit"

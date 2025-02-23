@@ -6,6 +6,7 @@ const props = withDefaults(defineProps<InputTextProps>(), {
   inputmode: 'text',
   placeholder: '',
   noClear: false,
+  autocomplete: 'off',
   validateRules: () => ([]),
 })
 
@@ -16,7 +17,6 @@ const uniqueId = useId() as string
 const modelValue = defineModel<string | number | undefined | null>({ default: '' })
 const error = ref('')
 
-// Экспортируем метод focus
 defineExpose({
   focus: () => input.value?.focus(),
 })
@@ -46,6 +46,14 @@ function handleClear(e: Event) {
   modelValue.value = ''
 }
 
+function handleInput(e: Event) {
+  const input = e.target as HTMLInputElement
+  if (input.value.length > props.max) {
+    input.value = input.value.slice(0, props.max)
+    modelValue.value = input.value
+  }
+}
+
 watch(modelValue, () => validate())
 </script>
 
@@ -57,10 +65,11 @@ watch(modelValue, () => validate())
       v-model="modelValue"
       :placeholder="placeholder"
       class="input"
-      :type="type"
-      :inputmode="inputmode"
-      autocomplete="off"
+      :type
+      :inputmode
+      :autocomplete
       :class="{ 'input--error': error }"
+      @input="handleInput"
       @blur="onBlur"
     >
     <button

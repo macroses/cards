@@ -5,6 +5,8 @@ export default interface InputTextProps {
   noClear?: boolean
   inputmode?: InputMode
   placeholder: string
+  max?: number
+  autocomplete?: string
   validateRules?: Array<(value: string) => ValidationResult>
 }
 

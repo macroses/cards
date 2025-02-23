@@ -17,8 +17,13 @@ const isRegistration = ref(false)
 const email = ref('')
 const password = ref('')
 const error = ref('')
+const isValid = ref(false)
 
 async function handleSubmit() {
+  if (!isValid.value) {
+    return
+  }
+
   try {
     if (isRegistration.value) {
       // Регистрация
@@ -58,21 +63,33 @@ async function handleSubmit() {
         v-model="email"
         type="email"
         placeholder="Email"
-        required
+        autocomplete="on"
+        :validate-rules="[
+          createValidationRule('required'),
+          createValidationRule('email'),
+        ]"
+        @validation="isValid = $event"
       />
 
       <TheInput
         v-model="password"
         type="password"
         placeholder="Пароль"
-        required
+        :validate-rules="[
+          createValidationRule('required'),
+          createValidationRule('minLength', 6),
+        ]"
+        @validation="isValid = $event"
       />
 
       <p v-if="error" class="error">
         {{ error }}
       </p>
 
-      <TheButton type="submit">
+      <TheButton
+        type="submit"
+        :disabled="!isValid"
+      >
         {{ isRegistration ? 'Зарегистрироваться' : 'Войти' }}
       </TheButton>
 
@@ -114,6 +131,7 @@ async function handleSubmit() {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background-color: var(--main-bg);
 }
 
 .error {

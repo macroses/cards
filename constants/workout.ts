@@ -22,3 +22,5 @@ export const WORKOUT_COLORS: WorkoutColor[] = [
   { id: 10, rgb: '142, 36, 170' },
   { id: 11, rgb: '97, 97, 97' },
 ] as const
+
+export const MAX_LENGTH_NUMBER = 3

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { MAX_LENGTH_NUMBER } from '~/constants'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type {
   ExerciseFormData,
@@ -158,6 +159,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
                 v-model.number="exerciseForm.weight"
                 placeholder="Вес"
                 type="number"
+                :max="MAX_LENGTH_NUMBER"
                 inputmode="numeric"
                 no-clear
               />
@@ -165,6 +167,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
                 v-model.trim.number="exerciseForm.repeats"
                 placeholder="Повторения"
                 type="number"
+                :max="MAX_LENGTH_NUMBER"
                 inputmode="numeric"
                 no-clear
               />

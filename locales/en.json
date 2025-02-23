@@ -10,7 +10,8 @@
     "required": "Required",
     "maxLength": "Maximum {maxLength} characters",
     "minLength": "Minimum {minLength} characters",
-    "numbersOnly": "Only numbers"
+    "numbersOnly": "Only numbers",
+    "email": "Incorrect email format"
   },
 
   "workout": {
@@ -37,7 +38,8 @@
     "current_workout": "Current workout",
     "previous_workout": "Previous workout",
     "no_data": "No data from previous workout",
-    "set": "Set"
+    "set": "Set",
+    "select_date_to_copy": "Select date to copy"
   },
 
   "toast": {
@@ -98,7 +100,7 @@
     "weight": "Weight",
     "sets": "Sets"
   },
-  
+
   "statistics": {
     "global_title": "Statistics",
     "total_tonnage": "Total tonnage",

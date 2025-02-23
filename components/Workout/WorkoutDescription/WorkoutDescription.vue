@@ -48,8 +48,10 @@ watch(workoutTitle, (newValue: string) => {
         v-model.trim="workoutTitle"
         placeholder="Workout name"
         :validate-rules="workoutNameRules"
-        @input="changeWorkoutTitle"
+        :max="50"
+        close-button
         @validation="isWorkoutNameValid = $event"
+        @input="changeWorkoutTitle"
       />
       <TheDropdpownColor
         :initial-color="color"

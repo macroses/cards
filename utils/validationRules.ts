@@ -28,6 +28,11 @@ export function useValidationRules() {
       isValid: /^\d+$/.test(value),
       message: t('validation.numbersOnly'),
     }),
+
+    email: (value: string) => ({
+      isValid: /^[\w.-]+@[a-z0-9.-]+\.[a-z]{2,}$/i.test(value),
+      message: t('validation.email'),
+    }),
   }
 
   return validationRules
