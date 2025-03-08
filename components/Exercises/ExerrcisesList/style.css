@@ -104,3 +104,8 @@
 .body-modal .modal {
   max-width: 600px;
 }
+
+.tabs-container {
+  display: flex;
+  gap: 4px;
+}

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ExercisesList from '@/components/Exercises/ExerrcisesList/ExercisesList.vue'
+import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
 import { useSelectExercise } from '~/composables/workoutManagment/useSelectExercise'
 import { WORKOUT_COLORS } from '~/constants'
 import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
@@ -36,6 +38,8 @@ const { editableWorkout, initEditMode } = useEditWorkout(workout)
 const { selectExercise } = useSelectExercise()
 const { fetchLastSets } = useLastExerciseSets()
 
+const isExercisesList = shallowRef(true)
+
 function handleSelectExercise(exercise: UserWorkoutExercise): void {
   selectExercise(exercise, workout)
 }
@@ -63,6 +67,10 @@ const isWorkoutValid = computed(() => {
   })
 
   return exercisesWithSets && workout.title
+})
+
+const chosenExercisesList = computed(() => {
+  return isExercisesList.value ? ExercisesList : MyExercises
 })
 
 watch(selectedDate, async (newDate: Date) => {
@@ -111,7 +119,22 @@ onMounted(async () => {
       </TheButton>
     </template>
     <template #exercises-list>
-      <ExercisesList
+      <div class="tabs-container">
+        <TheButton
+          :variant="isExercisesList ? 'primary' : 'secondary'"
+          @click="isExercisesList = true"
+        >
+          All exercises
+        </TheButton>
+        <TheButton
+          :variant="isExercisesList ? 'secondary' : 'primary'"
+          @click="isExercisesList = false"
+        >
+          My exercises
+        </TheButton>
+      </div>
+      <Component
+        :is="chosenExercisesList"
         :selected-exercises="workout.exercises"
         @select-exercise="handleSelectExercise"
       />

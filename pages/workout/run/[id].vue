@@ -87,7 +87,7 @@ async function handleConfirmNoTime() {
     }
     catch (error) {
       console.error('Error resetting workout:', error)
-      toast(t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
+      toast($t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
     }
   }
 }
@@ -110,7 +110,7 @@ async function addNewSet(exerciseId: number) {
     }
     catch (error) {
       console.error('Error creating set:', error)
-      toast(t('toast.set_create_error'), ToastStatusesEnum.ERROR)
+      toast($t('toast.set_create_error'), ToastStatusesEnum.ERROR)
     }
   }
 }
@@ -340,14 +340,14 @@ onMounted(async () => {
       </div>
       <TheModal ref="noTimeModal">
         <template #title>
-          <h3>{{ t('workout.no_time_warning') }}</h3>
+          <h3>{{ $t('workout.no_time_warning') }}</h3>
         </template>
         <template #content>
-          <p>{{ t('workout.no_time_description') }}</p>
+          <p>{{ $t('workout.no_time_description') }}</p>
         </template>
         <template #footer>
           <TheButton @click="handleConfirmNoTime">
-            {{ t('common.ok') }}
+            {{ $t('common.ok') }}
           </TheButton>
         </template>
       </TheModal>

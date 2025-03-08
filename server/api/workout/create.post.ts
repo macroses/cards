@@ -17,36 +17,36 @@ export default defineEventHandler(async (event) => {
 
     const body = await readBody<CreateWorkoutRequest>(event)
 
-    const workoutData = {
-      userId: session.user.id,
-      title: body.title,
-      color: body.color,
-      workoutDate: body.workoutDate,
-      completed: false,
-      exercises: {
-        create: body.exercises.map(exercise => ({
-          exerciseId: exercise.id,
-          exerciseName: exercise.name,
-        })),
-      },
-      sets: {
-        create: body.sessions.map(set => ({
-          exerciseId: set.exerciseId,
-          weight: set.weight || 0,
-          repeats: set.repeats || 0,
-          difficulty: set.difficulty,
-          completed: set.completed || false,
-          setTime: set.setTime || null,
-        })),
-      },
-    }
-
-    const workout = await prisma.workout.create({
-      data: workoutData,
-      include: {
-        exercises: true,
-        sets: true,
-      },
+    const workout = await prisma.$transaction(async (tx) => {
+      return tx.workout.create({
+        data: {
+          userId: session.user.id,
+          title: body.title,
+          color: body.color,
+          workoutDate: body.workoutDate,
+          completed: false,
+          exercises: {
+            create: body.exercises.map(exercise => ({
+              exerciseId: exercise.id,
+              exerciseName: exercise.name,
+            })),
+          },
+          sets: {
+            create: body.sessions.map(set => ({
+              exerciseId: set.exerciseId,
+              weight: set.weight || 0,
+              repeats: set.repeats || 0,
+              difficulty: set.difficulty,
+              completed: set.completed || false,
+              setTime: set.setTime || null,
+            })),
+          },
+        },
+        include: {
+          exercises: true,
+          sets: true,
+        },
+      })
     })
 
     return workout

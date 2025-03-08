@@ -17,42 +17,45 @@ export default defineEventHandler(async (event) => {
 
     const body = await readBody<CreateWorkoutRequest & { id: string }>(event)
 
-    // Удаляем старые данные
-    await prisma.workoutExercise.deleteMany({
-      where: { workoutId: body.id },
-    })
-    await prisma.workoutSet.deleteMany({
-      where: { workoutId: body.id },
-    })
+    // Удаляем все сразу
+    const workout = await prisma.$transaction(async (tx) => {
+      await tx.workoutExercise.deleteMany({
+        where: { workoutId: body.id },
+      })
 
-    // Обновляем тренировку с новыми данными
-    const workout = await prisma.workout.update({
-      where: { id: body.id },
-      data: {
-        title: body.title,
-        color: body.color,
-        workoutDate: body.workoutDate,
-        exercises: {
-          create: body.exercises.map(exercise => ({
-            exerciseId: exercise.id,
-            exerciseName: exercise.name,
-          })),
+      await tx.workoutSet.deleteMany({
+        where: { workoutId: body.id },
+      })
+
+      // Обновляем тренировку с новыми данными
+      return tx.workout.update({
+        where: { id: body.id },
+        data: {
+          title: body.title,
+          color: body.color,
+          workoutDate: body.workoutDate,
+          exercises: {
+            create: body.exercises.map(exercise => ({
+              exerciseId: exercise.id,
+              exerciseName: exercise.name,
+            })),
+          },
+          sets: {
+            create: body.sessions.map(set => ({
+              exerciseId: set.exerciseId,
+              weight: set.weight || 0,
+              repeats: set.repeats || 0,
+              difficulty: set.difficulty,
+              completed: set.completed,
+              setTime: set.setTime || null,
+            })),
+          },
         },
-        sets: {
-          create: body.sessions.map(set => ({
-            exerciseId: set.exerciseId,
-            weight: set.weight || 0,
-            repeats: set.repeats || 0,
-            difficulty: set.difficulty,
-            completed: set.completed,
-            setTime: set.setTime || null,
-          })),
+        include: {
+          exercises: true,
+          sets: true,
         },
-      },
-      include: {
-        exercises: true,
-        sets: true,
-      },
+      })
     })
 
     return workout
