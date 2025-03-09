@@ -1,0 +1,115 @@
+.dropdown {
+  position: relative;
+  width: 100%;
+
+  &:has(.active) {
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+  }
+
+  &:has(.active) .dropdown__value {
+    border: 1px solid rgb(var(--accent-color));
+    border-bottom: 1px solid transparent;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: var(--main-bg);
+  }
+
+  &:has(.active) svg {
+    transform: rotate(180deg);
+    transition: transform 0.25s ease;
+  }
+
+  &:has(.active) .dropdown__list {
+    opacity: 1;
+    border: 1px solid rgb(var(--accent-color));
+    border-top: 0;
+  }
+}
+
+/*.dropdown:has(.active.dropdown__parent-top) .dropdown__list {*/
+/*  border: 1px solid rgb(var(--accent-color));*/
+/*  border-bottom: 0;*/
+/*  border-top: 1px solid transparent;*/
+/*  opacity: 1;*/
+/*}*/
+
+.dropdown__value {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 1px solid rgb(var(--border-color));
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: rgb(var(--text-color) / 100%);
+  font-size: 15px;
+
+  &:hover {
+    box-shadow: 0 5px 25px -4px rgba(0, 0, 0, 0.05);
+    background-color: var(--main-bg);
+  }
+
+  & svg {
+    transition: transform 0.25s ease;
+  }
+}
+
+.dropdown__parent-top {
+  & .dropdown__list {
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid rgb(var(--accent-color) / 30%);
+  }
+}
+
+.dropdown__list {
+  min-height: 0;
+  background-color: var(--main-bg);
+  padding: 0 8px;
+  border: 1px solid rgb(var(--border-color));
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  color: rgb(var(--text-color));
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.25s ease;
+  z-index: 1000;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.dropdown__parent {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.25s;
+  position: absolute;
+  z-index: 101;
+  width: 100%;
+  top: 100%;
+
+  &.active {
+    grid-template-rows: 1fr;
+  }
+
+  &.dropdown__parent-top {
+    top: auto;
+    bottom: 100%;
+  }
+}
+
+.dropdown__item {
+  padding: 4px;
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+  font-size: 12px;
+  &:hover {
+    transform: translateX(8px);
+  }
+
+  &.activeItem {
+    transform: translateX(8px);
+    color: rgb(var(--text-color));
+  }
+}

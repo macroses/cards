@@ -2,8 +2,6 @@
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 
 const myModalRef = ref<typeof TheModal | null>(null)
-const { t } = useI18n()
-
 const userExercise = reactive({
   name: '',
   muscles: {
@@ -19,6 +17,13 @@ const userExercise = reactive({
   },
   description: '',
 })
+
+const muscles = [
+  { id: 1, value: 'legs' },
+  { id: 2, value: 'back' },
+  { id: 3, value: 'chest' },
+  { id: 4, value: 'shoulders' },
+]
 
 function handleOpenModal() {
   myModalRef.value?.openModal()
@@ -52,10 +57,13 @@ async function handleSubmit() {
 
           <div class="form-group">
             <label>Основная мышечная группа</label>
+            <TheSelect
+              :dropdown-list="muscles"
+            />
           </div>
 
           <div class="form-group">
-            <label>Дополнительные мышцы</label>
+            <label>Второстепенные мышцы</label>
           </div>
 
           <div class="form-group">

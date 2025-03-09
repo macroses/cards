@@ -21,6 +21,8 @@ describe('workoutFunctions', () => {
   const defaultProps = {
     workoutTitle: 'Тестовая тренировка',
     isCopyMode: false,
+    workoutId: '1',
+    isWorkoutActive: false,
   }
 
   let wrapper: ReturnType<typeof mount>
