@@ -2,15 +2,19 @@
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
 
+interface ExercisesList {
+  primary: string
+  exercises: ExerciseServerTemplate[]
+}
+
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
+  exercisesList: ExercisesList[]
 }>()
 
 const emit = defineEmits<{
   selectExercise: [exercise: UserWorkoutExercise]
 }>()
-
-const { exercisesList } = useFetchExercisesList()
 
 const modalRef = ref <typeof TheModal | null>(null)
 const selectedExerciseForModal = ref<ExerciseServerTemplate | null>(null)
@@ -52,7 +56,7 @@ function isExerciseSelected(exerciseId: number) {
 </script>
 
 <template>
-  <ul class="muscles-list">
+  <ul class="muscles-list__list">
     <li
       v-for="group in exercisesList"
       :key="group.primary"

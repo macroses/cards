@@ -1,25 +1,16 @@
 <script setup lang="ts">
-const props = defineProps({
-  dropdownList: {
-    type: Array,
-    default: () => ([]),
-  },
-  small: {
-    type: Boolean,
-    default: false,
-  },
-  width: {
-    type: Number,
-    default: 200,
-  },
-  isTop: {
-    type: Boolean,
-    default: false,
-  },
-  defaultValue: {
-    type: String,
-    default: '',
-  },
+interface Option {
+  id: number
+  value: string
+}
+
+const props = withDefaults(defineProps<{
+  dropdownList: Option[]
+  isTop?: boolean
+  defaultValue?: string
+}>(), {
+  defaultValue: '',
+  isTop: false,
 })
 
 const emit = defineEmits(['activeValue'])
@@ -29,7 +20,7 @@ const isDropdownOpened = ref(false)
 const activeItem = ref(props.dropdownList[0])
 const toggleDropdown = () => (isDropdownOpened.value = !isDropdownOpened.value)
 
-function activeValue(item) {
+function activeValue(item: Option) {
   activeItem.value = item
   isDropdownOpened.value = false
   emit('activeValue', item)
@@ -42,7 +33,6 @@ onClickOutside(dropdownParent, () => (isDropdownOpened.value = false))
   <div
     ref="dropdownParent"
     class="dropdown"
-    :class="{ small }"
   >
     <p
       class="dropdown__value"
@@ -66,7 +56,7 @@ onClickOutside(dropdownParent, () => (isDropdownOpened.value = false))
           v-for="item in dropdownList"
           :key="item.id"
           class="dropdown__item"
-          :class="{ activeItem: item.id === activeItem.id }"
+          :class="{ activeItem: activeItem.id === item.id }"
           @click="activeValue(item)"
         >
           {{ item.value }}

@@ -22,7 +22,6 @@ const {
 
 const { submitWorkout } = useSubmitWorkout()
 
-// User workout object
 const workout = reactive<UserWorkout>({
   title: '',
   color: WORKOUT_COLORS[0].rgb,
@@ -37,6 +36,7 @@ const workout = reactive<UserWorkout>({
 const { editableWorkout, initEditMode } = useEditWorkout(workout)
 const { selectExercise } = useSelectExercise()
 const { fetchLastSets } = useLastExerciseSets()
+const { exercisesList } = useFetchExercisesList()
 
 const isExercisesList = shallowRef(true)
 
@@ -119,25 +119,28 @@ onMounted(async () => {
       </TheButton>
     </template>
     <template #exercises-list>
-      <div class="tabs-container">
-        <TheButton
-          :variant="isExercisesList ? 'primary' : 'secondary'"
-          @click="isExercisesList = true"
-        >
-          All exercises
-        </TheButton>
-        <TheButton
-          :variant="isExercisesList ? 'secondary' : 'primary'"
-          @click="isExercisesList = false"
-        >
-          My exercises
-        </TheButton>
+      <div class="muscles-list">
+        <div class="tabs-container">
+          <TheButton
+            :variant="isExercisesList ? 'primary' : 'secondary'"
+            @click="isExercisesList = true"
+          >
+            All exercises
+          </TheButton>
+          <TheButton
+            :variant="isExercisesList ? 'secondary' : 'primary'"
+            @click="isExercisesList = false"
+          >
+            My exercises
+          </TheButton>
+        </div>
+        <Component
+          :is="chosenExercisesList"
+          :selected-exercises="workout.exercises"
+          :exercises-list="[...exercisesList]"
+          @select-exercise="handleSelectExercise"
+        />
       </div>
-      <Component
-        :is="chosenExercisesList"
-        :selected-exercises="workout.exercises"
-        @select-exercise="handleSelectExercise"
-      />
     </template>
   </WorkoutWrapper>
 </template>

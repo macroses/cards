@@ -1,29 +1,31 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
+import type { ExerciseServerTemplate } from '~/ts/interfaces'
+
+const props = defineProps<{
+  exercisesList: ExerciseServerTemplate[]
+}>()
 
 const myModalRef = ref<typeof TheModal | null>(null)
-const userExercise = reactive({
+const userExercise = reactive<Omit<ExerciseServerTemplate, 'id'>>({
   name: '',
-  muscles: {
-    primary: '',
-    secondary: [] as string[],
-  },
-  characteristics: {
-    type: '',
-    category: '',
-    equipment: '',
-    force: '',
-    level: '',
-  },
-  description: '',
+  muscleId: 1,
+  primary: '',
+  secondary: [],
+  category: '',
+  equipment: '',
+  force: '',
+  level: '',
 })
 
-const muscles = [
-  { id: 1, value: 'legs' },
-  { id: 2, value: 'back' },
-  { id: 3, value: 'chest' },
-  { id: 4, value: 'shoulders' },
-]
+const muscles = computed(() => {
+  return props.exercisesList.map((group) => {
+    return {
+      id: group.muscleId,
+      value: group.primary,
+    }
+  })
+})
 
 function handleOpenModal() {
   myModalRef.value?.openModal()
@@ -59,6 +61,7 @@ async function handleSubmit() {
             <label>Основная мышечная группа</label>
             <TheSelect
               :dropdown-list="muscles"
+              @active-value="userExercise.muscleId = $event.id"
             />
           </div>
 
@@ -84,10 +87,6 @@ async function handleSubmit() {
 
           <div class="form-group">
             <label>Уровень сложности</label>
-          </div>
-
-          <div class="form-group">
-            <label>Описание</label>
           </div>
 
           <div class="form-actions">
