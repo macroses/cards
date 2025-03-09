@@ -96,8 +96,8 @@ function isExerciseSelected(exerciseId: number) {
       <template #content>
         <div class="exercise-details__wrapper">
           <BodySvg
-            body-part="Lats"
-            :secondary-part="['Traps']"
+            :body-part="selectedExerciseForModal?.primary"
+            :secondary-part="selectedExerciseForModal?.secondary"
           />
           <div class="exercise-details__description">
             <ExerciseDetails :exercise="selectedExerciseForModal" />

@@ -1,54 +1,119 @@
 [
   {
     "id": 1,
-    "name": "Lat Pulldown",
+    "name": "Поднятие диска",
     "muscleId": 1,
-    "primary": "lats",
-    "secondary": ["biceps", "shoulders"],
-    "type": "basic",
+    "primary": "Neck",
+    "secondary": [],
     "category": "strength",
     "equipment": "machines",
     "force": "pull",
-    "level": "beginner",
-    "description": "Sit in the cable machine..."
+    "level": "beginner"
   },
   {
     "id": 2,
-    "name": "Pullups",
+    "name": "Side neck stretch",
     "muscleId": 1,
-    "primary": "lats",
-    "secondary": ["biceps", "shoulders"],
-    "type": "basic",
+    "primary": "Neck",
+    "secondary": [],
     "category": "strength",
-    "equipment": "machines",
-    "force": "pull",
-    "level": "novice",
-    "description": "Схватись за турник и подтягивайся"
+    "equipment": "",
+    "force": "static",
+    "level": "beginner"
   },
   {
     "id": 3,
-    "name": "приседания",
-    "muscleId": 2,
-    "primary": "legs",
-    "secondary": [],
-    "type": "basic",
-    "category": "strength",
-    "equipment": "machines",
-    "force": "pull",
-    "level": "beginner",
-    "description": "Sit in the cable machine..."
+    "name": "Chin to chest stretch",
+    "muscleId": 1,
+    "primary": "Neck",
+    "secondary": [
+      "Traps"
+    ],
+    "category": "stretching",
+    "equipment": "",
+    "force": "static",
+    "level": "beginner"
   },
   {
     "id": 4,
-    "name": "Анжуманя",
+    "name": "Standing dumbell upright row",
     "muscleId": 2,
-    "primary": "legs",
-    "secondary": null,
-    "type": "basic",
+    "primary": "Traps",
+    "secondary": [
+      "Biceps",
+      "Shoulders"
+    ],
     "category": "strength",
-    "equipment": "machines",
+    "equipment": "dumbbell",
     "force": "pull",
-    "level": "novice",
-    "description": "Присядь"
+    "level": "beginner"
+  },
+  {
+    "id": 5,
+    "name": "Smith machine upright row",
+    "muscleId": 2,
+    "primary": "Traps",
+    "secondary": [
+      "Biceps",
+      "Shoulders",
+      "MidBack"
+    ],
+    "category": "strength",
+    "equipment": "machine",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": 6,
+    "name": "Kettlebell sumo",
+    "muscleId": 2,
+    "primary": "Traps",
+    "secondary": [
+      "glutes",
+      "Shoulders",
+      "Hamstring",
+      "Quadriceps"
+    ],
+    "category": "strength",
+    "equipment": "machine",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": 7,
+    "name": "Shrugs",
+    "muscleId": 2,
+    "primary": "Traps",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "barbell",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": 8,
+    "name": "Upright cable row",
+    "muscleId": 2,
+    "primary": "Traps",
+    "secondary": [
+      "Shoulders"
+    ],
+    "category": "strength",
+    "equipment": "cable",
+    "force": "pull",
+    "level": "intermediate"
+  },
+  {
+    "id": 9,
+    "name": "Dumbbell shoulder press",
+    "muscleId": 3,
+    "primary": "Shoulders",
+    "secondary": [
+      "Triceps"
+    ],
+    "category": "strength",
+    "equipment": "dumbbell",
+    "force": "push",
+    "level": "intermediate"
   }
 ]

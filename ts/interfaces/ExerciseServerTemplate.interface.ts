@@ -3,7 +3,7 @@ export interface ExerciseServerTemplate {
   name: string
   muscleId: number
   primary: string
-  secondary: string[] | null
+  secondary: string[] | []
   type: string
   category: string
   equipment: string

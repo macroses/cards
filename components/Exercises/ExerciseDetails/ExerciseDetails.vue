@@ -13,13 +13,12 @@ defineProps<{
       v-if="exercise"
       class="exercise-info"
     >
-      <p>{{ exercise.description }}</p>
       <div class="exercise-details">
         <p><strong>Основная мышечная группа:</strong> {{ exercise.primary }}</p>
         <p v-if="exercise.secondary?.length">
           <strong>Дополнительные мышцы:</strong> {{ exercise.secondary.join(', ') }}
         </p>
-        <p><strong>Тип:</strong> {{ exercise.type }}</p>
+        <p><strong>Тип:</strong> {{ exercise.category }}</p>
         <p><strong>Уровень:</strong> {{ exercise.level }}</p>
       </div>
     </div>

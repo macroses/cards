@@ -6,7 +6,7 @@ const props = defineProps({
   },
   secondaryPart: {
     type: Array,
-    default: () => []
+    default: () => ([])
   }
 })
 
