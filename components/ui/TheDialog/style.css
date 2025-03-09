@@ -6,7 +6,7 @@ dialog {
   max-width: 100%;
   min-width: 300px;
 
-  transition: all 0.3s allow-discrete;
+  transition: all var(--base-transition) allow-discrete;
   opacity: 0;
   transform: translateY(-50px);
 
@@ -32,7 +32,7 @@ dialog {
 }
 
 dialog::backdrop {
-  transition: all 0.3s allow-discrete;
+  transition: all var(--base-transition) allow-discrete;
   opacity: 0;
   backdrop-filter: blur(0);
 }
@@ -63,7 +63,7 @@ dialog::backdrop {
   max-width: 100%;
   min-width: 300px;
 
-  transition: all 0.3s allow-discrete;
+  transition: all var(--base-transition) allow-discrete;
   opacity: 0;
   transform: translateY(-50px);
 

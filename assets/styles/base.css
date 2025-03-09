@@ -14,7 +14,7 @@
   --btn-bg: 26 92 255;
   --btn-color-transparent: rgb(var(--accent-color));
 
-  --base-transition: 0.25s ease;
+  --base-transition: 0.1s ease;
 
   --content-border-color: var(--accent-color);
 

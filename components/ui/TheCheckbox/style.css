@@ -40,7 +40,7 @@
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  transition: all 0.25s ease;
+  transition: all var(--base-transition);
   border: 1px solid rgb(var(--border-color));
   color: rgba(230, 233, 234, 1);
   display: flex;
@@ -71,7 +71,7 @@
   content: '';
   position: absolute;
   height: 1px;
-  transition: all 0.2s ease 0.1s;
+  transition: all var(--base-transition);
   z-index: 100;
   width: 0;
   bottom: 0;
@@ -86,7 +86,7 @@
   position: absolute;
   height: 0;
   border-radius: 4px;
-  transition: all 0.2s ease 0.3s;
+  transition: all var(--base-transition);
   width: 1px;
   background-color: transparent;
 }

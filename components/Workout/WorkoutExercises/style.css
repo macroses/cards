@@ -20,10 +20,10 @@
   background-color: var(--table-dark-bg);
 
   height: 0;
-  transition: height 0.3s ease-in-out,
-              opacity 0.3s ease-in-out,
-              padding-block 0.3s ease-in-out,
-              margin-bottom 0.3s ease-in-out;
+  transition: height var(--base-transition),
+              opacity var(--base-transition),
+              padding-block var(--base-transition),
+              margin-bottom var(--base-transition);
   opacity: 0;
   padding-block: 0;
 

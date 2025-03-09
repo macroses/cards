@@ -41,7 +41,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    v-auto-animate
+    v-auto-animate="{ duration: 100 }"
     class="toaster"
   >
     <TransitionGroup

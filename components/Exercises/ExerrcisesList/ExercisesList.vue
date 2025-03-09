@@ -56,7 +56,7 @@ function isExerciseSelected(exerciseId: number) {
     <li
       v-for="group in exercisesList"
       :key="group.primary"
-      v-auto-animate
+      v-auto-animate="{ duration: 100 }"
       class="muscle-item"
       :class="{ active: activeGroupId === group.primary }"
     >

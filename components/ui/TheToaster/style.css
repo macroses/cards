@@ -78,7 +78,7 @@ svg {
 /* Анимации для TransitionGroup */
 .toast-enter-active,
 .toast-leave-active {
-  transition: all 0.3s ease;
+  transition: all var(--base-transition);
 }
 
 .toast-enter-from {

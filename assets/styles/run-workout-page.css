@@ -16,7 +16,7 @@
   align-items: center;
   height: 48px;
   padding: 6px 12px;
-  transition: background-color 0.2s;
+  transition: background-color var(--base-transition);
 
   &:hover {
     background-color: var(--table-dark-bg);
@@ -65,7 +65,7 @@
 .run__sets-container {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s, padding 0.3s;
+  transition: grid-template-rows var(--base-transition), padding var(--base-transition);
 
   &:not(.active) {
     overflow: hidden;
@@ -106,7 +106,7 @@
   gap: 12px;
   padding-inline: 12px 24px;
   border-radius: 12px;
-  transition: box-shadow 0.3s, background-color 0.3s;
+  transition: box-shadow var(--base-transition), background-color var(--base-transition);
 
   &:hover {
     box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);

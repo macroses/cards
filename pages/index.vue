@@ -99,7 +99,10 @@ function setTime(time: number | null): string {
 <template>
   <div class="home-page__container">
     <div class="home-page__calendar">
-      <div v-auto-animate class="calendar-wrap">
+      <div
+        v-auto-animate="{ duration: 100 }"
+        class="calendar-wrap"
+      >
         <Calendar
           v-model="selectedDate"
           :workouts="workouts"

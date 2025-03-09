@@ -214,7 +214,7 @@ onMounted(async () => {
                 </TheButton>
                 <ul
                   v-else
-                  v-auto-animate
+                  v-auto-animate="{ duration: 100 }"
                   class="run__sets"
                 >
                   <li class="run__sets-header">

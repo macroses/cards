@@ -2,7 +2,7 @@
   <div class="workout">
     <div class="workout-data">
       <div
-        v-auto-animate
+        v-auto-animate="{ duration: 100 }"
         class="workout-description__wrapper"
       >
         <slot name="description" />

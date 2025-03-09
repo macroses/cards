@@ -84,7 +84,7 @@ function onTouchEnd(event: TouchEvent) {
 
 <template>
   <div
-    v-auto-animate
+    v-auto-animate="{ duration: 100 }"
     class="calendar"
     :class="{
       'copy-mode': copyMode,

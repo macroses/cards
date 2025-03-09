@@ -88,7 +88,7 @@
 .workout__exercises-item {
   outline: 1px solid transparent;
   border-radius: 12px;
-  transition: outline-color ease-in-out 0.3s;
+  transition: outline-color var(--base-transition);
 
   &.active {
     outline-color: rgb(var(--accent-color) / 0.5);
@@ -114,7 +114,7 @@
   padding: 0 0 0 12px;
   border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--base-transition);
 
   span {
     flex-grow: 1;
@@ -131,7 +131,7 @@
 }
 
 .workout__exercises__title-icon {
-  transition: transform 0.3s ease;
+  transition: transform var(--base-transition);
 }
 
 .exercise-form {
@@ -152,7 +152,7 @@
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
-  transition: grid-template-rows 0.3s ease, padding 0.3s ease;
+  transition: grid-template-rows var(--base-transition), padding var(--base-transition);
   padding-inline: 12px;
 
   .workout__exercises-item.active & {
@@ -243,7 +243,7 @@
 
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity var(--base-transition);
 }
 
 .v-enter-from,

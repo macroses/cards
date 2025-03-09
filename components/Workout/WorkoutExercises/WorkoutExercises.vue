@@ -79,7 +79,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
 
 <template>
   <div
-    v-auto-animate
+    v-auto-animate="{ duration: 100 }"
     class="workout-exercises-wrapper"
   >
     <WorkoutTonnage
@@ -88,7 +88,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
     />
     <ul
       v-if="selectedExercises.length"
-      v-auto-animate
+      v-auto-animate="{ duration: 100 }"
       class="workout__exercises"
     >
       <li
@@ -135,7 +135,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
             </TheButton>
 
             <div
-              v-auto-animate
+              v-auto-animate="{ duration: 100 }"
               class="last-sessions-wrapper"
             >
               <WorkoutLastSessions
@@ -150,7 +150,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
 
         <div class="exercise-form__wr">
           <form
-            v-auto-animate
+            v-auto-animate="{ duration: 100 }"
             class="exercise-form"
             @submit.prevent="appendSession(exercise.id)"
           >
@@ -180,7 +180,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
             </div>
             <ul
               v-if="getExerciseSessions(exercise.id).length"
-              v-auto-animate
+              v-auto-animate="{ duration: 100 }"
               class="workout-form__sets"
             >
               <li class="workout-form__sets-header">

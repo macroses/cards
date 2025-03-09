@@ -5,7 +5,7 @@
   box-shadow: var(--form-box-shadow);
   color: rgb(var(--text-color));
   border-radius: 8px;
-  transition: padding 0.25s ease;
+  transition: padding var(--base-transition);
   padding: 0 13px 0 10px;
   height: 36px;
   width: 100%;

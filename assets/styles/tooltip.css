@@ -10,7 +10,7 @@
   white-space: nowrap;
   opacity: 0;
   transform: translateY(5px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity var(--base-transition), transform var(--base-transition);
 }
 
 .v-tooltip.active {
