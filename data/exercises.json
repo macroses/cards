@@ -2,69 +2,53 @@
   {
     "id": 1,
     "name": "Lat Pulldown",
-    "muscles": {
-      "muscleId": 1,
-      "primary": "lats",
-      "secondary": ["biceps", "shoulders"]
-    },
-    "characteristics": {
-      "type": "basic",
-      "category": "strength",
-      "equipment": "machines",
-      "force": "pull",
-      "level": "beginner"
-    },
+    "muscleId": 1,
+    "primary": "lats",
+    "secondary": ["biceps", "shoulders"],
+    "type": "basic",
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner",
     "description": "Sit in the cable machine..."
   },
   {
     "id": 2,
     "name": "Pullups",
-    "muscles": {
-      "muscleId": 1,
-      "primary": "lats",
-      "secondary": ["biceps", "shoulders"]
-    },
-    "characteristics": {
-      "type": "basic",
-      "category": "strength",
-      "equipment": "machines",
-      "force": "pull",
-      "level": "novice"
-    },
+    "muscleId": 1,
+    "primary": "lats",
+    "secondary": ["biceps", "shoulders"],
+    "type": "basic",
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "novice",
     "description": "Схватись за турник и подтягивайся"
   },
   {
     "id": 3,
     "name": "приседания",
-    "muscles": {
-      "muscleId": 2,
-      "primary": "legs",
-      "secondary": []
-    },
-    "characteristics": {
-      "type": "basic",
-      "category": "strength",
-      "equipment": "machines",
-      "force": "pull",
-      "level": "beginner"
-    },
+    "muscleId": 2,
+    "primary": "legs",
+    "secondary": [],
+    "type": "basic",
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner",
     "description": "Sit in the cable machine..."
   },
   {
     "id": 4,
     "name": "Анжуманя",
-    "muscles": {
-      "muscleId": 2,
-      "primary": "legs",
-      "secondary": null
-    },
-    "characteristics": {
-      "type": "basic",
-      "category": "strength",
-      "equipment": "machines",
-      "force": "pull",
-      "level": "novice"
-    },
+    "muscleId": 2,
+    "primary": "legs",
+    "secondary": null,
+    "type": "basic",
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "novice",
     "description": "Присядь"
   }
 ]

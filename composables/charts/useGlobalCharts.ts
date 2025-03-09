@@ -204,8 +204,9 @@ export function useGlobalCharts(): GlobalChartsReturn {
   function getExerciseName(exerciseId: number): string {
     for (const group of exercisesList.value || []) {
       const exercise = group.exercises.find((e: ExerciseServerTemplate) => e.id === exerciseId)
-      if (exercise)
+      if (exercise) {
         return exercise.name
+      }
     }
     return `Exercise ${exerciseId}`
   }

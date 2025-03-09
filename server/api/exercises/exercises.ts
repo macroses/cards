@@ -8,7 +8,7 @@ export default defineEventHandler(() => {
 
   // Группируем упражнения по primary muscle
   const groupedExercises = exercises.reduce((acc, exercise) => {
-    const primary = exercise.muscles.primary
+    const primary = exercise.primary
     if (!acc[primary]) {
       acc[primary] = []
     }

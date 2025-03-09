@@ -44,7 +44,6 @@ model User {
   accounts      Account[]
   sessions      Session[]
   workouts      Workout[]
-  userExercises UserExercise[]
 }
 
 model VerificationToken {
@@ -93,18 +92,4 @@ model WorkoutSet {
   setTime      Int?     
   setTimeAddedAt DateTime?
   workout      Workout   @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-}
-
-model UserExercise {
-  id              String    @id @default(cuid())
-  userId          String
-  name            String
-  muscles         String      // Будет хранить объект с primary и secondary
-  characteristics String    // Будет хранить объект с type, category, equipment и т.д.
-  description     String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
 }

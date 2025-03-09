@@ -15,12 +15,12 @@ defineProps<{
     >
       <p>{{ exercise.description }}</p>
       <div class="exercise-details">
-        <p><strong>Основная мышечная группа:</strong> {{ exercise.muscles.primary }}</p>
-        <p v-if="exercise.muscles.secondary?.length">
-          <strong>Дополнительные мышцы:</strong> {{ exercise.muscles.secondary.join(', ') }}
+        <p><strong>Основная мышечная группа:</strong> {{ exercise.primary }}</p>
+        <p v-if="exercise.secondary?.length">
+          <strong>Дополнительные мышцы:</strong> {{ exercise.secondary.join(', ') }}
         </p>
-        <p><strong>Тип:</strong> {{ exercise.characteristics.type }}</p>
-        <p><strong>Уровень:</strong> {{ exercise.characteristics.level }}</p>
+        <p><strong>Тип:</strong> {{ exercise.type }}</p>
+        <p><strong>Уровень:</strong> {{ exercise.level }}</p>
       </div>
     </div>
   </div>
