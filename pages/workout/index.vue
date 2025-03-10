@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ExercisesList from '@/components/Exercises/ExerrcisesList/ExercisesList.vue'
 import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
+import TheLoader from '~/components/ui/TheLoader/TheLoader.vue'
 import { useSelectExercise } from '~/composables/workoutManagment/useSelectExercise'
 import { WORKOUT_COLORS } from '~/constants'
 import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
@@ -36,7 +37,7 @@ const workout = reactive<UserWorkout>({
 const { editableWorkout, initEditMode } = useEditWorkout(workout)
 const { selectExercise } = useSelectExercise()
 const { fetchLastSets } = useLastExerciseSets()
-const { exercisesList } = useFetchExercisesList()
+const { exercisesList, status } = useFetchExercisesList()
 
 const isExercisesList = shallowRef(true)
 
@@ -134,10 +135,12 @@ onMounted(async () => {
             My exercises
           </TheButton>
         </div>
+        <TheLoader v-if="status !== 'success'" />
         <Component
           :is="chosenExercisesList"
+          v-else
           :selected-exercises="workout.exercises"
-          :exercises-list="[...exercisesList]"
+          :exercises-list="exercisesList"
           @select-exercise="handleSelectExercise"
         />
       </div>
