@@ -19,12 +19,12 @@ const userExercise = reactive<Omit<ExerciseServerTemplate, 'id'>>({
 })
 
 const muscles = computed(() => {
-  return props.exercisesList.map((group) => {
-    return {
-      id: group.muscleId,
-      value: group.primary,
-    }
-  })
+  const uniqueMuscles = new Set(props.exercisesList.map(exercise => exercise.primary))
+
+  return Array.from(uniqueMuscles).map(muscleName => ({
+    id: props.exercisesList.find(ex => ex.primary === muscleName)?.muscleId || 0,
+    value: muscleName,
+  }))
 })
 
 function handleOpenModal() {
@@ -60,8 +60,9 @@ async function handleSubmit() {
           <div class="form-group">
             <label>Основная мышечная группа</label>
             <TheSelect
+              v-model:primary="userExercise.primary"
+              v-model:muscle-id="userExercise.muscleId"
               :dropdown-list="muscles"
-              @active-value="userExercise.muscleId = $event.id"
             />
           </div>
 

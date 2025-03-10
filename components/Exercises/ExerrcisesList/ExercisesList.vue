@@ -2,22 +2,38 @@
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
 
-interface ExercisesList {
+interface ExercisesGroup {
   primary: string
   exercises: ExerciseServerTemplate[]
 }
 
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
-  exercisesList: ExercisesList[]
+  exercisesList: ExerciseServerTemplate[]
 }>()
 
 const emit = defineEmits<{
   selectExercise: [exercise: UserWorkoutExercise]
 }>()
 
-const modalRef = ref <typeof TheModal | null>(null)
+const modalRef = ref<typeof TheModal | null>(null)
 const selectedExerciseForModal = ref<ExerciseServerTemplate | null>(null)
+
+const groupedExercises = computed<ExercisesGroup[]>(() => {
+  const grouped = props.exercisesList.reduce((acc, exercise) => {
+    const primary = exercise.primary
+    if (!acc[primary]) {
+      acc[primary] = {
+        primary,
+        exercises: [],
+      }
+    }
+    acc[primary].exercises.push(exercise)
+    return acc
+  }, {} as Record<string, ExercisesGroup>)
+
+  return Object.values(grouped)
+})
 
 function selectExercise(exercise: ExerciseServerTemplate) {
   emit('selectExercise', {
@@ -58,7 +74,7 @@ function isExerciseSelected(exerciseId: number) {
 <template>
   <ul class="muscles-list__list">
     <li
-      v-for="group in exercisesList"
+      v-for="group in groupedExercises"
       :key="group.primary"
       v-auto-animate="{ duration: 100 }"
       class="muscle-item"
