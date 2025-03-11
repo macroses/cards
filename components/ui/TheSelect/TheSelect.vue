@@ -13,18 +13,27 @@ const props = withDefaults(defineProps<{
   isTop: false,
 })
 
-const emit = defineEmits(['activeValue'])
+const idModel = defineModel<number>('id')
+const valueModel = defineModel<string>('value')
 
 const dropdownParent = ref(null)
 const isDropdownOpened = ref(false)
-const activeItem = ref(props.dropdownList[0])
 const toggleDropdown = () => (isDropdownOpened.value = !isDropdownOpened.value)
 
-function activeValue(item: Option) {
-  activeItem.value = item
+function activeValue(option: Option) {
+  idModel.value = option.id
+  valueModel.value = option.value
   isDropdownOpened.value = false
-  emit('activeValue', item)
 }
+
+watch(() => props.dropdownList, (newList) => {
+  if (newList.length && !idModel.value && !valueModel.value) {
+    const firstOption = newList[0]
+
+    idModel.value = firstOption.id
+    valueModel.value = firstOption.value
+  }
+}, { immediate: true })
 
 onClickOutside(dropdownParent, () => (isDropdownOpened.value = false))
 </script>
@@ -38,7 +47,7 @@ onClickOutside(dropdownParent, () => (isDropdownOpened.value = false))
       class="dropdown__value"
       @click="toggleDropdown"
     >
-      {{ activeItem.value || defaultValue }}
+      {{ valueModel || defaultValue }}
       <TheIcon
         icon-name="angle-down"
         width="14px"
@@ -56,7 +65,7 @@ onClickOutside(dropdownParent, () => (isDropdownOpened.value = false))
           v-for="item in dropdownList"
           :key="item.id"
           class="dropdown__item"
-          :class="{ activeItem: activeItem.id === item.id }"
+          :class="{ activeItem: idModel === item.id }"
           @click="activeValue(item)"
         >
           {{ item.value }}

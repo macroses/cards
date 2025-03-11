@@ -7,16 +7,6 @@ const props = defineProps<{
 }>()
 
 const myModalRef = ref<typeof TheModal | null>(null)
-const userExercise = reactive<Omit<ExerciseServerTemplate, 'id'>>({
-  name: '',
-  muscleId: 1,
-  primary: '',
-  secondary: [],
-  category: '',
-  equipment: '',
-  force: '',
-  level: '',
-})
 
 const muscles = computed(() => {
   const uniqueMuscles = new Set(props.exercisesList.map(exercise => exercise.primary))
@@ -25,6 +15,17 @@ const muscles = computed(() => {
     id: props.exercisesList.find(ex => ex.primary === muscleName)?.muscleId || 0,
     value: muscleName,
   }))
+})
+
+const userExercise = reactive<Omit<ExerciseServerTemplate, 'id'>>({
+  name: '',
+  muscleId: muscles.value[0].id,
+  primary: muscles.value[0].value,
+  secondary: [],
+  category: '',
+  equipment: '',
+  force: '',
+  level: '',
 })
 
 function handleOpenModal() {
@@ -60,8 +61,8 @@ async function handleSubmit() {
           <div class="form-group">
             <label>Основная мышечная группа</label>
             <TheSelect
-              v-model:primary="userExercise.primary"
-              v-model:muscle-id="userExercise.muscleId"
+              v-model:id="userExercise.muscleId"
+              v-model:value="userExercise.primary"
               :dropdown-list="muscles"
             />
           </div>
