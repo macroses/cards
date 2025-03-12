@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { watchImmediate } from '@vueuse/core'
+
 const props = defineProps<{
   selectedDate: Date
   title?: string
@@ -15,11 +17,11 @@ const { t } = useI18n()
 
 const workoutTitle = ref('')
 
-watch(() => props.title, (newTitle?: string) => {
+watchImmediate(() => props.title, (newTitle?: string) => {
   if (newTitle) {
     workoutTitle.value = newTitle
   }
-}, { immediate: true })
+})
 
 const isWorkoutNameValid = ref(false)
 

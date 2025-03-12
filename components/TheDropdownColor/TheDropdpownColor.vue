@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watchImmediate } from '@vueuse/core'
 import { WORKOUT_COLORS } from '~/constants/workout'
 import type { WorkoutColor } from '~/ts/types/workoutColor.type'
 
@@ -17,11 +18,11 @@ const defaultColor = ref(WORKOUT_COLORS[0].rgb)
 const isDropDownActive = ref(false)
 
 // Следим за изменением начального цвета
-watch(() => props.initialColor, (newColor?: string) => {
+watchImmediate(() => props.initialColor, (newColor?: string) => {
   if (newColor) {
     defaultColor.value = newColor
   }
-}, { immediate: true })
+})
 
 function dropColor(color: WorkoutColor['rgb']) {
   isDropDownActive.value = false

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
+import { watchDeep, watchImmediate } from '@vueuse/core'
 import { MAX_LENGTH_NUMBER } from '~/constants'
 import { API_CREATE_SET } from '~/constants/api'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
@@ -150,19 +151,19 @@ watchEffect(() => {
   option.value = getData(originalWorkout.value, runWorkout.value, activeExercises.value)
 })
 
-watch([runWorkout], ([workout]: [typeof runWorkout.value]) => {
+watchImmediate([runWorkout], ([workout]: [typeof runWorkout.value]) => {
   if (workout && workout.sets) {
     initSetTimes(workout.sets)
   }
-}, { immediate: true })
+})
 
-watch(setTimes, () => {
+watchDeep(setTimes, () => {
   activeExercises.value.forEach((exerciseId: number) => {
     if (isExerciseCompleted.value(exerciseId)) {
       activeExercises.value.delete(exerciseId)
     }
   })
-}, { deep: true })
+})
 
 onMounted(async () => {
   await initRunMode()

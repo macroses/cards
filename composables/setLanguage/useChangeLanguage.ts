@@ -1,24 +1,17 @@
+import { useLocalStorage } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { LANGUAGE_KEY } from '~/constants'
 
 export function useChangeLanguage() {
   const { locale, setLocale } = useI18n()
-
-  const saveLanguage = (lang: string) => {
-    localStorage.setItem(LANGUAGE_KEY, lang)
-  }
-
-  const loadLanguage = () => localStorage.getItem(LANGUAGE_KEY) || 'en'
+  const savedLanguage = useLocalStorage(LANGUAGE_KEY, 'en')
 
   const changeLanguage = (lang: string) => {
     setLocale(lang)
-    saveLanguage(lang)
+    savedLanguage.value = lang
   }
 
-  const initLanguage = () => {
-    const savedLanguage = loadLanguage()
-    setLocale(savedLanguage)
-  }
+  const initLanguage = () => setLocale(savedLanguage.value)
 
   return {
     locale,

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { watchImmediate } from '@vueuse/core'
+
 interface Option {
   id: number
   value: string
@@ -26,14 +28,14 @@ function activeValue(option: Option) {
   isDropdownOpened.value = false
 }
 
-watch(() => props.dropdownList, (newList) => {
+watchImmediate(() => props.dropdownList, (newList) => {
   if (newList.length && !idModel.value && !valueModel.value) {
     const firstOption = newList[0]
 
     idModel.value = firstOption.id
     valueModel.value = firstOption.value
   }
-}, { immediate: true })
+})
 
 onClickOutside(dropdownParent, () => (isDropdownOpened.value = false))
 </script>

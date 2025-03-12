@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watchImmediate } from '@vueuse/core'
 import { GLOBAL_WORKOUTS } from '~/constants'
 import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interfaces'
 
@@ -46,9 +47,7 @@ function onChartInit(chart: any) {
   chartInstance.value = chart
 }
 
-watch(() => props.selectedExerciseId, () => {
-  updateChart()
-}, { immediate: true })
+watchImmediate(() => props.selectedExerciseId, () => updateChart())
 </script>
 
 <template>
