@@ -28,6 +28,27 @@ const userExercise = reactive<Omit<ExerciseServerTemplate, 'id'>>({
   level: '',
 })
 
+const chosenSecondaryMuscles = computed(() => {
+  return userExercise.secondary.map(muscleName => ({
+    id: props.exercisesList.find(ex => ex.primary === muscleName)?.muscleId || 0,
+    value: muscleName,
+  }))
+})
+
+const availableSecondaryMuscles = computed(() => {
+  return muscles.value.filter(muscle => muscle.value !== userExercise.primary)
+})
+
+function addSecondaryMuscles(item: { id: number, value: string }) {
+  if (!userExercise.secondary.includes(item.value)) {
+    userExercise.secondary.push(item.value)
+  }
+}
+
+function removeSecondaryMuscles() {
+  userExercise.secondary = []
+}
+
 function handleOpenModal() {
   myModalRef.value?.openModal()
 }
@@ -35,6 +56,11 @@ function handleOpenModal() {
 async function handleSubmit() {
 
 }
+
+watch(() => userExercise.primary, (newPrimary) => {
+  // Удаляем из второстепенных мышц ту, которая стала основной
+  userExercise.secondary = userExercise.secondary.filter(muscle => muscle !== newPrimary)
+})
 </script>
 
 <template>
@@ -69,6 +95,13 @@ async function handleSubmit() {
 
           <div class="form-group">
             <label>Второстепенные мышцы</label>
+            <TheMultiSelect
+              label="Main muscle"
+              :multiselect-list="availableSecondaryMuscles"
+              :chosen-items="chosenSecondaryMuscles"
+              @remove-items="removeSecondaryMuscles"
+              @get-items="addSecondaryMuscles"
+            />
           </div>
 
           <div class="form-group">

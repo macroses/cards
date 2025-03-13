@@ -1,31 +1,31 @@
 {
-	"primary": "legs",
-	"exercises": [
-		{
-			"id": 1,
-			"name": "Приседания",
-			"muscles": {
-				"primary": "legs",
-				"secondary": ["glutes"]
-			},
-			"characteristics": {
-				"type": "basic",
-				"level": "beginner"
-			},
-			"description": "Базовое упражнение для ног"
-		},
-		{
-			"id": 2,
-			"name": "Выпады",
-			"muscles": {
-				"primary": "legs",
-				"secondary": ["glutes"]
-			},
-			"characteristics": {
-				"type": "basic",
-				"level": "beginner"
-			},
-			"description": "Упражнение для ног"
-		}
-	]
+  "primary": "legs",
+  "exercises": [
+    {
+      "id": 1,
+      "name": "Приседания",
+      "muscles": {
+        "primary": "legs",
+        "secondary": ["glutes"]
+      },
+      "characteristics": {
+        "type": "basic",
+        "level": "beginner"
+      },
+      "description": "Базовое упражнение для ног"
+    },
+    {
+      "id": 2,
+      "name": "Выпады",
+      "muscles": {
+        "primary": "legs",
+        "secondary": ["glutes"]
+      },
+      "characteristics": {
+        "type": "basic",
+        "level": "beginner"
+      },
+      "description": "Упражнение для ног"
+    }
+  ]
 }
