@@ -12,6 +12,13 @@ const props = defineProps<{
   exercisesList: ExerciseServerTemplate[]
 }>()
 
+const {
+  exercises,
+  isLoading,
+  error,
+  createExercise,
+} = useExerciseHandle()
+
 const myModalRef = ref<typeof TheModal | null>(null)
 
 const muscles = computed(() => {
@@ -60,7 +67,8 @@ function handleOpenModal() {
 }
 
 async function handleSubmit() {
-
+  await createExercise(userExercise)
+  myModalRef.value?.closeModal()
 }
 
 watch(() => userExercise.primary, (newPrimary) => {
@@ -71,6 +79,15 @@ watch(() => userExercise.primary, (newPrimary) => {
 
 <template>
   <div class="my_exercises">
+    <TheLoader v-if="isLoading" />
+    <p v-else-if="error">
+      {{ error }}
+    </p>
+    <ul v-else>
+      <li v-for="exercise in exercises" :key="exercise.id">
+        {{ exercise.name }}
+      </li>
+    </ul>
     <TheButton @click="handleOpenModal">
       + Добавить
     </TheButton>
@@ -155,9 +172,7 @@ watch(() => userExercise.primary, (newPrimary) => {
           </div>
 
           <div class="form-actions">
-            <TheButton
-              type="submit"
-            >
+            <TheButton type="submit">
               Сохранить
             </TheButton>
           </div>
