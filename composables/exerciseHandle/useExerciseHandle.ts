@@ -1,27 +1,21 @@
 import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import { useCachedFetch } from '~/utils/useCachedFetch'
 
 export function useExerciseHandle() {
-  const exercises = ref<ExerciseServerTemplate[]>([])
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
-  const fetchExercises = async () => {
-    try {
-      isLoading.value = true
-      error.value = null
-
-      const response = await $fetch<ExerciseServerTemplate[]>('/api/exercises/getUserExercises')
-      exercises.value = response
-      return response
-    }
-    catch (e) {
-      error.value = 'Ошибка при загрузке упражнений'
-      console.error(e)
-    }
-    finally {
-      isLoading.value = false
-    }
-  }
+  const { data: exercises, refresh: refreshExercises } = useCachedFetch<unknown, ExerciseServerTemplate[]>({
+    url: '/api/exercises/getUserExercises',
+    key: 'user-exercises',
+    transform: (payload) => {
+      if (!Array.isArray(payload)) {
+        return []
+      }
+      return payload as ExerciseServerTemplate[]
+    },
+    initialData: [],
+  })
 
   const createExercise = async (exercise: Omit<ExerciseServerTemplate, 'id'>) => {
     try {
@@ -33,7 +27,10 @@ export function useExerciseHandle() {
         body: exercise,
       })
 
-      exercises.value.push(response)
+      if (exercises.value) {
+        exercises.value.push(response)
+      }
+
       return response
     }
     catch (e) {
@@ -45,14 +42,11 @@ export function useExerciseHandle() {
     }
   }
 
-  // Fetch exercises when composable is initialized
-  onMounted(async () => await fetchExercises())
-
   return {
     exercises,
     isLoading,
     error,
     createExercise,
-    fetchExercises,
+    refreshExercises,
   }
 }
