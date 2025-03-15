@@ -1,72 +1,33 @@
-<script setup lang="ts">
-const props = defineProps({
-  value: {
-    type: String,
-    required: true,
-  },
-  modelValue: {
-    type: String,
-    default: '',
-  },
-  label: {
-    type: String,
-    required: true,
-  },
-  defaultChecked: {
-    type: Boolean,
-    default: false,
-  },
-})
+<script setup lang="ts" generic="T">
+interface RadioInputProps {
+  name: string
+  value: string | number | boolean | null | undefined
+  label?: string
+  disabled?: boolean
+  modelValue?: T
+}
 
-defineEmits(['update:modelValue'])
+defineProps<RadioInputProps>()
 
-const uniqueId = useId()
-const defaultChecked = ref(props.defaultChecked)
-const isChecked = computed(() => {
-  if (defaultChecked.value) {
-    return true
-  }
-
-  else if (props.value === props.modelValue) {
-    return true
-  }
-
-  return false
-})
-
-watch(
-  () => props.modelValue,
-  () => {
-    if (isChecked.value) {
-      defaultChecked.value = false
-    }
-  },
-)
+const id = useId()
+const modelValue = defineModel<T>()
 </script>
 
 <template>
-  <div class="radio-parent">
-    <div class="radio-content">
-      <div class="radio">
-        <input
-          :id="uniqueId"
-          class="radio-component"
-          type="radio"
-          :value="value"
-          :checked="defaultChecked || isChecked"
-          @change="$emit('update:modelValue', $event.target.value)"
-        >
-        <span
-          class="radio-effect"
-          :class="{ active: defaultChecked || isChecked }"
-        />
-      </div>
-
-      <label
-        :for="uniqueId"
-        class="radio-label"
-      >{{ label }}</label>
-    </div>
+  <div
+    class="radio-input-wrapper"
+  >
+    <input
+      :id="id"
+      v-model="modelValue"
+      type="radio"
+      :checked="modelValue === value"
+      :name="name"
+      :value="value"
+      :disabled="disabled"
+      class="radio-input-wrapper__input"
+    >
+    <label :for="id" class="radio-input-wrapper__label"> {{ label }} </label>
   </div>
 </template>
 

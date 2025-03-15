@@ -7,7 +7,7 @@ interface Option {
 }
 
 const props = withDefaults(defineProps<{
-  dropdownList: Option[]
+  dropdownList: Readonly<Option[]>
   isTop?: boolean
   defaultValue?: string
 }>(), {

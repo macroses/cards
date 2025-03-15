@@ -1,7 +1,11 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string | number | null | undefined">
 import type InputTextProps from '~/ts/componentProps/InputText.prop'
 
-const props = withDefaults(defineProps<InputTextProps>(), {
+interface Props extends InputTextProps {
+  max?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   inputmode: 'text',
   placeholder: '',
@@ -14,7 +18,7 @@ const emit = defineEmits(['validation', 'blur'])
 const input = ref<HTMLInputElement | null>(null)
 
 const uniqueId = useId() as string
-const modelValue = defineModel<string | number | undefined | null>({ default: '' })
+const modelValue = defineModel<T>()
 const error = ref('')
 
 defineExpose({
@@ -43,14 +47,14 @@ function onBlur() {
 
 function handleClear(e: Event) {
   e.preventDefault()
-  modelValue.value = ''
+  modelValue.value = null as T
 }
 
 function handleInput(e: Event) {
   const input = e.target as HTMLInputElement
-  if (input.value.length > props.max) {
+  if (props.max && input.value.length > props.max) {
     input.value = input.value.slice(0, props.max)
-    modelValue.value = input.value
+    modelValue.value = input.value as T
   }
 }
 

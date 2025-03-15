@@ -81,7 +81,7 @@ ul, p {
 }
 
 button,
-input,
+input:not([type='radio']),
 textarea,
 select,
 p {

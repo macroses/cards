@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 defineProps({
   value: {
     type: [String, Number],
@@ -12,7 +12,7 @@ defineProps({
 
 const uniqueId = useId()
 
-const checked = defineModel('checked')
+const checked = defineModel<T>('checked')
 </script>
 
 <template>
