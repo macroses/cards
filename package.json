@@ -8,15 +8,15 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "test": "vitest",
+    "test:ci": "vitest run",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "nuxt typecheck",
-    "prepare": "husky install",
+    "typecheck:ci": "nuxt typecheck --incremental",
     "pre-commit": "npm run test && npm run typecheck",
     "prisma:migrate:dev": "npx prisma migrate dev",
     "prisma:migrate:generate": "npx prisma generate",
-    "prisma:studio": "npx prisma studio"
+    "prisma:studio": "npx prisma studio",
+    "prepare": "husky"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
