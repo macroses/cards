@@ -6,10 +6,15 @@ import {
   EXERCISE_FORCE,
   EXERCISE_LEVEL,
 } from '~/constants'
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
 
 const props = defineProps<{
   exercisesList: ExerciseServerTemplate[]
+  selectedExercises: UserWorkoutExercise[]
+}>()
+
+const emit = defineEmits<{
+  selectExercise: [exercise: UserWorkoutExercise]
 }>()
 
 const {
@@ -75,6 +80,17 @@ watch(() => userExercise.primary, (newPrimary) => {
   // Удаляем из второстепенных мышц ту, которая стала основной
   userExercise.secondary = userExercise.secondary.filter(muscle => muscle !== newPrimary)
 })
+
+function selectExercise(exercise: ExerciseServerTemplate) {
+  emit('selectExercise', {
+    id: exercise.id,
+    name: exercise.name,
+  })
+}
+
+function isExerciseSelected(exerciseId: string) {
+  return props.selectedExercises.some(selected => selected.id === exerciseId)
+}
 </script>
 
 <template>
@@ -83,16 +99,20 @@ watch(() => userExercise.primary, (newPrimary) => {
     <p v-else-if="error">
       {{ error }}
     </p>
-    <ul
-      v-else
-      class="my_exercises__list"
-    >
+    <ul v-else>
       <li
         v-for="exercise in exercises"
         :key="exercise.id"
-        class="my_exercises__item"
+        class="exercise-item"
+        :class="{ selected: isExerciseSelected(exercise.id) }"
+        @click="selectExercise(exercise)"
       >
         {{ exercise.name }}
+        <TheIcon
+          v-if="isExerciseSelected(exercise.id)"
+          icon-name="circle-check"
+          width="16px"
+        />
       </li>
     </ul>
     <TheButton @click="handleOpenModal">
