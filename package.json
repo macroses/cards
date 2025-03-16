@@ -12,6 +12,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
+    "prepare": "husky install",
+    "pre-commit": "npm run test && npm run typecheck",
     "prisma:migrate:dev": "npx prisma migrate dev",
     "prisma:migrate:generate": "npx prisma generate",
     "prisma:studio": "npx prisma studio"
@@ -46,6 +48,7 @@
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.15.0",
     "happy-dom": "^15.11.6",
+    "husky": "^9.1.7",
     "playwright-core": "^1.49.0",
     "prisma": "^5.22.0",
     "typescript": "^5.6.0",
