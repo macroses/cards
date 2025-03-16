@@ -77,8 +77,8 @@
 .slideMonth-enter-active,
 .slideMonth-leave-active {
   transition:
-    opacity 0.25s ,
-    transform 0.25s ;
+    opacity 0.1s ,
+    transform 0.1s ;
 }
 
 .slideMonth-enter-from {
@@ -95,8 +95,8 @@
 .slideMonthRight-enter-active,
 .slideMonthRight-leave-active {
   transition:
-    opacity 0.25s,
-    transform 0.25s ;
+    opacity 0.1s,
+    transform 0.1s ;
 }
 
 .slideMonthRight-enter-from {

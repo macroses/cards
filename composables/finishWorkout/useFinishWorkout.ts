@@ -3,10 +3,12 @@ import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 export function useFinishWorkout() {
-  const { t } = useI18n()
-  const { toast } = useToastState()
   const isLoading = ref(false)
   const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
+
+  const { runWorkout } = useRunWorkout()
+  const { t } = useI18n()
+  const { toast } = useToastState()
   const { stopTimer } = useWorkoutTimer()
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
 
@@ -52,8 +54,30 @@ export function useFinishWorkout() {
     }
   }
 
+  async function resetNoTimeWorkout() {
+    if (runWorkout.value) {
+      try {
+        await $fetch('/api/workout/resetWorkout', {
+          method: 'PUT',
+          body: {
+            workoutId: runWorkout.value.id,
+          },
+        })
+
+        stopTimer()
+        navigateTo('/')
+        await fetchWorkouts()
+      }
+      catch (error) {
+        console.error('Error resetting workout:', error)
+        toast(t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
+      }
+    }
+  }
+
   return {
     endWorkout,
     isLoading,
+    resetNoTimeWorkout,
   }
 }

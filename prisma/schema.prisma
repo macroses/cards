@@ -85,7 +85,7 @@ model WorkoutExercise {
 model WorkoutSet {
   id           String    @id @default(cuid())
   workoutId    String
-  exerciseId   String    // Изменено с Int на String
+  exerciseId   String
   weight       Float     @default(0)
   repeats      Int       @default(0)
   difficulty   Int       @default(1)

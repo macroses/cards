@@ -83,8 +83,15 @@ watch(() => userExercise.primary, (newPrimary) => {
     <p v-else-if="error">
       {{ error }}
     </p>
-    <ul v-else>
-      <li v-for="exercise in exercises" :key="exercise.id">
+    <ul
+      v-else
+      class="my_exercises__list"
+    >
+      <li
+        v-for="exercise in exercises"
+        :key="exercise.id"
+        class="my_exercises__item"
+      >
         {{ exercise.name }}
       </li>
     </ul>
@@ -182,20 +189,4 @@ watch(() => userExercise.primary, (newPrimary) => {
   </div>
 </template>
 
-<style scoped>
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-.form-actions {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: flex-end;
-}
-</style>
+<style src="./style.css" />

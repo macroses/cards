@@ -47,7 +47,10 @@ onMounted(() => initLanguage())
                 densities="x1 x2"
                 class="avatar"
               />
-              <div class="user-avatar__placeholder">
+              <div
+                v-else
+                class="user-avatar__placeholder"
+              >
                 {{ data?.user?.email?.[0] }}
               </div>
             </template>

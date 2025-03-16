@@ -2,14 +2,11 @@
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
 import { watchDeep, watchImmediate } from '@vueuse/core'
 import { MAX_LENGTH_NUMBER } from '~/constants'
-import { API_CREATE_SET } from '~/constants/api'
-import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
-const { endWorkout } = useFinishWorkout()
+const { endWorkout, resetNoTimeWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
-const { updateSets } = useUpdateSet()
-const { fetchWorkouts } = useFetchWorkoutsByUserId()
+const { updateSets, addNewSet } = useUpdateSet()
 
 const {
   runWorkout,
@@ -39,12 +36,12 @@ const {
   initSetTimes,
 } = useSetTimeManagement()
 
-const { toast } = useToastState()
-const { t } = useI18n()
-
-const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))
+const option = shallowRef(getData(
+  originalWorkout.value,
+  runWorkout.value,
+  activeExercises.value,
+))
 const noTimeModal = ref()
-const { stopTimer } = useWorkoutTimer()
 
 function checkSetsHaveTime(): boolean {
   if (!runWorkout.value) {
@@ -58,6 +55,7 @@ async function handleFinishWorkout() {
   if (runWorkout.value) {
     if (!checkSetsHaveTime()) {
       noTimeModal.value?.openModal()
+
       return
     }
 
@@ -69,50 +67,6 @@ async function handleFinishWorkout() {
       if (workoutEnded) {
         navigateTo('/')
       }
-    }
-  }
-}
-
-async function handleConfirmNoTime() {
-  if (runWorkout.value) {
-    try {
-      await $fetch('/api/workout/resetWorkout', {
-        method: 'PUT',
-        body: {
-          workoutId: runWorkout.value.id,
-        },
-      })
-
-      stopTimer()
-      navigateTo('/')
-      await fetchWorkouts()
-    }
-    catch (error) {
-      console.error('Error resetting workout:', error)
-      toast(t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
-    }
-  }
-}
-
-async function addNewSet(exerciseId: string) {
-  if (runWorkout.value) {
-    try {
-      const newSet = await $fetch(API_CREATE_SET, {
-        method: 'POST',
-        body: {
-          workoutId: runWorkout.value.id,
-          exerciseId,
-          weight: 0,
-          repeats: 0,
-          difficulty: 1,
-        },
-      })
-
-      runWorkout.value.sets.push(newSet)
-    }
-    catch (error) {
-      console.error('Error creating set:', error)
-      toast(t('toast.set_create_error'), ToastStatusesEnum.ERROR)
     }
   }
 }
@@ -348,7 +302,7 @@ onMounted(async () => {
           <p>{{ $t('workout.no_time_description') }}</p>
         </template>
         <template #footer>
-          <TheButton @click="handleConfirmNoTime">
+          <TheButton @click="resetNoTimeWorkout">
             {{ $t('common.ok') }}
           </TheButton>
         </template>
