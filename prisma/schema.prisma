@@ -44,7 +44,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   workouts      Workout[]
-  exercises     UserExercise[] // Add this relation
+  exercises     UserExercise[]
 }
 
 model VerificationToken {
@@ -78,14 +78,14 @@ model WorkoutExercise {
   id           String  @id @default(cuid())
   workoutId    String
   exerciseName String
-  exerciseId   Int
+  exerciseId   String
   workout      Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 }
 
 model WorkoutSet {
   id           String    @id @default(cuid())
   workoutId    String
-  exerciseId   Int
+  exerciseId   String    // Изменено с Int на String
   weight       Float     @default(0)
   repeats      Int       @default(0)
   difficulty   Int       @default(1)
@@ -101,7 +101,7 @@ model UserExercise {
   name        String
   muscleId    Int
   primary     String
-  secondary   String   // We'll handle array serialization/deserialization in the code
+  secondary   String   // Для SQLite сериализуем/десериализуем массив в строку
   category    String
   equipment   String
   force       String

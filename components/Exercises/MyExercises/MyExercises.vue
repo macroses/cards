@@ -100,7 +100,7 @@ watch(() => userExercise.primary, (newPrimary) => {
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
             <TheInput
-              v-model.trim="userExercise.name"
+              v-model="userExercise.name"
               placeholder="Название упражнения"
               :validate-rules="[createValidationRule('required')]"
               :max="50"

@@ -5,7 +5,7 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interf
 interface WorkoutProgressProps {
   workout: CreateWorkoutResponse
   workouts: CreateWorkoutResponse[]
-  selectedExerciseId: number | null
+  selectedExerciseId: string | null
 }
 
 const props = defineProps<WorkoutProgressProps>()

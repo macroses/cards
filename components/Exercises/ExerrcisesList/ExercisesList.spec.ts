@@ -13,6 +13,7 @@ vi.mock('@/composables/exercisesList/useFetchExercisesList', () => ({
 describe('тестирует ExercisesList', () => {
   const defaultProps = {
     selectedExercises: [],
+    exercisesList: exercisesListMock,
   }
 
   let wrapper: ReturnType<typeof mount>
@@ -52,7 +53,7 @@ describe('тестирует ExercisesList', () => {
   it('рендерит список групп мышц', () => {
     const muscleGroups = wrapper.findAll('.muscle-item')
     expect(muscleGroups).toHaveLength(1)
-    expect(muscleGroups[0].find('.muscle-name').text()).toBe('legs')
+    expect(muscleGroups[0].find('.muscle-name').text()).toBe('Neck')
   })
 
   it('отображает количество упражнений в группе', () => {
@@ -76,14 +77,14 @@ describe('тестирует ExercisesList', () => {
 
     const exerciseItem = wrapper.findComponent({ name: 'ExerciseItem' })
     await exerciseItem.vm.$emit('select', {
-      id: 1,
-      name: 'Приседания',
+      id: '1',
+      name: 'Поднятие диска',
     })
 
     expect(wrapper.emitted('selectExercise')).toBeTruthy()
     expect(wrapper.emitted('selectExercise')?.[0]).toEqual([{
-      id: 1,
-      name: 'Приседания',
+      id: '1',
+      name: 'Поднятие диска',
     }])
   })
 
@@ -93,17 +94,15 @@ describe('тестирует ExercisesList', () => {
 
     const exerciseItem = wrapper.findComponent({ name: 'ExerciseItem' })
     await exerciseItem.vm.$emit('openModal', {
-      id: 1,
-      name: 'Приседания',
-      muscles: {
-        primary: 'legs',
-        secondary: ['glutes'],
-      },
-      characteristics: {
-        type: 'basic',
-        level: 'beginner',
-      },
-      description: 'Базовое упражнение для ног',
+      id: '1',
+      name: 'Поднятие диска',
+      muscleId: 1,
+      primary: 'Neck',
+      secondary: [],
+      category: 'strength',
+      equipment: 'machines',
+      force: 'pull',
+      level: 'beginner',
     })
 
     const modal = document.querySelector('.modal')
@@ -113,7 +112,7 @@ describe('тестирует ExercisesList', () => {
 
   it('отмечает упражнение как выбранное', async () => {
     await wrapper.setProps({
-      selectedExercises: [{ id: 1, name: 'Приседания' }],
+      selectedExercises: [{ id: '1', name: 'Поднятие диска' }],
     })
 
     const muscleGroup = wrapper.find('.muscle-item__title')

@@ -1,4 +1,4 @@
-type InputMode = `${'' | 'text' | 'search' | 'email' | 'tel' | 'url' | 'none' | 'numeric' | 'decimal'}`
+type InputMode = 'text' | 'search' | 'email' | 'tel' | 'url' | 'none' | 'numeric' | 'decimal' | undefined
 
 export default interface InputTextProps {
   type?: string

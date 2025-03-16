@@ -14,7 +14,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (event: 'removeExercise', id: number): void
+  (event: 'removeExercise', id: string): void
   (event: 'addSet', exerciseForm: ExerciseFormData): void
   (event: 'removeSet', setId: string): void
 }>()
@@ -27,21 +27,21 @@ const exerciseForm = reactive<Partial<UserTrainingSession>>({
   difficulty: DIFFICULT_LEVEL.WARM,
 })
 
-const activeExerciseId = ref<number | null>(null)
-const showLastSessions = ref<number | null>(null)
+const activeExerciseId = ref<string | null>(null)
+const showLastSessions = ref<string | null>(null)
 const lastSessionsRef = ref(null)
 
 const { lastSets } = useLastExerciseSets()
 
 const hasPreviousSets = computed(() => {
-  return (exerciseId: number) => {
+  return (exerciseId: string) => {
     return lastSets.value[exerciseId]?.length > 0
   }
 })
 
 const isAppendSessionDisable = computed(() => !exerciseForm.weight || !exerciseForm.repeats)
 
-function toggleExercise(exerciseId: number) {
+function toggleExercise(exerciseId: string) {
   resetExerciseForm()
   activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
 }
@@ -52,7 +52,7 @@ function resetExerciseForm() {
   exerciseForm.difficulty = DIFFICULT_LEVEL.WARM
 }
 
-function appendSession(exerciseId: number) {
+function appendSession(exerciseId: string) {
   if (!exerciseForm.weight || !exerciseForm.repeats) {
     return
   }
@@ -60,17 +60,19 @@ function appendSession(exerciseId: number) {
   emit('addSet', {
     id: crypto.randomUUID(),
     exerciseId,
+    weight: exerciseForm.weight,
+    repeats: exerciseForm.repeats,
+    difficulty: exerciseForm.difficulty,
     completed: false,
     setTime: null,
-    ...exerciseForm,
-  })
+  } as ExerciseFormData)
 }
 
-function getExerciseSessions(exerciseId: number) {
+function getExerciseSessions(exerciseId: string) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
 
-function showPreviousSetsResults(exerciseId: number | null) {
+function showPreviousSetsResults(exerciseId: string | null) {
   showLastSessions.value = showLastSessions.value === exerciseId ? null : exerciseId
 }
 
@@ -164,7 +166,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
                 no-clear
               />
               <TheInput
-                v-model.trim.number="exerciseForm.repeats"
+                v-model.number="exerciseForm.repeats"
                 placeholder="Повторения"
                 type="number"
                 :max="MAX_LENGTH_NUMBER"

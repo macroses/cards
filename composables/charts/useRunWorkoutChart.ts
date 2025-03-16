@@ -6,7 +6,7 @@ export function useRunWorkoutChart() {
   function getData<T extends CreateWorkoutResponse>(
     originalWorkout: T | null,
     runWorkout: T | null | undefined,
-    activeExercises?: Set<number>,
+    activeExercises?: Set<string>,
   ): ECOption {
     if (!originalWorkout || !runWorkout) {
       return {

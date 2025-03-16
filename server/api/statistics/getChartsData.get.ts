@@ -58,7 +58,8 @@ export default defineEventHandler(async (event) => {
     })
 
     // Популярные упражнения
-    const exerciseCounts: Record<number, number> = {}
+    const exerciseCounts: Record<string, number> = {}
+
     workouts.forEach((workout) => {
       workout.exercises.forEach((exercise) => {
         if (exercise.exerciseId)
@@ -69,11 +70,12 @@ export default defineEventHandler(async (event) => {
     const popularExercises = Object.entries(exerciseCounts)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 10)
-      .map(([id]) => Number(id))
+      .map(([id]) => id)
 
     // Данные прогресса по упражнениям
-    const exerciseData: Record<number, ExerciseData[]> = {}
-    popularExercises.forEach((exerciseId) => {
+    const exerciseData: Record<string, ExerciseData[]> = {}
+
+    popularExercises.forEach((exerciseId: string) => {
       exerciseData[exerciseId] = workouts
         .map((workout) => {
           const sets = workout.sets.filter(set => set.exerciseId === exerciseId)

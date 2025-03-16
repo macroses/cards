@@ -55,7 +55,7 @@ function handleDeleteWorkout(id: string) {
 }
 
 const readWorkoutResults = ref<typeof TheModal | null>(null)
-const selectedExerciseId = ref<number | null>(null)
+const selectedExerciseId = ref<string | null>(null)
 
 function showResultModal() {
   readWorkoutResults.value?.openModal()
@@ -64,17 +64,17 @@ function showResultModal() {
   }
 }
 
-function handleExerciseClick(exerciseId: number) {
+function handleExerciseClick(exerciseId: string) {
   selectedExerciseId.value = exerciseId
 }
 
 const exerciseSets = computed(() => {
   if (!selectedWorkout.value) {
-    return {} as Record<number, CreateWorkoutResponse['sets']>
+    return {} as Record<string, CreateWorkoutResponse['sets']>
   }
 
   return selectedWorkout.value.sets.reduce((
-    acc: Record<number, CreateWorkoutResponse['sets']>,
+    acc: Record<string, CreateWorkoutResponse['sets']>,
     set: CreateWorkoutResponse['sets'][0],
   ) => {
     if (!acc[set.exerciseId]) {

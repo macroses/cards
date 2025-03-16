@@ -1,5 +1,5 @@
 export interface ExerciseServerTemplate {
-  id: number
+  id: string
   name: string
   muscleId: number
   primary: string

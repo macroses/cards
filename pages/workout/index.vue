@@ -4,7 +4,7 @@ import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
 import TheLoader from '~/components/ui/TheLoader/TheLoader.vue'
 import { useSelectExercise } from '~/composables/workoutManagment/useSelectExercise'
 import { WORKOUT_COLORS } from '~/constants'
-import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
+import type { ExerciseFormData, UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
 definePageMeta({
   middleware: [
@@ -45,13 +45,19 @@ function handleSelectExercise(exercise: UserWorkoutExercise): void {
   selectExercise(exercise, workout)
 }
 
-function handleRemoveExercise(exerciseId: number): void {
+function handleRemoveExercise(exerciseId: string): void {
   workout.exercises = workout.exercises.filter((exercise: UserWorkoutExercise) => exercise.id !== exerciseId)
   workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.exerciseId !== exerciseId)
 }
 
-function handleAddSet(set: UserTrainingSession) {
-  workout.sessions.push(set)
+function handleAddSet(set: ExerciseFormData) {
+  const sessionSet: UserTrainingSession = {
+    ...set,
+    setTime: set.setTime ? Number(set.setTime) : null,
+    setTimeAddedAt: null,
+  }
+
+  workout.sessions.push(sessionSet)
 }
 
 function handleRemoveSet(setId: string) {

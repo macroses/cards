@@ -8,6 +8,11 @@ import type {
   GlobalChartsReturn,
 } from '~/ts/interfaces'
 
+interface ExercisesGroup {
+  primary: string
+  exercises: ExerciseServerTemplate[]
+}
+
 export function useGlobalCharts(): GlobalChartsReturn {
   const { t } = useI18n()
   const dayjs = useDayjs()
@@ -16,11 +21,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const volumeChartOption = ref<ECBasicOption | null>(null)
   const exerciseChartOption = ref<ECBasicOption | null>(null)
   const durationChartOption = ref<ECBasicOption | null>(null)
-  const selectedExercise = ref<number | null>(null)
-  const popularExercises = ref<number[]>([])
+  const selectedExercise = ref<string | null>(null)
+  const popularExercises = ref<string[]>([])
   const isLoading = ref(false)
   const error = ref<string | null>(null)
-  const exerciseData = ref<Record<number, ExerciseData[]>>({})
+  const exerciseData = ref<Record<string, ExerciseData[]>>({})
 
   async function fetchChartsData() {
     try {
@@ -41,7 +46,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
 
       updateVolumeChart(volumeDataWithDates)
       updateDurationChart(durationDataWithDates)
-      popularExercises.value = data.popularExercises
+      popularExercises.value = data.popularExercises.map(id => id.toString())
 
       // Сохраняем данные всех упражнений
       exerciseData.value = Object.fromEntries(
@@ -56,7 +61,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
 
       const shouldUpdateExercise = selectedExercise.value === null && data.popularExercises.length > 0
       if (shouldUpdateExercise) {
-        selectedExercise.value = data.popularExercises[0]
+        selectedExercise.value = data.popularExercises[0].toString()
       }
 
       if (selectedExercise.value) {
@@ -201,14 +206,13 @@ export function useGlobalCharts(): GlobalChartsReturn {
     }
   }
 
-  function getExerciseName(exerciseId: number): string {
-    for (const group of exercisesList.value || []) {
-      const exercise = group.exercises.find((e: ExerciseServerTemplate) => e.id === exerciseId)
-      if (exercise) {
-        return exercise.name
-      }
+  function getExerciseName(exerciseId: string): string {
+    if (!exercisesList.value) {
+      return `Exercise ${exerciseId}`
     }
-    return `Exercise ${exerciseId}`
+
+    const exercise = exercisesList.value.find((e: ExerciseServerTemplate) => e.id === exerciseId)
+    return exercise ? exercise.name : `Exercise ${exerciseId}`
   }
 
   const charts = computed<Array<{
@@ -237,7 +241,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
     await fetchChartsData()
   })
 
-  watch(() => selectedExercise.value, (newValue) => {
+  watch(() => selectedExercise.value, (newValue: string | null) => {
     if (newValue !== null && exerciseData.value[newValue]) {
       updateExerciseChart(exerciseData.value[newValue])
     }

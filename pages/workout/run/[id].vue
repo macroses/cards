@@ -40,6 +40,7 @@ const {
 } = useSetTimeManagement()
 
 const { toast } = useToastState()
+const { t } = useI18n()
 
 const option = shallowRef(getData(originalWorkout.value, runWorkout.value, activeExercises.value))
 const noTimeModal = ref()
@@ -88,12 +89,12 @@ async function handleConfirmNoTime() {
     }
     catch (error) {
       console.error('Error resetting workout:', error)
-      toast($t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
+      toast(t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
     }
   }
 }
 
-async function addNewSet(exerciseId: number) {
+async function addNewSet(exerciseId: string) {
   if (runWorkout.value) {
     try {
       const newSet = await $fetch(API_CREATE_SET, {
@@ -111,7 +112,7 @@ async function addNewSet(exerciseId: number) {
     }
     catch (error) {
       console.error('Error creating set:', error)
-      toast($t('toast.set_create_error'), ToastStatusesEnum.ERROR)
+      toast(t('toast.set_create_error'), ToastStatusesEnum.ERROR)
     }
   }
 }
@@ -122,7 +123,7 @@ const exerciseSets = computed(() => {
   }
 
   return runWorkout.value.sets.reduce((
-    acc: Record<number, CreateWorkoutResponse['sets']>,
+    acc: Record<string, CreateWorkoutResponse['sets']>,
     set: CreateWorkoutResponse['sets'][0],
   ) => {
     if (!acc[set.exerciseId]) {
@@ -136,7 +137,7 @@ const exerciseSets = computed(() => {
 })
 
 const isExerciseCompleted = computed(() => {
-  return function (exerciseId: number): boolean {
+  return function (exerciseId: string): boolean {
     const exerciseSetsArray = exerciseSets.value[exerciseId] || []
 
     if (!exerciseSetsArray.length) {
@@ -158,7 +159,7 @@ watchImmediate([runWorkout], ([workout]: [typeof runWorkout.value]) => {
 })
 
 watchDeep(setTimes, () => {
-  activeExercises.value.forEach((exerciseId: number) => {
+  activeExercises.value.forEach((exerciseId) => {
     if (isExerciseCompleted.value(exerciseId)) {
       activeExercises.value.delete(exerciseId)
     }

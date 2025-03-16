@@ -5,7 +5,7 @@ import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interf
 
 interface WorkoutResultsProps {
   workout: CreateWorkoutResponse
-  selectedExerciseId: number | null
+  selectedExerciseId: string | null
 }
 
 const props = defineProps<WorkoutResultsProps>()

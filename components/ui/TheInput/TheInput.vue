@@ -3,6 +3,9 @@ import type InputTextProps from '~/ts/componentProps/InputText.prop'
 
 interface Props extends InputTextProps {
   max?: number
+  modelModifiers?: {
+    number?: boolean
+  }
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -14,7 +17,8 @@ const props = withDefaults(defineProps<Props>(), {
   validateRules: () => ([]),
 })
 
-const emit = defineEmits(['validation', 'blur'])
+const emit = defineEmits(['validation', 'blur', 'update:modelValue'])
+
 const input = ref<HTMLInputElement | null>(null)
 
 const uniqueId = useId() as string
@@ -50,12 +54,17 @@ function handleClear(e: Event) {
   modelValue.value = null as T
 }
 
-function handleInput(e: Event) {
-  const input = e.target as HTMLInputElement
-  if (props.max && input.value.length > props.max) {
-    input.value = input.value.slice(0, props.max)
-    modelValue.value = input.value as T
-  }
+// function handleInput(e: Event) {
+//   const input = e.target as HTMLInputElement
+//   if (props.max && input.value.length > props.max) {
+//     input.value = input.value.slice(0, props.max)
+//     modelValue.value = input.value as T
+//   }
+// }
+
+function handleInput(event: Event) {
+  const value = (event.target as HTMLInputElement).value
+  emit('update:modelValue', props.modelModifiers?.number ? Number(value) || null : value as T)
 }
 
 watch(modelValue, () => validate())

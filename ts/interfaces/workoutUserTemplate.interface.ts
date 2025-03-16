@@ -2,7 +2,7 @@ import type { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
 export interface UserTrainingSession {
   id: string
-  exerciseId: number
+  exerciseId: string
   weight: number | null
   repeats: number | null
   difficulty: DIFFICULT_LEVEL
@@ -12,7 +12,7 @@ export interface UserTrainingSession {
 }
 
 export interface UserWorkoutExercise {
-  id: number
+  id: string
   name: string
 }
 

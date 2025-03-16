@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "name": "Поднятие диска",
     "muscleId": 1,
     "primary": "Neck",
@@ -11,7 +11,7 @@
     "level": "beginner"
   },
   {
-    "id": 2,
+    "id": "2",
     "name": "Side neck stretch",
     "muscleId": 1,
     "primary": "Neck",
@@ -22,7 +22,7 @@
     "level": "beginner"
   },
   {
-    "id": 3,
+    "id": "3",
     "name": "Chin to chest stretch",
     "muscleId": 1,
     "primary": "Neck",
@@ -35,7 +35,7 @@
     "level": "beginner"
   },
   {
-    "id": 4,
+    "id": "4",
     "name": "Standing dumbell upright row",
     "muscleId": 2,
     "primary": "Traps",
@@ -49,7 +49,7 @@
     "level": "beginner"
   },
   {
-    "id": 5,
+    "id": "5",
     "name": "Smith machine upright row",
     "muscleId": 2,
     "primary": "Traps",
@@ -64,7 +64,7 @@
     "level": "beginner"
   },
   {
-    "id": 6,
+    "id": "6",
     "name": "Kettlebell sumo",
     "muscleId": 2,
     "primary": "Traps",
@@ -80,7 +80,7 @@
     "level": "beginner"
   },
   {
-    "id": 7,
+    "id": "7",
     "name": "Shrugs",
     "muscleId": 2,
     "primary": "Traps",
@@ -91,7 +91,7 @@
     "level": "beginner"
   },
   {
-    "id": 8,
+    "id": "8",
     "name": "Upright cable row",
     "muscleId": 2,
     "primary": "Traps",
@@ -104,7 +104,7 @@
     "level": "intermediate"
   },
   {
-    "id": 9,
+    "id": "9",
     "name": "Dumbbell shoulder press",
     "muscleId": 3,
     "primary": "Shoulders",

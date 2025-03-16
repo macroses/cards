@@ -1,9 +1,9 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
 export function useActiveExercises() {
-  const activeExercises = ref<Set<number>>(new Set())
+  const activeExercises = ref<Set<string>>(new Set())
 
-  function toggleExercise(exerciseId: number) {
+  function toggleExercise(exerciseId: string) {
     if (!activeExercises.value.has(exerciseId)) {
       activeExercises.value.add(exerciseId)
 

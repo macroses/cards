@@ -4,12 +4,12 @@ export interface CreateWorkoutRequest {
   color: string
   workoutDate: Date
   exercises: Array<{
-    id: number
+    id: string
     name: string
   }>
   sessions: Array<{
     id: string
-    exerciseId: number
+    exerciseId: string
     weight: number | null
     repeats: number | null
     difficulty: number
@@ -33,12 +33,12 @@ export interface CreateWorkoutResponse {
     id: string
     exerciseName: string
     workoutId: string
-    exerciseId: number
+    exerciseId: string
   }>
   sets: Array<{
     id: string
     workoutId: string
-    exerciseId: number
+    exerciseId: string
     weight: number
     repeats: number
     difficulty: number

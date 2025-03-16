@@ -11,11 +11,13 @@ interface CachedData<T> {
   fetchedAt: Date
 }
 
+const DEFAULT_CACHE_TIME = 1000 * 60 * 60 * 24
+
 export function useCachedFetch<T, R>({
   url,
   key,
   transform,
-  cacheTime = 1000 * 60 * 60 * 24, // 24 hours by default
+  cacheTime = DEFAULT_CACHE_TIME,
   initialData,
 }: CachedFetchOptions<T, R>) {
   const nuxtApp = useNuxtApp()
@@ -30,14 +32,14 @@ export function useCachedFetch<T, R>({
       const cached = nuxtApp.payload.data[cacheKey] || nuxtApp.static.data[cacheKey]
 
       if (!cached) {
-        return undefined
+        return
       }
 
       const expiration = new Date(cached.fetchedAt)
       expiration.setTime(expiration.getTime() + cacheTime)
 
       if (expiration.getTime() < Date.now()) {
-        return undefined
+        return
       }
 
       return cached as CachedData<R>

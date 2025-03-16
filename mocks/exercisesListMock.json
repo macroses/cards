@@ -1,31 +1,24 @@
-{
-  "primary": "legs",
-  "exercises": [
-    {
-      "id": 1,
-      "name": "Приседания",
-      "muscles": {
-        "primary": "legs",
-        "secondary": ["glutes"]
-      },
-      "characteristics": {
-        "type": "basic",
-        "level": "beginner"
-      },
-      "description": "Базовое упражнение для ног"
-    },
-    {
-      "id": 2,
-      "name": "Выпады",
-      "muscles": {
-        "primary": "legs",
-        "secondary": ["glutes"]
-      },
-      "characteristics": {
-        "type": "basic",
-        "level": "beginner"
-      },
-      "description": "Упражнение для ног"
-    }
-  ]
-}
+[
+  {
+    "id": "1",
+    "name": "Поднятие диска",
+    "muscleId": 1,
+    "primary": "Neck",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": "2",
+    "name": "Side neck stretch",
+    "muscleId": 1,
+    "primary": "Neck",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "",
+    "force": "static",
+    "level": "beginner"
+  }
+]

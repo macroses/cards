@@ -23,7 +23,7 @@ const props = defineProps({
     default: false,
   },
   chosenItems: {
-    type: Array,
+    type: Array as PropType<MultiSelectItem[]>,
     default: () => [],
   },
 })

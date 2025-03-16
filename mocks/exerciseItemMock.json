@@ -1,20 +1,15 @@
 {
   "exercise": {
-    "id": 1,
+    "id": "1",
     "name": "Приседания",
-    "muscles": {
-      "muscleId": 2,
-      "primary": "legs",
-      "secondary": ["glutes", "core"]
-    },
-    "characteristics": {
-      "type": "basic",
-      "category": "strength",
-      "equipment": "machines",
-      "force": "pull",
-      "level": "beginner"
-    },
-    "description": "Базовое упражнение для ног"
+    "muscleId": 2,
+    "primary": "legs",
+    "secondary": ["glutes", "core"],
+    "type": "basic",
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
   },
   "isSelected": false
 }

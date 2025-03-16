@@ -42,7 +42,7 @@ function selectExercise(exercise: ExerciseServerTemplate) {
   })
 }
 
-function isExerciseAlreadySelected(id: number) {
+function isExerciseAlreadySelected(id: string) {
   return props.selectedExercises.some(selected => selected.id === id)
 }
 
@@ -66,7 +66,7 @@ function closeModal() {
   modalRef.value?.closeModal()
 }
 
-function isExerciseSelected(exerciseId: number) {
+function isExerciseSelected(exerciseId: string) {
   return props.selectedExercises.some(selected => selected.id === exerciseId)
 }
 </script>

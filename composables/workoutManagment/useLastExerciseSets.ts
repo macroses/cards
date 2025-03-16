@@ -2,11 +2,11 @@ import type { WorkoutSet } from '@prisma/client'
 import { API_LAST_SETS, GLOBAL_LAST_SETS } from '~/constants'
 
 export function useLastExerciseSets() {
-  const lastSets = useState<Record<number, WorkoutSet[]>>(GLOBAL_LAST_SETS, () => ({}))
+  const lastSets = useState<Record<string, WorkoutSet[]>>(GLOBAL_LAST_SETS, () => ({}))
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
-  async function fetchLastSets(exerciseId: number, currentDate: Date) {
+  async function fetchLastSets(exerciseId: string, currentDate: Date) {
     try {
       isLoading.value = true
 

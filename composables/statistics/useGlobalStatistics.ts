@@ -9,7 +9,7 @@ export function useGlobalStatistics() {
   async function fetchStatistics() {
     try {
       isLoading.value = true
-      statistics.value = await $fetch(API_GLOBAL_STATISTICS)
+      statistics.value = await $fetch<Statistics>(API_GLOBAL_STATISTICS)
     }
     catch (err) {
       console.error('Ошибка при загрузке статистики:', err)

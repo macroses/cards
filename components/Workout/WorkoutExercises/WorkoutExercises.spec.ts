@@ -19,16 +19,18 @@ describe('workoutExercises', () => {
 
   const defaultProps = {
     selectedExercises: [
-      { id: 1, name: 'Приседания' },
-      { id: 2, name: 'Жим лежа' },
+      { id: '1', name: 'Приседания' },
+      { id: '2', name: 'Жим лежа' },
     ],
     sessions: [
       {
         id: 'session1',
-        exerciseId: 1,
+        exerciseId: '1',
         weight: 100,
         repeats: 10,
         difficulty: DIFFICULT_LEVEL.MEDIUM,
+        completed: false,
+        setTime: null,
       },
     ],
     workoutDate: new Date('2024-01-01'),
@@ -70,7 +72,7 @@ describe('workoutExercises', () => {
     await deleteButton.trigger('click')
 
     expect(wrapper.emitted('removeExercise')).toBeTruthy()
-    expect(wrapper.emitted('removeExercise')?.[0]).toEqual([1])
+    expect(wrapper.emitted('removeExercise')?.[0]).toEqual(['1']) // Change from 1 to '1'
   })
 
   it('отображает форму добавления сета при клике на упражнение', async () => {
@@ -98,7 +100,7 @@ describe('workoutExercises', () => {
 
     expect(wrapper.emitted('addSet')).toBeTruthy()
     expect(wrapper.emitted('addSet')?.[0][0]).toMatchObject({
-      exerciseId: 1,
+      exerciseId: '1',
       weight: 100,
       repeats: 10,
       difficulty: DIFFICULT_LEVEL.WARM,

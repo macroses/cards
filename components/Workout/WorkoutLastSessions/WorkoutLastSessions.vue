@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface WorkoutLastSessionProps {
-  exerciseId: number
-  activeExerciseId: number | null
+  exerciseId: string
+  activeExerciseId: string | null
   workoutDate: Date
   showSessions: boolean
 }

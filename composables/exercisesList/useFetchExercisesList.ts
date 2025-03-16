@@ -11,7 +11,7 @@ export function useFetchExercisesList() {
         return []
       }
 
-      return payload as ExerciseServerTemplate[]
+      return payload
     },
     initialData: [],
   })

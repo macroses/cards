@@ -47,7 +47,7 @@ watch(workoutTitle, (newValue: string) => {
   <div class="workout__description">
     <div class="workout__name">
       <TheInput
-        v-model.trim="workoutTitle"
+        v-model="workoutTitle"
         placeholder="Workout name"
         :validate-rules="workoutNameRules"
         :max="50"

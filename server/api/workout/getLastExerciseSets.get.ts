@@ -3,7 +3,7 @@ import { getServerSession } from '#auth'
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)
   const query = getQuery(event)
-  const exerciseId = Number(query.exerciseId)
+  const exerciseId = query.exerciseId as string
   const currentDate = query.currentDate ? new Date(query.currentDate as string) : new Date()
 
   if (!session) {

@@ -21,17 +21,21 @@ describe('workoutTonnage', () => {
     sessions: [
       {
         id: 'session1',
-        exerciseId: 1,
+        exerciseId: '1',
         weight: 100,
         repeats: 10,
         difficulty: DIFFICULT_LEVEL.MEDIUM,
+        completed: false,
+        setTime: null,
       },
       {
         id: 'session2',
-        exerciseId: 2,
+        exerciseId: '2',
         weight: 80,
         repeats: 12,
         difficulty: DIFFICULT_LEVEL.LOW,
+        completed: false,
+        setTime: null,
       },
     ],
     selectedExercisesLength: 2,

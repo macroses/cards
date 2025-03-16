@@ -135,7 +135,7 @@ function onTouchEnd(event: TouchEvent) {
         :name="transitionName"
       >
         <span
-          :key="currentMonth"
+          :key="dayjs(currentMonth).format('YYYY-MM')"
           class="calendar-month"
         >
           {{ dayjs(currentMonth).format('MMMM YYYY') }}
@@ -143,7 +143,7 @@ function onTouchEnd(event: TouchEvent) {
       </Transition>
     </div>
     <div
-      :key="currentMonth"
+      :key="dayjs(currentMonth).format('YYYY-MM')"
       class="calendar-days"
     >
       <button

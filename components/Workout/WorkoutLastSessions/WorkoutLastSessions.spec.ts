@@ -11,14 +11,14 @@ vi.mock('~/composables/workoutManagment/useLastExerciseSets', () => {
     1: [
       {
         id: 'set1',
-        exerciseId: 1,
+        exerciseId: '1',
         weight: 100,
         repeats: 10,
         difficulty: DIFFICULT_LEVEL.MEDIUM,
       },
       {
         id: 'set2',
-        exerciseId: 1,
+        exerciseId: '1',
         weight: 120,
         repeats: 8,
         difficulty: DIFFICULT_LEVEL.HIGH,
@@ -47,8 +47,8 @@ describe('workoutLastSessions', () => {
   })
 
   const defaultProps = {
-    exerciseId: 1,
-    activeExerciseId: 1,
+    exerciseId: '1',
+    activeExerciseId: '1',
     workoutDate: new Date('2024-01-01'),
     showSessions: true,
   }
@@ -88,7 +88,7 @@ describe('workoutLastSessions', () => {
 
   it('не отображает компонент, если нет предыдущих сетов', async () => {
     await wrapper.setProps({
-      exerciseId: 2, // ID упражнения без предыдущих сетов
+      exerciseId: '2',
     })
 
     const previousResults = wrapper.find('.previous-results')

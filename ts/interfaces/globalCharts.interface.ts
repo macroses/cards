@@ -51,9 +51,9 @@ export interface GlobalChartsReturn {
     option: ECBasicOption | null
     type: 'default' | 'exercise'
   }>>
-  selectedExercise: Ref<number | null>
-  popularExercises: Ref<number[]>
-  getExerciseName: (exerciseId: number) => string
+  selectedExercise: Ref<string | null>
+  popularExercises: Ref<string[]>
+  getExerciseName: (exerciseId: string) => string
   isLoading: Ref<boolean>
   error: Ref<string | null>
 }

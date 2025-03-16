@@ -13,7 +13,7 @@ export function useWorkoutResults() {
 
   const findPreviousWorkout = (
     currentWorkout: CreateWorkoutResponse,
-    exerciseId: number,
+    exerciseId: string,
     workouts: CreateWorkoutResponse[],
   ) => {
     return workouts
@@ -71,7 +71,7 @@ export function useWorkoutResults() {
 
   const getExerciseData = (
     workout: CreateWorkoutResponse,
-    exerciseId: number,
+    exerciseId: string,
     workouts: CreateWorkoutResponse[],
   ): MetricCharts => {
     const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
@@ -125,7 +125,7 @@ export function useWorkoutResults() {
 
   const getProgressData = (
     currentWorkout: CreateWorkoutResponse,
-    exerciseId: number,
+    exerciseId: string,
     workouts: CreateWorkoutResponse[],
   ): ProgressData | null => {
     const previousWorkout = findPreviousWorkout(currentWorkout, exerciseId, workouts)
