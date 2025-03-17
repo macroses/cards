@@ -1,17 +1,22 @@
+import { API_GET_USER_EXERCISES } from '~/constants'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type { ExerciseServerTemplate } from '~/ts/interfaces'
 import { useCachedFetch } from '~/utils/useCachedFetch'
 
 export function useExerciseHandle() {
   const isLoading = ref(false)
   const error = ref<string | null>(null)
+  const { t } = useI18n()
+  const { toast } = useToastState()
 
   const { data: exercises, refresh: refreshExercises } = useCachedFetch<unknown, ExerciseServerTemplate[]>({
-    url: '/api/exercises/getUserExercises',
+    url: API_GET_USER_EXERCISES,
     key: 'user-exercises',
     transform: (payload) => {
       if (!Array.isArray(payload)) {
         return []
       }
+
       return payload as ExerciseServerTemplate[]
     },
     initialData: [],
@@ -42,11 +47,33 @@ export function useExerciseHandle() {
     }
   }
 
+  const deleteExercise = async (id: string) => {
+    try {
+      isLoading.value = true
+      error.value = null
+
+      await $fetch('/api/exercises/deleteUserExercise', {
+        method: 'DELETE',
+        body: { id },
+      })
+
+      toast(t('toast.exercise_deleted'), ToastStatusesEnum.SUCCESS)
+      await refreshExercises()
+    }
+    catch (e: any) {
+      error.value = e.message
+      toast(t('toast.exercise_delete_error'), ToastStatusesEnum.ERROR)
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     exercises,
     isLoading,
     error,
     createExercise,
-    refreshExercises,
+    deleteExercise,
   }
 }

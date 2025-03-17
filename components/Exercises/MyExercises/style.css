@@ -23,3 +23,11 @@
     border-color: #d6f5d6;
   }
 }
+
+.my_exercises__list-item-actions {
+  display: flex;
+}
+
+.my_exercises__list-item--delete.button--transparent:hover {
+  color: red;
+}

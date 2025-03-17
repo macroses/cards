@@ -23,6 +23,7 @@ const {
   isLoading,
   error,
   createExercise,
+  deleteExercise,
 } = useExerciseHandle()
 
 const myModalRef = ref<typeof TheModal | null>(null)
@@ -92,6 +93,14 @@ function selectExercise(exercise: ExerciseServerTemplate) {
 function isExerciseSelected(exerciseId: string) {
   return props.selectedExercises.some(selected => selected.id === exerciseId)
 }
+
+async function handleDelete(event: Event, exerciseId: string) {
+  event.stopPropagation()
+
+  if (confirm('Вы уверены, что хотите удалить это упражнение?')) {
+    await deleteExercise(exerciseId)
+  }
+}
 </script>
 
 <template>
@@ -112,15 +121,18 @@ function isExerciseSelected(exerciseId: string) {
         @click="selectExercise(exercise)"
       >
         {{ exercise.name }}
-        <TheButton
-          variant="transparent"
-          @click.stop="emit('openModal', exercise)"
-        >
-          <TheIcon
-            icon-name="circle-info"
-            width="20px"
-          />
-        </TheButton>
+        <div class="my_exercises__list-item-actions">
+          <TheButton
+            variant="transparent"
+            class="my_exercises__list-item--delete"
+            @click="handleDelete($event, exercise.id)"
+          >
+            <TheIcon
+              icon-name="trash-can"
+              width="18px"
+            />
+          </TheButton>
+        </div>
       </li>
     </ul>
     <TheButton @click="handleOpenModal">

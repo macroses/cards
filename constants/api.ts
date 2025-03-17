@@ -17,3 +17,5 @@ export const API_GLOBAL_STATISTICS = '/api/statistics/getGlobalStatistics'
 
 export const API_RESET_WORKOUT = '/api/workout/resetWorkout'
 export const API_UPDATE_SETS = '/api/workout/updateSets'
+
+export const API_GET_USER_EXERCISES = '/api/exercises/getUserExercises'
