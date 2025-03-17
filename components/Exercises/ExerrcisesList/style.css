@@ -61,15 +61,12 @@
   color: rgb(var(--text-color));
   display: flex;
   justify-content: space-between;
+  border: 1px solid transparent;
   align-items: center;
   gap: 12px;
 
   & svg {
     color: var(--text-color);
-  }
-
-  &:hover {
-
   }
 
   p {
@@ -81,6 +78,11 @@
     & svg {
       color: green;
     }
+  }
+
+  &.added {
+    background-color: #efffeb;
+    border-color: #d6f5d6;
   }
 }
 
@@ -95,6 +97,9 @@
   padding-top: 8px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .exercise-details__wrapper {

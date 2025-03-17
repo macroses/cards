@@ -30,12 +30,6 @@ describe('тестирует ExerciseItem', () => {
     expect(wrapper.classes()).toContain('added')
   })
 
-  it('отображает иконку галочки когда упражнение выбрано', async () => {
-    await wrapper.setProps({ isSelected: true })
-    const checkIcon = wrapper.findComponent({ name: 'TheIcon' })
-    expect(checkIcon.props('iconName')).toBe('circle-check')
-  })
-
   it('эмитит событие select при клике на элемент', async () => {
     await wrapper.trigger('click')
     expect(wrapper.emitted('select')).toBeTruthy()

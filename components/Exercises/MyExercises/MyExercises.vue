@@ -15,6 +15,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   selectExercise: [exercise: UserWorkoutExercise]
+  openModal: [exercise: ExerciseServerTemplate]
 }>()
 
 const {
@@ -99,20 +100,27 @@ function isExerciseSelected(exerciseId: string) {
     <p v-else-if="error">
       {{ error }}
     </p>
-    <ul v-else>
+    <ul
+      v-else
+      class="my_exercises__list"
+    >
       <li
         v-for="exercise in exercises"
         :key="exercise.id"
-        class="exercise-item"
+        class="my_exercises__list-item"
         :class="{ selected: isExerciseSelected(exercise.id) }"
         @click="selectExercise(exercise)"
       >
         {{ exercise.name }}
-        <TheIcon
-          v-if="isExerciseSelected(exercise.id)"
-          icon-name="circle-check"
-          width="16px"
-        />
+        <TheButton
+          variant="transparent"
+          @click.stop="emit('openModal', exercise)"
+        >
+          <TheIcon
+            icon-name="circle-info"
+            width="20px"
+          />
+        </TheButton>
       </li>
     </ul>
     <TheButton @click="handleOpenModal">

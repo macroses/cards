@@ -86,6 +86,7 @@ textarea,
 select,
 p {
   -webkit-appearance: none;
+  -moz-appearance: textfield;
   font: inherit;
   color: rgb(var(--text-color));
 }

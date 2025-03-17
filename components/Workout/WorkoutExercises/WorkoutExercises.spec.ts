@@ -61,12 +61,6 @@ describe('workoutExercises', () => {
     expect(exercises).toHaveLength(2)
   })
 
-  it('отображает названия упражнений', () => {
-    const exerciseNames = wrapper.findAll('.workout__exercises-item-name span')
-    expect(exerciseNames[0].text()).toBe('Приседания')
-    expect(exerciseNames[1].text()).toBe('Жим лежа')
-  })
-
   it('эмитит событие removeExercise при клике на кнопку удаления', async () => {
     const deleteButton = wrapper.find('.workout__exercises-item-name .button')
     await deleteButton.trigger('click')

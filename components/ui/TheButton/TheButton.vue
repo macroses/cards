@@ -23,7 +23,7 @@ withDefaults(defineProps<ButtonProps>(), {
       'button--icon-only': iconOnly,
     }"
   >
-    <slot />
+    <span class="button__content"><slot /></span>
   </button>
   <NuxtLink
     v-else
@@ -34,7 +34,7 @@ withDefaults(defineProps<ButtonProps>(), {
       'button--icon-only': iconOnly,
     }"
   >
-    <slot />
+    <span class="button__content"><slot /></span>
   </NuxtLink>
 </template>
 

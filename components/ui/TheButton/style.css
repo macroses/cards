@@ -13,6 +13,7 @@
   align-items: center;
   justify-content: center;
   outline: none;
+  overflow: hidden;
   background: rgb(var(--btn-bg));
   max-width: fit-content;
   color: var(--btn-color);
@@ -30,6 +31,14 @@
     background-color: gray;
     pointer-events: none;
   }
+}
+
+.button__content {
+  display: inline-flex;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (hover: hover) and (pointer: fine) {

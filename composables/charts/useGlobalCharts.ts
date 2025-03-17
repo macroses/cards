@@ -8,15 +8,11 @@ import type {
   GlobalChartsReturn,
 } from '~/ts/interfaces'
 
-interface ExercisesGroup {
-  primary: string
-  exercises: ExerciseServerTemplate[]
-}
-
 export function useGlobalCharts(): GlobalChartsReturn {
   const { t } = useI18n()
   const dayjs = useDayjs()
   const { exercisesList } = useFetchExercisesList()
+  const { exercises: userExercisesList } = useExerciseHandle()
 
   const volumeChartOption = ref<ECBasicOption | null>(null)
   const exerciseChartOption = ref<ECBasicOption | null>(null)
@@ -211,8 +207,10 @@ export function useGlobalCharts(): GlobalChartsReturn {
       return `Exercise ${exerciseId}`
     }
 
-    const exercise = exercisesList.value.find((e: ExerciseServerTemplate) => e.id === exerciseId)
-    return exercise ? exercise.name : `Exercise ${exerciseId}`
+    const defaultExercise = exercisesList.value.find((e: ExerciseServerTemplate) => e.id === exerciseId)
+    const userExercise = userExercisesList.value?.find((e: ExerciseServerTemplate) => e.id === exerciseId)
+
+    return defaultExercise?.name || userExercise?.name || `Exercise ${exerciseId}`
   }
 
   const charts = computed<Array<{
@@ -237,9 +235,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
     },
   ])
 
-  onMounted(async () => {
-    await fetchChartsData()
-  })
+  onMounted(async () => await fetchChartsData())
 
   watch(() => selectedExercise.value, (newValue: string | null) => {
     if (newValue !== null && exerciseData.value[newValue]) {

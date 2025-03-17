@@ -1,0 +1,25 @@
+.my_exercises__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.my_exercises__list-item {
+  display: flex;
+  height: 36px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all var(--base-transition);
+  justify-content: space-between;
+  color: rgb(var(--text-color));
+
+  &.selected {
+    background-color: #efffeb;
+    border-color: #d6f5d6;
+  }
+}

@@ -16,14 +16,7 @@ const emit = defineEmits<{
     :class="{ added: isSelected }"
     @click="emit('select', exercise)"
   >
-    <p>
-      {{ exercise.name }}
-      <TheIcon
-        v-if="isSelected"
-        icon-name="circle-check"
-        width="16px"
-      />
-    </p>
+    <p>{{ exercise.name }}</p>
     <TheButton
       variant="transparent"
       @click.stop="emit('openModal', exercise)"
@@ -33,9 +26,5 @@ const emit = defineEmits<{
         width="20px"
       />
     </TheButton>
-    <TheIcon
-      icon-name="angle-right"
-      width="14px"
-    />
   </li>
 </template>
