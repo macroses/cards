@@ -1,6 +1,8 @@
 import { getServerSession } from '#auth'
 import type { ExerciseServerTemplate } from '~/ts/interfaces'
 
+const MAX_NAME_LENGTH = 50
+
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)
 
@@ -13,6 +15,20 @@ export default defineEventHandler(async (event) => {
 
   try {
     const body = await readBody<Omit<ExerciseServerTemplate, 'id'>>(event)
+
+    if (!body.name?.trim()) {
+      throw createError({
+        statusCode: 400,
+        message: 'Название упражнения обязательно',
+      })
+    }
+
+    if (body.name.length > MAX_NAME_LENGTH) {
+      throw createError({
+        statusCode: 400,
+        message: `Максимальная длина названия ${MAX_NAME_LENGTH} символов`,
+      })
+    }
 
     const exercise = await event.context.prisma.userExercise.create({
       data: {
@@ -36,7 +52,7 @@ export default defineEventHandler(async (event) => {
   }
   catch (error: any) {
     throw createError({
-      statusCode: 500,
+      statusCode: error.statusCode || 500,
       message: error.message || 'Ошибка при создании упражнения',
     })
   }

@@ -17,7 +17,7 @@
   "workout": {
     "save_workout": "Save workout",
     "create_workout": "Create workout",
-    "dropdown_color": "Select color",
+    "dropdown_color": "Label",
     "previous_results": "Previous results",
     "total_tonnage": "Total tonnage",
     "change_date": "Change date",

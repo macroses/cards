@@ -49,22 +49,18 @@ function onBlur() {
   validate()
 }
 
-function handleClear(e: Event) {
-  e.preventDefault()
+function handleClear(event: Event) {
+  event.preventDefault()
   modelValue.value = null as T
 }
 
-// function handleInput(e: Event) {
-//   const input = e.target as HTMLInputElement
-//   if (props.max && input.value.length > props.max) {
-//     input.value = input.value.slice(0, props.max)
-//     modelValue.value = input.value as T
-//   }
-// }
-
 function handleInput(event: Event) {
-  const value = (event.target as HTMLInputElement).value
-  emit('update:modelValue', props.modelModifiers?.number ? Number(value) || null : value as T)
+  const input = event.target as HTMLInputElement
+
+  if (props.max && input.value.length > props.max) {
+    input.value = input.value.slice(0, props.max)
+    modelValue.value = input.value as T
+  }
 }
 
 watch(modelValue, () => validate())
