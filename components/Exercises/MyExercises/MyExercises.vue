@@ -16,6 +16,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   selectExercise: [exercise: UserWorkoutExercise]
   openModal: [exercise: ExerciseServerTemplate]
+  removeExercise: [exerciseId: string]
 }>()
 
 const {
@@ -99,6 +100,10 @@ async function handleDelete(event: Event, exerciseId: string) {
 
   if (confirm('Вы уверены, что хотите удалить это упражнение?')) {
     await deleteExercise(exerciseId)
+  }
+
+  if (isExerciseSelected(exerciseId)) {
+    emit('removeExercise', exerciseId)
   }
 }
 </script>

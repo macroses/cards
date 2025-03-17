@@ -147,6 +147,7 @@ onMounted(async () => {
           v-else
           :selected-exercises="workout.exercises"
           :exercises-list="exercisesList"
+          @remove-exercise="handleRemoveExercise"
           @select-exercise="handleSelectExercise"
         />
       </div>

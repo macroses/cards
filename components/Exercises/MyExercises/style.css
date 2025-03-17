@@ -29,5 +29,6 @@
 }
 
 .my_exercises__list-item--delete.button--transparent:hover {
+  transition: color var(--base-transition);
   color: red;
 }
