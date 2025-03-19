@@ -14,6 +14,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   selectExercise: [exercise: UserWorkoutExercise]
+  removeExercise: [exerciseId: string]
 }>()
 
 const modalRef = ref<typeof TheModal | null>(null)

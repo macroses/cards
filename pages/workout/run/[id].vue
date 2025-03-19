@@ -102,6 +102,11 @@ const isExerciseCompleted = computed(() => {
   }
 })
 
+async function handleResetNoTimeWorkout() {
+  noTimeModal.value?.closeModal()
+  await resetNoTimeWorkout(runWorkout.value?.id)
+}
+
 watchEffect(() => {
   option.value = getData(originalWorkout.value, runWorkout.value, activeExercises.value)
 })
@@ -302,7 +307,7 @@ onMounted(async () => {
           <p>{{ $t('workout.no_time_description') }}</p>
         </template>
         <template #footer>
-          <TheButton @click="resetNoTimeWorkout">
+          <TheButton @click="handleResetNoTimeWorkout">
             {{ $t('common.ok') }}
           </TheButton>
         </template>

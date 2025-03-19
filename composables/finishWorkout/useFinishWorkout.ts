@@ -1,12 +1,11 @@
-import { API_END, GLOBAL_WORKOUTS } from '~/constants'
+import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 export function useFinishWorkout() {
   const isLoading = ref(false)
-  const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
+  const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
 
-  const { runWorkout } = useRunWorkout()
   const { t } = useI18n()
   const { toast } = useToastState()
   const { stopTimer } = useWorkoutTimer()
@@ -16,7 +15,7 @@ export function useFinishWorkout() {
     try {
       isLoading.value = true
 
-      const updatedWorkout = await $fetch<CreateWorkoutResponse>(API_END, {
+      const updatedWorkout = await $fetch<CreateWorkoutResponse>(API.FINISH_WORKOUT, {
         method: 'PUT',
         body: {
           workoutId,
@@ -54,13 +53,13 @@ export function useFinishWorkout() {
     }
   }
 
-  async function resetNoTimeWorkout() {
-    if (runWorkout.value) {
+  async function resetNoTimeWorkout(runWorkoutId?: string) {
+    if (runWorkoutId) {
       try {
-        await $fetch('/api/workout/resetWorkout', {
+        await $fetch(API.RESET_WORKOUT, {
           method: 'PUT',
           body: {
-            workoutId: runWorkout.value.id,
+            workoutId: runWorkoutId,
           },
         })
 

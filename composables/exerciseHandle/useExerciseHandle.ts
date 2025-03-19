@@ -1,4 +1,4 @@
-import { API_GET_USER_EXERCISES } from '~/constants'
+import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type { ExerciseServerTemplate } from '~/ts/interfaces'
 import { useCachedFetch } from '~/utils/useCachedFetch'
@@ -10,8 +10,8 @@ export function useExerciseHandle() {
   const { toast } = useToastState()
 
   const { data: exercises, refresh: refreshExercises } = useCachedFetch<unknown, ExerciseServerTemplate[]>({
-    url: API_GET_USER_EXERCISES,
-    key: 'user-exercises',
+    url: API.GET_USER_EXERCISES,
+    key: KEYS.USER_EXERCISES,
     transform: (payload) => {
       if (!Array.isArray(payload)) {
         return []
@@ -27,7 +27,7 @@ export function useExerciseHandle() {
       isLoading.value = true
       error.value = null
 
-      const response = await $fetch<ExerciseServerTemplate>('/api/exercises/createUserExercise', {
+      const response = await $fetch<ExerciseServerTemplate>(API.CREATE_USER_EXERCISE, {
         method: 'POST',
         body: exercise,
       })
@@ -52,12 +52,11 @@ export function useExerciseHandle() {
       isLoading.value = true
       error.value = null
 
-      await $fetch('/api/exercises/deleteUserExercise', {
+      await $fetch(API.DELETE_USER_EXERCISE, {
         method: 'DELETE',
         body: { id },
       })
 
-      toast(t('toast.exercise_deleted'), ToastStatusesEnum.SUCCESS)
       await refreshExercises()
     }
     catch (e: any) {

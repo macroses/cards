@@ -3,11 +3,9 @@ export const API_GET_WORKOUT = '/api/workout/getWorkout'
 export const API_UPDATE_SET_TIME = '/api/workout/updateSetTime'
 export const API_CREATE_SET = '/api/workout/createSet'
 
-export const API_EXERCISES_LIST_URL = '/api/exercises/exercises'
 export const API_END = '/api/finish-workout/finishWorkout'
 export const API_COPY = '/api/workout/workoutCopy'
 export const API_DELETE = '/api/workout/workoutDelete'
-export const API_WORKOUTS = '/api/workout/workoutsListByUserId'
 export const API_LAST_SETS = '/api/workout/getLastExerciseSets'
 
 export const API_CREATE = '/api/workout/create'
@@ -18,4 +16,22 @@ export const API_GLOBAL_STATISTICS = '/api/statistics/getGlobalStatistics'
 export const API_RESET_WORKOUT = '/api/workout/resetWorkout'
 export const API_UPDATE_SETS = '/api/workout/updateSets'
 
-export const API_GET_USER_EXERCISES = '/api/exercises/getUserExercises'
+const GET_USER_EXERCISES = '/api/exercises/getUserExercises'
+const CREATE_USER_EXERCISE = '/api/exercises/createUserExercise'
+const DELETE_USER_EXERCISE = '/api/exercises/deleteUserExercise'
+const EXERCISES_LIST = '/api/exercises/exercises'
+const FINISH_WORKOUT = '/api/finish-workout/finishWorkout'
+const WORKOUTS_LIST = '/api/workout/workoutsListByUserId'
+const START_WORKOUT = '/api/start-workout/startWorkout'
+const RESET_WORKOUT = '/api/workout/resetWorkout'
+
+export const API: Record<string, string> = {
+  CREATE_USER_EXERCISE,
+  GET_USER_EXERCISES,
+  DELETE_USER_EXERCISE,
+  EXERCISES_LIST,
+  FINISH_WORKOUT,
+  WORKOUTS_LIST,
+  START_WORKOUT,
+  RESET_WORKOUT,
+}

@@ -1,5 +1,8 @@
 import { getServerSession } from '#auth'
 
+const SECOND = 1000
+const MINUTE = 60
+
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)
 
@@ -26,23 +29,25 @@ export default defineEventHandler(async (event) => {
     // Максимальный тоннаж за тренировку
     const maxTonnage = Math.max(...completedWorkouts.map((workout) => {
       return workout.sets.reduce((sum, set) => {
-        return sum + (set.weight * set.repeats) / 1000
+        return sum + (set.weight * set.repeats) / SECOND
       }, 0)
     }))
 
     // Общий тоннаж за все тренировки
     const totalTonnage = completedWorkouts.reduce((total, workout) => {
       const workoutTonnage = workout.sets.reduce((sum, set) => {
-        return sum + (set.weight * set.repeats) / 1000
+        return sum + (set.weight * set.repeats) / SECOND
       }, 0)
+
       return total + workoutTonnage
     }, 0)
 
     // Среднее время тренировки
     const avgWorkoutDuration = completedWorkouts.reduce((total, workout) => {
       if (workout.startedAt && workout.endedAt) {
-        return total + (new Date(workout.endedAt).getTime() - new Date(workout.startedAt).getTime()) / (1000 * 60)
+        return total + (new Date(workout.endedAt).getTime() - new Date(workout.startedAt).getTime()) / (SECOND * MINUTE)
       }
+
       return total
     }, 0) / completedWorkouts.filter(w => w.startedAt && w.endedAt).length
 
@@ -51,6 +56,7 @@ export default defineEventHandler(async (event) => {
       const workoutSetTimes = workout.sets.reduce((sum, set) => {
         return sum + (set.setTime || 0)
       }, 0)
+
       return total + workoutSetTimes
     }, 0) / completedWorkouts.reduce((total, workout) => total + workout.sets.length, 0)
 

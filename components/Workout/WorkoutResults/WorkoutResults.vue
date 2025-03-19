@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watchImmediate } from '@vueuse/core'
-import { GLOBAL_WORKOUTS } from '~/constants'
+import { KEYS } from '~/constants'
 import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interfaces'
 
 interface WorkoutResultsProps {
@@ -11,7 +11,7 @@ interface WorkoutResultsProps {
 const props = defineProps<WorkoutResultsProps>()
 
 const { getExerciseData } = useWorkoutResults()
-const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS)
+const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
 const { t } = useI18n()
 
 const chartOption = ref<MetricCharts[ChartType] | null>(null)

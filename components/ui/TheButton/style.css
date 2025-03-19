@@ -46,6 +46,10 @@
     box-shadow: 0 10px 20px -10px rgb(var(--accent-color));
     transform: translateY(-3px);
   }
+
+  .button--danger:hover {
+    box-shadow: 0 10px 20px -10px rgb(var(--error-color));
+  }
 }
 
 .button[disabled] {
@@ -118,4 +122,9 @@
 .button--secondary {
   background-color: rgb(var(--accent-color) / 0.2);
   color: rgb(var(--accent-color));
+}
+
+.button--danger {
+  background-color: rgb(var(--error-color));
+  color: #fff;
 }
