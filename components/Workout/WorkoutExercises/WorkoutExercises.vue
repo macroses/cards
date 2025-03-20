@@ -27,7 +27,7 @@ const exerciseForm = reactive<Partial<UserTrainingSession>>({
 
 const activeExerciseId = ref<string | null>(null)
 const showLastSessions = ref<string | null>(null)
-const lastSessionsRef = ref(null)
+const lastSessionsRef = ref<HTMLElement | null>(null)
 
 const { lastSets } = useLastExerciseSets()
 
@@ -74,7 +74,13 @@ function showPreviousSetsResults(exerciseId: string | null) {
   showLastSessions.value = showLastSessions.value === exerciseId ? null : exerciseId
 }
 
-onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
+onMounted(() => {
+  if (lastSessionsRef.value) {
+    onClickOutside(lastSessionsRef, () => {
+      showLastSessions.value = null
+    })
+  }
+})
 </script>
 
 <template>

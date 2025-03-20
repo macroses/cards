@@ -13,8 +13,6 @@ definePageMeta({
   ],
 })
 
-const { t } = useI18n()
-
 const {
   isCalendarVisible,
   toggleCalendar,
@@ -122,7 +120,7 @@ onMounted(async () => {
         :disabled="!isWorkoutValid"
         @click="submitWorkout(workout)"
       >
-        {{ t('workout.save_workout') }}
+        {{ $t('workout.save_workout') }}
       </TheButton>
     </template>
     <template #exercises-list>

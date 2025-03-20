@@ -4,7 +4,6 @@ import TheDialog from '~/components/ui/TheDialog/TheDialog.vue'
 const localePath = useLocalePath()
 const { signOut, data } = useAuth()
 const { locale, changeLanguage, initLanguage } = useChangeLanguage()
-const { t } = useI18n()
 const { timer, activeWorkout } = useWorkoutTimer()
 
 function handleSignOut() {
@@ -92,7 +91,7 @@ onMounted(() => initLanguage())
 
     <TheDialog>
       <template #content>
-        <div>{{ t('signOutConfirm') }}</div>
+        <div>{{ $t('signOutConfirm') }}</div>
       </template>
       <template #footer>
         <div class="dialog-footer">

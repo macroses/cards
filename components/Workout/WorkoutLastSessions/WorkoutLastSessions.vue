@@ -8,7 +8,6 @@ interface WorkoutLastSessionProps {
 
 const props = defineProps<WorkoutLastSessionProps>()
 
-const { t } = useI18n()
 const { lastSets } = useLastExerciseSets()
 
 const exerciseSets = computed(() => {
@@ -22,7 +21,7 @@ const exerciseSets = computed(() => {
     class="previous-results"
   >
     <div class="previous-results__title">
-      {{ t('workout.previous_results') }}
+      {{ $t('workout.previous_results') }}
     </div>
     <ul class="previous-results__list">
       <li

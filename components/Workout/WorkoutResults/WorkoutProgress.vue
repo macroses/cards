@@ -10,7 +10,6 @@ interface WorkoutProgressProps {
 
 const props = defineProps<WorkoutProgressProps>()
 const { getProgressData } = useWorkoutResults()
-const { t } = useI18n()
 
 const progress = computed(() => {
   if (!props.selectedExerciseId || !props.workout || !props.workouts) {
@@ -34,7 +33,7 @@ function formatTime(seconds: number): string {
 <template>
   <div v-if="progress" class="workout-progress">
     <h3 class="workout-progress__title">
-      {{ t('workout.progress_comparison') }}
+      {{ $t('workout.progress_comparison') }}
       <span class="workout-progress__date">
         ({{ dayjs(progress.previousWorkoutDate).format('DD.MM.YYYY') }})
       </span>
@@ -43,12 +42,12 @@ function formatTime(seconds: number): string {
     <div class="workout-progress__metrics">
       <div class="workout-progress__metric">
         <div class="metric__label">
-          {{ t('workout.weight') }}
+          {{ $t('workout.weight') }}
         </div>
         <div class="metric__values">
           <div class="metric__group">
             <div class="metric__subtitle">
-              {{ t('workout.average') }}
+              {{ $t('workout.average') }}
             </div>
             <div class="metric__current">
               {{ progress.weight.current.toFixed(1) }}
@@ -65,7 +64,7 @@ function formatTime(seconds: number): string {
           </div>
           <div class="metric__group">
             <div class="metric__subtitle">
-              {{ t('workout.maximum') }}
+              {{ $t('workout.maximum') }}
             </div>
             <div class="metric__current">
               {{ progress.weight.max.current.toFixed(1) }}
@@ -85,12 +84,12 @@ function formatTime(seconds: number): string {
 
       <div class="workout-progress__metric">
         <div class="metric__label">
-          {{ t('workout.repeats') }}
+          {{ $t('workout.repeats') }}
         </div>
         <div class="metric__values">
           <div class="metric__group">
             <div class="metric__subtitle">
-              {{ t('workout.average') }}
+              {{ $t('workout.average') }}
             </div>
             <div class="metric__current">
               {{ progress.repeats.current.toFixed(1) }}
@@ -107,7 +106,7 @@ function formatTime(seconds: number): string {
           </div>
           <div class="metric__group">
             <div class="metric__subtitle">
-              {{ t('workout.maximum') }}
+              {{ $t('workout.maximum') }}
             </div>
             <div class="metric__current">
               {{ progress.repeats.max.current }}
@@ -127,12 +126,12 @@ function formatTime(seconds: number): string {
 
       <div class="workout-progress__metric">
         <div class="metric__label">
-          {{ t('workout.time') }}
+          {{ $t('workout.time') }}
         </div>
         <div class="metric__values">
           <div class="metric__group">
             <div class="metric__subtitle">
-              {{ t('workout.average') }}
+              {{ $t('workout.average') }}
             </div>
             <div class="metric__current">
               {{ formatTime(progress.time.current) }}
@@ -149,7 +148,7 @@ function formatTime(seconds: number): string {
           </div>
           <div class="metric__group">
             <div class="metric__subtitle">
-              {{ t('workout.maximum') }}
+              {{ $t('workout.maximum') }}
             </div>
             <div class="metric__current">
               {{ formatTime(progress.time.max.current) }}
@@ -169,12 +168,12 @@ function formatTime(seconds: number): string {
 
       <div class="workout-progress__metric">
         <div class="metric__label">
-          {{ t('workout.volume') }}
+          {{ $t('workout.volume') }}
         </div>
         <div class="metric__values">
           <div class="metric__group">
             <div class="metric__subtitle">
-              {{ t('workout.average') }}
+              {{ $t('workout.average') }}
             </div>
             <div class="metric__current">
               {{ progress.volume.current.toFixed(0) }}
@@ -191,7 +190,7 @@ function formatTime(seconds: number): string {
           </div>
           <div class="metric__group">
             <div class="metric__subtitle">
-              {{ t('workout.maximum') }}
+              {{ $t('workout.maximum') }}
             </div>
             <div class="metric__current">
               {{ progress.volume.max.current.toFixed(0) }}

@@ -14,7 +14,6 @@ const emit = defineEmits<{
   (event: 'openResults'): void
 }>()
 
-const { t } = useI18n()
 const localePath = useLocalePath()
 const runWorkoutConfirm = ref<typeof TheModal | null>(null)
 
@@ -52,7 +51,7 @@ function closeRunWorkoutConfirm() {
     <div class="date-menu__event-name">
       <TheIcon
         v-if="isWorkoutCompleted"
-        v-tooltip="t('toast.workout_completed')"
+        v-tooltip="$t('toast.workout_completed')"
         icon-name="circle-check"
         width="18px"
         @click="$emit('openResults')"
@@ -65,7 +64,7 @@ function closeRunWorkoutConfirm() {
     >
       <li class="date-menu__functions-item">
         <TheButton
-          v-tooltip="t('main_navigation.copy_workout')"
+          v-tooltip="$t('main_navigation.copy_workout')"
           variant="ghost"
           icon-only
           @click.stop="emit('copyWorkout')"
@@ -81,7 +80,7 @@ function closeRunWorkoutConfirm() {
         class="date-menu__functions-item"
       >
         <TheButton
-          v-tooltip="t('main_navigation.edit_workout')"
+          v-tooltip="$t('main_navigation.edit_workout')"
           variant="ghost"
           icon-only
           @click="emit('updateWorkout')"
@@ -94,7 +93,7 @@ function closeRunWorkoutConfirm() {
       </li>
       <li class="date-menu__functions-item">
         <TheButton
-          v-tooltip="t('main_navigation.delete_workout')"
+          v-tooltip="$t('main_navigation.delete_workout')"
           variant="ghost"
           icon-only
           @click.stop="emit('deleteWorkout')"

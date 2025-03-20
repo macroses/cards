@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { t } = useI18n()
 const localePath = useLocalePath()
 </script>
 
@@ -9,13 +8,13 @@ const localePath = useLocalePath()
       link
       :link-path="localePath('/workout')"
     >
-      {{ t('workout.create_workout') }}
+      {{ $t('workout.create_workout') }}
     </TheButton>
     <TheButton>
-      {{ t('main_navigation.program') }}
+      {{ $t('main_navigation.program') }}
     </TheButton>
     <TheButton>
-      {{ t('main_navigation.body_parameters') }}
+      {{ $t('main_navigation.body_parameters') }}
     </TheButton>
   </div>
 </template>
