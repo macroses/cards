@@ -1,4 +1,4 @@
-import type {ChartsApiResponse, CreateWorkoutResponse, Statistics} from '~/ts/interfaces'
+import type { ChartsApiResponse, CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
 import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 

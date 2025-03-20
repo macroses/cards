@@ -1,4 +1,4 @@
-import { process } from "std-env";
+import { process } from 'std-env'
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',

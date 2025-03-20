@@ -40,13 +40,13 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.10.1",
+    "@antfu/eslint-config": "^3.10.0",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@nuxt/test-utils": "^3.14.4",
     "@types/node": "^22.13.10",
     "@vitejs/plugin-vue": "^5.2.0",
     "@vue/test-utils": "^2.4.6",
-    "eslint": "^9.22.0",
+    "eslint": "^9.15.0",
     "happy-dom": "^15.11.6",
     "husky": "^9.1.7",
     "playwright-core": "^1.49.0",

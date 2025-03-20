@@ -1,4 +1,3 @@
-import { KEYS, API } from '~/constants'
 import type { ECBasicOption } from 'echarts/types/dist/shared'
 import type {
   ChartData,
@@ -8,6 +7,7 @@ import type {
   ExerciseServerTemplate,
   GlobalChartsReturn,
 } from '~/ts/interfaces'
+import { API, KEYS } from '~/constants'
 
 export function useGlobalCharts(): GlobalChartsReturn {
   const { t } = useI18n()
@@ -65,13 +65,14 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const { data: chartsData, status, refresh } = useCachedFetch<unknown, ChartsApiResponse>({
     url: API.GET_CHARTS_DATA,
     key: KEYS.CHARTS_DATA,
-    transform: (payload) => payload as ChartsApiResponse,
+    transform: payload => payload as ChartsApiResponse,
     initialData: chartsState.value,
-    cacheTime: 1000 * 60 * 5
+    cacheTime: 1000 * 60 * 5,
   })
 
   watch(chartsData, (newData) => {
-    if (!newData) return
+    if (!newData)
+      return
     chartsState.value = newData
     processChartsData(newData)
   })
@@ -80,12 +81,13 @@ export function useGlobalCharts(): GlobalChartsReturn {
     if (chartsState.value) {
       processChartsData(chartsState.value)
     }
-    
+
     if (isInitialFetch.value) {
       try {
         await refresh()
         isInitialFetch.value = false
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Failed to fetch charts data:', error)
       }
     }

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
-import type {ChartsApiResponse, CreateWorkoutResponse, Statistics} from '~/ts/interfaces'
+import type { ChartsApiResponse, CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import {GLOBAL_DATE, GLOBAL_WORKOUTS, KEYS} from '~/constants'
+import { GLOBAL_DATE, GLOBAL_WORKOUTS, KEYS } from '~/constants'
 
 dayjs.extend(duration)
 
@@ -63,7 +63,7 @@ async function handleDeleteWorkout(id: string) {
 
   await Promise.all([
     refreshStats(),
-    refreshCharts()
+    refreshCharts(),
   ])
 }
 

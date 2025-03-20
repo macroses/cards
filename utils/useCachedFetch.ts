@@ -47,7 +47,7 @@ export function useCachedFetch<T, R>({
     default: () => ({
       data: initialData as R,
       fetchedAt: new Date(),
-    })
+    }),
   })
 
   return {

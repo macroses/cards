@@ -35,5 +35,5 @@ export const API: Record<string, string> = {
   WORKOUTS_LIST,
   START_WORKOUT,
   RESET_WORKOUT,
-  GET_CHARTS_DATA
+  GET_CHARTS_DATA,
 }

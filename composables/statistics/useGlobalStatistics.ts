@@ -8,7 +8,7 @@ export function useGlobalStatistics() {
   const { data: statistics, error, status, refresh } = useCachedFetch<unknown, Statistics>({
     url: API_GLOBAL_STATISTICS,
     key: KEYS.GLOBAL_STATISTICS,
-    transform: (payload) => payload as Statistics,
+    transform: payload => payload as Statistics,
     initialData: globalStats.value,
     cacheTime: 1000 * 60 * 5,
   })
@@ -21,7 +21,7 @@ export function useGlobalStatistics() {
 
   const isLoading = computed(() => status.value === 'pending')
 
-  onMounted(async() => {
+  onMounted(async () => {
     if (isInitialFetch.value) {
       await refresh()
       isInitialFetch.value = false
@@ -32,6 +32,6 @@ export function useGlobalStatistics() {
     statistics: computed(() => globalStats.value || statistics.value),
     isLoading,
     error,
-    refresh
+    refresh,
   }
 }
