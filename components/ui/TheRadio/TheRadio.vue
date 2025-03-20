@@ -1,22 +1,14 @@
 <script setup lang="ts" generic="T">
-interface RadioInputProps {
-  name: string
-  value: string | number | boolean | null | undefined
-  label?: string
-  disabled?: boolean
-  modelValue?: T
-}
+import type { RadioInputProps } from '~/ts/componentProps'
 
-defineProps<RadioInputProps>()
+defineProps<RadioInputProps<T>>()
 
 const id = useId()
 const modelValue = defineModel<T>()
 </script>
 
 <template>
-  <div
-    class="radio-input-wrapper"
-  >
+  <label class="radio-input-wrapper">
     <input
       :id="id"
       v-model="modelValue"
@@ -27,8 +19,8 @@ const modelValue = defineModel<T>()
       :disabled="disabled"
       class="radio-input-wrapper__input"
     >
-    <label :for="id" class="radio-input-wrapper__label"> {{ label }} </label>
-  </div>
+    <span class="radio-input-wrapper__text"> {{ label }} </span>
+  </label>
 </template>
 
 <style src="./style.css"></style>

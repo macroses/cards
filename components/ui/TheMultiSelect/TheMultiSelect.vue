@@ -71,10 +71,10 @@ onClickOutside(multiselectDropdown, () => (isDropdownVisible.value = false))
         v-if="!chosenItems.length"
         class="multiselect__placeholder"
       >
-        {{ label }}
+        <span class="multiselect__placeholder-value">{{ label }}</span>
         <TheIcon
           icon-name="angle-down"
-          width="13px"
+          width="14px"
         />
       </div>
       <div

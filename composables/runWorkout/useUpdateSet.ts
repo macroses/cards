@@ -1,12 +1,11 @@
 import { API_CREATE_SET, API_UPDATE_SETS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
-import type { UserTrainingSession } from '~/ts/interfaces'
+import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
 
 export function useUpdateSet() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = ref(false)
-  const { runWorkout } = useRunWorkout()
 
   async function updateSets(sets: Partial<UserTrainingSession>[]) {
     try {
@@ -29,13 +28,13 @@ export function useUpdateSet() {
     }
   }
 
-  async function addNewSet(exerciseId: string) {
-    if (runWorkout.value) {
+  async function addNewSet(exerciseId: string, runWorkout: CreateWorkoutResponse | null | undefined) {
+    if (runWorkout) {
       try {
         const newSet = await $fetch(API_CREATE_SET, {
           method: 'POST',
           body: {
-            workoutId: runWorkout.value.id,
+            workoutId: runWorkout.id,
             exerciseId,
             weight: 0,
             repeats: 0,
@@ -43,7 +42,7 @@ export function useUpdateSet() {
           },
         })
 
-        runWorkout.value.sets.push(newSet)
+        runWorkout.sets.push(newSet)
       }
       catch (error) {
         console.error('Error creating set:', error)

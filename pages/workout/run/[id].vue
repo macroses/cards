@@ -281,7 +281,7 @@ onMounted(async () => {
                   <li class="run__set-item run__set-item--add">
                     <TheButton
                       class="run__add-set"
-                      @click="addNewSet(exercise.exerciseId)"
+                      @click="addNewSet(exercise.exerciseId, runWorkout)"
                     >
                       Добавить сет
                     </TheButton>

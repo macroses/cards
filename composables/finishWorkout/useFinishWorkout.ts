@@ -36,11 +36,10 @@ export function useFinishWorkout() {
         )
       }
 
-      // Останавливаем таймер
       stopTimer()
-
       toast(t('toast.workout_ended'), ToastStatusesEnum.SUCCESS)
       await fetchWorkouts()
+
       return true
     }
     catch (error: unknown) {

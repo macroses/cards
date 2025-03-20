@@ -55,8 +55,8 @@ function addSecondaryMuscles(item: { id: number, value: string }) {
   }
 }
 
-function removeSecondaryMuscles() {
-  userExercise.secondary = []
+function removeSecondaryMuscles(muscleOption: { id: number, value: string }) {
+  userExercise.secondary = userExercise.secondary.filter(muscle => muscle !== muscleOption.value)
 }
 
 function openModal() {
@@ -83,13 +83,17 @@ defineExpose({
 </script>
 
 <template>
-  <TheModal ref="modalRef">
+  <TheModal
+    ref="modalRef"
+    class="create-exercise-modal"
+  >
     <template #title>
       <h3>Создать упражнение</h3>
     </template>
     <template #content>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
+          <label>Название</label>
           <TheInput
             v-model="userExercise.name"
             placeholder="Название упражнения"
@@ -171,3 +175,5 @@ defineExpose({
     </template>
   </TheModal>
 </template>
+
+<style src="./style.css" />
