@@ -15,6 +15,7 @@ export default defineEventHandler(async (event) => {
     const workouts = await event.context.prisma.workout.findMany({
       where: {
         userId: session.user.id,
+        completed: true,
       },
       include: {
         sets: true,

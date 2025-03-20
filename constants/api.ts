@@ -24,6 +24,7 @@ const FINISH_WORKOUT = '/api/finish-workout/finishWorkout'
 const WORKOUTS_LIST = '/api/workout/workoutsListByUserId'
 const START_WORKOUT = '/api/start-workout/startWorkout'
 const RESET_WORKOUT = '/api/workout/resetWorkout'
+const GET_CHARTS_DATA = '/api/statistics/getChartsData'
 
 export const API: Record<string, string> = {
   CREATE_USER_EXERCISE,
@@ -34,4 +35,5 @@ export const API: Record<string, string> = {
   WORKOUTS_LIST,
   START_WORKOUT,
   RESET_WORKOUT,
+  GET_CHARTS_DATA
 }

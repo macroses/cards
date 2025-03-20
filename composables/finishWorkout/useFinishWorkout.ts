@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
+import type {ChartsApiResponse, CreateWorkoutResponse, Statistics} from '~/ts/interfaces'
 import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
@@ -6,6 +6,7 @@ export function useFinishWorkout() {
   const isLoading = ref(false)
   const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
+  const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 
   const { t } = useI18n()
   const { toast } = useToastState()
@@ -43,6 +44,7 @@ export function useFinishWorkout() {
 
       // Сбрасываем значение глобальной статистики, чтобы триггернуть её refresh
       globalStats.value = null
+      chartsState.value = null
 
       return true
     }

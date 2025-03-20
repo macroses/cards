@@ -1,3 +1,4 @@
+import { KEYS, API } from '~/constants'
 import type { ECBasicOption } from 'echarts/types/dist/shared'
 import type {
   ChartData,
@@ -14,64 +15,83 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const { exercisesList } = useFetchExercisesList()
   const { exercises: userExercisesList } = useExerciseHandle()
 
+  const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA, () => null)
+  const isInitialFetch = ref(!chartsState.value)
+
   const volumeChartOption = ref<ECBasicOption | null>(null)
   const exerciseChartOption = ref<ECBasicOption | null>(null)
   const durationChartOption = ref<ECBasicOption | null>(null)
   const selectedExercise = ref<string | null>(null)
   const popularExercises = ref<string[]>([])
-  const isLoading = ref(false)
-  const error = ref<string | null>(null)
   const exerciseData = ref<Record<string, ExerciseData[]>>({})
 
-  async function fetchChartsData() {
-    try {
-      isLoading.value = true
-      const data = await $fetch<ChartsApiResponse>('/api/statistics/getChartsData')
+  function processChartsData(data: ChartsApiResponse) {
+    const volumeDataWithDates = data.volumeData.map(item => ({
+      volume: Number(item.volume),
+      intensity: Number(item.intensity),
+      date: new Date(item.date),
+    })) satisfies ChartData[]
 
-      const volumeDataWithDates = data.volumeData.map(item => ({
-        volume: Number(item.volume),
-        intensity: Number(item.intensity),
-        date: new Date(item.date),
-      })) satisfies ChartData[]
+    const durationDataWithDates = data.durationData.map(item => ({
+      duration: Number(item.duration),
+      avgSetTime: Number(item.avgSetTime),
+      date: new Date(item.date),
+    })) satisfies DurationData[]
 
-      const durationDataWithDates = data.durationData.map(item => ({
-        duration: Number(item.duration),
-        avgSetTime: Number(item.avgSetTime),
-        date: new Date(item.date),
-      })) satisfies DurationData[]
+    updateVolumeChart(volumeDataWithDates)
+    updateDurationChart(durationDataWithDates)
+    popularExercises.value = data.popularExercises.map(id => id.toString())
 
-      updateVolumeChart(volumeDataWithDates)
-      updateDurationChart(durationDataWithDates)
-      popularExercises.value = data.popularExercises.map(id => id.toString())
+    exerciseData.value = Object.fromEntries(
+      Object.entries(data.exerciseData).map(([id, data]) => [
+        id,
+        data.map(item => ({
+          ...item,
+          date: new Date(item.date),
+        })),
+      ]),
+    )
 
-      // Сохраняем данные всех упражнений
-      exerciseData.value = Object.fromEntries(
-        Object.entries(data.exerciseData).map(([id, data]) => [
-          id,
-          data.map(item => ({
-            ...item,
-            date: new Date(item.date),
-          })),
-        ]),
-      )
-
-      const shouldUpdateExercise = selectedExercise.value === null && data.popularExercises.length > 0
-      if (shouldUpdateExercise) {
-        selectedExercise.value = data.popularExercises[0].toString()
-      }
-
-      if (selectedExercise.value) {
-        updateExerciseChart(exerciseData.value[selectedExercise.value])
-      }
+    const shouldUpdateExercise = selectedExercise.value === null && data.popularExercises.length > 0
+    if (shouldUpdateExercise) {
+      selectedExercise.value = data.popularExercises[0].toString()
     }
-    catch (err) {
-      console.error('Ошибка при загрузке данных графиков:', err)
-      error.value = 'Ошибка при загрузке данных графиков'
-    }
-    finally {
-      isLoading.value = false
+
+    if (selectedExercise.value) {
+      updateExerciseChart(exerciseData.value[selectedExercise.value])
     }
   }
+
+  const { data: chartsData, status, refresh } = useCachedFetch<unknown, ChartsApiResponse>({
+    url: API.GET_CHARTS_DATA,
+    key: KEYS.CHARTS_DATA,
+    transform: (payload) => payload as ChartsApiResponse,
+    initialData: chartsState.value,
+    cacheTime: 1000 * 60 * 5
+  })
+
+  watch(chartsData, (newData) => {
+    if (!newData) return
+    chartsState.value = newData
+    processChartsData(newData)
+  })
+
+  onMounted(async () => {
+    if (chartsState.value) {
+      processChartsData(chartsState.value)
+    }
+    
+    if (isInitialFetch.value) {
+      try {
+        await refresh()
+        isInitialFetch.value = false
+      } catch (error) {
+        console.error('Failed to fetch charts data:', error)
+      }
+    }
+  })
+
+  const isLoading = computed(() => status.value === 'pending')
 
   function updateVolumeChart(data: ChartData[]) {
     volumeChartOption.value = {
@@ -235,8 +255,6 @@ export function useGlobalCharts(): GlobalChartsReturn {
     },
   ])
 
-  onMounted(async () => await fetchChartsData())
-
   watch(() => selectedExercise.value, (newValue: string | null) => {
     if (newValue !== null && exerciseData.value[newValue]) {
       updateExerciseChart(exerciseData.value[newValue])
@@ -249,6 +267,6 @@ export function useGlobalCharts(): GlobalChartsReturn {
     popularExercises,
     getExerciseName,
     isLoading,
-    error,
+    refresh,
   }
 }

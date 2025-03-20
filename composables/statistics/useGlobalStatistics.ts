@@ -11,7 +11,6 @@ export function useGlobalStatistics() {
     transform: (payload) => payload as Statistics,
     initialData: globalStats.value,
     cacheTime: 1000 * 60 * 5,
-    immediate: false
   })
 
   watch(statistics, (newStats) => {

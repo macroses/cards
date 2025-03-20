@@ -3,6 +3,7 @@ const GET_EXERCISES_LIST = 'get-exercises-list'
 const GLOBAL_WORKOUTS = 'globalWorkouts'
 const SELECTED_LANGUAGE = 'selectedLanguage'
 const GLOBAL_STATISTICS = 'global-statistics'
+const CHARTS_DATA = 'charts-data'
 
 export const KEYS: Record<string, string> = {
   USER_EXERCISES,
@@ -10,4 +11,5 @@ export const KEYS: Record<string, string> = {
   GLOBAL_WORKOUTS,
   SELECTED_LANGUAGE,
   GLOBAL_STATISTICS,
-}
+  CHARTS_DATA,
+} as const

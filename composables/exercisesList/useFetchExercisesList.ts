@@ -14,7 +14,6 @@ export function useFetchExercisesList() {
       return payload
     },
     initialData: [],
-    immediate: true,
   })
 
   return {

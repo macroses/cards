@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type {ChartsApiResponse, CreateWorkoutResponse, Statistics} from '~/ts/interfaces'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import { GLOBAL_DATE, GLOBAL_WORKOUTS } from '~/constants'
+import {GLOBAL_DATE, GLOBAL_WORKOUTS, KEYS} from '~/constants'
 
 dayjs.extend(duration)
 
@@ -11,12 +11,16 @@ definePageMeta({ auth: true })
 
 const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
 const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
+const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
+const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 const isCopyMode = ref(false)
 const workoutToCopy = ref<string | null>(null)
 
 const localePath = useLocalePath()
 const { deleteWorkout } = useDeleteWorkout()
 const { copyWorkout } = useCopyWorkout()
+const { refresh: refreshStats } = useGlobalStatistics()
+const { refresh: refreshCharts } = useGlobalCharts()
 
 const selectedWorkout = computed(() => {
   return workouts.value?.find((workout: CreateWorkoutResponse) => {
@@ -49,9 +53,18 @@ async function handleDateSelect(date: Date) {
   }
 }
 
-function handleDeleteWorkout(id: string) {
+async function handleDeleteWorkout(id: string) {
   isCopyMode.value = false
-  deleteWorkout(id)
+  await deleteWorkout(id)
+
+  // Сбрасываем значение глобальной статистики и графиков, для их рефреша
+  globalStats.value = null
+  chartsState.value = null
+
+  await Promise.all([
+    refreshStats(),
+    refreshCharts()
+  ])
 }
 
 const readWorkoutResults = ref<typeof TheModal | null>(null)
