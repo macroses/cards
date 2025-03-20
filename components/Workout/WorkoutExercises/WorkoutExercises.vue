@@ -19,8 +19,6 @@ const emit = defineEmits<{
   (event: 'removeSet', setId: string): void
 }>()
 
-const { t } = useI18n()
-
 const exerciseForm = reactive<Partial<UserTrainingSession>>({
   weight: null,
   repeats: null,
@@ -80,10 +78,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
 </script>
 
 <template>
-  <div
-    v-auto-animate="{ duration: 100 }"
-    class="workout-exercises-wrapper"
-  >
+  <div class="workout-exercises-wrapper">
     <WorkoutTonnage
       :sessions
       :selected-exercises-length="selectedExercises.length"
@@ -225,7 +220,7 @@ onClickOutside(lastSessionsRef, () => showLastSessions.value = null)
       v-else
       class="exercises-empty"
     >
-      {{ t('workout.add_exercise') }}
+      {{ $t('workout.add_exercise') }}
     </p>
   </div>
 </template>

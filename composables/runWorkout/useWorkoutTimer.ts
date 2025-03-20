@@ -7,7 +7,7 @@ import {
 
 export function useWorkoutTimer() {
   const timer = useState<string>(GLOBAL_WORKOUT_TIMER, () => INITIAL_TIME)
-  const intervalId = ref<NodeJS.Timeout | null>(null)
+  const intervalId = ref<ReturnType<typeof setInterval> | null>(null)
   const activeWorkout = useState<{ startedAt: Date, id: string } | null>(GLOBAL_ACTIVE_WORKOUT, () => null)
 
   function startTimer(startDate: Date, workoutId: string) {

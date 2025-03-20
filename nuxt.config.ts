@@ -1,4 +1,4 @@
-import process from 'node:process'
+import { process } from "std-env";
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -19,8 +19,9 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@vueuse/nuxt',
     '@formkit/auto-animate/nuxt',
-    '@vueuse/motion/nuxt',
     'nuxt-echarts',
+    'motion-v/nuxt',
+    '@vite-pwa/nuxt',
   ],
 
   auth: {
