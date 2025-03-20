@@ -1,5 +1,5 @@
-import { API_GET_WORKOUT, GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse, RunWorkoutReturn } from '~/ts/interfaces'
+import { API_GET_WORKOUT, GLOBAL_WORKOUTS } from '~/constants'
 
 export function useRunWorkout(): RunWorkoutReturn {
   const route = useRoute()

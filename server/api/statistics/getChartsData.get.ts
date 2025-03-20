@@ -1,5 +1,5 @@
-import { getServerSession } from '#auth'
 import type { ExerciseData } from '~/ts/interfaces'
+import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)

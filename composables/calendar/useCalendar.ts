@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
 import type { SLIDE_LEFT, SLIDE_RIGHT } from '~/ts/types/calendar.type'
+import dayjs from 'dayjs'
 import 'dayjs/locale/en'
 
 interface CalendarDay {

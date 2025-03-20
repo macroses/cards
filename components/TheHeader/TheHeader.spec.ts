@@ -1,7 +1,8 @@
+import type { I18nOptions } from 'vue-i18n'
 import { shallowMount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
-import { createI18n, type I18nOptions } from 'vue-i18n'
+import { createI18n } from 'vue-i18n'
 import TheHeader from './TheHeader.vue'
 
 const i18nOptions: I18nOptions = {

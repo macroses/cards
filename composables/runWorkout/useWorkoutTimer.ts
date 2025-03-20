@@ -1,9 +1,9 @@
+import type { UserWorkout } from '~/ts/interfaces'
 import {
   GLOBAL_ACTIVE_WORKOUT,
   GLOBAL_WORKOUT_TIMER,
   INITIAL_TIME,
 } from '~/constants'
-import type { UserWorkout } from '~/ts/interfaces'
 
 export function useWorkoutTimer() {
   const timer = useState<string>(GLOBAL_WORKOUT_TIMER, () => INITIAL_TIME)

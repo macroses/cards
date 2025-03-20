@@ -1,6 +1,6 @@
+import type { CreateWorkoutRequest } from '~/ts/interfaces'
 import { getServerSession } from '#auth'
 import { PrismaClient } from '@prisma/client'
-import type { CreateWorkoutRequest } from '~/ts/interfaces'
 
 const prisma = new PrismaClient()
 

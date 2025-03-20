@@ -1,6 +1,6 @@
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 export function useStartWorkout() {
   const { t } = useI18n()

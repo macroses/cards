@@ -1,5 +1,5 @@
-import { API, KEYS } from '~/constants'
 import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import { API, KEYS } from '~/constants'
 import { useCachedFetch } from '~/utils/useCachedFetch'
 
 export function useFetchExercisesList() {

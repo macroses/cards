@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type CreateExerciseModal from './CreateExerciseModal/CreateExerciseModal.vue'
-import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
+import TheModal from '~/components/ui/TheModal/TheModal.vue'
 
 const props = defineProps<{
   exercisesList: ExerciseServerTemplate[]

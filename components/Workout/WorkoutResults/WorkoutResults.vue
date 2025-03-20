@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interfaces'
 import { watchImmediate } from '@vueuse/core'
 import { KEYS } from '~/constants'
-import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interfaces'
 
 interface WorkoutResultsProps {
   workout: CreateWorkoutResponse

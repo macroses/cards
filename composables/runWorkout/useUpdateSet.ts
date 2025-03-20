@@ -1,6 +1,6 @@
+import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
 import { API_CREATE_SET, API_UPDATE_SETS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
-import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
 
 export function useUpdateSet() {
   const { t } = useI18n()

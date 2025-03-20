@@ -1,6 +1,7 @@
+import type { I18nOptions } from 'vue-i18n'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createI18n, type I18nOptions } from 'vue-i18n'
+import { createI18n } from 'vue-i18n'
 import { WORKOUT_COLORS } from '~/constants/workout'
 import TheDropdownColor from './TheDropdpownColor.vue'
 

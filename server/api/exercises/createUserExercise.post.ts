@@ -1,5 +1,5 @@
-import { getServerSession } from '#auth'
 import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import { getServerSession } from '#auth'
 
 const MAX_NAME_LENGTH = 50
 

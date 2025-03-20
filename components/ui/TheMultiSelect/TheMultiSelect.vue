@@ -8,7 +8,6 @@ const props = defineProps({
   multiselectList: {
     type: Array as PropType<MultiSelectItem[]>,
     default: () => [],
-    required: true,
   },
   label: {
     type: String,

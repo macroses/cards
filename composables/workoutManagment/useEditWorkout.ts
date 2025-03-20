@@ -1,6 +1,6 @@
 import type { LocationQuery } from '#vue-router'
-import { GLOBAL_WORKOUTS } from '~/constants'
 import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
+import { GLOBAL_WORKOUTS } from '~/constants'
 
 type EditWorkoutReturn = Readonly<{
   editableWorkout: ComputedRef<CreateWorkoutResponse | null | undefined>

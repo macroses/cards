@@ -1,5 +1,5 @@
-import { API_GLOBAL_STATISTICS } from '~/constants'
 import type { Statistics } from '~/ts/interfaces'
+import { API_GLOBAL_STATISTICS } from '~/constants'
 
 export function useGlobalStatistics() {
   const statistics = ref<Statistics | null>(null)

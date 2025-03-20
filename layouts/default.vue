@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { KEYS } from '@/constants'
 import type { UserWorkout } from '~/ts/interfaces'
+import { KEYS } from '@/constants'
 
 const { fetchWorkouts } = useFetchWorkoutsByUserId()
 const { checkActiveWorkout } = useWorkoutTimer()

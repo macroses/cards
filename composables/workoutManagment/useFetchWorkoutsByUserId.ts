@@ -1,9 +1,9 @@
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import {
   API,
   AUTHENTICATED,
   KEYS,
 } from '~/constants'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 export function useFetchWorkoutsByUserId() {
   const workouts = useState<CreateWorkoutResponse | null>(KEYS.GLOBAL_WORKOUTS, () => null)

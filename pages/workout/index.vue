@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { ExerciseFormData, UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 import ExercisesList from '@/components/Exercises/ExerrcisesList/ExercisesList.vue'
 import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
 import TheLoader from '~/components/ui/TheLoader/TheLoader.vue'
 import { useSelectExercise } from '~/composables/workoutManagment/useSelectExercise'
 import { WORKOUT_COLORS } from '~/constants'
-import type { ExerciseFormData, UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 
 definePageMeta({
   middleware: [

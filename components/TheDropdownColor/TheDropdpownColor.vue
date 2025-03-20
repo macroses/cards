@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { WorkoutColor } from '~/ts/types/workoutColor.type'
 import { watchImmediate } from '@vueuse/core'
 import { WORKOUT_COLORS } from '~/constants/workout'
-import type { WorkoutColor } from '~/ts/types/workoutColor.type'
 
 const props = defineProps<{
   initialColor?: string

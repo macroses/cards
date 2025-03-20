@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
+import TheModal from '~/components/ui/TheModal/TheModal.vue'
 
 const props = withDefaults(defineProps<WorkoutFunctionsProps>(), {
   isCopyMode: false,

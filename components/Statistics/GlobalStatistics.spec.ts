@@ -1,7 +1,8 @@
+import type { I18nOptions } from 'vue-i18n'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
-import { createI18n, type I18nOptions } from 'vue-i18n'
+import { createI18n } from 'vue-i18n'
 import GlobalStatistics from './GlobalStatistics.vue'
 
 vi.mock('~/composables/statistics/useGlobalStatistics', () => ({

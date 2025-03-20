@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import dayjs from 'dayjs'
 import type { CalendarProps } from '~/ts/componentProps/Calendar.prop'
+import dayjs from 'dayjs'
 
 const props = withDefaults(defineProps<CalendarProps>(), {
   locale: 'en',

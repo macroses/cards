@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import dayjs from 'dayjs'
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import dayjs from 'dayjs'
 
 interface WorkoutProgressProps {
   workout: CreateWorkoutResponse

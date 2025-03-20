@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { MAX_LENGTH_NUMBER } from '~/constants'
-import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type {
   ExerciseFormData,
   UserTrainingSession,
   UserWorkoutExercise,
 } from '~/ts/interfaces'
+import { MAX_LENGTH_NUMBER } from '~/constants'
+import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]

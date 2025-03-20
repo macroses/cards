@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type TheModal from '~/components/ui/TheModal/TheModal.vue'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { GLOBAL_DATE, GLOBAL_WORKOUTS } from '~/constants'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 dayjs.extend(duration)
 

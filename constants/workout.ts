@@ -1,5 +1,5 @@
-import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import type { WorkoutColor } from '~/ts/types/workoutColor.type'
+import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
 export const WORKOUT_DIFFICULTY = [
   { value: DIFFICULT_LEVEL.WARM, label: '1' },

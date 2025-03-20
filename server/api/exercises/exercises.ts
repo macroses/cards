@@ -1,6 +1,6 @@
+import type { ExerciseServerTemplate } from '~/ts/interfaces'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
 
 export default defineEventHandler(() => {
   const path = resolve('./data/exercises.json')

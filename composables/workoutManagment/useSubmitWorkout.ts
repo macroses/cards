@@ -1,11 +1,11 @@
-import { API_CREATE, API_UPDATE, GLOBAL_WORKOUTS } from '~/constants'
-import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import type {
   CreateWorkoutRequest,
   CreateWorkoutResponse,
   SubmitWorkoutReturn,
   UserWorkout,
 } from '~/ts/interfaces'
+import { API_CREATE, API_UPDATE, GLOBAL_WORKOUTS } from '~/constants'
+import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useSubmitWorkout(): SubmitWorkoutReturn {
   const { t } = useI18n()
