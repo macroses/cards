@@ -1,10 +1,11 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
 import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useFinishWorkout() {
   const isLoading = ref(false)
   const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
+  const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
 
   const { t } = useI18n()
   const { toast } = useToastState()
@@ -39,6 +40,9 @@ export function useFinishWorkout() {
       stopTimer()
       toast(t('toast.workout_ended'), ToastStatusesEnum.SUCCESS)
       await fetchWorkouts()
+
+      // Сбрасываем значение глобальной статистики, чтобы триггернуть её refresh
+      globalStats.value = null
 
       return true
     }

@@ -3,7 +3,8 @@ interface CachedFetchOptions<T, R> {
   key: string
   transform: (data: T) => R
   cacheTime?: number
-  initialData?: R
+  initialData: R | null
+  immediate: boolean
 }
 
 interface CachedData<T> {
@@ -19,6 +20,7 @@ export function useCachedFetch<T, R>({
   transform,
   cacheTime = DEFAULT_CACHE_TIME,
   initialData,
+  immediate = true,
 }: CachedFetchOptions<T, R>) {
   const nuxtApp = useNuxtApp()
 
@@ -48,6 +50,7 @@ export function useCachedFetch<T, R>({
       data: initialData as R,
       fetchedAt: new Date(),
     }),
+    immediate
   })
 
   return {

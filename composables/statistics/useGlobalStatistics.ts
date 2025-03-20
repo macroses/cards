@@ -1,31 +1,38 @@
 import type { Statistics } from '~/ts/interfaces'
-import { API_GLOBAL_STATISTICS } from '~/constants'
+import { API_GLOBAL_STATISTICS, KEYS } from '~/constants'
 
 export function useGlobalStatistics() {
-  const statistics = ref<Statistics | null>(null)
-  const isLoading = ref(false)
-  const error = ref<string | null>(null)
+  const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS, () => null)
+  const isInitialFetch = ref(!globalStats.value)
 
-  async function fetchStatistics() {
-    try {
-      isLoading.value = true
-      statistics.value = await $fetch<Statistics>(API_GLOBAL_STATISTICS)
-    }
-    catch (err) {
-      console.error('Ошибка при загрузке статистики:', err)
-      error.value = 'Ошибка при загрузке статистики'
-    }
-    finally {
-      isLoading.value = false
-    }
-  }
+  const { data: statistics, error, status, refresh } = useCachedFetch<unknown, Statistics>({
+    url: API_GLOBAL_STATISTICS,
+    key: KEYS.GLOBAL_STATISTICS,
+    transform: (payload) => payload as Statistics,
+    initialData: globalStats.value,
+    cacheTime: 1000 * 60 * 5,
+    immediate: false
+  })
 
-  onMounted(() => fetchStatistics())
+  watch(statistics, (newStats) => {
+    if (newStats) {
+      globalStats.value = newStats
+    }
+  })
+
+  const isLoading = computed(() => status.value === 'pending')
+
+  onMounted(async() => {
+    if (isInitialFetch.value) {
+      await refresh()
+      isInitialFetch.value = false
+    }
+  })
 
   return {
-    statistics,
+    statistics: computed(() => globalStats.value || statistics.value),
     isLoading,
     error,
-    fetchStatistics,
+    refresh
   }
 }

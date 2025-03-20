@@ -20,6 +20,7 @@ export function useExerciseHandle() {
       return payload as ExerciseServerTemplate[]
     },
     initialData: [],
+    immediate: true,
   })
 
   const createExercise = async (exercise: Omit<ExerciseServerTemplate, 'id'>) => {
