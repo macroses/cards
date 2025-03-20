@@ -1,15 +1,20 @@
 import { shallowMount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import TheHeader from './TheHeader.vue'
 
-vi.mock('vue-i18n', () => ({
-  useI18n: () => ({
-    t: (key: string) => key,
-    locale: ref('ru'),
-    setLocale: vi.fn(),
-  }),
-}))
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  fallbackLocale: 'en',
+  messages: {
+    ru: {},
+    en: {},
+  },
+}
+
+const i18n = createI18n(i18nOptions)
 
 vi.mock('~/composables/auth/useAuth', () => ({
   useAuth: () => ({
@@ -18,13 +23,19 @@ vi.mock('~/composables/auth/useAuth', () => ({
   }),
 }))
 
-vi.mock('~/composables/language/useChangeLanguage', () => ({
-  useChangeLanguage: () => ({
-    locale: ref('ru'),
-    changeLanguage: vi.fn(),
-    initLanguage: vi.fn(),
-    setLocale: vi.fn(),
-  }),
+vi.mock('~/composables/setLanguage/useChangeLanguage', () => ({
+  useChangeLanguage: () => {
+    const locale = ref('ru')
+    const changeLanguage = vi.fn()
+    const initLanguage = vi.fn()
+
+    return {
+      locale,
+      changeLanguage,
+      initLanguage,
+      setLocale: vi.fn(),
+    }
+  },
 }))
 
 vi.mock('~/composables/workout/useWorkoutTimer', () => ({
@@ -53,6 +64,7 @@ describe('тестирует TheHeader', () => {
   beforeEach(() => {
     wrapper = shallowMount(TheHeader, {
       global: {
+        plugins: [i18n],
         stubs: {
           NuxtLink: {
             template: '<a :href="to"><slot /></a>',

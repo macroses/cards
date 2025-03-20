@@ -1,22 +1,29 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import WorkoutExercises from './WorkoutExercises.vue'
 
-describe('workoutExercises', () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ru',
-    messages: {
-      ru: {
-        workout: {
-          add_exercise: 'Добавьте упражнение',
-        },
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  messages: {
+    ru: {
+      workout: {
+        add_exercise: 'Добавьте упражнение',
       },
     },
-  })
+    en: {
+      workout: {
+        add_exercise: 'Add exercise',
+      },
+    },
+  },
+}
 
+const i18n = createI18n(i18nOptions)
+
+describe('workoutExercises', () => {
   const defaultProps = {
     selectedExercises: [
       { id: '1', name: 'Приседания' },

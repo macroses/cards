@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import GlobalStatistics from './GlobalStatistics.vue'
 
 vi.mock('~/composables/statistics/useGlobalStatistics', () => ({
@@ -17,24 +17,36 @@ vi.mock('~/composables/statistics/useGlobalStatistics', () => ({
   }),
 }))
 
-describe('тестирует GlobalStatistics', () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ru',
-    messages: {
-      ru: {
-        statistics: {
-          global_title: 'Общая статистика',
-          max_tonnage: 'Максимальный тоннаж',
-          total_tonnage: 'Общий тоннаж',
-          avg_duration: 'Среднее время тренировки',
-          avg_set_time: 'Среднее время подхода',
-          completed_workouts: 'Завершенные тренировки',
-        },
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  messages: {
+    ru: {
+      statistics: {
+        global_title: 'Общая статистика',
+        max_tonnage: 'Максимальный тоннаж',
+        total_tonnage: 'Общий тоннаж',
+        avg_duration: 'Среднее время тренировки',
+        avg_set_time: 'Среднее время подхода',
+        completed_workouts: 'Завершенные тренировки',
       },
     },
-  })
+    en: {
+      statistics: {
+        global_title: 'Global statistics',
+        max_tonnage: 'Max tonnage',
+        total_tonnage: 'Total tonnage',
+        avg_duration: 'Average workout duration',
+        avg_set_time: 'Average set time',
+        completed_workouts: 'Completed workouts',
+      },
+    },
+  },
+}
 
+const i18n = createI18n(i18nOptions)
+
+describe('тестирует GlobalStatistics', () => {
   let wrapper: ReturnType<typeof mount>
 
   beforeEach(() => {

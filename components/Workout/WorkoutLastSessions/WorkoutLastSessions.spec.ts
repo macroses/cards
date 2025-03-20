@@ -1,9 +1,28 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import WorkoutLastSessions from './WorkoutLastSessions.vue'
+
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  messages: {
+    ru: {
+      workout: {
+        previous_results: 'Предыдущие результаты',
+      },
+    },
+    en: {
+      workout: {
+        previous_results: 'Previous results',
+      },
+    },
+  },
+}
+
+const i18n = createI18n(i18nOptions)
 
 // Мокаем composable до использования
 vi.mock('~/composables/workoutManagment/useLastExerciseSets', () => {
@@ -34,18 +53,6 @@ vi.mock('~/composables/workoutManagment/useLastExerciseSets', () => {
 })
 
 describe('workoutLastSessions', () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ru',
-    messages: {
-      ru: {
-        workout: {
-          previous_results: 'Предыдущие результаты',
-        },
-      },
-    },
-  })
-
   const defaultProps = {
     exerciseId: '1',
     activeExerciseId: '1',

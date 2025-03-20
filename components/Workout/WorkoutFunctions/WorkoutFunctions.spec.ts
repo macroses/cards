@@ -1,23 +1,32 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import WorkoutFunctions from './WorkoutFunctions.vue'
 
-describe('workoutFunctions', () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ru',
-    messages: {
-      ru: {
-        main_navigation: {
-          copy_workout: 'Копировать тренировку',
-          edit_workout: 'Редактировать тренировку',
-          delete_workout: 'Удалить тренировку',
-        },
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  messages: {
+    ru: {
+      main_navigation: {
+        copy_workout: 'Копировать тренировку',
+        edit_workout: 'Редактировать тренировку',
+        delete_workout: 'Удалить тренировку',
       },
     },
-  })
+    en: {
+      main_navigation: {
+        copy_workout: 'Copy workout',
+        edit_workout: 'Edit workout',
+        delete_workout: 'Delete workout',
+      },
+    },
+  },
+}
 
+const i18n = createI18n(i18nOptions)
+
+describe('workoutFunctions', () => {
   const defaultProps = {
     workoutTitle: 'Тестовая тренировка',
     isCopyMode: false,

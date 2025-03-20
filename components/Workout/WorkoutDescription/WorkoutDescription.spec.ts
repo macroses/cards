@@ -1,26 +1,38 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import WorkoutDescription from './WorkoutDescription.vue'
 
-describe('workoutDescription', () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ru',
-    messages: {
-      ru: {
-        workout: {
-          change_date: 'Изменить дату',
-          dropdown_color: 'Выбрать цвет',
-        },
-        validation: {
-          required: 'Обязательное поле',
-          maxLength: 'Максимальная длина {n} символов',
-        },
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  messages: {
+    ru: {
+      workout: {
+        change_date: 'Изменить дату',
+        dropdown_color: 'Выбрать цвет',
+      },
+      validation: {
+        required: 'Обязательное поле',
+        maxLength: 'Максимальная длина {n} символов',
       },
     },
-  })
+    en: {
+      workout: {
+        change_date: 'Change date',
+        dropdown_color: 'Select color',
+      },
+      validation: {
+        required: 'Required',
+        maxLength: 'Maximum {n} characters',
+      },
+    },
+  },
+}
 
+const i18n = createI18n(i18nOptions)
+
+describe('workoutDescription', () => {
   const defaultProps = {
     selectedDate: new Date('2024-01-01'),
     title: 'Test Workout',

@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
 import { watchDeep, watchImmediate } from '@vueuse/core'
 import { MAX_LENGTH_NUMBER } from '~/constants'
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
 const { endWorkout, resetNoTimeWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
@@ -169,7 +169,7 @@ onMounted(async () => {
                 <TheButton
                   v-if="!exerciseSets[exercise.exerciseId]?.length"
                   class="run__add-set"
-                  @click="addNewSet(exercise.exerciseId)"
+                  @click="addNewSet(exercise.exerciseId, runWorkout)"
                 >
                   Добавить сет
                 </TheButton>

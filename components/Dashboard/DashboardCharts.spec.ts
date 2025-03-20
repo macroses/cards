@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import DashboardCharts from './DashboardCharts.vue'
 
 const mockCharts = [
@@ -20,6 +20,27 @@ const mockCharts = [
   },
 ]
 
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  messages: {
+    ru: {
+      dashboard: {
+        volumeAndIntensity: 'Объем и интенсивность',
+        exerciseProgress: 'Прогресс упражнений',
+      },
+    },
+    en: {
+      dashboard: {
+        volumeAndIntensity: 'Volume and Intensity',
+        exerciseProgress: 'Exercise Progress',
+      },
+    },
+  },
+}
+
+const i18n = createI18n(i18nOptions)
+
 const mockPopularExercises = [1, 2, 3]
 
 vi.mock('~/composables/charts/useGlobalCharts', () => ({
@@ -34,19 +55,6 @@ vi.mock('~/composables/charts/useGlobalCharts', () => ({
 }))
 
 describe('dashboardCharts', () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ru',
-    messages: {
-      ru: {
-        dashboard: {
-          volumeAndIntensity: 'Объем и интенсивность',
-          exerciseProgress: 'Прогресс упражнений',
-        },
-      },
-    },
-  })
-
   let wrapper: ReturnType<typeof mount>
 
   beforeEach(() => {

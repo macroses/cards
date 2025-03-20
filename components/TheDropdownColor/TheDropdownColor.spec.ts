@@ -1,22 +1,29 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import { WORKOUT_COLORS } from '~/constants/workout'
 import TheDropdownColor from './TheDropdpownColor.vue'
 
-describe('тестирует TheDropdownColor', () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ru',
-    messages: {
-      ru: {
-        workout: {
-          dropdown_color: 'Выбрать цвет',
-        },
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  messages: {
+    ru: {
+      workout: {
+        dropdown_color: 'Выбрать цвет',
       },
     },
-  })
+    en: {
+      workout: {
+        dropdown_color: 'Select color',
+      },
+    },
+  },
+}
 
+const i18n = createI18n(i18nOptions)
+
+describe('тестирует TheDropdownColor', () => {
   const defaultProps = {
     initialColor: WORKOUT_COLORS[0].rgb,
   }

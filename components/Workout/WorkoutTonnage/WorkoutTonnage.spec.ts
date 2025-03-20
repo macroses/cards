@@ -1,22 +1,30 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import WorkoutTonnage from './WorkoutTonnage.vue'
 
-describe('workoutTonnage', () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ru',
-    messages: {
-      ru: {
-        workout: {
-          total_tonnage: 'Общий тоннаж',
-        },
+const i18nOptions: I18nOptions = {
+  legacy: false,
+  locale: 'ru',
+  fallbackLocale: 'en',
+  messages: {
+    ru: {
+      workout: {
+        total_tonnage: 'Общий тоннаж',
       },
     },
-  })
+    en: {
+      workout: {
+        total_tonnage: 'Total tonnage',
+      },
+    },
+  },
+}
 
+const i18n = createI18n(i18nOptions)
+
+describe('workoutTonnage', () => {
   const defaultProps = {
     sessions: [
       {
