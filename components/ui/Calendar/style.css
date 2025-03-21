@@ -3,6 +3,7 @@
   background-color: var(--color-white);
   padding: 20px;
   border-radius: 20px;
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
 }
 
 .calendar {
@@ -131,6 +132,18 @@
 
 .calendar.date-change-mode .calendar-day:hover {
   background-color: oklch(from var(--color-accent) l c h / 0.1);
+}
+
+body:has(.copy-mode) .chart-container,
+body:has(.copy-mode) .global-statistics,
+body:has(.copy-mode) .header,
+body:has(.copy-mode) .main-navigation {
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+body:has(.copy-mode):has(.dashboard__charts) .copy-mode__popup {
+  left: 100px;
 }
 
 /* copy mode glow */
