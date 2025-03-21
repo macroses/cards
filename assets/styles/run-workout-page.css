@@ -46,7 +46,7 @@
   
   &:hover {
     cursor: pointer;
-    outline-color: rgb(var(--border-color));
+    outline-color: var(--color-border);
   }
 }
 
@@ -81,7 +81,7 @@
   }
 
   &.active .run__sets {
-    border: 1px solid rgb(var(--border-color));
+    border: 1px solid var(--color-border);
   }
 }
 
@@ -115,7 +115,7 @@
   &.active {
     background-color: var(--table-dark-bg);
     box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
-    border-bottom-color: rgb(var(--border-color));
+    border-bottom-color: var(--color-border);
   }
 
   &.done {
@@ -128,8 +128,8 @@
   padding: 12px;
   border-radius: 24px;
   background-color: #fff;
-  border: 1px solid rgb(var(--border-color));
-  box-shadow: rgb(var(--accent-color) / 0.1) -4px 9px 25px -6px;
+  border: 1px solid var(--color-border);
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
 }
 
 

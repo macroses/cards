@@ -30,12 +30,12 @@
   border-radius: 8px;
   min-width: 105px;
   padding: 8px;
-  background: var(--main-bg);
+  background: var(--color-white);
   position: absolute;
   top: 100%;
   right: 0;
   z-index: 11;
-  border: 1px solid rgb(var(--border-color) / 0.2);
+  border: 1px solid oklch(from var(--color-border) l c h / 0.2);
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
 }
 

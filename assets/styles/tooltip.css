@@ -1,8 +1,8 @@
 .v-tooltip {
   position: fixed;
   z-index: 9999;
-  background: rgb(var(--text-color));
-  color: var(--main-bg);
+  background: var(--color-text);
+  color: var(--color-white);
   padding: 6px 12px;
   border-radius: 12px;
   font-size: 12px;
@@ -30,26 +30,26 @@
   bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
-  border-color: rgb(var(--text-color)) transparent transparent transparent;
+  border-color: var(--color-text) transparent transparent transparent;
 }
 
 .v-tooltip[data-position="bottom"]::after {
   top: -8px;
   left: 50%;
   transform: translateX(-50%);
-  border-color: transparent transparent rgb(var(--text-color)) transparent;
+  border-color: transparent transparent var(--color-text) transparent;
 }
 
 .v-tooltip[data-position="left"]::after {
   right: -8px;
   top: 50%;
   transform: translateY(-50%);
-  border-color: transparent transparent transparent rgb(var(--text-color));
+  border-color: transparent transparent transparent var(--color-text);
 }
 
 .v-tooltip[data-position="right"]::after {
   left: -8px;
   top: 50%;
   transform: translateY(-50%);
-  border-color: transparent rgb(var(--text-color)) transparent transparent;
+  border-color: transparent var(--color-text) transparent transparent;
 }

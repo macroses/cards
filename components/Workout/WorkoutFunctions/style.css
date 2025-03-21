@@ -166,5 +166,5 @@
 }
 
 .date-menu__start-icon {
-  color: rgb(var(--accent-color));
+  color: var(--color-accent);
 }

@@ -63,7 +63,7 @@
 /*}*/
 
 /*.radio-effect.active::after {*/
-/*  border: 7px solid rgb(var(--text-color));*/
+/*  border: 7px solid var(--color-text);*/
 /*}*/
 
 /*.radio-label {*/

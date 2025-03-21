@@ -17,11 +17,11 @@
   padding: 10px 20px;
   margin-bottom: 10px;
   border-radius: 12px;
-  color: rgb(var(--text-color));
+  color: var(--color-text);
   font-size: 12px;
   max-width: 360px;
-  background-color: var(--main-bg);
-  border: 1px solid rgb(var(--accent-color) / 0.3);
+  background-color: var(--color-white);
+  border: 1px solid oklch(from var(--color-accent) l c h / 30%);
   box-shadow: rgba(0, 0, 0, 0.08) 0 4px 12px;
 }
 
@@ -44,7 +44,7 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgb(var(--text-color));
+  color: var(--color-text);
   margin-left: auto;
 }
 
@@ -71,8 +71,8 @@ svg {
 }
 
 .toast-info {
-  color: rgb(var(--accent-color));
-  border: 1px solid rgb(var(--accent-color) / 0.5);
+  color: var(--color-accent);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.5);
 }
 
 /* Анимации для TransitionGroup */

@@ -14,7 +14,7 @@
   justify-content: center;
   outline: none;
   overflow: hidden;
-  background: rgb(var(--btn-bg));
+  background: var(--btn-bg);
   max-width: fit-content;
   color: var(--btn-color);
   padding: 0 12px;
@@ -24,7 +24,7 @@
   -webkit-tap-highlight-color: transparent;
 
   &:focus-visible {
-    outline: 2px solid rgb(26 92 255);
+    outline: 2px solid var(--color-accent);
   }
 
   &[disabled] {
@@ -43,12 +43,12 @@
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    box-shadow: 0 10px 20px -10px rgb(var(--accent-color));
+    box-shadow: 0 10px 20px -10px var(--color-accent);
     transform: translateY(-3px);
   }
 
   .button--danger:hover {
-    box-shadow: 0 10px 20px -10px rgb(var(--error-color));
+    box-shadow: 0 10px 20px -10px var(--color-error);
   }
 }
 
@@ -59,7 +59,7 @@
 
 .button--ghost {
   background: transparent;
-  color: rgb(var(--accent-color));
+  color: var(--color-accent);
   overflow: hidden;
   box-shadow: none;
 
@@ -91,24 +91,24 @@
     &:hover::before {
       opacity: 1;
       transform: scale(1);
-      background-color: rgb(var(--accent-color) / 0.2);
+      background-color: oklch(from var(--color-accent) l c h / 0.2);
     }
   }
 
   &.active {
-    background-color: rgb(var(--accent-color) / 0.2);
+    background-color: oklch(from var(--color-accent) l c h / 0.2);
   }
 }
 
 .button--transparent {
   background-color: transparent;
-  color: rgb(var(--text-color));
+  color: var(--color-text);
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       box-shadow: none;
       transform: none;
-      color: rgb(var(--accent-color));
+      color: var(--color-accent);
     }
   }
 }
@@ -120,11 +120,11 @@
 }
 
 .button--secondary {
-  background-color: rgb(var(--accent-color) / 0.2);
-  color: rgb(var(--accent-color));
+  background-color: oklch(from var(--color-accent) l c h / 0.2);
+  color: var(--color-accent);
 }
 
 .button--danger {
-  background-color: rgb(var(--error-color));
+  background-color: var(--color-error);
   color: #fff;
 }

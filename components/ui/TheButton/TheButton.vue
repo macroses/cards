@@ -5,6 +5,9 @@ withDefaults(defineProps<ButtonLinkOrBaseProps>(), {
   disabled: false,
   type: 'button',
   variant: 'primary',
+  iconOnly: false,
+  link: false,
+  linkPath: '',
 })
 </script>
 

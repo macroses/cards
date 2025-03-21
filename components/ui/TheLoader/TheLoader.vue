@@ -45,12 +45,12 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--main-bg);
+  background-color: var(--color-white);
   border-radius: inherit;
   z-index: 10000;
 }
 
 svg path {
-  fill: rgb(var(--accent-color));
+  fill: var(--color-accent);
 }
 </style>

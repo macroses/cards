@@ -24,7 +24,7 @@
 .user-avatar__placeholder {
   width: 36px;
   height: 36px;
-  background-color: rgb(var(--accent-color));
+  background-color: var(--color-accent);
   color: white;
   display: flex;
   align-items: center;

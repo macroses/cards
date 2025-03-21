@@ -16,7 +16,7 @@
   transition: outline-color var(--base-transition);
 
   &:hover {
-    outline-color: rgb(var(--accent-color) / 0.5);
+    outline-color: oklch(from var(--color-accent) l c h / 0.5);
   }
 
   &.opened {

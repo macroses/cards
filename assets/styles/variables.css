@@ -1,0 +1,33 @@
+:root {
+  color-scheme: light;
+
+  --color-accent:   oklch(51% 0.27 264);
+  --color-text:     oklch(27% 0.04 249);
+  --color-white:    oklch(100% 0 0);
+  --color-error:    oklch(50% 0.2 29);
+  --color-success:  oklch(67% 0.27 150);
+  --color-border:   oklch(93% 0.01 264);
+
+  /* Semantic variables */
+  --btn-bg:           var(--color-accent);
+  --btn-color:        var(--color-white);
+  --form-bg:          oklch(97% 0.003 264);
+  --table-dark-bg:    oklch(0.974 0.003 219);
+  --error-bg:         oklch(0.908 0.04 12.4);
+  --form-box-shadow:  0 0 0 0 oklch(from var(--color-accent) l c h / 50%);
+
+  /* difficulty levels */
+  --difficulty-1: oklch(93% 0 0);
+  --difficulty-2: oklch(67% 0.27 150);
+  --difficulty-3: oklch(85% 0.2 100);
+  --difficulty-4: oklch(75% 0.2 25);
+  --difficulty-5: oklch(53% 0.27 25);
+
+  /* System */
+  --base-transition: 0.1s ease;
+  --radius-default: 12px;
+  --radius-sm: 6px;
+  --radius-lg: 20px;
+
+  font-family: 'Poppins', sans-serif;
+}

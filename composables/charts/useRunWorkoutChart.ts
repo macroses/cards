@@ -63,7 +63,7 @@ export function useRunWorkoutChart() {
         nameTextStyle: {
           padding: [0, 0, 0, 400],
           fontWeight: 600,
-          color: 'rgb(var(--text-color))',
+          color: 'var(--color-text)',
         },
       },
       series: [

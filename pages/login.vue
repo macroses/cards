@@ -126,16 +126,16 @@ async function handleSubmit() {
   width: 100%;
   max-width: 400px;
   padding: 24px;
-  border: 1px solid rgb(var(--border-color));
+  border: 1px solid var(--color-border);
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background-color: var(--main-bg);
+  background-color: var(--color-white);
 }
 
 .error {
-  color: rgb(var(--error-color));
+  color: var(--color-error);
   font-size: 14px;
 }
 
@@ -144,7 +144,7 @@ async function handleSubmit() {
   font-size: 14px;
 
   button {
-    color: rgb(var(--accent-color));
+    color: var(--color-accent);
     background: none;
     border: none;
     cursor: pointer;

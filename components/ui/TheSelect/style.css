@@ -7,11 +7,11 @@
   }
 
   &:has(.active) .dropdown__value {
-    border: 1px solid rgb(var(--accent-color));
+    border: 1px solid var(--color-accent);
     border-bottom: 1px solid transparent;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: var(--main-bg);
+    background-color: var(--color-white);
   }
 
   &:has(.active) svg {
@@ -21,13 +21,13 @@
 
   &:has(.active) .dropdown__list {
     opacity: 1;
-    border: 1px solid rgb(var(--accent-color));
+    border: 1px solid var(--color-accent);
     border-top: 0;
   }
 }
 
 /*.dropdown:has(.active.dropdown__parent-top) .dropdown__list {*/
-/*  border: 1px solid rgb(var(--accent-color));*/
+/*  border: 1px solid var(--color-accent);*/
 /*  border-bottom: 0;*/
 /*  border-top: 1px solid transparent;*/
 /*  opacity: 1;*/
@@ -40,15 +40,15 @@
   justify-content: space-between;
   padding: 0 8px;
   border-radius: 8px;
-  border: 1px solid rgb(var(--border-color));
+  border: 1px solid var(--color-border);
   cursor: pointer;
   transition: all var(--base-transition);
-  color: rgb(var(--text-color) / 100%);
+  color: var(--color-text);
   font-size: 15px;
 
   &:hover {
     box-shadow: 0 5px 25px -4px rgba(0, 0, 0, 0.05);
-    background-color: var(--main-bg);
+    background-color: var(--color-white);
   }
 
   & svg {
@@ -59,18 +59,18 @@
 .dropdown__parent-top {
   & .dropdown__list {
     border-radius: 4px 4px 0 0;
-    border-bottom: 1px solid rgb(var(--accent-color) / 30%);
+    border-bottom: 1px solid oklch(from var(--color-accent) l c h / 0.3);
   }
 }
 
 .dropdown__list {
   min-height: 0;
-  background-color: var(--main-bg);
+  background-color: var(--color-white);
   padding: 0 8px;
-  border: 1px solid rgb(var(--border-color));
+  border: 1px solid var(--color-border);
   border-top: 0;
   border-radius: 0 0 8px 8px;
-  color: rgb(var(--text-color));
+  color: var(--color-text);
   transition: opacity var(--base-transition);
   z-index: 1000;
   cursor: pointer;
@@ -109,6 +109,6 @@
 
   &.activeItem {
     transform: translateX(8px);
-    color: rgb(var(--text-color));
+    color: var(--color-text);
   }
 }

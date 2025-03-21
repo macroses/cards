@@ -16,7 +16,7 @@
   border: 1px solid transparent;
   transition: all var(--base-transition);
   justify-content: space-between;
-  color: rgb(var(--text-color));
+  color: var(--color-text);
 
   &.selected {
     background-color: #efffeb;
@@ -34,7 +34,7 @@
 
 .my_exercises__list-item--delete.button--transparent:hover {
   transition: color var(--base-transition);
-  color: rgb(var(--error-color));
+  color: var(--color-error);
 }
 
 .remove-exercise-modal .modal {
@@ -43,7 +43,7 @@
 
 .remove-exercise-modal__content-text {
   & span {
-    color: rgb(var(--error-color));
+    color: var(--color-error);
     font-weight: 600;
   }
 }
