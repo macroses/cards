@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import type { ButtonProps } from '~/ts/componentProps'
+import type { ButtonLinkOrBaseProps } from '~/ts/componentProps'
 
-withDefaults(defineProps<ButtonProps>(), {
+withDefaults(defineProps<ButtonLinkOrBaseProps>(), {
   disabled: false,
   type: 'button',
   variant: 'primary',
-  link: false,
-  iconOnly: false,
-  linkPath: '',
 })
 </script>
 
