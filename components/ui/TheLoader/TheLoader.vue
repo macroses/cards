@@ -1,4 +1,12 @@
 <script setup lang="ts">
+withDefaults(defineProps<{
+  width?: number
+  height?: number
+}>(), {
+  width: 100,
+  height: 100,
+})
+
 const loader = ref(null)
 const parent = useParentElement(loader)
 
@@ -35,6 +43,12 @@ onMounted(() => {
         />
       </path>
     </svg>
+    <!--    <TheRiveAnimation -->
+    <!--      src="/animations/loader.riv" -->
+    <!--      :width="width" -->
+    <!--      :height="height" -->
+    <!--      fit="contain" -->
+    <!--    /> -->
   </div>
 </template>
 
