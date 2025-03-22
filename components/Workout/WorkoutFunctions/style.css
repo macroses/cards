@@ -52,43 +52,19 @@
   bottom: -50px;
   transform: translateY(-20px);
   animation: showStartButton 0.7s ease-out forwards;
+  width: 60px; /* Соответствует размеру кнопки */
+  height: 60px;
+}
 
-  & .first-ring {
-    position: absolute;
-    inset: 0;
-    width: 60px;
-    height: 60px;
-    display: block;
-    height: inherit;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    filter: blur(2px);
-    background-color: rgb(11 176 11 / 0.4);
-    animation: first 2.25s 0.25s linear infinite;
-  }
-
-  & .second-ring {
-    position: absolute;
-    inset: 0;
-    width: 60px;
-    height: 60px;
-    display: block;
-    height: inherit;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    filter: blur(1px);
-    background-color: rgb(11 176 11 / 0.2);
-    animation: second 2.25s 0.25s linear infinite;
-  }
-
-  &:has(.activeWorkout) {
-    & .first-ring {
-      background-color: rgb(255 172 2 / 0.4);
-    }
-    & .second-ring {
-      background-color: rgb(255 172 2 / 0.2);
-    }
-  }
+.start-workout__particles {
+  position: absolute;
+  left: -20px;
+  /*right: -100px;*/
+  top: -40px;
+  pointer-events: none;
+  z-index: 0;
+  width: 100px;
+  height: 100px;
 }
 
 .start-workout__button {
@@ -99,6 +75,7 @@
   border-radius: 50%;
   aspect-ratio: 1;
   height: 60px;
+  width: 60px;
   border: 0;
   cursor: pointer;
   z-index: 1;

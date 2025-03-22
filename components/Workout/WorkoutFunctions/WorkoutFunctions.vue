@@ -44,6 +44,119 @@ async function handleStartWorkout() {
 function closeRunWorkoutConfirm() {
   runWorkoutConfirm.value?.closeModal()
 }
+
+const particleCanvas = ref<HTMLCanvasElement | null>(null)
+let particles: Array<{
+  x: number
+  y: number
+  vx: number
+  vy: number
+  life: number
+  color: string
+  size: number
+}> = []
+let animationFrame: number
+
+onMounted(() => {
+  if (particleCanvas.value) {
+    initParticles()
+  }
+})
+
+onBeforeUnmount(() => {
+  cancelAnimationFrame(animationFrame)
+})
+
+function initParticles() {
+  const canvas = particleCanvas.value!
+  const ctx = canvas.getContext('2d')!
+
+  const updateCanvasSize = () => {
+    canvas.width = canvas.offsetWidth * window.devicePixelRatio
+    canvas.height = canvas.offsetHeight * window.devicePixelRatio
+  }
+
+  updateCanvasSize()
+  window.addEventListener('resize', updateCanvasSize)
+
+  function createParticle() {
+    const buttonSize = 60 * window.devicePixelRatio
+    const buttonX = canvas.width / 2
+    const buttonY = canvas.height - (buttonSize / 2)
+
+    const angle = Math.PI + (Math.random() * Math.PI)
+    const radius = buttonSize / 2
+    const startX = buttonX + Math.cos(angle) * radius
+    const startY = buttonY + Math.sin(angle) * radius
+
+    const baseSpeed = 0.5 + Math.random()
+    const color = props.isWorkoutActive ? 'rgb(255, 172, 2)' : 'rgb(11, 176, 11)'
+
+    return {
+      x: startX,
+      y: startY,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: -baseSpeed - Math.random() * 1.5,
+      size: 1,
+      life: 1,
+      color,
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    // Создаем новые частицы каждый кадр
+    for (let i = 0; i < 3; i++) {
+      particles.push(createParticle())
+    }
+
+    particles = particles.filter((particle) => {
+      particle.vx += (Math.random() - 0.5) * 0.1
+      particle.x += particle.vx
+      particle.y += particle.vy
+      particle.life -= 0.015
+
+      ctx.beginPath()
+      const gradient = ctx.createRadialGradient(
+        particle.x,
+        particle.y,
+        0,
+        particle.x,
+        particle.y,
+        particle.size * 2 * window.devicePixelRatio,
+      )
+
+      gradient.addColorStop(0, `${particle.color.slice(0, -1)}, ${particle.life})`)
+      gradient.addColorStop(1, `${particle.color.slice(0, -1)}, 0)`)
+
+      ctx.fillStyle = gradient
+      ctx.arc(
+        particle.x,
+        particle.y,
+        particle.size * window.devicePixelRatio,
+        0,
+        Math.PI * 2,
+      )
+      ctx.fill()
+
+      return particle.life > 0
+    })
+
+    animationFrame = requestAnimationFrame(animate)
+  }
+
+  animate()
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', updateCanvasSize)
+  })
+}
+
+// Watch for changes in isWorkoutActive to update particle colors
+watch(() => props.isWorkoutActive, () => {
+  particles = []
+})
 </script>
 
 <template>
@@ -110,6 +223,7 @@ function closeRunWorkoutConfirm() {
       v-if="showStartButton"
       class="start-workout__wr"
     >
+      <canvas ref="particleCanvas" class="start-workout__particles" />
       <button
         class="start-workout__button"
         :class="{ activeWorkout: isWorkoutActive }"
@@ -117,8 +231,6 @@ function closeRunWorkoutConfirm() {
       >
         {{ isWorkoutActive ? 'Go on' : 'Start' }}
       </button>
-      <div class="first-ring" />
-      <div class="second-ring" />
     </div>
 
     <TheModal
