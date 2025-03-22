@@ -55,6 +55,10 @@
   outline-color: oklch(from var(--color-accent) l c h / 0.3);
   box-shadow: 0 10px 20px -10px oklch(from var(--color-accent) l c h / 0.5);
   transform: translateY(-3px);
+
+  &.running-workout {
+    outline: none;
+  }
 }
 
 .calendar-day.today .calendar-day__text {
@@ -142,10 +146,6 @@ body:has(.copy-mode) .main-navigation {
   pointer-events: none;
 }
 
-body:has(.copy-mode):has(.dashboard__charts) .copy-mode__popup {
-  left: 100px;
-}
-
 /* copy mode glow */
 @property --gradient-angle {
   syntax: "<angle>";
@@ -212,14 +212,30 @@ body:has(.copy-mode):has(.dashboard__charts) .copy-mode__popup {
   outline-color: transparent;
   border: solid 1px transparent;
   --gradient-border: conic-gradient(from var(--border-angle) in oklch, transparent 25%, #08f, #f03 99%, transparent);
-
-  background:
-    var(--color-white) padding-box,
-    var(--gradient-border) border-box,
-    var(--color-white) border-box;
-
-  background-position: center center;
+  --gradient-shadow: conic-gradient(from var(--border-angle) in oklch, transparent 25%, #08f, #f03 99%, transparent);
   animation: bg-spin 3s linear infinite;
+}
+
+.calendar-day.running-workout::before,
+.calendar-day.running-workout::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 3px;
+  background: var(--gradient-shadow);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: bg-spin 3s linear infinite;
+}
+
+.calendar-day.running-workout::before {
+  filter: blur(2px);
+}
+
+.calendar-day.running-workout::after {
+  filter: blur(2px);
 }
 
 @keyframes bg-spin {
