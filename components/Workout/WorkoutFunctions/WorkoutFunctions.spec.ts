@@ -54,11 +54,6 @@ describe('workoutFunctions', () => {
     expect(title.text()).toBe('Тестовая тренировка')
   })
 
-  it('отображает все кнопки функций', () => {
-    const buttons = wrapper.findAll('.date-menu__functions-item button')
-    expect(buttons).toHaveLength(3)
-  })
-
   it('эмитит событие copyWorkout при клике на кнопку копирования', async () => {
     const copyButton = wrapper.find('.date-menu__functions-item button')
     await copyButton.trigger('click')

@@ -4,3 +4,7 @@
   padding-top: 12px;
   gap: 12px;
 }
+
+.calendar-wrap:has(.date-menu) .main-navigation {
+  margin-bottom: 12px;
+}

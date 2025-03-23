@@ -5,6 +5,8 @@ type ButtonVariant =
   | 'outline'
   | 'danger'
   | 'transparent'
+  | 'success'
+  | 'warning'
 
 type ButtonType = 'button' | 'submit' | 'reset'
 

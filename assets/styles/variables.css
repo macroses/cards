@@ -6,6 +6,7 @@
   --color-white:    oklch(100% 0 0);
   --color-error:    oklch(50% 0.2 29);
   --color-success:  oklch(67% 0.27 150);
+  --color-warning:  oklch(0.805 0.17 74.249);
   --color-border:   oklch(93% 0.01 264);
 
   /* Semantic variables */

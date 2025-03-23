@@ -7,13 +7,18 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 12px;
-  padding: 20px 12px 0 16px;
+  padding: 6px 0;
   position: relative;
   transition: filter var(--base-transition);
 
   &.copyWorkout {
     filter: blur(10px);
   }
+}
+
+.date-menu__completed {
+  padding-inline: 12px;
+  background: oklch(from var(--color-success) l c h / 0.1);
 }
 
 .date-menu__event-name {
@@ -25,8 +30,8 @@
   align-items: center;
   gap: 6px;
 
-  & svg {
-    color: green;
+  & .button {
+    margin-left: auto;
   }
 }
 
@@ -43,51 +48,6 @@
 .date-menu__start-workout {
   & p:first-child {
     margin-bottom: 12px;
-  }
-}
-
-.start-workout__wr {
-  position: absolute;
-  left: calc(50% - 30px);
-  bottom: -50px;
-  transform: translateY(-20px);
-  animation: showStartButton 0.7s ease-out forwards;
-
-  & .first-ring {
-    position: absolute;
-    inset: 0;
-    width: 60px;
-    height: 60px;
-    display: block;
-    height: inherit;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    filter: blur(2px);
-    background-color: rgb(11 176 11 / 0.4);
-    animation: first 2.25s 0.25s linear infinite;
-  }
-
-  & .second-ring {
-    position: absolute;
-    inset: 0;
-    width: 60px;
-    height: 60px;
-    display: block;
-    height: inherit;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    filter: blur(1px);
-    background-color: rgb(11 176 11 / 0.2);
-    animation: second 2.25s 0.25s linear infinite;
-  }
-
-  &:has(.activeWorkout) {
-    & .first-ring {
-      background-color: rgb(255 172 2 / 0.4);
-    }
-    & .second-ring {
-      background-color: rgb(255 172 2 / 0.2);
-    }
   }
 }
 

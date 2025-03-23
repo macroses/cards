@@ -47,21 +47,31 @@ function closeRunWorkoutConfirm() {
 </script>
 
 <template>
-  <div class="date-menu">
+  <div
+    class="date-menu"
+    :class="{ 'date-menu__completed': isWorkoutCompleted }"
+  >
     <div class="date-menu__event-name">
-      <TheIcon
-        v-if="isWorkoutCompleted"
-        v-tooltip="$t('toast.workout_completed')"
-        icon-name="circle-check"
-        width="18px"
-        @click="$emit('openResults')"
-      />
       {{ workoutTitle }}
     </div>
 
-    <ul
-      class="date-menu__functions"
-    >
+    <ul class="date-menu__functions">
+      <li v-if="isWorkoutCompleted">
+        <TheButton
+          variant="secondary"
+          @click="$emit('openResults')"
+        >
+          Results
+        </TheButton>
+      </li>
+      <li v-else-if="showStartButton">
+        <TheButton
+          :variant="isWorkoutActive ? 'warning' : 'success'"
+          @click="openRunWorkoutConfirm"
+        >
+          {{ isWorkoutActive ? 'Go on' : 'Start' }}
+        </TheButton>
+      </li>
       <li class="date-menu__functions-item">
         <TheButton
           v-tooltip="$t('main_navigation.copy_workout')"
@@ -104,22 +114,19 @@ function closeRunWorkoutConfirm() {
           />
         </TheButton>
       </li>
+      <li class="date-menu__functions-item">
+        <TheButton
+          v-tooltip="$t('main_navigation.delete_workout')"
+          variant="ghost"
+          icon-only
+        >
+          <TheIcon
+            icon-name="sliders"
+            width="18px"
+          />
+        </TheButton>
+      </li>
     </ul>
-
-    <div
-      v-if="showStartButton"
-      class="start-workout__wr"
-    >
-      <button
-        class="start-workout__button"
-        :class="{ activeWorkout: isWorkoutActive }"
-        @click="openRunWorkoutConfirm"
-      >
-        {{ isWorkoutActive ? 'Go on' : 'Start' }}
-      </button>
-      <div class="first-ring" />
-      <div class="second-ring" />
-    </div>
 
     <TheModal
       ref="runWorkoutConfirm"

@@ -128,3 +128,13 @@
   background-color: var(--color-error);
   color: #fff;
 }
+
+.button--success {
+  background-color: var(--color-success);
+  color: #fff;
+}
+
+.button--warning {
+  background-color: var(--color-warning);
+  color: #fff;
+}

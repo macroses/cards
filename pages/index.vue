@@ -22,11 +22,13 @@ const { copyWorkout } = useCopyWorkout()
 const { refresh: refreshStats } = useGlobalStatistics()
 const { refresh: refreshCharts } = useGlobalCharts()
 
-const selectedWorkout = computed(() => {
-  return workouts.value?.find((workout: CreateWorkoutResponse) => {
+const workoutsForSelectedDate = computed(() => {
+  return workouts.value?.filter((workout: CreateWorkoutResponse) => {
     return dayjs(workout.workoutDate).isSame(selectedDate.value, 'day')
-  })
+  }) || []
 })
+
+const selectedWorkout = computed(() => workoutsForSelectedDate.value[0])
 
 const isWorkoutActive = computed(() => {
   return Boolean(selectedWorkout.value?.startedAt && !selectedWorkout.value.endedAt)
@@ -124,16 +126,17 @@ function setTime(time: number | null): string {
         />
         <MainNavigation />
         <LazyWorkoutFunctions
-          v-if="selectedWorkout"
-          :workout-title="selectedWorkout.title"
-          :workout-id="selectedWorkout.id"
-          :is-workout-completed="selectedWorkout.completed"
+          v-for="workout in workoutsForSelectedDate"
+          :key="workout.id"
+          :workout-title="workout.title"
+          :workout-id="workout.id"
+          :is-workout-completed="workout.completed"
           :is-copy-mode="isCopyMode"
           :is-workout-active="isWorkoutActive"
           :inert="isCopyMode"
           :class="{ copyWorkout: isCopyMode }"
           @update-workout="toEditPage"
-          @delete-workout="handleDeleteWorkout(selectedWorkout.id)"
+          @delete-workout="handleDeleteWorkout(workout.id)"
           @copy-workout="handleCopyWorkout"
           @open-results="showResultModal"
         />
