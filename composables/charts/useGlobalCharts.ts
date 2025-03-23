@@ -95,29 +95,40 @@ export function useGlobalCharts(): GlobalChartsReturn {
 
   const isLoading = computed(() => status.value === 'pending')
 
+  // Общая функция для настройки осей
+  const getAxisConfig = (name: string) => ({
+    type: 'value',
+    name,
+    splitLine: {
+      show: true,
+      lineStyle: {
+        type: 'dashed',
+        color: 'rgba(0,0,0,0.01)',
+      },
+    },
+  })
+
   function updateVolumeChart(data: ChartData[]) {
     volumeChartOption.value = {
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'cross' },
       },
-      // legend: {
-      //   data: [t('dashboard.volume'), t('dashboard.intensity')],
-      // },
       xAxis: {
         type: 'category',
         data: data.map((item: ChartData) => dayjs(item.date).format('DD.MM.YYYY')),
+        splitLine: { show: false },
       },
       yAxis: [
         {
-          type: 'value',
-          name: t('dashboard.volume'),
+          ...getAxisConfig(t('dashboard.volume')),
           position: 'left',
+          splitLine: { show: true },
         },
         {
-          type: 'value',
-          name: t('dashboard.intensity'),
+          ...getAxisConfig(t('dashboard.intensity')),
           position: 'right',
+          splitLine: { show: false },
         },
       ],
       series: [
@@ -125,7 +136,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
           name: t('dashboard.volume'),
           type: 'line',
           data: data.map((item: ChartData) => Number(item.volume.toFixed(2))),
-          yAxisIndex: 0,
+          // yAxisIndex: 0,
           smooth: true,
           itemStyle: { borderRadius: [8, 8, 0, 0] },
         },
@@ -151,15 +162,16 @@ export function useGlobalCharts(): GlobalChartsReturn {
       xAxis: {
         type: 'category',
         data: data.map((item: ExerciseData) => dayjs(item.date).format('DD.MM.YYYY')),
+        splitLine: { show: false },
       },
       yAxis: [
         {
-          type: 'value',
-          name: t('dashboard.weight'),
+          ...getAxisConfig(t('dashboard.weight')),
+          splitLine: { show: true },
         },
         {
-          type: 'value',
-          name: t('dashboard.sets'),
+          ...getAxisConfig(t('dashboard.sets')),
+          splitLine: { show: false },
         },
       ],
       series: [
@@ -168,7 +180,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
           type: 'line',
           data: data.map((item: ExerciseData) => item.maxWeight),
           smooth: true,
-          lineStyle: { width: 3 },
+          lineStyle: { width: 2 },
           symbolSize: 8,
         },
         {
@@ -176,13 +188,14 @@ export function useGlobalCharts(): GlobalChartsReturn {
           type: 'line',
           data: data.map((item: ExerciseData) => Number(item.avgWeight.toFixed(1))),
           smooth: true,
-          lineStyle: { width: 3 },
+          lineStyle: { width: 2 },
           symbolSize: 8,
         },
         {
           name: t('dashboard.setsCount'),
           type: 'line',
           yAxisIndex: 1,
+          smooth: true,
           data: data.map((item: ExerciseData) => item.setsCount),
           barWidth: '60%',
           itemStyle: { borderRadius: [8, 8, 0, 0] },
@@ -200,10 +213,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
       xAxis: {
         type: 'category',
         data: data.map((item: DurationData) => dayjs(item.date).format('DD.MM.YYYY')),
+        splitLine: { show: false },
       },
       yAxis: {
-        type: 'value',
-        name: t('dashboard.time'),
+        ...getAxisConfig(t('dashboard.time')),
+        splitLine: { show: true },
       },
       series: [
         {
@@ -218,7 +232,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
           type: 'line',
           data: data.map((item: DurationData) => Number(item.avgSetTime.toFixed(1))),
           smooth: true,
-          lineStyle: { width: 3 },
+          lineStyle: { width: 2 },
           symbolSize: 8,
         },
       ],

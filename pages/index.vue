@@ -204,25 +204,23 @@ function setTime(time: number | null): string {
                     />
                   </TheButton>
                 </div>
-                <table class="workout-results__sets">
-                  <thead>
-                    <tr>
-                      <th>Weight</th>
-                      <th>Repeats</th>
-                      <th>Time</th>
-                    </tr>
-                  </thead>
-                  <tr
+                <div class="workout-results__sets">
+                  <ul class="workout-results__sets-header">
+                    <li>Weight</li>
+                    <li>Repeats</li>
+                    <li>Time</li>
+                  </ul>
+                  <ul
                     v-for="set in exerciseSets[exercise.exerciseId]"
                     :key="set.id"
                     class="workout-results__set"
                     :class="`difficulty-${set.difficulty}`"
                   >
-                    <td>{{ set.weight }}</td>
-                    <td>{{ set.repeats }}</td>
-                    <td>{{ setTime(set.setTime) }}</td>
-                  </tr>
-                </table>
+                    <li>{{ set.weight }}</li>
+                    <li>{{ set.repeats }}</li>
+                    <li>{{ setTime(set.setTime) }}</li>
+                  </ul>
+                </div>
               </li>
             </ul>
           </div>
