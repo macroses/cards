@@ -23,4 +23,4 @@ const modelValue = defineModel<T>()
   </label>
 </template>
 
-<style src="./style.css"></style>
+<style src="./style.css" />

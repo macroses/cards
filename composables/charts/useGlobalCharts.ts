@@ -101,9 +101,9 @@ export function useGlobalCharts(): GlobalChartsReturn {
         trigger: 'axis',
         axisPointer: { type: 'cross' },
       },
-      legend: {
-        data: [t('dashboard.volume'), t('dashboard.intensity')],
-      },
+      // legend: {
+      //   data: [t('dashboard.volume'), t('dashboard.intensity')],
+      // },
       xAxis: {
         type: 'category',
         data: data.map((item: ChartData) => dayjs(item.date).format('DD.MM.YYYY')),
@@ -123,9 +123,10 @@ export function useGlobalCharts(): GlobalChartsReturn {
       series: [
         {
           name: t('dashboard.volume'),
-          type: 'bar',
+          type: 'line',
           data: data.map((item: ChartData) => Number(item.volume.toFixed(2))),
-          barWidth: '60%',
+          yAxisIndex: 0,
+          smooth: true,
           itemStyle: { borderRadius: [8, 8, 0, 0] },
         },
         {
@@ -180,7 +181,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
         },
         {
           name: t('dashboard.setsCount'),
-          type: 'bar',
+          type: 'line',
           yAxisIndex: 1,
           data: data.map((item: ExerciseData) => item.setsCount),
           barWidth: '60%',
