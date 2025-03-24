@@ -1,6 +1,37 @@
 import type { ExerciseData } from '~/ts/interfaces'
 import { getServerSession } from '#auth'
 
+interface GroupedWorkout {
+  workoutDate: Date
+  sets: any[]
+  exercises: any[]
+  workoutsCount: number
+}
+
+function groupWorkoutsByDate(workouts: any[]): GroupedWorkout[] {
+  const grouped = workouts.reduce((acc, workout) => {
+    const date = new Date(workout.workoutDate)
+    const dateKey = date.toISOString().split('T')[0]
+
+    if (!acc[dateKey]) {
+      acc[dateKey] = {
+        workoutDate: date,
+        sets: [],
+        exercises: [],
+        workoutsCount: 0,
+      }
+    }
+
+    acc[dateKey].sets.push(...workout.sets)
+    acc[dateKey].exercises.push(...workout.exercises)
+    acc[dateKey].workoutsCount++
+
+    return acc
+  }, {} as Record<string, GroupedWorkout>)
+
+  return Object.values(grouped)
+}
+
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)
 
@@ -26,8 +57,11 @@ export default defineEventHandler(async (event) => {
       },
     })
 
+    // Группируем тренировки по дате
+    const groupedWorkouts = groupWorkoutsByDate(workouts)
+
     // Данные для графика объема и интенсивности
-    const volumeData = workouts.map((workout) => {
+    const volumeData = groupedWorkouts.map((workout) => {
       const totalVolume = workout.sets.reduce((sum, set) => {
         if (!set.weight || !set.repeats)
           return sum
@@ -42,11 +76,12 @@ export default defineEventHandler(async (event) => {
         date: workout.workoutDate,
         volume: totalVolume / 1000,
         intensity: totalDuration > 0 ? totalVolume / totalDuration : 0,
+        workoutsCount: workout.workoutsCount,
       }
     })
 
     // Данные для графика длительности
-    const durationData = workouts.map((workout) => {
+    const durationData = groupedWorkouts.map((workout) => {
       const duration = workout.sets.reduce((sum, set) => {
         return sum + (set.setTime || 0)
       }, 0)
@@ -55,13 +90,14 @@ export default defineEventHandler(async (event) => {
         date: workout.workoutDate,
         duration,
         avgSetTime: duration / workout.sets.length,
+        workoutsCount: workout.workoutsCount,
       }
     })
 
     // Популярные упражнения
     const exerciseCounts: Record<string, number> = {}
 
-    workouts.forEach((workout) => {
+    groupedWorkouts.forEach((workout) => {
       workout.exercises.forEach((exercise) => {
         if (exercise.exerciseId)
           exerciseCounts[exercise.exerciseId] = (exerciseCounts[exercise.exerciseId] || 0) + 1
@@ -77,7 +113,7 @@ export default defineEventHandler(async (event) => {
     const exerciseData: Record<string, ExerciseData[]> = {}
 
     popularExercises.forEach((exerciseId: string) => {
-      exerciseData[exerciseId] = workouts
+      exerciseData[exerciseId] = groupedWorkouts
         .map((workout) => {
           const sets = workout.sets.filter(set => set.exerciseId === exerciseId)
           if (!sets.length)

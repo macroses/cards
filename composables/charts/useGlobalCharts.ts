@@ -30,13 +30,13 @@ export function useGlobalCharts(): GlobalChartsReturn {
       volume: Number(item.volume),
       intensity: Number(item.intensity),
       date: new Date(item.date),
-    })) satisfies ChartData[]
+    })) as ChartData[]
 
     const durationDataWithDates = data.durationData.map(item => ({
       duration: Number(item.duration),
       avgSetTime: Number(item.avgSetTime),
       date: new Date(item.date),
-    })) satisfies DurationData[]
+    })) as DurationData[]
 
     updateVolumeChart(volumeDataWithDates)
     updateDurationChart(durationDataWithDates)
@@ -136,7 +136,6 @@ export function useGlobalCharts(): GlobalChartsReturn {
           name: t('dashboard.volume'),
           type: 'line',
           data: data.map((item: ChartData) => Number(item.volume.toFixed(2))),
-          // yAxisIndex: 0,
           smooth: true,
           itemStyle: { borderRadius: [8, 8, 0, 0] },
         },

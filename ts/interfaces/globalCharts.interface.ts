@@ -4,6 +4,7 @@ export interface ChartData {
   date: Date
   volume: number
   intensity: number
+  workoutsCount: number
 }
 
 export interface ExerciseData {
@@ -17,12 +18,14 @@ export interface DurationData {
   date: Date
   duration: number
   avgSetTime: number
+  workoutsCount: number
 }
 
 interface ApiChartData {
   date: string
   volume: number
   intensity: number
+  workoutsCount: number
 }
 
 interface ApiExerciseData {
@@ -36,6 +39,7 @@ interface ApiDurationData {
   date: string
   duration: number
   avgSetTime: number
+  workoutsCount: number
 }
 
 export interface ChartsApiResponse {
