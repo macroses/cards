@@ -25,7 +25,7 @@ const showStartButton = computed(() => {
     return false
   }
 
-  return !activeWorkout.value || props.isWorkoutActive
+  return props.isWorkoutActive || !activeWorkout.value
 })
 
 function openRunWorkoutConfirm() {
@@ -44,6 +44,17 @@ async function handleStartWorkout() {
 function closeRunWorkoutConfirm() {
   runWorkoutConfirm.value?.closeModal()
 }
+
+const isDropdownOpen = ref(false)
+const dropdownRef = ref<HTMLElement | null>(null)
+
+function toggleDropdown() {
+  isDropdownOpen.value = !isDropdownOpen.value
+}
+
+onClickOutside(dropdownRef, () => {
+  isDropdownOpen.value = false
+})
 </script>
 
 <template>
@@ -73,58 +84,55 @@ function closeRunWorkoutConfirm() {
         </TheButton>
       </li>
       <li class="date-menu__functions-item">
-        <TheButton
-          v-tooltip="$t('main_navigation.copy_workout')"
-          variant="ghost"
-          icon-only
-          @click.stop="emit('copyWorkout')"
+        <div
+          ref="dropdownRef"
+          class="date-menu__dropdown"
         >
-          <TheIcon
-            icon-name="copy"
-            width="18px"
-          />
-        </TheButton>
-      </li>
-      <li
-        v-if="!isWorkoutCompleted && !isWorkoutActive"
-        class="date-menu__functions-item"
-      >
-        <TheButton
-          v-tooltip="$t('main_navigation.edit_workout')"
-          variant="ghost"
-          icon-only
-          @click="emit('updateWorkout')"
-        >
-          <TheIcon
-            icon-name="pen-to-square"
-            width="18px"
-          />
-        </TheButton>
-      </li>
-      <li class="date-menu__functions-item">
-        <TheButton
-          v-tooltip="$t('main_navigation.delete_workout')"
-          variant="ghost"
-          icon-only
-          @click.stop="emit('deleteWorkout')"
-        >
-          <TheIcon
-            icon-name="trash-can"
-            width="18px"
-          />
-        </TheButton>
-      </li>
-      <li class="date-menu__functions-item">
-        <TheButton
-          v-tooltip="$t('main_navigation.delete_workout')"
-          variant="ghost"
-          icon-only
-        >
-          <TheIcon
-            icon-name="sliders"
-            width="18px"
-          />
-        </TheButton>
+          <TheButton
+            v-tooltip="$t('main_navigation.more_options')"
+            variant="ghost"
+            icon-only
+            @click.stop="toggleDropdown"
+          >
+            <TheIcon
+              icon-name="sliders"
+              width="18px"
+            />
+          </TheButton>
+
+          <ul v-if="isDropdownOpen" class="date-menu__dropdown-menu">
+            <li>
+              <TheButton
+                variant="ghost"
+                class="date-menu__dropdown-item"
+                @click.stop="emit('copyWorkout')"
+              >
+                <TheIcon icon-name="copy" width="18px" />
+                {{ $t('main_navigation.copy_workout') }}
+              </TheButton>
+            </li>
+            <li v-if="!isWorkoutCompleted && !isWorkoutActive">
+              <TheButton
+                variant="ghost"
+                class="date-menu__dropdown-item"
+                @click="emit('updateWorkout')"
+              >
+                <TheIcon icon-name="pen-to-square" width="18px" />
+                {{ $t('main_navigation.edit_workout') }}
+              </TheButton>
+            </li>
+            <li>
+              <TheButton
+                variant="ghost"
+                class="date-menu__dropdown-item"
+                @click.stop="emit('deleteWorkout')"
+              >
+                <TheIcon icon-name="trash-can" width="18px" />
+                {{ $t('main_navigation.delete_workout') }}
+              </TheButton>
+            </li>
+          </ul>
+        </div>
       </li>
     </ul>
 
@@ -162,3 +170,30 @@ function closeRunWorkoutConfirm() {
 </template>
 
 <style src="./style.css" />
+
+<style>
+.date-menu__dropdown {
+  position: relative;
+}
+
+.date-menu__dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 200px;
+  z-index: 10;
+}
+
+.date-menu__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px;
+  text-align: left;
+}
+</style>

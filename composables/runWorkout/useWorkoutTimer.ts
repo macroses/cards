@@ -1,9 +1,11 @@
-import type { UserWorkout } from '~/ts/interfaces'
+import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
 import {
   GLOBAL_ACTIVE_WORKOUT,
   GLOBAL_WORKOUT_TIMER,
   INITIAL_TIME,
 } from '~/constants'
+
+type UnionWorkout = UserWorkout[] | CreateWorkoutResponse[]
 
 export function useWorkoutTimer() {
   const timer = useState<string>(GLOBAL_WORKOUT_TIMER, () => INITIAL_TIME)
@@ -32,7 +34,7 @@ export function useWorkoutTimer() {
     timer.value = INITIAL_TIME
   }
 
-  function checkActiveWorkout(workouts: UserWorkout[]) {
+  function checkActiveWorkout(workouts: UnionWorkout) {
     const startedWorkout = workouts.find(w => w.startedAt && !w.endedAt)
 
     if (startedWorkout?.startedAt && startedWorkout.id) {

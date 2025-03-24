@@ -55,21 +55,33 @@ describe('workoutFunctions', () => {
   })
 
   it('эмитит событие copyWorkout при клике на кнопку копирования', async () => {
-    const copyButton = wrapper.find('.date-menu__functions-item button')
+    // Open dropdown first
+    const dropdownToggle = wrapper.find('.date-menu__dropdown button')
+    await dropdownToggle.trigger('click')
+
+    const copyButton = wrapper.find('.date-menu__dropdown-item')
     await copyButton.trigger('click')
 
     expect(wrapper.emitted('copyWorkout')).toBeTruthy()
   })
 
   it('эмитит событие updateWorkout при клике на кнопку редактирования', async () => {
-    const editButton = wrapper.findAll('.date-menu__functions-item button')[1]
+    // Open dropdown first
+    const dropdownToggle = wrapper.find('.date-menu__dropdown button')
+    await dropdownToggle.trigger('click')
+
+    const editButton = wrapper.findAll('.date-menu__dropdown-item')[1]
     await editButton.trigger('click')
 
     expect(wrapper.emitted('updateWorkout')).toBeTruthy()
   })
 
   it('эмитит событие deleteWorkout при клике на кнопку удаления', async () => {
-    const deleteButton = wrapper.findAll('.date-menu__functions-item button')[2]
+    // Open dropdown first
+    const dropdownToggle = wrapper.find('.date-menu__dropdown button')
+    await dropdownToggle.trigger('click')
+
+    const deleteButton = wrapper.findAll('.date-menu__dropdown-item')[2]
     await deleteButton.trigger('click')
 
     expect(wrapper.emitted('deleteWorkout')).toBeTruthy()

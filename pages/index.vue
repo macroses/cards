@@ -28,11 +28,17 @@ const workoutsForSelectedDate = computed(() => {
   }) || []
 })
 
+const activeWorkout = computed(() => {
+  return workouts.value?.find((workout: CreateWorkoutResponse) =>
+    workout.startedAt && !workout.endedAt,
+  ) || null
+})
+
 const selectedWorkout = computed(() => workoutsForSelectedDate.value[0])
 
-const isWorkoutActive = computed(() => {
-  return Boolean(selectedWorkout.value?.startedAt && !selectedWorkout.value.endedAt)
-})
+function isWorkoutActiveForId(id: string): boolean {
+  return activeWorkout.value?.id === id
+}
 
 const isStatisticVisible = computed(() => {
   return workouts.value && workouts.value?.filter(workout => workout.completed).length > 4
@@ -56,17 +62,18 @@ async function handleDateSelect(date: Date) {
 }
 
 async function handleDeleteWorkout(id: string) {
+  if (activeWorkout.value?.id === id) {
+    return
+  }
+
   isCopyMode.value = false
   await deleteWorkout(id)
 
-  // Сбрасываем значение глобальной статистики и графиков, для их рефреша
   globalStats.value = null
   chartsState.value = null
 
-  await Promise.all([
-    refreshStats(),
-    refreshCharts(),
-  ])
+  await refreshStats()
+  await refreshCharts()
 }
 
 const readWorkoutResults = ref<typeof TheModal | null>(null)
@@ -132,7 +139,7 @@ function setTime(time: number | null): string {
           :workout-id="workout.id"
           :is-workout-completed="workout.completed"
           :is-copy-mode="isCopyMode"
-          :is-workout-active="isWorkoutActive"
+          :is-workout-active="isWorkoutActiveForId(workout.id)"
           :inert="isCopyMode"
           :class="{ copyWorkout: isCopyMode }"
           @update-workout="toEditPage"
