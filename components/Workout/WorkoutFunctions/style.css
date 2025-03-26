@@ -1,5 +1,6 @@
 .date-menu__functions {
   display: flex;
+  gap: 4px;
 }
 
 .date-menu {
@@ -17,7 +18,8 @@
 }
 
 .date-menu__completed {
-  padding-inline: 12px;
+  padding-inline: 8px;
+  margin-inline: -8px;
   background: oklch(from var(--color-success) l c h / 0.1);
 }
 

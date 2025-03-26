@@ -12,6 +12,10 @@
   touch-action: pan-y pinch-zoom;
 }
 
+.home-page__calendar:has(.date-menu) .calendar {
+  margin-bottom: 12px;
+}
+
 .calendar-header {
   display: flex;
   align-items: center;

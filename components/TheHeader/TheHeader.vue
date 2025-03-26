@@ -27,6 +27,12 @@ onMounted(() => initLanguage())
           />
         </NuxtLink>
         <div class="header__functions">
+          <NuxtLink :to="localePath(`/`)">
+            {{ $t('main_navigation.program') }}
+          </NuxtLink>
+          <NuxtLink :to="localePath(`/`)">
+            {{ $t('main_navigation.body_parameters') }}
+          </NuxtLink>
           <NuxtLink
             v-if="activeWorkout"
             class="header__timer"

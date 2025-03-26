@@ -10,12 +10,6 @@ const localePath = useLocalePath()
     >
       {{ $t('workout.create_workout') }}
     </TheButton>
-    <TheButton>
-      {{ $t('main_navigation.program') }}
-    </TheButton>
-    <TheButton>
-      {{ $t('main_navigation.body_parameters') }}
-    </TheButton>
   </div>
 </template>
 

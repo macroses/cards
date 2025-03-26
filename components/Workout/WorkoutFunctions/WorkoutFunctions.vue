@@ -100,36 +100,37 @@ onClickOutside(dropdownRef, () => {
             />
           </TheButton>
 
-          <ul v-if="isDropdownOpen" class="date-menu__dropdown-menu">
+          <ul
+            v-if="isDropdownOpen"
+            v-auto-animate="{ duration: 100 }"
+            class="date-menu__dropdown-menu"
+          >
             <li>
-              <TheButton
-                variant="ghost"
-                class="date-menu__dropdown-item"
+              <button
+                class="date-menu__dropdown-item date-menu__dropdown-item--copy"
                 @click.stop="emit('copyWorkout')"
               >
                 <TheIcon icon-name="copy" width="18px" />
                 {{ $t('main_navigation.copy_workout') }}
-              </TheButton>
+              </button>
             </li>
             <li v-if="!isWorkoutCompleted && !isWorkoutActive">
-              <TheButton
-                variant="ghost"
-                class="date-menu__dropdown-item"
+              <button
+                class="date-menu__dropdown-item date-menu__dropdown-item--update"
                 @click="emit('updateWorkout')"
               >
                 <TheIcon icon-name="pen-to-square" width="18px" />
                 {{ $t('main_navigation.edit_workout') }}
-              </TheButton>
+              </button>
             </li>
             <li>
-              <TheButton
-                variant="ghost"
-                class="date-menu__dropdown-item"
+              <button
+                class="date-menu__dropdown-item date-menu__dropdown-item--delete"
                 @click.stop="emit('deleteWorkout')"
               >
                 <TheIcon icon-name="trash-can" width="18px" />
                 {{ $t('main_navigation.delete_workout') }}
-              </TheButton>
+              </button>
             </li>
           </ul>
         </div>
@@ -178,13 +179,13 @@ onClickOutside(dropdownRef, () => {
 
 .date-menu__dropdown-menu {
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   right: 0;
   background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 8px;
-  min-width: 200px;
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+  border-radius: 12px;
+  padding: 4px;
   z-index: 10;
 }
 
@@ -194,6 +195,35 @@ onClickOutside(dropdownRef, () => {
   gap: 8px;
   width: 100%;
   padding: 8px;
+  white-space: nowrap;
+  border-radius: 8px;
   text-align: left;
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: background-color var(--base-transition);
+  cursor: pointer;
+
+  &.date-menu__dropdown-item--delete {
+    &:hover {
+      border: 1px solid var(--difficulty-5);
+      background-color: oklch(from var(--difficulty-5) l c h / 0.1);
+    }
+
+    & svg {
+      color: var(--difficulty-5);
+    }
+  }
+
+  &.date-menu__dropdown-item--update,
+  &.date-menu__dropdown-item--copy {
+    &:hover {
+      border: 1px solid var(--color-accent);
+      background-color: oklch(from var(--color-accent) l c h / 0.1);
+    }
+
+    & svg {
+      color: var(--color-accent);
+    }
+  }
 }
 </style>

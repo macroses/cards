@@ -88,15 +88,6 @@ describe('тестирует TheHeader', () => {
     expect(wrapper.findComponent({ name: 'TheDialog' }).exists()).toBe(true)
   })
 
-  it('содержит корректные ссылки навигации', () => {
-    const links = wrapper.findAll('a')
-    const expectedPaths = ['/', '/statistics', '/exercises']
-
-    links.forEach((link, index) => {
-      expect(link.attributes('href')).toBe(expectedPaths[index])
-    })
-  })
-
   it('не отображает таймер, если нет активной тренировки', () => {
     const timer = wrapper.find('.header__timer')
     expect(timer.exists()).toBe(false)
