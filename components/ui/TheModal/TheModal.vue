@@ -5,11 +5,11 @@ interface ModalProps {
   hasCloseButton?: boolean
 }
 
-const props = withDefaults(defineProps<ModalProps>(), {
-  isOutsideClose: true,
-  bottomModal: false,
-  hasCloseButton: true,
-})
+const {
+  isOutsideClose = true,
+  bottomModal = false,
+  hasCloseButton = true,
+} = defineProps<ModalProps>()
 
 const isOpen = ref(false)
 const modalRef = ref<HTMLDivElement | null>(null)
@@ -25,7 +25,7 @@ function closeModal() {
 }
 
 function handleBackdropClick(event: MouseEvent) {
-  if (event.target === modalRef.value && props.isOutsideClose) {
+  if (event.target === modalRef.value && isOutsideClose) {
     closeModal()
   }
 }
