@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const dropdown = ref<HTMLDivElement | null>(null)
+const dropdown = useTemplateRef<HTMLDivElement>('dropdown')
 const list = [1, 2, 3, 4, 5]
 const modelValue = defineModel<number>()
 

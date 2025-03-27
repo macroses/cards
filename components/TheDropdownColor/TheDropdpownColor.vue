@@ -11,7 +11,7 @@ const emit = defineEmits<{
   dropColor: [color: WorkoutColor['rgb']]
 }>()
 
-const container = ref<HTMLElement | null>(null)
+const containerRef = useTemplateRef<HTMLDivElement>('containerRef')
 const defaultColor = ref(WORKOUT_COLORS[0].rgb)
 const isDropDownActive = ref(false)
 
@@ -28,12 +28,12 @@ function dropColor(color: WorkoutColor['rgb']) {
   emit('dropColor', color)
 }
 
-onClickOutside(container, () => (isDropDownActive.value = false))
+onClickOutside(containerRef, () => (isDropDownActive.value = false))
 </script>
 
 <template>
   <div
-    ref="container"
+    ref="containerRef"
     class="dropdown-color__container"
     @click="isDropDownActive = !isDropDownActive"
   >

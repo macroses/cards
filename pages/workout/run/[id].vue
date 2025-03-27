@@ -2,6 +2,7 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
 import { watchDeep, watchImmediate } from '@vueuse/core'
+import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { MAX_LENGTH_NUMBER } from '~/constants'
 
 const { endWorkout, resetNoTimeWorkout } = useFinishWorkout()
@@ -41,7 +42,8 @@ const option = shallowRef(getData(
   runWorkout.value,
   activeExercises.value,
 ))
-const noTimeModal = ref()
+
+const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
 
 function checkSetsHaveTime(): boolean {
   if (!runWorkout.value) {

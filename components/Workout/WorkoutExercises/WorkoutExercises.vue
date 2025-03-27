@@ -27,7 +27,7 @@ const exerciseForm = reactive<Partial<UserTrainingSession>>({
 
 const activeExerciseId = ref<string | null>(null)
 const showLastSessions = ref<string | null>(null)
-const lastSessionsRef = ref<HTMLElement | null>(null)
+const lastSessionsRef = useTemplateRef<HTMLDivElement>('lastSessionsRef')
 
 const { lastSets } = useLastExerciseSets()
 

@@ -33,7 +33,7 @@ const emit = defineEmits<{
 }>()
 
 const isDropdownVisible = ref(false)
-const multiselectDropdown = ref(null)
+const multiselectDropdown = useTemplateRef<HTMLDivElement>('multiselectDropdown')
 
 function isItemSelected(item: MultiSelectItem): boolean {
   return props.chosenItems.some(chosen => chosen.id === item.id)

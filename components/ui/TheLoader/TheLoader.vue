@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const loader = ref(null)
+const loader = useTemplateRef<HTMLDivElement>('loader')
 const parent = useParentElement(loader)
 
 onMounted(() => {

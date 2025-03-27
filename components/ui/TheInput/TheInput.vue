@@ -13,7 +13,7 @@ const {
 
 const emit = defineEmits(['validation', 'blur', 'update:modelValue'])
 
-const input = ref<HTMLInputElement | null>(null)
+const input = useTemplateRef<HTMLInputElement>('input')
 
 const uniqueId = useId() as string
 const modelValue = defineModel<T>()

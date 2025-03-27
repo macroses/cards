@@ -17,7 +17,7 @@ const emit = defineEmits<{
 }>()
 
 const localePath = useLocalePath()
-const runWorkoutConfirm = ref<typeof TheModal | null>(null)
+const runWorkoutConfirm = useTemplateRef<typeof TheModal>('runWorkoutConfirm')
 
 const { startWorkout } = useStartWorkout()
 const { activeWorkout } = useWorkoutTimer()
@@ -48,7 +48,7 @@ function closeRunWorkoutConfirm() {
 }
 
 const isDropdownOpen = ref(false)
-const dropdownRef = ref<HTMLElement | null>(null)
+const dropdownRef = useTemplateRef<HTMLElement>('dropdownRef')
 
 function toggleDropdown() {
   isDropdownOpen.value = !isDropdownOpen.value

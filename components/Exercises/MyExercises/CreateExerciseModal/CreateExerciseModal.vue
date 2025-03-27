@@ -16,7 +16,7 @@ const emit = defineEmits<{
   submit: [exercise: Omit<ExerciseServerTemplate, 'id'>]
 }>()
 
-const modalRef = ref<typeof TheModal | null>(null)
+const modalRef = useTemplateRef<typeof TheModal>('modalRef')
 
 const muscles = computed(() => {
   const uniqueMuscles = new Set(props.exercisesList.map(exercise => exercise.primary))

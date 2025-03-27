@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const detailsRef = ref<HTMLDetailsElement | null>(null)
+const detailsRef = useTemplateRef<HTMLDetailsElement>('detailsRef')
 
 function handleClickOutside(event: MouseEvent) {
   if (detailsRef.value && !detailsRef.value.contains(event.target as Node)) {

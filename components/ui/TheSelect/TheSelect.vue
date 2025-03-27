@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
 const idModel = defineModel<number>('id')
 const valueModel = defineModel<string>('value')
 
-const dropdownParent = ref(null)
+const dropdownParent = ref<HTMLDivElement | null>(null)
 const isDropdownOpened = ref(false)
 const toggleDropdown = () => (isDropdownOpened.value = !isDropdownOpened.value)
 

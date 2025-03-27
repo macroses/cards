@@ -17,7 +17,7 @@ const emit = defineEmits<{
   removeExercise: [exerciseId: string]
 }>()
 
-const modalRef = ref<typeof TheModal | null>(null)
+const modalRef = useTemplateRef<typeof TheModal>('modalRef')
 const selectedExerciseForModal = ref<ExerciseServerTemplate | null>(null)
 
 const groupedExercises = computed<ExercisesGroup[]>(() => {

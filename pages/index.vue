@@ -76,11 +76,12 @@ async function handleDeleteWorkout(id: string) {
   await refreshCharts()
 }
 
-const readWorkoutResults = ref<typeof TheModal | null>(null)
+const readWorkoutResults = useTemplateRef<typeof TheModal>('readWorkoutResults')
 const selectedExerciseId = ref<string | null>(null)
 
 function showResultModal() {
   readWorkoutResults.value?.openModal()
+
   if (selectedWorkout.value?.exercises.length) {
     selectedExerciseId.value = selectedWorkout.value.exercises[0].exerciseId
   }

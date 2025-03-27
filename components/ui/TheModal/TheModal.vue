@@ -12,7 +12,7 @@ const {
 } = defineProps<ModalProps>()
 
 const isOpen = ref(false)
-const modalRef = ref<HTMLDivElement | null>(null)
+const modalRef = useTemplateRef<HTMLDivElement>('modalRef')
 
 function openModal() {
   isOpen.value = true
