@@ -7,6 +7,9 @@ export default interface InputTextProps {
   placeholder: string
   max?: number
   autocomplete?: string
+  modelModifiers?: {
+    number?: boolean
+  }
   validateRules?: Array<(value: string) => ValidationResult>
 }
 

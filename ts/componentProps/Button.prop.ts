@@ -10,19 +10,11 @@ type ButtonVariant =
 
 type ButtonType = 'button' | 'submit' | 'reset'
 
-interface ButtonBaseProps {
+export interface ButtonProps {
   disabled?: boolean
   type?: ButtonType
   variant?: ButtonVariant
-}
-
-interface ButtonProps extends ButtonBaseProps {
   iconOnly?: boolean
-}
-
-interface ButtonLinkProps extends ButtonBaseProps {
   link?: boolean
   linkPath?: string
 }
-
-export type ButtonLinkOrBaseProps = ButtonProps | ButtonLinkProps

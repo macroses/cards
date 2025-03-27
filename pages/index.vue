@@ -150,7 +150,7 @@ function setTime(time: number | null): string {
       </div>
       <div
         v-if="isStatisticVisible"
-        class="global-statistics"
+        class="global-statistics__wr"
       >
         <GlobalStatistics :workouts="workouts" />
       </div>

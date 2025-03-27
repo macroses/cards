@@ -21,7 +21,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <TheHeader />
+  <TheAside />
   <main>
     <div class="container">
       <slot />
@@ -34,5 +34,10 @@ onMounted(async () => {
   max-width: 1200px;
   margin: 0 auto;
   padding-inline: 16px;
+}
+
+main {
+  padding-top: 16px;
+  padding-left: 58px;
 }
 </style>

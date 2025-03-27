@@ -2,10 +2,12 @@
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 
-const props = withDefaults(defineProps<WorkoutFunctionsProps>(), {
-  isCopyMode: false,
-  isWorkoutActive: false,
-})
+const {
+  isWorkoutActive = false,
+  isWorkoutCompleted = false,
+  workoutId = '',
+  workoutTitle = '',
+} = defineProps<WorkoutFunctionsProps>()
 
 const emit = defineEmits<{
   (event: 'deleteWorkout'): void
@@ -21,24 +23,24 @@ const { startWorkout } = useStartWorkout()
 const { activeWorkout } = useWorkoutTimer()
 
 const showStartButton = computed(() => {
-  if (props.isWorkoutCompleted) {
+  if (isWorkoutCompleted) {
     return false
   }
 
-  return props.isWorkoutActive || !activeWorkout.value
+  return isWorkoutActive || !activeWorkout.value
 })
 
 function openRunWorkoutConfirm() {
-  if (props.isWorkoutActive) {
-    navigateTo(localePath(`/workout/run/${props.workoutId}`))
+  if (isWorkoutActive) {
+    navigateTo(localePath(`/workout/run/${workoutId}`))
     return
   }
 
   runWorkoutConfirm.value?.openModal()
 }
 async function handleStartWorkout() {
-  await startWorkout(props.workoutId)
-  navigateTo(localePath(`/workout/run/${props.workoutId}`))
+  await startWorkout(workoutId)
+  navigateTo(localePath(`/workout/run/${workoutId}`))
 }
 
 function closeRunWorkoutConfirm() {
@@ -171,59 +173,3 @@ onClickOutside(dropdownRef, () => {
 </template>
 
 <style src="./style.css" />
-
-<style>
-.date-menu__dropdown {
-  position: relative;
-}
-
-.date-menu__dropdown-menu {
-  position: absolute;
-  bottom: 100%;
-  right: 0;
-  background: var(--color-white);
-  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
-  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
-  border-radius: 12px;
-  padding: 4px;
-  z-index: 10;
-}
-
-.date-menu__dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px;
-  white-space: nowrap;
-  border-radius: 8px;
-  text-align: left;
-  background-color: transparent;
-  border: 1px solid transparent;
-  transition: background-color var(--base-transition);
-  cursor: pointer;
-
-  &.date-menu__dropdown-item--delete {
-    &:hover {
-      border: 1px solid var(--difficulty-5);
-      background-color: oklch(from var(--difficulty-5) l c h / 0.1);
-    }
-
-    & svg {
-      color: var(--difficulty-5);
-    }
-  }
-
-  &.date-menu__dropdown-item--update,
-  &.date-menu__dropdown-item--copy {
-    &:hover {
-      border: 1px solid var(--color-accent);
-      background-color: oklch(from var(--color-accent) l c h / 0.1);
-    }
-
-    & svg {
-      color: var(--color-accent);
-    }
-  }
-}
-</style>

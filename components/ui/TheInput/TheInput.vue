@@ -1,21 +1,15 @@
 <script setup lang="ts" generic="T extends string | number | null | undefined">
 import type InputTextProps from '~/ts/componentProps/InputText.prop'
 
-interface Props extends InputTextProps {
-  max?: number
-  modelModifiers?: {
-    number?: boolean
-  }
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  type: 'text',
-  inputmode: 'text',
-  placeholder: '',
-  noClear: false,
-  autocomplete: 'off',
-  validateRules: () => ([]),
-})
+const {
+  type = 'text',
+  inputmode = 'text',
+  placeholder = '',
+  noClear = false,
+  autocomplete = 'off',
+  max,
+  validateRules = [],
+} = defineProps<InputTextProps>()
 
 const emit = defineEmits(['validation', 'blur', 'update:modelValue'])
 
@@ -30,7 +24,7 @@ defineExpose({
 })
 
 function validate() {
-  for (const rule of props.validateRules) {
+  for (const rule of validateRules) {
     const result = rule(modelValue.value?.toString() || '')
 
     if (!result.isValid) {
@@ -57,8 +51,8 @@ function handleClear(event: Event) {
 function handleInput(event: Event) {
   const input = event.target as HTMLInputElement
 
-  if (props.max && input.value.length > props.max) {
-    input.value = input.value.slice(0, props.max)
+  if (max && input.value.length > max) {
+    input.value = input.value.slice(0, max)
     modelValue.value = input.value as T
   }
 }

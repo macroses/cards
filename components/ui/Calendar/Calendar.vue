@@ -7,6 +7,8 @@ const props = withDefaults(defineProps<CalendarProps>(), {
   firstDayOfWeek: 1,
   copyMode: false,
   dateChangeMode: false,
+  workouts: null,
+  modelValue: null,
 })
 
 const emit = defineEmits<{
