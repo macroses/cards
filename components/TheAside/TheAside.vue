@@ -52,7 +52,7 @@ function getVariant(path: string) {
           />
         </TheButton>
       </li>
-      <li>
+      <li v-if="route.path === localePath('/')">
         <TheButton
           v-tooltip="{
             content: 'Charts visibility',
