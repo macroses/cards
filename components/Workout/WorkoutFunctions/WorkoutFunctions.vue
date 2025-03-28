@@ -50,8 +50,16 @@ function closeRunWorkoutConfirm() {
 const isDropdownOpen = ref(false)
 const dropdownRef = useTemplateRef<HTMLElement>('dropdownRef')
 
-function toggleDropdown() {
-  isDropdownOpen.value = !isDropdownOpen.value
+async function toggleDropdown() {
+  if (!document.startViewTransition) {
+    isDropdownOpen.value = !isDropdownOpen.value
+
+    return
+  }
+
+  await document.startViewTransition(() => {
+    isDropdownOpen.value = !isDropdownOpen.value
+  }).finished
 }
 
 onClickOutside(dropdownRef, () => {

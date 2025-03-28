@@ -11,8 +11,10 @@ onMounted(() => {
   isMounted.value = true
 })
 
-function toggleCharts() {
-  isChartsDisabled.value = !isChartsDisabled.value
+async function toggleCharts() {
+  await document.startViewTransition(() => {
+    isChartsDisabled.value = !isChartsDisabled.value
+  }).finished
 }
 
 function getVariant(path: string) {

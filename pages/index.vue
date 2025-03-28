@@ -126,7 +126,10 @@ function setTime(time: number | null): string {
 
 <template>
   <div class="home-page__container">
-    <div class="home-page__calendar">
+    <div
+      class="home-page__calendar"
+      style="view-transition-name: calendar-block"
+    >
       <div
         v-auto-animate="{ duration: 100 }"
         class="calendar-wrap"
@@ -157,6 +160,7 @@ function setTime(time: number | null): string {
       <div
         v-if="isStatisticVisible"
         class="global-statistics__wr"
+        style="view-transition-name: global-statistics"
       >
         <GlobalStatistics :workouts="workouts" />
       </div>
@@ -165,6 +169,7 @@ function setTime(time: number | null): string {
     <div
       v-if="isStatisticVisible"
       class="dashboard__charts"
+      style="view-transition-name: dashboard-charts"
     >
       <DashboardCharts />
     </div>
@@ -270,5 +275,59 @@ function setTime(time: number | null): string {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+::view-transition-old(dashboard-charts),
+::view-transition-old(global-statistics) {
+  animation: fade-out 0.3s ease-in-out;
+}
+
+::view-transition-new(global-statistics),
+::view-transition-new(dashboard-charts) {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+::view-transition-old(calendar-block) {
+  animation: slide-to-center 0.3s ease-in-out;
+}
+
+::view-transition-new(calendar-block) {
+  animation: slide-from-center 0.3s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(50vw - 50%));
+  }
+}
+
+@keyframes fade-out {
+  from {
+    transform: translateX(calc(50vw - 50%));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-to-center {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(50vw - 50%));
+  }
+}
+
+@keyframes slide-from-center {
+  from {
+    transform: translateX(calc(50vw - 50%));
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 </style>
