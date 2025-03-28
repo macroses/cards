@@ -60,25 +60,25 @@ describe('тестирует GlobalStatistics', () => {
 
   it('отображает максимальный тоннаж', () => {
     const maxTonnage = wrapper.findAll('.statistic-item')[0]
-    expect(maxTonnage.find('.statistic-item__value').text()).toBe('2.5т')
+    expect(maxTonnage.find('.statistic-item__value').text()).toBe('2.5')
     expect(maxTonnage.find('.statistic-item__label').text()).toBe('Максимальный тоннаж')
   })
 
   it('отображает общий тоннаж', () => {
     const totalTonnage = wrapper.findAll('.statistic-item')[1]
-    expect(totalTonnage.find('.statistic-item__value').text()).toBe('15.8т')
+    expect(totalTonnage.find('.statistic-item__value').text()).toBe('15.8')
     expect(totalTonnage.find('.statistic-item__label').text()).toBe('Общий тоннаж')
   })
 
   it('отображает среднее время тренировки', () => {
     const avgDuration = wrapper.findAll('.statistic-item')[2]
-    expect(avgDuration.find('.statistic-item__value').text()).toBe('45мин')
+    expect(avgDuration.find('.statistic-item__value').text()).toBe('45')
     expect(avgDuration.find('.statistic-item__label').text()).toBe('Среднее время тренировки')
   })
 
   it('отображает среднее время подхода', () => {
     const avgSetTime = wrapper.findAll('.statistic-item')[3]
-    expect(avgSetTime.find('.statistic-item__value').text()).toBe('90сек')
+    expect(avgSetTime.find('.statistic-item__value').text()).toBe('90')
     expect(avgSetTime.find('.statistic-item__label').text()).toBe('Среднее время подхода')
   })
 

@@ -8,48 +8,51 @@ const { statistics } = useGlobalStatistics()
       {{ $t('statistics.global_title') }}
     </h3>
 
-    <div v-if="statistics" class="global-statistics__grid">
-      <div class="statistic-item">
-        <div class="statistic-item__value">
-          {{ statistics.maxTonnage }}т
-        </div>
+    <ul
+      v-if="statistics"
+      class="global-statistics__grid"
+    >
+      <li class="statistic-item">
         <div class="statistic-item__label">
           {{ $t('statistics.max_tonnage') }}
         </div>
-      </div>
-      <div class="statistic-item">
         <div class="statistic-item__value">
-          {{ statistics.totalTonnage }}т
+          {{ statistics.maxTonnage }}
         </div>
+      </li>
+      <li class="statistic-item">
         <div class="statistic-item__label">
           {{ $t('statistics.total_tonnage') }}
         </div>
-      </div>
-      <div class="statistic-item">
         <div class="statistic-item__value">
-          {{ statistics.avgWorkoutDuration }}мин
+          {{ statistics.totalTonnage }}
         </div>
+      </li>
+      <li class="statistic-item">
         <div class="statistic-item__label">
           {{ $t('statistics.avg_duration') }}
         </div>
-      </div>
-      <div class="statistic-item">
         <div class="statistic-item__value">
-          {{ statistics.avgSetTime }}сек
+          {{ statistics.avgWorkoutDuration }}
         </div>
+      </li>
+      <li class="statistic-item">
         <div class="statistic-item__label">
           {{ $t('statistics.avg_set_time') }}
         </div>
-      </div>
-      <div class="statistic-item">
         <div class="statistic-item__value">
-          {{ statistics.completedWorkouts }}/{{ statistics.totalWorkouts }}
+          {{ statistics.avgSetTime }}
         </div>
+      </li>
+      <li class="statistic-item">
         <div class="statistic-item__label">
           {{ $t('statistics.completed_workouts') }}
         </div>
-      </div>
-    </div>
+        <div class="statistic-item__value">
+          {{ statistics.completedWorkouts }}/{{ statistics.totalWorkouts }}
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 

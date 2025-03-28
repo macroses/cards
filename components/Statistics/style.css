@@ -12,25 +12,25 @@
 }
 
 .global-statistics__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+
 }
 
 .statistic-item {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  background-color: oklch(from var(--color-accent) l c h / 0.05);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   padding: 12px;
   border-radius: 12px;
-  background-color: oklch(from var(--color-accent) l c h / 0.1);
-}
-
-.statistic-item__value {
-  font-size: 20px;
-  font-weight: 500;
   margin-bottom: 4px;
 }
 
+.statistic-item__value {
+  color: var(--color-accent);
+}
+
 .statistic-item__label {
-  font-size: 14px;
-  color: oklch(from var(--color-text) l c h / 0.7);
+
 }

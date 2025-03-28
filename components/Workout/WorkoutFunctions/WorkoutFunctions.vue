@@ -99,7 +99,6 @@ onClickOutside(dropdownRef, () => {
           class="date-menu__dropdown"
         >
           <TheButton
-            v-tooltip="$t('main_navigation.more_options')"
             variant="ghost"
             icon-only
             @click.stop="toggleDropdown"
