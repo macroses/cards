@@ -1,4 +1,4 @@
-type ButtonVariant =
+export type ButtonVariant =
   | 'primary'
   | 'secondary'
   | 'ghost'

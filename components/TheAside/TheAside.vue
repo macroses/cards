@@ -1,5 +1,23 @@
 <script setup lang="ts">
+import { NAVIGATION_ITEMS } from '~/constants/aside-menu'
+
 const localePath = useLocalePath()
+const route = useRoute()
+
+const isChartsDisabled = useLocalStorage('charts-disabled', false)
+const isMounted = ref(false)
+
+onMounted(() => {
+  isMounted.value = true
+})
+
+function toggleCharts() {
+  isChartsDisabled.value = !isChartsDisabled.value
+}
+
+function getVariant(path: string) {
+  return route.path === localePath(path) ? 'secondary' : 'ghost'
+}
 </script>
 
 <template>
@@ -12,18 +30,21 @@ const localePath = useLocalePath()
       role="menubar"
       aria-orientation="vertical"
     >
-      <li>
+      <li
+        v-for="item in NAVIGATION_ITEMS"
+        :key="item.path"
+      >
         <TheButton
-          v-tooltip="{ content: 'Training programs', position: 'right' }"
-          variant="ghost"
+          v-tooltip="{ content: item.tooltip, position: 'right' }"
+          :variant="getVariant(item.path)"
           icon-only
           link
-          :link-path="localePath(`/`)"
+          :link-path="localePath(item.path)"
           role="menuitem"
-          aria-label="Training programs"
+          :aria-label="item.ariaLabel"
         >
           <TheIcon
-            icon-name="book-open-cover"
+            :icon-name="item.icon"
             width="20px"
             aria-hidden="true"
           />
@@ -31,16 +52,22 @@ const localePath = useLocalePath()
       </li>
       <li>
         <TheButton
-          v-tooltip="{ content: 'Body parameters', position: 'right' }"
-          variant="ghost"
+          v-tooltip="{
+            content: 'Charts visibility',
+            position: 'right',
+          }"
+          variant="secondary"
           icon-only
-          link
-          :link-path="localePath(`/`)"
           role="menuitem"
-          aria-label="Body parameters"
+          :aria-label="isChartsDisabled ? 'Enable charts' : 'Disable charts'"
+          class="aside-nav__charts-button"
+          :class="[
+            { disabled: isMounted && isChartsDisabled },
+          ]"
+          @click="toggleCharts"
         >
           <TheIcon
-            icon-name="ruler-triangle"
+            icon-name="chart-user"
             width="20px"
             aria-hidden="true"
           />

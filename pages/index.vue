@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { ChartsApiResponse, CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
+import { useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { GLOBAL_DATE, GLOBAL_WORKOUTS, KEYS } from '~/constants'
@@ -40,8 +41,12 @@ function isWorkoutActiveForId(id: string): boolean {
   return activeWorkout.value?.id === id
 }
 
+const MIN_WORKOUTS = 5
+const isChartsVisible = useStorage('charts-disabled', false)
 const isStatisticVisible = computed(() => {
-  return workouts.value && workouts.value?.filter(workout => workout.completed).length > 4
+  const workoutsLength = workouts.value && workouts.value?.filter(workout => workout.completed).length >= MIN_WORKOUTS
+
+  return workoutsLength && !isChartsVisible.value
 })
 
 function toEditPage(): void {
