@@ -3,6 +3,7 @@ import { NAVIGATION_ITEMS } from '~/constants/aside-menu'
 
 const localePath = useLocalePath()
 const route = useRoute()
+const { locale, changeLanguage, initLanguage } = useChangeLanguage()
 
 const isChartsDisabled = useLocalStorage('charts-disabled', false)
 const isMounted = ref(false)
@@ -20,6 +21,8 @@ async function toggleCharts() {
 function getVariant(path: string) {
   return route.path === localePath(path) ? 'secondary' : 'ghost'
 }
+
+onMounted(() => initLanguage())
 </script>
 
 <template>
@@ -72,6 +75,33 @@ function getVariant(path: string) {
             icon-name="chart-user"
             width="20px"
             aria-hidden="true"
+          />
+        </TheButton>
+      </li>
+    </ul>
+
+    <ul>
+      <li>
+        <TheButton
+          :variant="locale === 'en' ? 'secondary' : 'ghost'"
+          @click="changeLanguage('en')"
+        >
+          <NuxtImg
+            src="/icons/us.svg"
+            width="20px"
+            height="20px"
+          />
+        </TheButton>
+      </li>
+      <li>
+        <TheButton
+          :variant="locale === 'ru' ? 'secondary' : 'ghost'"
+          @click="changeLanguage('ru')"
+        >
+          <NuxtImg
+            src="/icons/ru.svg"
+            width="20px"
+            height="20px"
           />
         </TheButton>
       </li>

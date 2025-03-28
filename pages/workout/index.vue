@@ -39,8 +39,18 @@ const { exercisesList, status } = useFetchExercisesList()
 
 const isExercisesList = shallowRef(true)
 
-function handleSelectExercise(exercise: UserWorkoutExercise): void {
-  selectExercise(exercise, workout)
+async function handleSelectExercise(exercise: UserWorkoutExercise): Promise<void> {
+  if (!document.startViewTransition) {
+    await selectExercise(exercise, workout)
+    return
+  }
+
+  const transition = document.startViewTransition(async () => {
+    await nextTick()
+    await selectExercise(exercise, workout)
+  })
+
+  await transition.finished
 }
 
 function handleRemoveExercise(exerciseId: string): void {

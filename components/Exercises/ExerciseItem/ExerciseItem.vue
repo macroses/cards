@@ -14,6 +14,7 @@ const emit = defineEmits<{
   <li
     class="exercise-item"
     :class="{ added: isSelected }"
+    :style="{ viewTransitionName: isSelected ? '' : `exercise-${exercise.id}` }"
     @click="emit('select', exercise)"
   >
     <p>{{ exercise.name }}</p>
@@ -28,3 +29,10 @@ const emit = defineEmits<{
     </TheButton>
   </li>
 </template>
+
+<style scoped>
+.exercise-item {
+  position: relative;
+  contain: layout;
+}
+</style>
