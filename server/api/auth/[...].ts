@@ -18,6 +18,14 @@ export default NuxtAuthHandler({
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
+  },
+  jwt: {
+    secret: runtimeConfig.JWT_SECRET,
+    signingOptions: {
+      expiresIn: '30d',
+    },
   },
   callbacks: {
     async jwt({ token, user }: { token: any, user: User }) {

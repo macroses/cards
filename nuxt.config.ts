@@ -45,6 +45,8 @@ export default defineNuxtConfig({
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     API_ROUTE_SECRET: process.env.API_ROUTE_SECRET,
+    JWT_SECRET: process.env.JWT_SECRET,
+    NODE_ENV: process.env.NODE_ENV,
     public: {
       GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
       GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
@@ -98,5 +100,25 @@ export default defineNuxtConfig({
       'LegendComponent',
       'TitleComponent',
     ],
+  },
+
+  nitro: {
+    routeRules: {
+      '/**': {
+        headers: {
+          'X-XSS-Protection': '1; mode=block',
+          'X-Frame-Options': 'SAMEORIGIN',
+          'X-Content-Type-Options': 'nosniff',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Content-Security-Policy': 'default-src \'self\'; script-src \'self\' \'unsafe-inline\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data: blob:; font-src \'self\' data:',
+        },
+      },
+      '/api/**': {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+          'Pragma': 'no-cache',
+        },
+      },
+    },
   },
 })

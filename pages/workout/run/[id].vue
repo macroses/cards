@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 import TheInput from '@/components/ui/TheInput/TheInput.vue'
-import { watchDeep, watchImmediate } from '@vueuse/core'
+import { watchImmediate } from '@vueuse/core'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { MAX_LENGTH_NUMBER } from '~/constants'
 
@@ -117,14 +117,6 @@ watchImmediate([runWorkout], ([workout]: [typeof runWorkout.value]) => {
   if (workout && workout.sets) {
     initSetTimes(workout.sets)
   }
-})
-
-watchDeep(setTimes, () => {
-  activeExercises.value.forEach((exerciseId) => {
-    if (isExerciseCompleted.value(exerciseId)) {
-      activeExercises.value.delete(exerciseId)
-    }
-  })
 })
 
 onMounted(async () => {
