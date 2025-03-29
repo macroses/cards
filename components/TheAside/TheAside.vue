@@ -3,7 +3,8 @@ import { NAVIGATION_ITEMS } from '~/constants/aside-menu'
 
 const localePath = useLocalePath()
 const route = useRoute()
-const { locale, changeLanguage, initLanguage } = useChangeLanguage()
+const { changeLanguage, initLanguage } = useChangeLanguage()
+const selectId = useId()
 
 const isChartsDisabled = useLocalStorage('charts-disabled', false)
 const isMounted = ref(false)
@@ -55,7 +56,13 @@ onMounted(() => initLanguage())
           />
         </TheButton>
       </li>
-      <li v-if="route.path === localePath('/')">
+    </ul>
+
+    <ul class="aside-nav__bottom">
+      <li
+        v-if="route.path === localePath('/')"
+        class="aside-nav__bottom-item"
+      >
         <TheButton
           v-tooltip="{
             content: 'Charts visibility',
@@ -78,32 +85,24 @@ onMounted(() => initLanguage())
           />
         </TheButton>
       </li>
-    </ul>
-
-    <ul>
-      <li>
-        <TheButton
-          :variant="locale === 'en' ? 'secondary' : 'ghost'"
-          @click="changeLanguage('en')"
-        >
-          <NuxtImg
-            src="/icons/us.svg"
-            width="20px"
-            height="20px"
-          />
-        </TheButton>
-      </li>
-      <li>
-        <TheButton
-          :variant="locale === 'ru' ? 'secondary' : 'ghost'"
-          @click="changeLanguage('ru')"
-        >
-          <NuxtImg
-            src="/icons/ru.svg"
-            width="20px"
-            height="20px"
-          />
-        </TheButton>
+      <li class="aside-nav__bottom-item">
+        <select :id="selectId">
+          <button><selectedcontent /></button>
+          <option @click="changeLanguage('en')">
+            <NuxtImg
+              src="/icons/us.svg"
+              width="20px"
+              height="20px"
+            />
+          </option>
+          <option @click="changeLanguage('ru')">
+            <NuxtImg
+              src="/icons/ru.svg"
+              width="20px"
+              height="20px"
+            />
+          </option>
+        </select>
       </li>
     </ul>
 

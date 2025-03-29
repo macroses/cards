@@ -3,6 +3,15 @@ import { process } from 'std-env'
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
+  vue: {
+    compilerOptions: {
+      isCustomElement: tag => [
+        'selectedcontent',
+        'selectmenu',
+      ].includes(tag),
+    },
+  },
+
   experimental: {
     viewTransition: true,
   },
