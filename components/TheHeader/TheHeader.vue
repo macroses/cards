@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import TheDialog from '~/components/ui/TheDialog/TheDialog.vue'
-
 const localePath = useLocalePath()
 const { signOut, data } = useAuth()
 const { locale, changeLanguage, initLanguage } = useChangeLanguage()
@@ -95,24 +93,24 @@ onMounted(() => initLanguage())
       </nav>
     </div>
 
-    <TheDialog>
-      <template #content>
-        <div>{{ $t('signOutConfirm') }}</div>
-      </template>
-      <template #footer>
-        <div class="dialog-footer">
-          <TheButton
-            variant="ghost"
-            @click="handleSignOut"
-          >
-            Выйти
-          </TheButton>
-          <TheButton>
-            Отмена
-          </TheButton>
-        </div>
-      </template>
-    </TheDialog>
+    <!--    <TheDialog> -->
+    <!--      <template #content> -->
+    <!--        <div>{{ $t('signOutConfirm') }}</div> -->
+    <!--      </template> -->
+    <!--      <template #footer> -->
+    <!--        <div class="dialog-footer"> -->
+    <!--          <TheButton -->
+    <!--            variant="ghost" -->
+    <!--            @click="handleSignOut" -->
+    <!--          > -->
+    <!--            Выйти -->
+    <!--          </TheButton> -->
+    <!--          <TheButton> -->
+    <!--            Отмена -->
+    <!--          </TheButton> -->
+    <!--        </div> -->
+    <!--      </template> -->
+    <!--    </TheDialog> -->
   </header>
 </template>
 

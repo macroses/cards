@@ -47,6 +47,11 @@ function closeRunWorkoutConfirm() {
   runWorkoutConfirm.value?.closeModal()
 }
 
+function handleCopyWorkout() {
+  toggleDropdown()
+  emit('copyWorkout')
+}
+
 const isDropdownOpen = ref(false)
 const dropdownRef = useTemplateRef<HTMLElement>('dropdownRef')
 
@@ -117,7 +122,7 @@ onClickOutside(dropdownRef, () => {
             <li>
               <button
                 class="date-menu__dropdown-item date-menu__dropdown-item--copy"
-                @click.stop="emit('copyWorkout')"
+                @click.stop="handleCopyWorkout"
               >
                 <TheIcon icon-name="copy" width="18px" />
                 {{ $t('main_navigation.copy_workout') }}

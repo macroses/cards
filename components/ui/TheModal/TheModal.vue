@@ -11,21 +11,29 @@ const {
   hasCloseButton = true,
 } = defineProps<ModalProps>()
 
-const isOpen = ref(false)
-const modalRef = useTemplateRef<HTMLDivElement>('modalRef')
+const dialogRef = useTemplateRef<HTMLDialogElement>('dialogRef')
 
 function openModal() {
-  isOpen.value = true
+  dialogRef.value?.showModal()
   document.body.style.overflow = 'hidden'
 }
 
 function closeModal() {
-  isOpen.value = false
+  dialogRef.value?.close()
   document.body.style.overflow = ''
 }
 
 function handleBackdropClick(event: MouseEvent) {
-  if (event.target === modalRef.value && isOutsideClose) {
+  const rect = dialogRef.value?.getBoundingClientRect()
+  if (!rect)
+    return
+
+  const isInDialog = rect.top <= event.clientY
+    && event.clientY <= rect.top + rect.height
+    && rect.left <= event.clientX
+    && event.clientX <= rect.left + rect.width
+
+  if (!isInDialog && isOutsideClose) {
     closeModal()
   }
 }
@@ -41,38 +49,34 @@ defineExpose({
 </script>
 
 <template>
-  <Transition :name="bottomModal ? 'bottom' : 'modal'">
-    <div
-      v-if="isOpen"
-      ref="modalRef"
-      class="modal-backdrop"
-      :class="{ bottomModal }"
-      @click="handleBackdropClick"
-    >
-      <div class="modal">
-        <button
-          v-if="hasCloseButton"
-          class="close-button"
-          @click="closeModal"
-        >
-          <TheIcon
-            icon-name="xmark"
-            width="20px"
-          />
-        </button>
-        <div class="modal-header">
-          <slot name="title" />
-          <slot name="header" />
-        </div>
-        <div class="modal-content">
-          <slot name="content" />
-        </div>
-        <div class="modal-footer">
-          <slot name="footer" />
-        </div>
+  <dialog
+    ref="dialogRef"
+    :class="{ 'bottom-modal': bottomModal }"
+    @click="handleBackdropClick"
+  >
+    <div class="modal">
+      <button
+        v-if="hasCloseButton"
+        class="close-button"
+        @click="closeModal"
+      >
+        <TheIcon
+          icon-name="xmark"
+          width="20px"
+        />
+      </button>
+      <div class="modal-header">
+        <slot name="title" />
+        <slot name="header" />
+      </div>
+      <div class="modal-content">
+        <slot name="content" />
+      </div>
+      <div class="modal-footer">
+        <slot name="footer" />
       </div>
     </div>
-  </Transition>
+  </dialog>
 </template>
 
 <style src="./style.css" />

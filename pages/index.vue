@@ -67,10 +67,6 @@ async function handleDateSelect(date: Date) {
 }
 
 async function handleDeleteWorkout(id: string) {
-  if (activeWorkout.value?.id === id) {
-    return
-  }
-
   isCopyMode.value = false
   await deleteWorkout(id)
 
