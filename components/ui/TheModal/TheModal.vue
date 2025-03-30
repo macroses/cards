@@ -5,35 +5,31 @@ interface ModalProps {
   hasCloseButton?: boolean
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const {
   isOutsideClose = true,
   bottomModal = false,
   hasCloseButton = true,
 } = defineProps<ModalProps>()
 
-const dialogRef = useTemplateRef<HTMLDialogElement>('dialogRef')
+const isOpen = ref(false)
+const modalRef = useTemplateRef<HTMLDivElement>('modalRef')
 
 function openModal() {
-  dialogRef.value?.showModal()
+  isOpen.value = true
   document.body.style.overflow = 'hidden'
 }
 
 function closeModal() {
-  dialogRef.value?.close()
+  isOpen.value = false
   document.body.style.overflow = ''
 }
 
 function handleBackdropClick(event: MouseEvent) {
-  const rect = dialogRef.value?.getBoundingClientRect()
-  if (!rect)
-    return
-
-  const isInDialog = rect.top <= event.clientY
-    && event.clientY <= rect.top + rect.height
-    && rect.left <= event.clientX
-    && event.clientX <= rect.left + rect.width
-
-  if (!isInDialog && isOutsideClose) {
+  if (event.target === modalRef.value && isOutsideClose) {
     closeModal()
   }
 }
@@ -49,34 +45,41 @@ defineExpose({
 </script>
 
 <template>
-  <dialog
-    ref="dialogRef"
-    :class="{ 'bottom-modal': bottomModal }"
-    @click="handleBackdropClick"
-  >
-    <div class="modal">
-      <button
-        v-if="hasCloseButton"
-        class="close-button"
-        @click="closeModal"
+  <Teleport to="body">
+    <Transition :name="bottomModal ? 'bottom' : 'modal'">
+      <div
+        v-if="isOpen"
+        ref="modalRef"
+        v-bind="$attrs"
+        class="modal-backdrop"
+        :class="{ bottomModal }"
+        @click="handleBackdropClick"
       >
-        <TheIcon
-          icon-name="xmark"
-          width="20px"
-        />
-      </button>
-      <div class="modal-header">
-        <slot name="title" />
-        <slot name="header" />
+        <div class="modal">
+          <button
+            v-if="hasCloseButton"
+            class="close-button"
+            @click="closeModal"
+          >
+            <TheIcon
+              icon-name="xmark"
+              width="20px"
+            />
+          </button>
+          <div class="modal-header">
+            <slot name="title" />
+            <slot name="header" />
+          </div>
+          <div class="modal-content">
+            <slot name="content" />
+          </div>
+          <div class="modal-footer">
+            <slot name="footer" />
+          </div>
+        </div>
       </div>
-      <div class="modal-content">
-        <slot name="content" />
-      </div>
-      <div class="modal-footer">
-        <slot name="footer" />
-      </div>
-    </div>
-  </dialog>
+    </Transition>
+  </Teleport>
 </template>
 
 <style src="./style.css" />

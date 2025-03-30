@@ -21,16 +21,21 @@ onMounted(() => {
           group.classList.remove('secondary-active')
         })
 
-        const selectedClass = document.querySelectorAll(`.${props.bodyPart}`)
-        selectedClass.forEach(g => {
-          g.classList.add('active')
-        })
+        // Only query if bodyPart is not empty
+        if (props.bodyPart) {
+          const selectedClass = document.querySelectorAll(`.${props.bodyPart}`)
+          selectedClass.forEach(g => {
+            g.classList.add('active')
+          })
+        }
 
-        if (props.secondaryPart) {
+        if (props.secondaryPart?.length) {
           props.secondaryPart.forEach(part => {
-            document.querySelectorAll(`.${part}`).forEach(el => {
-              el.classList.add('secondary-active')
-            })
+            if (part) { // Add check for empty part
+              document.querySelectorAll(`.${part}`).forEach(el => {
+                el.classList.add('secondary-active')
+              })
+            }
           })
         }
       }
@@ -378,7 +383,6 @@ onMounted(() => {
 	c-0.1-27.8-0.4-55.7-0.9-83.5c-0.7-35.5-1.6-71-2.6-106.6c-0.1-5.3-1.1-10.6-1.9-17.5c-1,17.3-2.3,32.9-2.6,48.5
 	c-0.9,36.5-1.6,73-1.8,109.5c-0.2,36.2,0.3,72.4,0.3,108.6c0,7.4-0.3,15.2-6.6,20.2c-4.1,3.3-4.7,7.2-5.3,11.7
 	c-3,21.2-4.7,42.7-9.4,63.5c-8.4,38.1-18.4,75.8-28,113.7c-1.8,7.1-4.2,14.2-7.2,20.8c-9.3,20.9-18,27.6-42.1,22.2
-	c-4.2-0.9-8-0.4-11.9,1.8c-12.6,6.9-25.5,13.3-38.3,19.9c-3.2,1.6-6.5,3.1-9.8,4.7c2.4,1,4.3,0.8,6.1,0.3
 	c23.5-5.8,43.4-0.1,60.1,17.8c20.4,21.8,39.6,44.4,55.6,69.6c16.8,26.4,30.8,53.9,35.5,85.3c1.8,11.8,3.6,23.6,5.4,35.4
 	c1.3-2.7,1.7-5.4,2.1-8.1c2.7-21.6,6.1-43.2,13.9-63.6c4.2-11,9.6-21.7,15.7-31.8c9.7-16.2,19.6-32.3,30.9-47.4
 	c10.1-13.5,22.3-25.5,33.6-38.2c14.9-16.9,33.2-24.5,55.7-20.2C2385.1,1251.2,2390.2,1252.5,2395.5,1253.7L2395.5,1253.7z"
@@ -1719,3 +1723,4 @@ svg {
   fill: #ffe55b !important;
 }
 </style>
+
