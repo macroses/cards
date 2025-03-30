@@ -43,6 +43,8 @@ const option = shallowRef(getData(
   activeExercises.value,
 ))
 
+const { timer } = useWorkoutTimer()
+
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
 
 function checkSetsHaveTime(): boolean {
@@ -136,6 +138,11 @@ onMounted(async () => {
     <template v-else-if="runWorkout">
       <h1 class="run__title">
         {{ runWorkout.title }}
+        <TheButton
+          variant="success"
+        >
+          {{ timer }}
+        </TheButton>
       </h1>
       <div class="run">
         <div class="run__current">
