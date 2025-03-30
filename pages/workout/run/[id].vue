@@ -126,6 +126,12 @@ onMounted(async () => {
 
   if (runWorkout.value) {
     initActiveExercise(runWorkout.value.exercises)
+
+    // Если есть сохраненная тренировка в localStorage, синхронизируем времена сетов
+    const { localWorkout } = useLocalWorkout()
+    if (localWorkout.value && localWorkout.value.id === runWorkout.value.id) {
+      initSetTimes(localWorkout.value.sets)
+    }
   }
 })
 </script>

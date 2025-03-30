@@ -7,6 +7,7 @@ export function useFinishWorkout() {
   const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
   const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
+  const { localWorkout, clearWorkout } = useLocalWorkout()
 
   const { t } = useI18n()
   const { toast } = useToastState()
@@ -17,15 +18,19 @@ export function useFinishWorkout() {
     try {
       isLoading.value = true
 
+      if (!localWorkout.value) {
+        throw new Error('No local workout found')
+      }
+
       const updatedWorkout = await $fetch<CreateWorkoutResponse>(API.FINISH_WORKOUT, {
         method: 'PUT',
         body: {
           workoutId,
           completed: true,
+          sets: localWorkout.value.sets,
         },
       })
 
-      // Обновляем тренировку локально в списке
       if (workoutsList.value) {
         workoutsList.value = workoutsList.value.map(workout =>
           workout.id === workoutId
@@ -39,10 +44,10 @@ export function useFinishWorkout() {
       }
 
       stopTimer()
+      clearWorkout()
       toast(t('toast.workout_ended'), ToastStatusesEnum.SUCCESS)
       await fetchWorkouts()
 
-      // Сбрасываем значение глобальной статистики, чтобы триггернуть её refresh
       globalStats.value = null
       chartsState.value = null
 

@@ -1,22 +1,24 @@
-import { API_UPDATE_SET_TIME } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useSetTime() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = ref(false)
+  const { updateSet, localWorkout } = useLocalWorkout()
 
-  async function updateSetTime(setId: string, timestamp: number) {
+  function updateSetTime(setId: string, timestamp: number) {
     try {
       isLoading.value = true
 
-      await $fetch(API_UPDATE_SET_TIME, {
-        method: 'PUT',
-        body: {
-          setId,
-          timestamp,
-        },
-      })
+      if (!localWorkout.value) {
+        throw new Error('No workout data found')
+      }
+
+      updateSet({
+        id: setId,
+        setTime: timestamp,
+        setTimeAddedAt: new Date().toISOString(),
+      } as any)
 
       return true
     }

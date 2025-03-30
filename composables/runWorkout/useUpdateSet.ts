@@ -1,21 +1,24 @@
-import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
-import { API_CREATE_SET, API_UPDATE_SETS } from '~/constants'
+import type {
+  CreateWorkoutResponse,
+  UserTrainingSession,
+  WorkoutSet,
+} from '~/ts/interfaces'
+import { useLocalWorkout } from '~/composables/runWorkout/useLocalWorkout'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useUpdateSet() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = ref(false)
+  const { updateSet, addSet } = useLocalWorkout()
 
-  async function updateSets(sets: Partial<UserTrainingSession>[]) {
+  function updateSets(sets: Partial<UserTrainingSession>[]) {
     try {
-      isLoading.value = true
-
-      await $fetch(API_UPDATE_SETS, {
-        method: 'PUT',
-        body: { sets },
+      sets.forEach((set: Partial<UserTrainingSession>) => {
+        if (set.id) {
+          updateSet(set as WorkoutSet)
+        }
       })
-
       return true
     }
     catch (error: unknown) {
@@ -23,25 +26,24 @@ export function useUpdateSet() {
       toast(t('toast.sets_update_error'), ToastStatusesEnum.ERROR)
       return false
     }
-    finally {
-      isLoading.value = false
-    }
   }
 
   async function addNewSet(exerciseId: string, runWorkout: CreateWorkoutResponse | null | undefined) {
     if (runWorkout) {
       try {
-        const newSet = await $fetch(API_CREATE_SET, {
-          method: 'POST',
-          body: {
-            workoutId: runWorkout.id,
-            exerciseId,
-            weight: 0,
-            repeats: 0,
-            difficulty: 1,
-          },
-        })
+        const newSet = {
+          id: crypto.randomUUID(),
+          workoutId: runWorkout.id,
+          exerciseId,
+          weight: 0,
+          repeats: 0,
+          difficulty: 1,
+          completed: false,
+          setTime: null,
+          setTimeAddedAt: null,
+        }
 
+        addSet(newSet)
         runWorkout.sets.push(newSet)
       }
       catch (error) {

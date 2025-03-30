@@ -1,3 +1,4 @@
+import type { UserTrainingSession } from '~/ts/interfaces'
 import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
@@ -11,7 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { workoutId, completed } = await readBody(event)
+    const { workoutId, completed, sets } = await readBody(event)
 
     if (!workoutId) {
       throw createError({
@@ -46,13 +47,21 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Удаляем сеты без времени
-    await event.context.prisma.workoutSet.deleteMany({
-      where: {
-        workoutId,
-        setTime: null,
-      },
-    })
+    // Обновляем все сеты
+    await event.context.prisma.$transaction(
+      sets.map((set: UserTrainingSession) =>
+        event.context.prisma.workoutSet.update({
+          where: { id: set.id },
+          data: {
+            weight: set.weight || 0,
+            repeats: set.repeats || 0,
+            difficulty: set.difficulty,
+            setTime: set.setTime,
+            setTimeAddedAt: set.setTimeAddedAt,
+          },
+        }),
+      ),
+    )
 
     const updatedWorkout = await event.context.prisma.workout.update({
       where: { id: workoutId },

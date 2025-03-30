@@ -7,6 +7,7 @@ export function useStartWorkout() {
   const { toast } = useToastState()
   const isLoading = ref(false)
   const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
+  const { saveWorkout } = useLocalWorkout()
 
   async function startWorkout(workoutId: string) {
     try {
@@ -17,7 +18,9 @@ export function useStartWorkout() {
         body: { workoutId },
       })
 
-      // Обновляем тренировку локально в списке
+      // Сохраняем в localStorage
+      saveWorkout(updatedWorkout)
+
       if (workoutsList.value) {
         workoutsList.value = workoutsList.value.map(workout =>
           workout.id === workoutId

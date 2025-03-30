@@ -33,41 +33,50 @@ export function useSetTimeManagement() {
   }
 
   function initSetTimes(sets: UserTrainingSession[]) {
-    if (!sets) {
+    if (!sets?.length) {
       return
     }
 
-    // Сначала инициализируем времена для всех сетов
+    // Сбрасываем существующие значения
+    setTimes.value = {}
+    lastSetTime.value = null
+
+    // Инициализируем времена для всех сетов с учетом данных из localStorage
+    const { localWorkout } = useLocalWorkout()
+
     sets.forEach((set) => {
-      if (set.setTime) {
+      // Проверяем наличие времени в localStorage
+      const localSet = localWorkout.value?.sets.find(s => s.id === set.id)
+      if (localSet?.setTime) {
+        setTimes.value[set.id] = localSet.setTime
+      }
+      else if (set.setTime) {
         setTimes.value[set.id] = set.setTime
       }
     })
 
     // Находим последний сет с временем
     const setsWithTime = sets
-      .filter(set => set.setTime && set.setTimeAddedAt)
+      .filter(set => setTimes.value[set.id] && set.setTimeAddedAt)
       .sort((a, b) => {
-        if (!a.setTimeAddedAt || !b.setTimeAddedAt)
+        if (!a.setTimeAddedAt || !b.setTimeAddedAt) {
           return 0
+        }
         return new Date(b.setTimeAddedAt).getTime() - new Date(a.setTimeAddedAt).getTime()
       })
 
-    // Вычисляем общее время от начала тренировки для последнего сета
+    // Устанавливаем lastSetTime
     const lastSetWithTime = setsWithTime[0]
-    if (lastSetWithTime && lastSetWithTime.setTime) {
+    if (lastSetWithTime) {
       let totalTime = 0
-
       for (const set of sets) {
-        if (set.setTime) {
-          totalTime += set.setTime
-
+        if (setTimes.value[set.id]) {
+          totalTime += setTimes.value[set.id]
           if (set.id === lastSetWithTime.id) {
             break
           }
         }
       }
-
       lastSetTime.value = totalTime
     }
   }
