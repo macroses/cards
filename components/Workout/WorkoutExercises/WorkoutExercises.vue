@@ -44,6 +44,11 @@ function toggleExercise(exerciseId: string) {
   activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
 }
 
+function handleDeleteExercise(exerciseId: string) {
+  emit('removeExercise', exerciseId)
+  activeExerciseId.value = null
+}
+
 function resetExerciseForm() {
   exerciseForm.weight = null
   exerciseForm.repeats = null
@@ -130,7 +135,7 @@ onMounted(() => {
             <TheButton
               variant="transparent"
               icon-only
-              @click="emit('removeExercise', exercise.id)"
+              @click.stop="handleDeleteExercise(exercise.id)"
             >
               <TheIcon
                 icon-name="xmark"

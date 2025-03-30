@@ -10,6 +10,12 @@
   flex-direction: column;
 }
 
+.workout__exercises {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .workout-total {
   padding-inline: 8px;
   border-radius: 8px;
