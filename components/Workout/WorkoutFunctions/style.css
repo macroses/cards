@@ -15,6 +15,10 @@
   &.copyWorkout {
     filter: blur(10px);
   }
+
+  &:first-of-type {
+    margin-top: 12px;
+  }
 }
 
 .date-menu__completed {

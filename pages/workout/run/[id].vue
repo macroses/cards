@@ -138,11 +138,7 @@ onMounted(async () => {
     <template v-else-if="runWorkout">
       <h1 class="run__title">
         {{ runWorkout.title }}
-        <TheButton
-          variant="success"
-        >
-          {{ timer }}
-        </TheButton>
+        <OdometerTimer :time="timer" />
       </h1>
       <div class="run">
         <div class="run__current">

@@ -74,10 +74,10 @@ function handleRemoveSet(setId: string) {
 
 const isWorkoutValid = computed(() => {
   if (!workout.exercises.length) {
-    return false
+    return
   }
 
-  const exercisesWithSets = workout.exercises.every((exercise) => {
+  const exercisesWithSets = workout.exercises.some((exercise) => {
     return workout.sessions.some(session => session.exerciseId === exercise.id)
   })
 

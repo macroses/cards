@@ -14,6 +14,10 @@
 
 .calendar-wrap:has(.date-menu) {
   padding-bottom: 12px;
+
+  & .calendar {
+    padding-bottom: 12px;
+  }
 }
 
 .calendar-header {

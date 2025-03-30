@@ -12,7 +12,7 @@ const { timer, activeWorkout } = useWorkoutTimer()
       :link-path="localePath(`/workout/run/${activeWorkout.id}`)"
       variant="success"
     >
-      {{ timer }}
+      <OdometerTimer :time="timer" />
     </TheButton>
     <TheButton
       link
