@@ -1,5 +1,6 @@
 import type { CreateWorkoutResponse, RunWorkoutReturn } from '~/ts/interfaces'
 import { API_GET_WORKOUT, GLOBAL_WORKOUTS } from '~/constants'
+import { useWorkoutCache } from '../runWorkout/useWorkoutCache'
 
 export function useRunWorkout(): RunWorkoutReturn {
   const route = useRoute()
@@ -7,6 +8,7 @@ export function useRunWorkout(): RunWorkoutReturn {
   const workoutRunId = ref<string | null>(null)
   const originalWorkout = shallowRef<CreateWorkoutResponse | null>(null)
   const isLoading = ref(false)
+  const { getWorkout: getCachedWorkout, saveWorkout: saveToCache } = useWorkoutCache()
 
   const runWorkout = computed(() => {
     if (!workoutRunId.value) {
@@ -20,13 +22,32 @@ export function useRunWorkout(): RunWorkoutReturn {
     try {
       isLoading.value = true
 
+      // Проверяем кэш
+      const cachedWorkout = await getCachedWorkout()
+      if (cachedWorkout && cachedWorkout.id === id) {
+        if (workoutsList.value) {
+          const index = workoutsList.value.findIndex(w => w.id === cachedWorkout.id)
+          if (index !== -1) {
+            workoutsList.value[index] = cachedWorkout
+          }
+          else {
+            workoutsList.value.push(cachedWorkout)
+          }
+        }
+        else {
+          workoutsList.value = [cachedWorkout]
+        }
+        return cachedWorkout
+      }
+
+      // Если в кэше нет, значит это первый старт тренировки
+      // Делаем запрос к серверу только в этом случае
       const workout = await $fetch<CreateWorkoutResponse>(API_GET_WORKOUT, {
         query: { id },
       })
 
       if (workoutsList.value) {
         const index = workoutsList.value.findIndex(w => w.id === workout.id)
-
         if (index !== -1) {
           workoutsList.value[index] = workout
         }
@@ -41,6 +62,9 @@ export function useRunWorkout(): RunWorkoutReturn {
       if (!originalWorkout.value) {
         originalWorkout.value = JSON.parse(JSON.stringify(workout))
       }
+
+      // Сохраняем в кэш для последующих перезагрузок
+      await saveToCache(workout)
 
       return workout
     }
