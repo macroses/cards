@@ -1,38 +1,27 @@
-import type { WorkoutSet } from '@prisma/client'
-import { API_LAST_SETS, GLOBAL_LAST_SETS } from '~/constants'
+import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
+import { GLOBAL_WORKOUTS } from '~/constants'
 
 export function useLastExerciseSets() {
-  const lastSets = useState<Record<string, WorkoutSet[]>>(GLOBAL_LAST_SETS, () => ({}))
-  const isLoading = ref(false)
-  const error = ref<string | null>(null)
+  const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS)
+  const lastSets = ref<Record<string, UserTrainingSession[]>>({})
 
-  async function fetchLastSets(exerciseId: string, currentDate: Date) {
-    try {
-      isLoading.value = true
+  function getLastSets(exerciseId: string, currentDate: Date): void {
+    const lastWorkout = workouts.value
+      ?.filter(workout =>
+        workout.exercises.some(ex => ex.exerciseId === exerciseId)
+        && new Date(workout.workoutDate) < currentDate,
+      )
+      .sort((a, b) =>
+        new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime(),
+      )[0]
 
-      const sets = await $fetch<WorkoutSet[]>(API_LAST_SETS, {
-        query: {
-          exerciseId,
-          currentDate: currentDate.toISOString(),
-        },
-      })
-
-      lastSets.value[exerciseId] = sets
-    }
-    catch (err) {
-      console.error('Ошибка при загрузке предыдущих результатов:', err)
-      error.value = 'Ошибка при загрузке предыдущих результатов'
-      lastSets.value[exerciseId] = []
-    }
-    finally {
-      isLoading.value = false
-    }
+    lastSets.value[exerciseId] = lastWorkout?.sets
+      ?.filter(set => set.exerciseId === exerciseId)
+      ?.sort((a, b) => a.id.localeCompare(b.id)) ?? []
   }
 
   return {
     lastSets,
-    isLoading,
-    error,
-    fetchLastSets,
+    getLastSets,
   }
 }

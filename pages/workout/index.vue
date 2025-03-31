@@ -34,7 +34,7 @@ const workout = reactive<UserWorkout>({
 
 const { editableWorkout, initEditMode } = useEditWorkout(workout)
 const { selectExercise } = useSelectExercise()
-const { fetchLastSets } = useLastExerciseSets()
+const { getLastSets } = useLastExerciseSets()
 const { exercisesList, status } = useFetchExercisesList()
 
 const isExercisesList = shallowRef(true)
@@ -88,11 +88,11 @@ const chosenExercisesList = computed(() => {
   return isExercisesList.value ? ExercisesList : MyExercises
 })
 
-watch(selectedDate, async (newDate: Date) => {
+watch(selectedDate, (newDate: Date) => {
   workout.workoutDate = new Date(newDate.setHours(12, 0, 0, 0))
 
   for (const exercise of workout.exercises) {
-    await fetchLastSets(exercise.id, workout.workoutDate)
+    getLastSets(exercise.id, workout.workoutDate)
   }
 })
 

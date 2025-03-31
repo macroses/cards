@@ -29,7 +29,7 @@ const activeExerciseId = ref<string | null>(null)
 const showLastSessions = ref<string | null>(null)
 const lastSessionsRef = useTemplateRef<HTMLDivElement>('lastSessionsRef')
 
-const { lastSets } = useLastExerciseSets()
+const { lastSets, getLastSets } = useLastExerciseSets()
 
 const hasPreviousSets = computed(() => {
   return (exerciseId: string) => {
@@ -89,7 +89,19 @@ onMounted(() => {
       showLastSessions.value = null
     })
   }
+
+  props.selectedExercises.forEach((exercise) => {
+    getLastSets(exercise.id, props.workoutDate)
+  })
 })
+
+watch(() => props.selectedExercises, (exercises) => {
+  exercises.forEach((exercise) => {
+    if (!lastSets.value[exercise.id]) {
+      getLastSets(exercise.id, props.workoutDate)
+    }
+  })
+}, { deep: true })
 </script>
 
 <template>

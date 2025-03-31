@@ -5,7 +5,7 @@ import type {
 } from '~/ts/interfaces'
 
 export function useSelectExercise(): SelectExerciseReturn {
-  const { fetchLastSets } = useLastExerciseSets()
+  const { getLastSets } = useLastExerciseSets()
 
   async function selectExercise(
     exercise: UserWorkoutExercise,
@@ -15,7 +15,7 @@ export function useSelectExercise(): SelectExerciseReturn {
 
     if (!isExerciseExists) {
       workout.exercises.push(exercise)
-      await fetchLastSets(exercise.id, workout.workoutDate)
+      getLastSets(exercise.id, workout.workoutDate)
     }
   }
 
