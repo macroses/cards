@@ -22,7 +22,7 @@ const progress = computed(() => {
 function formatChange(value: number): string {
   const sign = value > 0 ? '+' : ''
 
-  return `${sign}${value.toFixed(1)}%`
+  return `${sign}${value.toFixed(0)}%`
 }
 
 function formatTime(seconds: number): string {

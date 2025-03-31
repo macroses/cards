@@ -59,6 +59,11 @@
   width: 100%;
 }
 
+.logout-button {
+  background-color: oklch(from var(--color-error) l c h / 0.2);
+  color: var(--color-error);
+}
+
 select {
   background: none;
   padding: 0;
@@ -123,5 +128,29 @@ option {
 
   &:hover {
     background-color: oklch(from var(--color-accent) l c h / 0.1);
+  }
+}
+
+.logout-modal__footer {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+
+  & .button {
+    flex: 1;
+    max-width: 100%;
+  }
+}
+
+.logout-modal__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-block: 12px;
+
+  & svg {
+    color: var(--color-error);
   }
 }

@@ -1,17 +1,15 @@
 <script setup lang="ts">
+import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { NAVIGATION_ITEMS } from '~/constants/aside-menu'
 
 const localePath = useLocalePath()
 const route = useRoute()
+const { signOut } = useAuth()
 const { changeLanguage, initLanguage } = useChangeLanguage()
 const selectId = useId()
 
 const isChartsDisabled = useLocalStorage('charts-disabled', false)
 const isMounted = ref(false)
-
-onMounted(() => {
-  isMounted.value = true
-})
 
 async function toggleCharts() {
   await document.startViewTransition(() => {
@@ -23,7 +21,12 @@ function getVariant(path: string) {
   return route.path === localePath(path) ? 'secondary' : 'ghost'
 }
 
-onMounted(() => initLanguage())
+const logoutConfirmModal = useTemplateRef<typeof TheModal>('logoutConfirmModal')
+
+onMounted(() => {
+  isMounted.value = true
+  initLanguage()
+})
 </script>
 
 <template>
@@ -104,6 +107,20 @@ onMounted(() => initLanguage())
           </option>
         </select>
       </li>
+      <li>
+        <TheButton
+          v-tooltip="{ content: 'Logout', position: 'right' }"
+          variant="danger"
+          icon-only
+          class="logout-button"
+          @click="logoutConfirmModal?.openModal()"
+        >
+          <TheIcon
+            icon-name="right-from-bracket"
+            width="20px"
+          />
+        </TheButton>
+      </li>
     </ul>
 
     <div
@@ -111,6 +128,36 @@ onMounted(() => initLanguage())
       role="complementary"
       aria-label="User profile"
     />
+
+    <TheModal
+      ref="logoutConfirmModal"
+    >
+      <template #content>
+        <div class="logout-modal__content">
+          <TheIcon
+            icon-name="light-emergency-on"
+            width="32px"
+          />
+          <p>Точно хотите выйти?</p>
+        </div>
+      </template>
+      <template #footer>
+        <div class="logout-modal__footer">
+          <TheButton
+            variant="secondary"
+            @click="logoutConfirmModal?.closeModal()"
+          >
+            {{ $t('back') }}
+          </TheButton>
+          <TheButton
+            variant="danger"
+            @click="signOut"
+          >
+            {{ $t('signOut') }}
+          </TheButton>
+        </div>
+      </template>
+    </TheModal>
   </nav>
 </template>
 

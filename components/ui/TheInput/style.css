@@ -41,6 +41,7 @@
 
 .input-wrapper {
   position: relative;
+  display: flex;
 
   & button {
     position: absolute;

@@ -85,12 +85,6 @@ function showPreviousSetsResults(exerciseId: string | null) {
 }
 
 onMounted(() => {
-  if (lastSessionsRef.value) {
-    onClickOutside(lastSessionsRef, () => {
-      showLastSessions.value = null
-    })
-  }
-
   props.selectedExercises.forEach((exercise) => {
     getLastSets(exercise.id, props.workoutDate)
   })
@@ -102,7 +96,7 @@ watch(() => props.selectedExercises, (exercises) => {
       getLastSets(exercise.id, props.workoutDate)
     }
   })
-}, { deep: true })
+}, { deep: 1 })
 </script>
 
 <template>
