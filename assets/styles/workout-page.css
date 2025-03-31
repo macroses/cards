@@ -99,7 +99,8 @@
   border-radius: 12px;
   transition: outline-color var(--base-transition);
 
-  &.active {
+  &.active,
+  &:has(.previous-results) {
     outline-color: oklch(from var(--color-accent) l c h / 0.5);
   }
 
@@ -111,6 +112,10 @@
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     background-color: var(--table-dark-bg);
+  }
+
+  &:has(.previous-results) {
+    outline-color: oklch(from var(--color-accent) l c h / 0.5);
   }
 }
 

@@ -50,39 +50,6 @@
   justify-content: space-between;
 }
 
-.previous-results {
-  border-radius: 8px;
-  background-color: var(--color-white);
-  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
-  position: absolute;
-  overflow: hidden;
-  top: 36px;
-  right: 12px;
-  z-index: 2;
-  width: 200px;
-  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
-}
-
-.previous-results__title {
-  font-size: 14px;
-  color: oklch(from var(--color-text) l c h / 0.7);
-  padding: 8px 8px 4px;
-  background-color: var(--table-dark-bg);
-}
-
-.previous-results__list {
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-}
-
-.previous-results__item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-}
-
 .workout__exercises-item-name {
   position: relative;
   contain: layout;

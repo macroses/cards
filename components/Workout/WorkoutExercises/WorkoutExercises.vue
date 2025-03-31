@@ -75,6 +75,10 @@ function getExerciseSessions(exerciseId: string) {
   return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
 }
 
+function isLastWorkoutResultsVisible(exerciseId: string) {
+  return lastSets.value[exerciseId] && showLastSessions.value === exerciseId
+}
+
 function showPreviousSetsResults(exerciseId: string | null) {
   showLastSessions.value = showLastSessions.value === exerciseId ? null : exerciseId
 }
@@ -102,6 +106,7 @@ onMounted(() => {
       <li
         v-for="exercise in selectedExercises"
         :key="exercise.id"
+        v-auto-animate="{ duration: 100 }"
         class="workout__exercises-item"
         :class="{ active: activeExerciseId === exercise.id }"
       >
@@ -123,7 +128,7 @@ onMounted(() => {
             <TheButton
               v-if="hasPreviousSets(exercise.id)"
               v-tooltip="'Previous results'"
-              variant="transparent"
+              :variant="showLastSessions === exercise.id ? 'success' : 'transparent'"
               icon-only
               @click.stop="showPreviousSetsResults(exercise.id)"
             >
@@ -142,20 +147,17 @@ onMounted(() => {
                 width="14px"
               />
             </TheButton>
-
-            <div
-              v-auto-animate="{ duration: 100 }"
-              class="last-sessions-wrapper"
-            >
-              <WorkoutLastSessions
-                :exercise-id="exercise.id"
-                :active-exercise-id="activeExerciseId"
-                :workout-date="workoutDate"
-                :show-sessions="showLastSessions === exercise.id"
-              />
-            </div>
           </div>
         </div>
+
+        <WorkoutLastSessions
+          v-if="isLastWorkoutResultsVisible(exercise.id)"
+          :exercise-id="exercise.id"
+          :active-exercise-id="activeExerciseId"
+          :workout-date="workoutDate"
+          :last-sets="lastSets[exercise.id]"
+          class="last-sessions-wrapper"
+        />
 
         <div class="exercise-form__wr">
           <form

@@ -3,21 +3,15 @@ interface WorkoutLastSessionProps {
   exerciseId: string
   activeExerciseId: string | null
   workoutDate: Date
-  showSessions: boolean
+  lastSets: Record<string, any>
 }
 
-const props = defineProps<WorkoutLastSessionProps>()
-
-const { lastSets } = useLastExerciseSets()
-
-const exerciseSets = computed(() => {
-  return lastSets.value[props.exerciseId] || []
-})
+defineProps<WorkoutLastSessionProps>()
 </script>
 
 <template>
   <div
-    v-if="exerciseSets.length && showSessions"
+    v-once
     class="previous-results"
   >
     <div class="previous-results__title">
@@ -25,7 +19,7 @@ const exerciseSets = computed(() => {
     </div>
     <ul class="previous-results__list">
       <li
-        v-for="set in exerciseSets"
+        v-for="set in lastSets"
         :key="set.id"
         class="previous-results__item"
       >

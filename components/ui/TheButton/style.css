@@ -35,6 +35,9 @@
 
 .button__content {
   display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
