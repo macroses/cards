@@ -11,18 +11,21 @@ export function useSetTime() {
     try {
       isLoading.value = true
 
-      // Получаем текущую тренировку из кэша
       const workout = await getCachedWorkout()
+
       if (!workout) {
         throw new Error('Workout not found in cache')
       }
 
       // Обновляем время сета
       const set = workout.sets.find(s => s.id === setId)
+
       if (!set) {
         throw new Error('Set not found')
       }
+
       set.setTime = timestamp
+      set.setTimeAddedAt = new Date().toISOString()
 
       // Сохраняем обновленную тренировку обратно в кэш
       await saveToCache(workout)
