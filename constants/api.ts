@@ -6,7 +6,6 @@ export const API_CREATE_SET = '/api/workout/createSet'
 export const API_END = '/api/finish-workout/finishWorkout'
 export const API_COPY = '/api/workout/workoutCopy'
 export const API_DELETE = '/api/workout/workoutDelete'
-export const API_LAST_SETS = '/api/workout/getLastExerciseSets'
 
 export const API_CREATE = '/api/workout/create'
 export const API_UPDATE = '/api/workout/update'

@@ -47,6 +47,7 @@ function toggleExercise(exerciseId: string) {
 function handleDeleteExercise(exerciseId: string) {
   emit('removeExercise', exerciseId)
   activeExerciseId.value = null
+  showLastSessions.value = null
 }
 
 function resetExerciseForm() {
