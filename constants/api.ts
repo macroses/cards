@@ -1,5 +1,6 @@
 export const API_START = '/api/start-workout/startWorkout'
 export const API_GET_WORKOUT = '/api/workout/getWorkout'
+export const API_UPDATE_SET_TIME = '/api/workout/updateSetTime'
 export const API_CREATE_SET = '/api/workout/createSet'
 
 export const API_END = '/api/finish-workout/finishWorkout'
@@ -12,6 +13,7 @@ export const API_UPDATE = '/api/workout/update'
 export const API_GLOBAL_STATISTICS = '/api/statistics/getGlobalStatistics'
 
 export const API_RESET_WORKOUT = '/api/workout/resetWorkout'
+export const API_UPDATE_SETS = '/api/workout/updateSets'
 
 const GET_USER_EXERCISES = '/api/exercises/getUserExercises'
 const CREATE_USER_EXERCISE = '/api/exercises/createUserExercise'

@@ -8,7 +8,6 @@ import { MAX_LENGTH_NUMBER } from '~/constants'
 const { endWorkout, resetNoTimeWorkout } = useFinishWorkout()
 const { getData } = useRunWorkoutChart()
 const { updateSets, addNewSet } = useUpdateSet()
-const { clearCache } = useWorkoutCache()
 
 const {
   runWorkout,
@@ -64,13 +63,12 @@ async function handleFinishWorkout() {
       return
     }
 
-    const success = await updateSets(runWorkout.value.sets, runWorkout.value)
+    const success = await updateSets(runWorkout.value.sets)
 
     if (success) {
       const workoutEnded = await endWorkout(runWorkout.value.id)
 
       if (workoutEnded) {
-        await clearCache()
         navigateTo('/')
       }
     }
