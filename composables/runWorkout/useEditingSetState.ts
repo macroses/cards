@@ -1,38 +1,59 @@
 import type { EditingState } from '~/ts/interfaces'
+import { useSetWeightAndRepeats } from './useSetWeightAndRepeats'
 
 export function useEditingSetState() {
   const editingState = ref<EditingState>({
     setId: null,
     field: null,
+    set: undefined,
   })
 
   const inputRefs = ref<Record<string, any>>({})
+  const { updateSetWeightAndRepeats } = useSetWeightAndRepeats()
 
-  function handleEdit(setId: string, field: 'weight' | 'repeats') {
-    editingState.value = { setId, field }
+  function handleEdit(
+    setId: string,
+    field: EditingState['field'],
+    set: EditingState['set'],
+  ) {
+    editingState.value = { setId, field, set }
 
     nextTick(() => {
-      if (inputRefs.value[setId]) {
-        inputRefs.value[setId]?.focus()
+      const input = inputRefs.value[setId]
+
+      if (input) {
+        input.focus()
       }
     }).then()
   }
 
-  function handleInputSubmit() {
-    if (editingState.value.setId && editingState.value.field) {
-      editingState.value = { setId: null, field: null }
+  function resetEditingState() {
+    editingState.value = { setId: null, field: null, set: undefined }
+  }
+
+  async function handleInputSubmit() {
+    const { setId, set } = editingState.value
+
+    if (setId && set) {
+      await updateSetWeightAndRepeats(
+        setId,
+        set.weight,
+        set.repeats,
+      )
+
+      resetEditingState()
     }
   }
 
   function setInputRef(setId: string): (el: any) => void {
-    return (el) => {
-      if (el) {
-        inputRefs.value[setId] = el
-      }
-    }
+    return el => el && (inputRefs.value[setId] = el)
   }
 
-  function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') {
+  function handleInputChange(
+    event: Event,
+    set: any,
+    field: 'weight' | 'repeats',
+  ) {
     if (!(event.target as HTMLInputElement).value) {
       set[field] = 0
     }

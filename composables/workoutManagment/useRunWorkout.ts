@@ -4,73 +4,86 @@ import { useWorkoutCache } from '../runWorkout/useWorkoutCache'
 
 export function useRunWorkout(): RunWorkoutReturn {
   const route = useRoute()
-  const workoutsList = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
+  const workoutsList = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS, () => [])
   const workoutRunId = ref<string | null>(null)
   const originalWorkout = shallowRef<CreateWorkoutResponse | null>(null)
   const isLoading = ref(false)
   const { getWorkout: getCachedWorkout, saveWorkout: saveToCache } = useWorkoutCache()
+
+  function ensureWorkoutsList() {
+    if (!Array.isArray(workoutsList.value)) {
+      workoutsList.value = []
+    }
+  }
 
   const runWorkout = computed(() => {
     if (!workoutRunId.value) {
       return null
     }
 
-    return workoutsList.value?.find((workout: CreateWorkoutResponse) => workout.id === workoutRunId.value)
+    ensureWorkoutsList()
+
+    return workoutsList.value.find((workout: CreateWorkoutResponse) => workout.id === workoutRunId.value)
   })
 
   async function fetchWorkout(id: string) {
     try {
       isLoading.value = true
 
-      // Проверяем кэш
-      const cachedWorkout = await getCachedWorkout()
-      if (cachedWorkout && cachedWorkout.id === id) {
-        if (workoutsList.value) {
-          const index = workoutsList.value.findIndex(w => w.id === cachedWorkout.id)
-          if (index !== -1) {
-            workoutsList.value[index] = cachedWorkout
-          }
-          else {
-            workoutsList.value.push(cachedWorkout)
-          }
-        }
-        else {
-          workoutsList.value = [cachedWorkout]
-        }
-        return cachedWorkout
-      }
+      ensureWorkoutsList()
 
-      // Если в кэше нет, значит это первый старт тренировки
-      // Делаем запрос к серверу только в этом случае
-      const workout = await $fetch<CreateWorkoutResponse>(API_GET_WORKOUT, {
+      const cachedWorkout = await getCachedWorkout()
+
+      // Получаем свежие данные из API
+      const apiWorkout = await $fetch<CreateWorkoutResponse>(API_GET_WORKOUT, {
         query: { id },
       })
 
-      if (workoutsList.value) {
-        const index = workoutsList.value.findIndex(w => w.id === workout.id)
-        if (index !== -1) {
-          workoutsList.value[index] = workout
-        }
-        else {
-          workoutsList.value.push(workout)
-        }
-      }
-      else {
-        workoutsList.value = [workout]
-      }
-
+      // Сохраняем оригинальную версию сразу после получения из API
       if (!originalWorkout.value) {
-        originalWorkout.value = JSON.parse(JSON.stringify(workout))
+        originalWorkout.value = JSON.parse(JSON.stringify(apiWorkout))
       }
 
-      // Сохраняем в кэш для последующих перезагрузок
-      await saveToCache(workout)
+      // Обновляем только определенные поля из кеша, если они есть
+      if (cachedWorkout?.id === id) {
+        apiWorkout.sets = apiWorkout.sets.map((apiSet) => {
+          const cachedSet = cachedWorkout.sets.find(cs => cs.id === apiSet.id)
 
-      return workout
+          if (cachedSet) {
+            // Обновляем только поля, которые могут быть изменены пользователем
+            return {
+              ...apiSet,
+              weight: cachedSet.weight ?? apiSet.weight,
+              repeats: cachedSet.repeats ?? apiSet.repeats,
+              setTime: cachedSet.setTime ?? apiSet.setTime,
+              completed: cachedSet.completed ?? apiSet.completed,
+              setTimeAddedAt: cachedSet.setTimeAddedAt ?? apiSet.setTimeAddedAt,
+            }
+          }
+          return apiSet
+        })
+      }
+
+      // Обновляем список тренировок
+      const index = workoutsList.value.findIndex(w => w.id === apiWorkout.id)
+
+      if (index !== -1) {
+        workoutsList.value[index] = apiWorkout
+      }
+
+      else {
+        workoutsList.value.push(apiWorkout)
+      }
+
+      // Обновляем кеш только если это необходимо
+      if (!cachedWorkout || cachedWorkout.id !== id) {
+        await saveToCache(apiWorkout)
+      }
+
+      return apiWorkout
     }
     catch (error: any) {
       console.error('Error fetching workout:', error)
-
       throw showError({
         statusCode: error.statusCode || 404,
         message: error.message || 'Тренировка не найдена',

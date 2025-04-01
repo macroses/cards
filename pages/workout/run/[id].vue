@@ -217,7 +217,7 @@ onMounted(async () => {
                     </div>
                     <div
                       class="run__set-weight"
-                      @click="handleEdit(set.id, 'weight')"
+                      @click="handleEdit(set.id, 'weight', set)"
                     >
                       <TheInput
                         v-if="editingState.setId === set.id && editingState.field === 'weight'"
@@ -240,7 +240,7 @@ onMounted(async () => {
                     </div>
                     <div
                       class="run__set-repeats"
-                      @click="handleEdit(set.id, 'repeats')"
+                      @click="handleEdit(set.id, 'repeats', set)"
                     >
                       <TheInput
                         v-if="editingState.setId === set.id && editingState.field === 'repeats'"
@@ -294,9 +294,9 @@ onMounted(async () => {
           </button>
         </div>
 
-        <div class="run__initial">
-          <VChart :option="option" />
-        </div>
+        <!--        <div class="run__initial"> -->
+        <!--          <VChart :option="option" /> -->
+        <!--        </div> -->
       </div>
       <TheModal ref="noTimeModal">
         <template #title>
