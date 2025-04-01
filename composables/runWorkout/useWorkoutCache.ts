@@ -6,32 +6,23 @@ const WORKOUT_KEY = 'current-workout'
 export function useWorkoutCache() {
   const cache = ref<Cache | null>(null)
 
-  async function initCache() {
+  const initCache = async () => {
     try {
       cache.value = await caches.open(CACHE_NAME)
-      return true
     }
     catch (error) {
       console.error('Error initializing cache:', error)
-      return false
     }
   }
 
-  async function ensureCache() {
-    if (!cache.value) {
-      return await initCache()
-    }
-
-    return true
-  }
-
-  async function saveWorkout(workout: CreateWorkoutResponse) {
-    if (!await ensureCache()) {
+  const saveWorkout = async (workout: CreateWorkoutResponse) => {
+    if (!cache.value)
+      await initCache()
+    if (!cache.value)
       return
-    }
 
     try {
-      await cache.value!.put(
+      await cache.value.put(
         WORKOUT_KEY,
         new Response(JSON.stringify(workout), {
           headers: { 'Content-Type': 'application/json' },
@@ -43,18 +34,16 @@ export function useWorkoutCache() {
     }
   }
 
-  async function getWorkout(): Promise<CreateWorkoutResponse | null> {
-    if (!await ensureCache()) {
+  const getWorkout = async (): Promise<CreateWorkoutResponse | null> => {
+    if (!cache.value)
+      await initCache()
+    if (!cache.value)
       return null
-    }
 
     try {
-      const response = await cache.value!.match(WORKOUT_KEY)
-
-      if (!response) {
+      const response = await cache.value.match(WORKOUT_KEY)
+      if (!response)
         return null
-      }
-
       return await response.json()
     }
     catch (error) {
@@ -63,13 +52,14 @@ export function useWorkoutCache() {
     }
   }
 
-  async function clearCache() {
-    if (!await ensureCache()) {
+  const clearCache = async () => {
+    if (!cache.value)
+      await initCache()
+    if (!cache.value)
       return
-    }
 
     try {
-      await cache.value!.delete(WORKOUT_KEY)
+      await cache.value.delete(WORKOUT_KEY)
     }
     catch (error) {
       console.error('Error clearing cache:', error)
