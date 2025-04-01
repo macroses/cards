@@ -8,16 +8,12 @@ const { timer, activeWorkout } = useWorkoutTimer()
     <TheButton
       v-if="activeWorkout"
       v-tooltip="{ content: 'Go to active workout', position: 'bottom' }"
-      link
       :link-path="localePath(`/workout/run/${activeWorkout.id}`)"
       variant="success"
     >
       <OdometerTimer :time="timer" />
     </TheButton>
-    <TheButton
-      link
-      :link-path="localePath('/workout')"
-    >
+    <TheButton :link-path="localePath('/workout')">
       {{ $t('workout.create_workout') }}
     </TheButton>
   </div>

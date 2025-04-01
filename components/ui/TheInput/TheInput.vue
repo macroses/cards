@@ -13,14 +13,17 @@ const {
 
 const emit = defineEmits(['validation', 'blur', 'update:modelValue'])
 
-const input = useTemplateRef<HTMLInputElement>('input')
+const input = ref<HTMLInputElement | null>(null)
 
 const uniqueId = useId() as string
 const modelValue = defineModel<T>()
 const error = ref('')
 
 defineExpose({
-  focus: () => input.value?.focus(),
+  focus: () => {
+    input.value?.focus()
+    input.value?.select()
+  },
 })
 
 function validate() {
@@ -57,6 +60,10 @@ function handleInput(event: Event) {
   }
 }
 
+function onFocus() {
+  input.value?.select()
+}
+
 watch(modelValue, () => validate())
 </script>
 
@@ -74,6 +81,7 @@ watch(modelValue, () => validate())
       :class="{ 'input--error': error }"
       @input="handleInput"
       @blur="onBlur"
+      @focus="onFocus"
     >
     <button
       v-if="modelValue && !noClear"

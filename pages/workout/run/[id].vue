@@ -1,314 +1,243 @@
 <script setup lang="ts">
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
-import TheInput from '@/components/ui/TheInput/TheInput.vue'
-import { watchImmediate } from '@vueuse/core'
-import TheModal from '~/components/ui/TheModal/TheModal.vue'
-import { MAX_LENGTH_NUMBER } from '~/constants'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { UnionSetFields } from '~/ts/types/setFields.types'
+import { WORKOUT_DIFFICULTY } from '~/constants/workout'
 
-const { endWorkout, resetNoTimeWorkout } = useFinishWorkout()
-const { getData } = useRunWorkoutChart()
-const { updateSets, addNewSet } = useUpdateSet()
+definePageMeta({
+  middleware: ['auth'],
+})
 
-const {
-  runWorkout,
-  initRunMode,
-  originalWorkout,
-  isLoading,
-} = useRunWorkout()
-
-const {
-  activeExercises,
-  toggleExercise,
-  initActiveExercise,
-} = useActiveExercises()
-
-const {
-  editingState,
-  handleEdit,
-  handleInputSubmit,
-  setInputRef,
-  handleInputChange,
-} = useEditingSetState()
-
-const {
-  setTimes,
-  formatSetTime,
-  handleSetTime,
-  initSetTimes,
-} = useSetTimeManagement()
-
-const option = shallowRef(getData(
-  originalWorkout.value,
-  runWorkout.value,
-  activeExercises.value,
-))
-
+const { workout, isLoading, error } = useRunWorkout()
+const { updateSetField } = useUpdateCachedWorkout()
 const { timer } = useWorkoutTimer()
 
-const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
+const editingSetId = ref<string | null>(null)
+const editingValue = ref<number | string>(0)
+const editingField = ref<UnionSetFields | null>(null)
 
-function checkSetsHaveTime(): boolean {
-  if (!runWorkout.value) {
+async function updateSetFieldValue(setId: string, field: UnionSetFields, value: number | string) {
+  if (!workout.value || !value) {
     return false
   }
 
-  return runWorkout.value.sets.some((set: CreateWorkoutResponse['sets'][0]) => setTimes.value[set.id])
-}
-
-async function handleFinishWorkout() {
-  if (runWorkout.value) {
-    if (!checkSetsHaveTime()) {
-      noTimeModal.value?.openModal()
-
-      return
-    }
-
-    const success = await updateSets(runWorkout.value.sets)
-
-    if (success) {
-      const workoutEnded = await endWorkout(runWorkout.value.id)
-
-      if (workoutEnded) {
-        navigateTo('/')
-      }
-    }
-  }
+  return await updateSetField(
+    workout.value,
+    setId,
+    field,
+    value,
+  )
 }
 
 const exerciseSets = computed(() => {
-  if (!runWorkout.value) {
+  if (!workout.value) {
     return {}
   }
 
-  return runWorkout.value.sets.reduce((
-    acc: Record<string, CreateWorkoutResponse['sets']>,
-    set: CreateWorkoutResponse['sets'][0],
-  ) => {
-    if (!acc[set.exerciseId]) {
-      acc[set.exerciseId] = []
-    }
+  return workout.value.sets.reduce((acc, set) => {
+    const exerciseId = set.exerciseId
 
-    acc[set.exerciseId].push(set)
+    if (!acc[exerciseId]) {
+      acc[exerciseId] = {
+        sets: [],
+        name: workout.value?.exercises.find(e => e.exerciseId === exerciseId)?.exerciseName || 'Unknown',
+      }
+    }
+    acc[exerciseId].sets.push(set)
 
     return acc
-  }, {})
+  }, {} as Record<string, { sets: CreateWorkoutResponse['sets'], name: string }>)
 })
 
-const isExerciseCompleted = computed(() => {
-  return function (exerciseId: string): boolean {
-    const exerciseSetsArray = exerciseSets.value[exerciseId] || []
-
-    if (!exerciseSetsArray.length) {
-      return false
-    }
-
-    return exerciseSetsArray.every((set: CreateWorkoutResponse['sets'][0]) => setTimes.value[set.id])
-  }
-})
-
-async function handleResetNoTimeWorkout() {
-  noTimeModal.value?.closeModal()
-  await resetNoTimeWorkout(runWorkout.value?.id)
+function startEditing(set: any, field: UnionSetFields) {
+  editingSetId.value = set.id
+  editingValue.value = set[field]
+  editingField.value = field
 }
 
-watchEffect(() => {
-  option.value = getData(originalWorkout.value, runWorkout.value, activeExercises.value)
-})
+async function saveEdit() {
+  if (!editingSetId.value || !editingField.value)
+    return
 
-watchImmediate([runWorkout], ([workout]: [typeof runWorkout.value]) => {
-  if (workout && workout.sets) {
-    initSetTimes(workout.sets)
+  await updateSetFieldValue(
+    editingSetId.value,
+    editingField.value,
+    editingValue.value,
+  )
+
+  editingSetId.value = null
+  editingField.value = null
+}
+
+function handleKeyDown(event: KeyboardEvent) {
+  if (event.key === 'Enter') {
+    saveEdit()
   }
-})
+}
 
-onMounted(async () => {
-  await initRunMode()
+function isInputVisible(setId: string, field: 'weight' | 'repeats') {
+  return editingSetId.value === setId && editingField.value === field
+}
 
-  if (runWorkout.value) {
-    initActiveExercise(runWorkout.value.exercises)
+function handleDifficultyChange(setId: string, value: number | undefined) {
+  if (!value) {
+    return
   }
-})
+
+  updateSetFieldValue(setId, 'difficulty', value)
+}
 </script>
 
 <template>
   <div class="run-template">
-    <div v-if="isLoading">
-      <TheLoader />
+    <div v-if="isLoading" class="loading">
+      Загрузка тренировки...
     </div>
-    <template v-else-if="runWorkout">
-      <h1 class="run__title">
-        {{ runWorkout.title }}
-        <OdometerTimer :time="timer" />
-      </h1>
-      <div class="run">
-        <div class="run__current">
-          <ul class="run__exercises-list">
-            <li
-              v-for="exercise in runWorkout.exercises"
-              :key="exercise.exerciseId"
-              class="run__exercise-item"
-            >
-              <div
-                class="run__exercise"
-                :class="{ done: isExerciseCompleted(exercise.exerciseId) }"
-                @click="toggleExercise(exercise.exerciseId)"
-              >
-                <TheIcon
-                  icon-name="angle-down"
-                  width="14px"
-                />
-                <span>{{ exercise.exerciseName }}</span>
-              </div>
-              <div
-                class="run__sets-container"
-                :class="{ active: activeExercises.has(exercise.exerciseId) }"
-              >
-                <TheButton
-                  v-if="!exerciseSets[exercise.exerciseId]?.length"
-                  class="run__add-set"
-                  @click="addNewSet(exercise.exerciseId, runWorkout)"
-                >
-                  Добавить сет
-                </TheButton>
-                <ul
-                  v-else
-                  v-auto-animate="{ duration: 100 }"
-                  class="run__sets"
-                >
-                  <li class="run__sets-header">
-                    <div>
-                      <TheIcon
-                        icon-name="chart-simple"
-                        width="14px"
-                      />
-                      Level
-                    </div>
-                    <div>
-                      <TheIcon
-                        icon-name="weight-hanging"
-                        width="14px"
-                      />
-                      Weight
-                    </div>
-                    <div>
-                      <TheIcon
-                        icon-name="repeat"
-                        width="14px"
-                      />
-                      Repeat
-                    </div>
-                    <div>
-                      <TheIcon
-                        icon-name="clock"
-                        width="14px"
-                      />
-                      Time
-                    </div>
-                  </li>
-                  <li
-                    v-for="set in exerciseSets[exercise.exerciseId]"
-                    :key="set.id"
-                    class="run__set-item"
-                  >
-                    <div class="run__set-difficulty">
-                      <TheDropdown v-model="set.difficulty" />
-                    </div>
-                    <div
-                      class="run__set-weight"
-                      @click="handleEdit(set.id, 'weight')"
-                    >
-                      <TheInput
-                        v-if="editingState.setId === set.id && editingState.field === 'weight'"
-                        :ref="setInputRef(set.id)"
-                        v-model="set.weight"
-                        placeholder="Вес"
-                        type="number"
-                        :max="MAX_LENGTH_NUMBER"
-                        inputmode="numeric"
-                        @keyup.enter="handleInputSubmit"
-                        @blur="handleInputSubmit"
-                        @input="handleInputChange($event, set, 'weight')"
-                      />
-                      <div
-                        v-else
-                        class="run__set-weight--value"
-                      >
-                        {{ set.weight || 0 }}
-                      </div>
-                    </div>
-                    <div
-                      class="run__set-repeats"
-                      @click="handleEdit(set.id, 'repeats')"
-                    >
-                      <TheInput
-                        v-if="editingState.setId === set.id && editingState.field === 'repeats'"
-                        :ref="setInputRef(set.id)"
-                        v-model="set.repeats"
-                        placeholder="Повторения"
-                        type="number"
-                        :max="MAX_LENGTH_NUMBER"
-                        inputmode="numeric"
-                        @keyup.enter="handleInputSubmit"
-                        @blur="handleInputSubmit"
-                        @input="handleInputChange($event, set, 'repeats')"
-                      />
-                      <div
-                        v-else
-                        class="run__set-repeats--value"
-                      >
-                        {{ set.repeats || 0 }}
-                      </div>
-                    </div>
-                    <div class="run__set-time">
-                      {{ setTimes[set.id] ? formatSetTime(setTimes[set.id]) : '' }}
-                      <TheButton
-                        v-if="!setTimes[set.id]"
-                        variant="secondary"
-                        icon-only
-                        :disabled="!set.repeats || !set.weight"
-                        @click="handleSetTime(set.id)"
-                      >
-                        <TheIcon
-                          icon-name="clock"
-                          width="18px"
-                        />
-                      </TheButton>
-                    </div>
-                  </li>
-                  <li class="run__set-item run__set-item--add">
-                    <TheButton
-                      class="run__add-set"
-                      @click="addNewSet(exercise.exerciseId, runWorkout)"
-                    >
-                      Добавить сет
-                    </TheButton>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-          <button @click="handleFinishWorkout">
-            finish
-          </button>
-        </div>
 
-        <div class="run__initial">
-          <VChart :option="option" />
+    <div v-else-if="error" class="error">
+      {{ error }}
+    </div>
+
+    <div v-else-if="workout" class="workout-content">
+      <div class="workout-header">
+        <h2>{{ workout.title }}</h2>
+        <OdometerTimer :time="timer" />
+      </div>
+
+      <div
+        v-for="(exercise, exerciseId) in exerciseSets"
+        :key="exerciseId"
+        class="exercise-card"
+      >
+        <h3>{{ exercise.name }}</h3>
+
+        <div class="sets-table">
+          <div
+            v-for="set in exercise.sets"
+            :key="set.id"
+            class="set-row"
+          >
+            <div class="set-cell">
+              <TheSelectCustom
+                :model-value="set.difficulty"
+                class="edit-input"
+                @update:model-value="(value) => handleDifficultyChange(set.id, value)"
+              >
+                <template #options>
+                  <option
+                    v-for="difficulty in WORKOUT_DIFFICULTY"
+                    :key="difficulty.value"
+                    :value="difficulty.value"
+                  >
+                    {{ difficulty.label }}
+                  </option>
+                </template>
+              </TheSelectCustom>
+            </div>
+            <div class="set-cell">
+              <TheInput
+                v-if="isInputVisible(set.id, 'weight')"
+                v-model.number="editingValue"
+                v-focus
+                type="number"
+                placeholder="Вес"
+                inputmode="decimal"
+                class="edit-input"
+                @blur="saveEdit"
+                @keydown="handleKeyDown"
+              />
+              <div
+                v-else
+                class="editable-value"
+                @click="startEditing(set, 'weight')"
+              >
+                {{ set.weight }}
+              </div>
+            </div>
+
+            <div class="set-cell">
+              <TheInput
+                v-if="isInputVisible(set.id, 'repeats')"
+                v-model.number="editingValue"
+                v-focus
+                type="number"
+                placeholder="Повторения"
+                inputmode="numeric"
+                class="edit-input"
+                @blur="saveEdit"
+                @keydown="handleKeyDown"
+              />
+              <div
+                v-else
+                class="editable-value"
+                @click="startEditing(set, 'repeats')"
+              >
+                {{ set.repeats }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <TheModal ref="noTimeModal">
-        <template #title>
-          <h3>{{ $t('workout.no_time_warning') }}</h3>
-        </template>
-        <template #content>
-          <p>{{ $t('workout.no_time_description') }}</p>
-        </template>
-        <template #footer>
-          <TheButton @click="handleResetNoTimeWorkout">
-            {{ $t('common.ok') }}
-          </TheButton>
-        </template>
-      </TheModal>
-    </template>
+    </div>
+
+    <div v-else class="no-data">
+      Тренировка не найдена
+    </div>
   </div>
 </template>
+
+<style scoped>
+.workout-content {
+  padding: 16px;
+}
+
+.workout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.exercise-card {
+  background: var(--color-white);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.sets-table {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.table-header, .set-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.table-header {
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.set-cell {
+  display: flex;
+  align-items: center;
+}
+
+.edit-input {
+  width: 80px;
+}
+
+.editable-value {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.editable-value:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+</style>

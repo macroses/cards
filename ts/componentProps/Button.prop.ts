@@ -15,6 +15,5 @@ export interface ButtonProps {
   type?: ButtonType
   variant?: ButtonVariant
   iconOnly?: boolean
-  link?: boolean
   linkPath?: string
 }

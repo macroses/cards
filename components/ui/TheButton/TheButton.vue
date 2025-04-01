@@ -6,14 +6,13 @@ const {
   type = 'button',
   variant = 'primary',
   iconOnly = false,
-  link = false,
   linkPath = '',
 } = defineProps<ButtonProps>()
 </script>
 
 <template>
   <button
-    v-if="!link"
+    v-if="!linkPath"
     :type="type"
     :disabled="disabled"
     :inert="disabled"

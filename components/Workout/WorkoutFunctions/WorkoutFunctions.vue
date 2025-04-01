@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
+import { GLOBAL_WORKOUTS } from '~/constants'
+import { getCachedData, saveCacheData } from '~/utils/cacheRunnedWorkout'
 
 const {
   isWorkoutActive = false,
@@ -22,6 +25,8 @@ const runWorkoutConfirm = useTemplateRef<typeof TheModal>('runWorkoutConfirm')
 const { startWorkout } = useStartWorkout()
 const { activeWorkout } = useWorkoutTimer()
 
+const workoutsList = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS)
+
 const showStartButton = computed(() => {
   if (isWorkoutCompleted) {
     return false
@@ -30,17 +35,38 @@ const showStartButton = computed(() => {
   return isWorkoutActive || !activeWorkout.value
 })
 
-function openRunWorkoutConfirm() {
+async function openRunWorkoutConfirm() {
   if (isWorkoutActive) {
-    navigateTo(localePath(`/workout/run/${workoutId}`))
-    return
+    const workout = workoutsList.value?.find(({ id }: CreateWorkoutResponse) => id === workoutId)
+
+    if (workout) {
+      // Проверяем наличие кэша перед сохранением
+      const cachedWorkout = await getCachedData('workout', workoutId)
+      if (!cachedWorkout) {
+        await saveCacheData('workout', workout)
+      }
+      await navigateTo(localePath(`/workout/run/${workoutId}`))
+      return
+    }
   }
 
   runWorkoutConfirm.value?.openModal()
 }
+
 async function handleStartWorkout() {
   await startWorkout(workoutId)
-  navigateTo(localePath(`/workout/run/${workoutId}`))
+  const workout = workoutsList.value?.find(({ id }: CreateWorkoutResponse) => id === workoutId)
+
+  if (workout) {
+    // Сначала проверим, нет ли уже сохраненных данных в кэше
+    const cachedWorkout = await getCachedData('workout', workoutId)
+    if (!cachedWorkout) {
+      // Сохраняем в кэш только если там еще нет данных
+      await saveCacheData('workout', workout)
+    }
+
+    await navigateTo(localePath(`/workout/run/${workoutId}`))
+  }
 }
 
 function closeRunWorkoutConfirm() {

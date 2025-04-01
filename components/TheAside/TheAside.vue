@@ -47,7 +47,6 @@ onMounted(() => {
           v-tooltip="{ content: item.tooltip, position: 'right' }"
           :variant="getVariant(item.path)"
           icon-only
-          link
           :link-path="localePath(item.path)"
           role="menuitem"
           :aria-label="item.ariaLabel"

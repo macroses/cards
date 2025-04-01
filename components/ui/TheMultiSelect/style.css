@@ -19,7 +19,7 @@
   font-size: 15px;
   min-height: 36px;
   position: relative;
-  transition: border-radius 0.1s ease-in-out;
+  transition: border-radius var(--base-transition) ease-in-out;
 
   &.active {
     border-bottom-left-radius: 0;
@@ -39,7 +39,7 @@
   align-items: center;
   padding: 0 8px;
   height: 26px;
-  transition: box-shadow 0.1s ease-in-out;
+  transition: box-shadow var(--base-transition) ease-in-out;
 
   & svg {
     cursor: pointer;
@@ -77,8 +77,8 @@
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   transition:
-    grid-template-rows 0.1s,
-    opacity 0.1s;
+    grid-template-rows var(--base-transition),
+    opacity var(--base-transition);
   opacity: 0;
 
   &.active {

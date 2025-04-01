@@ -1,31 +1,22 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
+const uniqueId = useId()
 
+const modelValue = defineModel<T>()
 </script>
 
 <template>
-  <select>
+  <select
+    :id="uniqueId"
+    :value="modelValue"
+    @change="modelValue = ($event.target as HTMLSelectElement).value as T"
+  >
     <button>
-      <div>
-        <selectedcontent />
-        <svg width="24" height="24" viewBox="0 0 24 24">
-          <path fill="currentColor" d="m7 10l5 5l5-5z" />
-        </svg>
-      </div>
+      <selectedcontent />
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path fill="currentColor" d="m7 10l5 5l5-5z" />
+      </svg>
     </button>
-    <div>
-      <option value="on">
-        <div class="custom-option">
-          <span class="indicator success" />
-          <span class="option-text">On</span>
-        </div>
-      </option>
-      <option value="off">
-        <div class="custom-option">
-          <span class="indicator danger" />
-          <span class="option-text">Off</span>
-        </div>
-      </option>
-    </div>
+    <slot name="options" />
   </select>
 </template>
 
@@ -80,80 +71,5 @@ selectedcontent > * {
     transform: translateY(10px);
   }
   opacity: 1;
-}
-
-button {
-  &:focus-visible {
-    outline-offset: -3px;
-  }
-
-  &:has(selectedcontent) {
-    align-items: start;
-    min-inline-size: 20ch;
-    flex-direction: column;
-  }
-
-  > div {
-    inline-size: 100%;
-    display: flex;
-    justify-content: space-between;
-    gap: 3px;
-  }
-
-  & svg {
-    inline-size: 2ch;
-    transition: transform .3s ease;
-  }
-}
-
-div {
-  min-inline-size: calc(anchor-size(self-inline) + 20px);
-  scroll-behavior: smooth;
-
-  & option {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding-block: 2px;
-    padding-inline: 3px;
-    font-size: 14px;
-
-    cursor: pointer;
-    outline-offset: -1px;
-
-    &::checkmark {
-      font-weight: 500;
-    }
-
-    &:focus-visible {
-      outline-offset: -1px;
-    }
-
-    &:is(:focus, :hover) {
-      background: oklch(from red l c h / 25%);
-      color: inherit;
-    }
-
-    &:is(:checked) {
-      background: gold;
-      font-weight: 500;
-    }
-  }
-}
-
-.indicator {
-  display: inline-block;
-  block-size: 10px;
-  inline-size: 10px;
-  border-radius: 50%;
-  background: gray;
-
-  &.success {
-    background: green;
-  }
-
-  &.danger {
-    background: red;
-  }
 }
 </style>

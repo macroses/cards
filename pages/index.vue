@@ -20,7 +20,7 @@ const workoutToCopy = ref<string | null>(null)
 const localePath = useLocalePath()
 const { deleteWorkout } = useDeleteWorkout()
 const { copyWorkout } = useCopyWorkout()
-const { refresh: refreshStats } = useGlobalStatistics()
+const { refresh: refreshStats, statistics } = useGlobalStatistics()
 const { refresh: refreshCharts } = useGlobalCharts()
 
 const workoutsForSelectedDate = computed(() => {
@@ -87,37 +87,6 @@ function showResultModal() {
     selectedExerciseId.value = selectedWorkout.value.exercises[0].exerciseId
   }
 }
-
-function handleExerciseClick(exerciseId: string) {
-  selectedExerciseId.value = exerciseId
-}
-
-const exerciseSets = computed(() => {
-  if (!selectedWorkout.value) {
-    return {} as Record<string, CreateWorkoutResponse['sets']>
-  }
-
-  return selectedWorkout.value.sets.reduce((
-    acc: Record<string, CreateWorkoutResponse['sets']>,
-    set: CreateWorkoutResponse['sets'][0],
-  ) => {
-    if (!acc[set.exerciseId]) {
-      acc[set.exerciseId] = []
-    }
-
-    acc[set.exerciseId].push(set)
-
-    return acc
-  }, {})
-})
-
-function setTime(time: number | null): string {
-  if (!time) {
-    return ''
-  }
-
-  return dayjs.duration(time, 'seconds').format('mm:ss')
-}
 </script>
 
 <template>
@@ -155,7 +124,7 @@ function setTime(time: number | null): string {
         class="global-statistics__wr"
         style="view-transition-name: global-statistics"
       >
-        <GlobalStatistics :workouts="workouts" />
+        <GlobalStatistics :statistics />
       </div>
     </div>
 
@@ -192,59 +161,11 @@ function setTime(time: number | null): string {
       class="workout-results__modal"
     >
       <template #content>
-        <div class="workout-results__container">
-          <div class="workout-results__wr">
-            <ul class="workout-results">
-              <li
-                v-for="exercise in selectedWorkout?.exercises"
-                :key="exercise.exerciseId"
-                class="workout-results__exercise"
-              >
-                <div
-                  class="workout-results__exercise-name"
-                  :class="{ active: selectedExerciseId === exercise.exerciseId }"
-                  @click="handleExerciseClick(exercise.exerciseId)"
-                >
-                  {{ exercise.exerciseName }}
-                  <TheButton
-                    v-if="selectedExerciseId !== exercise.exerciseId"
-                    variant="secondary"
-                    icon-only
-                    @click="handleExerciseClick(exercise.exerciseId)"
-                  >
-                    <TheIcon
-                      icon-name="angle-right"
-                      width="20px"
-                    />
-                  </TheButton>
-                </div>
-                <div class="workout-results__sets">
-                  <ul class="workout-results__sets-header">
-                    <li>Weight</li>
-                    <li>Repeats</li>
-                    <li>Time</li>
-                  </ul>
-                  <ul
-                    v-for="set in exerciseSets[exercise.exerciseId]"
-                    :key="set.id"
-                    class="workout-results__set"
-                    :class="`difficulty-${set.difficulty}`"
-                  >
-                    <li>{{ set.weight }}</li>
-                    <li>{{ set.repeats }}</li>
-                    <li>{{ setTime(set.setTime) }}</li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <WorkoutResults
-            v-if="selectedWorkout"
-            :workout="selectedWorkout"
-            :selected-exercise-id="selectedExerciseId"
-          />
-        </div>
+        <FinishedWorkoutResult
+          v-if="selectedWorkout"
+          v-model:selected-exercise-id="selectedExerciseId"
+          :selected-workout="selectedWorkout"
+        />
       </template>
     </LazyTheModal>
   </div>

@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const { statistics } = useGlobalStatistics()
+import type { Statistics } from '~/ts/interfaces'
+
+defineProps<{
+  statistics: Statistics | null
+}>()
 </script>
 
 <template>
