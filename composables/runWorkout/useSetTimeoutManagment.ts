@@ -68,7 +68,6 @@ export function useSetTimeManagement() {
         }
       }
 
-      // Устанавливаем время последнего сета как базовое время для следующих сетов
       lastSetTime.value = totalTime
     }
   }
