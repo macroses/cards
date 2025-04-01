@@ -5,10 +5,7 @@ export function useSetWeightAndRepeats() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = ref(false)
-  const {
-    getWorkout: getCachedWorkout,
-    saveWorkout: saveToCache,
-  } = useWorkoutCache()
+  const { getWorkout: getCachedWorkout, saveWorkout: saveToCache } = useWorkoutCache()
 
   async function updateSetWeightAndRepeats(setId: string, weight: number, repeats: number) {
     try {
@@ -30,6 +27,7 @@ export function useSetWeightAndRepeats() {
       set.weight = weight
       set.repeats = repeats
 
+      // Сохраняем обновленную тренировку обратно в кэш
       await saveToCache(workout)
 
       return true
