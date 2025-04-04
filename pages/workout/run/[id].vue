@@ -223,7 +223,7 @@ async function handleSetTimeUpdate(setId: string) {
                 class="editable-value"
                 @click="startEditing(set, 'setTime')"
               >
-                {{ dayjs.duration(set.setTime || 0, 'seconds').format('mm:ss') }}
+                {{ dayjs.duration(set.setTime || 0, 'seconds').format('HH:mm:ss') }}
               </div>
               <TheButton
                 v-if="!set.setTimeAddedAt"
