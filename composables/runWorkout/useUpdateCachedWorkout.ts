@@ -5,7 +5,7 @@ export function useUpdateCachedWorkout() {
   async function updateSetField(
     workout: CreateWorkoutResponse,
     setId: string,
-    field: 'weight' | 'repeats' | 'difficulty',
+    field: 'weight' | 'repeats' | 'difficulty' | 'setTime' | 'setTimeAddedAt',
     value: number | string,
   ): Promise<boolean> {
     try {

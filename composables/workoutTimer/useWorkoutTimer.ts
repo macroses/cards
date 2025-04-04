@@ -1,9 +1,13 @@
 import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
 import {
   GLOBAL_ACTIVE_WORKOUT,
   GLOBAL_WORKOUT_TIMER,
   INITIAL_TIME,
 } from '~/constants'
+
+dayjs.extend(duration)
 
 type UnionWorkout = UserWorkout[] | CreateWorkoutResponse[]
 
@@ -18,18 +22,16 @@ export function useWorkoutTimer() {
     intervalId.value = setInterval(() => {
       if (!activeWorkout.value) {
         cleanup()
-
         return
       }
 
-      const elapsed = Date.now() - new Date(startDate).getTime()
-      timer.value = formattedTime(elapsed)
+      const elapsed = dayjs().diff(dayjs(startDate))
+      timer.value = dayjs.duration(elapsed).format('HH:mm:ss')
     }, 1000)
   }
 
   function stopTimer() {
     cleanup()
-
     activeWorkout.value = null
     timer.value = INITIAL_TIME
   }

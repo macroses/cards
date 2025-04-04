@@ -15,6 +15,7 @@ export interface CreateWorkoutRequest {
     difficulty: number
     completed: boolean
     setTime: number | null
+    setTimeAddedAt?: string | null
   }>
 }
 
@@ -44,5 +45,6 @@ export interface CreateWorkoutResponse {
     difficulty: number
     completed: boolean
     setTime: number | null
+    setTimeAddedAt?: string | null
   }>
 }

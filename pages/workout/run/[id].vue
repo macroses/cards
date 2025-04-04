@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
+import dayjs from 'dayjs'
 import { WORKOUT_DIFFICULTY } from '~/constants/workout'
 
 definePageMeta({
@@ -9,6 +10,7 @@ definePageMeta({
 
 const { workout, isLoading, error } = useRunWorkout()
 const { updateSetField } = useUpdateCachedWorkout()
+const { updateSetTime } = useUpdateSetTime()
 const { timer } = useWorkoutTimer()
 
 const editingSetId = ref<string | null>(null)
@@ -84,6 +86,14 @@ function handleDifficultyChange(setId: string, value: number | undefined) {
   }
 
   updateSetFieldValue(setId, 'difficulty', value)
+}
+
+async function handleSetTimeUpdate(setId: string) {
+  if (!workout.value) {
+    return
+  }
+
+  await updateSetTime(workout.value, setId)
 }
 </script>
 
@@ -173,6 +183,18 @@ function handleDifficultyChange(setId: string, value: number | undefined) {
               >
                 {{ set.repeats }}
               </div>
+            </div>
+            <div class="set-cell">
+              <div class="editable-value">
+                {{ dayjs.duration(set.setTime || 0, 'seconds').format('mm:ss') }}
+              </div>
+              <TheButton
+                variant="secondary"
+                class="mark-set-time"
+                @click="handleSetTimeUpdate(set.id)"
+              >
+                check
+              </TheButton>
             </div>
           </div>
         </div>
