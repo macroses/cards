@@ -50,20 +50,41 @@ const exerciseSets = computed(() => {
   }, {} as Record<string, { sets: CreateWorkoutResponse['sets'], name: string }>)
 })
 
+function parseTimeString(timeString: string): number {
+  const [minutes, seconds] = timeString.split(':').map(Number)
+  return minutes * 60 + seconds
+}
+
+function formatTimeString(seconds: number): string {
+  const duration = dayjs.duration(seconds, 'seconds')
+  return duration.format('mm:ss')
+}
+
 function startEditing(set: any, field: UnionSetFields) {
   editingSetId.value = set.id
-  editingValue.value = set[field]
   editingField.value = field
+
+  if (field === 'setTime') {
+    editingValue.value = formatTimeString(set[field] || 0)
+  }
+  else {
+    editingValue.value = set[field]
+  }
 }
 
 async function saveEdit() {
   if (!editingSetId.value || !editingField.value)
     return
 
+  let valueToSave = editingValue.value
+  if (editingField.value === 'setTime') {
+    valueToSave = parseTimeString(editingValue.value as string)
+  }
+
   await updateSetFieldValue(
     editingSetId.value,
     editingField.value,
-    editingValue.value,
+    valueToSave,
   )
 
   editingSetId.value = null
@@ -76,7 +97,7 @@ function handleKeyDown(event: KeyboardEvent) {
   }
 }
 
-function isInputVisible(setId: string, field: 'weight' | 'repeats') {
+function isInputVisible(setId: string, field: UnionSetFields) {
   return editingSetId.value === setId && editingField.value === field
 }
 
@@ -185,7 +206,23 @@ async function handleSetTimeUpdate(setId: string) {
               </div>
             </div>
             <div class="set-cell">
-              <div class="editable-value">
+              <TheInput
+                v-if="isInputVisible(set.id, 'setTime') && set.setTimeAddedAt"
+                v-model="editingValue"
+                v-focus
+                type="text"
+                placeholder="00:00"
+                pattern="[0-9]{2}:[0-9]{2}"
+                inputmode="numeric"
+                class="edit-input"
+                @blur="saveEdit"
+                @keydown="handleKeyDown"
+              />
+              <div
+                v-else
+                class="editable-value"
+                @click="startEditing(set, 'setTime')"
+              >
                 {{ dayjs.duration(set.setTime || 0, 'seconds').format('mm:ss') }}
               </div>
               <TheButton
