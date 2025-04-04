@@ -1,4 +1,5 @@
-import { API_DELETE } from '~/constants'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import { API, GLOBAL_WORKOUTS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useDeleteWorkout() {
@@ -6,14 +7,14 @@ export function useDeleteWorkout() {
   const { toast } = useToastState()
   const isLoading = ref(false)
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
-  // const workouts = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
-  const { stopTimer } = useWorkoutTimer()
+  const workouts = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
+  const { stopTimer, checkActiveWorkout } = useWorkoutTimer()
 
   async function deleteWorkout(id: string) {
     try {
       isLoading.value = true
 
-      const successDelete = await $fetch<boolean>(API_DELETE, {
+      const successDelete = await $fetch<boolean>(API.DELETE_WORKOUT, {
         method: 'DELETE',
         body: { id },
       })
@@ -23,7 +24,7 @@ export function useDeleteWorkout() {
         toast(t('toast.workout_deleted'), ToastStatusesEnum.SUCCESS)
         await fetchWorkouts()
 
-        // checkActiveWorkout(workouts.value)
+        checkActiveWorkout(workouts.value)
       }
 
       return true

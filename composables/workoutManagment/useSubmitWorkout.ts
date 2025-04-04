@@ -4,7 +4,7 @@ import type {
   SubmitWorkoutReturn,
   UserWorkout,
 } from '~/ts/interfaces'
-import { API_CREATE, API_UPDATE, GLOBAL_WORKOUTS } from '~/constants'
+import { API, GLOBAL_WORKOUTS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 export function useSubmitWorkout(): SubmitWorkoutReturn {
@@ -64,7 +64,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
           return true
         }
 
-        await $fetch<CreateWorkoutRequest>(API_UPDATE, {
+        await $fetch<CreateWorkoutRequest>(API.UPDATE_WORKOUT, {
           method: 'PUT',
           body: {
             ...workout,
@@ -74,7 +74,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
         toast(t('toast.workout_updated'), ToastStatusesEnum.SUCCESS)
       }
       else {
-        await $fetch<CreateWorkoutRequest>(API_CREATE, {
+        await $fetch<CreateWorkoutRequest>(API.CREATE_WORKOUT, {
           method: 'POST',
           body: workout,
         })

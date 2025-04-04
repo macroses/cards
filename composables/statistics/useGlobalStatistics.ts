@@ -1,12 +1,12 @@
 import type { Statistics } from '~/ts/interfaces'
-import { API_GLOBAL_STATISTICS, KEYS } from '~/constants'
+import { API, KEYS } from '~/constants'
 
 export function useGlobalStatistics() {
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS, () => null)
   const isInitialFetch = ref(!globalStats.value)
 
   const { data: statistics, error, status, refresh } = useCachedFetch<unknown, Statistics>({
-    url: API_GLOBAL_STATISTICS,
+    url: API.GLOBAL_STATISTICS,
     key: KEYS.GLOBAL_STATISTICS,
     transform: payload => payload as Statistics,
     initialData: globalStats.value,
