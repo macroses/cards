@@ -1,11 +1,12 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { UnionSetFields } from '~/ts/types/setFields.types'
 import { saveCacheData } from '~/utils/cacheRunnedWorkout'
 
 export function useUpdateCachedWorkout() {
   async function updateSetField(
     workout: CreateWorkoutResponse,
     setId: string,
-    field: 'weight' | 'repeats' | 'difficulty' | 'setTime' | 'setTimeAddedAt',
+    field: UnionSetFields,
     value: number | string,
   ): Promise<boolean> {
     try {

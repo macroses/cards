@@ -27,6 +27,7 @@ export function useUpdateSetTime() {
     const lastMarkedSet = findLastMarkedSet(workout)
 
     let elapsed: number
+
     if (lastMarkedSet?.setTimeAddedAt) {
       // Считаем время от момента сохранения последнего отмеченного сета
       elapsed = dayjs().diff(dayjs(lastMarkedSet.setTimeAddedAt), 'second')

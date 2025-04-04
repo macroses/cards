@@ -1,1 +1,1 @@
-export type UnionSetFields = 'weight' | 'repeats' | 'difficulty'
+export type UnionSetFields = 'weight' | 'repeats' | 'difficulty' | 'setTime' | 'setTimeAddedAt'
