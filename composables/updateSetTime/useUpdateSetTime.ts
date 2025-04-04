@@ -15,9 +15,7 @@ export function useUpdateSetTime() {
     return workout.sets
       .filter(set => set.setTimeAddedAt !== null)
       .sort((a, b) => {
-        const dateA = a.setTimeAddedAt ? new Date(a.setTimeAddedAt) : new Date(0)
-        const dateB = b.setTimeAddedAt ? new Date(b.setTimeAddedAt) : new Date(0)
-        return dateB.getTime() - dateA.getTime()
+        return dayjs(b.setTimeAddedAt).unix() - dayjs(a.setTimeAddedAt).unix()
       })[0] || null
   }
 
@@ -38,8 +36,7 @@ export function useUpdateSetTime() {
       elapsed = dayjs().diff(dayjs(activeWorkout.value.startedAt), 'second')
     }
 
-    // Обновляем не только setTime, но и setTimeAddedAt
-    await updateSetField(workout, setId, 'setTimeAddedAt', new Date().toISOString())
+    await updateSetField(workout, setId, 'setTimeAddedAt', dayjs().toISOString())
     return await updateSetField(workout, setId, 'setTime', elapsed)
   }
 

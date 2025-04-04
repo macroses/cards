@@ -2,6 +2,13 @@
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { NAVIGATION_ITEMS } from '~/constants/aside-menu'
 
+const props = defineProps({
+  isChartsControlVisible: {
+    type: Boolean,
+    default: false,
+  },
+})
+
 const localePath = useLocalePath()
 const route = useRoute()
 const { signOut } = useAuth()
@@ -22,6 +29,10 @@ function getVariant(path: string) {
 }
 
 const logoutConfirmModal = useTemplateRef<typeof TheModal>('logoutConfirmModal')
+
+const isControlChartsVisible = computed(() => {
+  return route.path === localePath('/') && props.isChartsControlVisible
+})
 
 onMounted(() => {
   isMounted.value = true
@@ -62,7 +73,7 @@ onMounted(() => {
 
     <ul class="aside-nav__bottom">
       <li
-        v-if="route.path === localePath('/')"
+        v-if="isControlChartsVisible"
         class="aside-nav__bottom-item"
       >
         <TheButton

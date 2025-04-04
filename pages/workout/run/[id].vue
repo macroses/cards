@@ -189,6 +189,7 @@ async function handleSetTimeUpdate(setId: string) {
                 {{ dayjs.duration(set.setTime || 0, 'seconds').format('mm:ss') }}
               </div>
               <TheButton
+                v-if="!set.setTimeAddedAt"
                 variant="secondary"
                 class="mark-set-time"
                 @click="handleSetTimeUpdate(set.id)"

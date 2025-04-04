@@ -7,6 +7,8 @@ const { checkActiveWorkout } = useWorkoutTimer()
 const { status } = useAuth()
 const workouts = useState<UserWorkout[]>(KEYS.GLOBAL_WORKOUTS)
 
+const MIN_LIMIT_TO_SHOW_CHARTS = workouts.value?.length >= 5
+
 watch(status, async (newStatus) => {
   if (newStatus === 'authenticated') {
     await fetchWorkouts()
@@ -21,7 +23,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <TheAside />
+  <TheAside :is-charts-control-visible="MIN_LIMIT_TO_SHOW_CHARTS" />
   <main>
     <div class="container">
       <slot />
