@@ -68,6 +68,14 @@ async function handleDateSelect(date: Date) {
 
 async function handleDeleteWorkout(id: string) {
   isCopyMode.value = false
+
+  // Проверяем, является ли удаляемая тренировка активной
+  if (activeWorkout.value?.id === id) {
+    const cache = await caches.open('workout-cache-v1')
+    const cacheKey = new URL(`workout-${id}`, window.location.origin).toString()
+    await cache.delete(cacheKey)
+  }
+
   await deleteWorkout(id)
 
   globalStats.value = null
