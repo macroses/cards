@@ -128,7 +128,11 @@ async function handleSetTimeUpdate(setId: string) {
       {{ error }}
     </div>
 
-    <div v-else-if="workout" class="workout-content">
+    <form
+      v-else-if="workout"
+      class="workout-content"
+      @submit.prevent
+    >
       <div class="workout-header">
         <h2>{{ workout.title }}</h2>
         <OdometerTimer :time="timer" />
@@ -223,7 +227,7 @@ async function handleSetTimeUpdate(setId: string) {
                 class="editable-value"
                 @click="startEditing(set, 'setTime')"
               >
-                {{ dayjs.duration(set.setTime || 0, 'seconds').format('HH:mm:ss') }}
+                {{ dayjs.duration(set.setTime || 0, 'seconds').format('mm:ss') }}
               </div>
               <TheButton
                 v-if="!set.setTimeAddedAt"
@@ -237,7 +241,11 @@ async function handleSetTimeUpdate(setId: string) {
           </div>
         </div>
       </div>
-    </div>
+
+      <TheButton type="submit">
+        Сохранить
+      </TheButton>
+    </form>
 
     <div v-else class="no-data">
       Тренировка не найдена

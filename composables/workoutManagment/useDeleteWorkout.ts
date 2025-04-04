@@ -25,6 +25,10 @@ export function useDeleteWorkout() {
         await fetchWorkouts()
 
         checkActiveWorkout(workouts.value)
+
+        const cache = await caches.open('workout-cache-v1')
+        const cacheKey = new URL(`workout-${id}`, window.location.origin).toString()
+        await cache.delete(cacheKey)
       }
 
       return true
