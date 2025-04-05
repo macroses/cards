@@ -43,6 +43,8 @@ onMounted(() => {
 <template>
   <nav
     class="aside-nav"
+    :class="{ 'aside-nav--charts': isControlChartsVisible }"
+    style="view-transition-name: aside-nav"
     aria-label="Main navigation"
   >
     <ul

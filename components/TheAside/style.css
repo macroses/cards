@@ -1,14 +1,14 @@
 .aside-nav {
-  position: fixed;
+  position: sticky;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: calc(100vh - 32px);
+  max-height: calc(100vh - 32px);
   padding: 8px;
   background-color: var(--color-white);
-  left: 4px;
+  /*left: 4px;*/
   top: 16px;
-  z-index: 10;
+  /*z-index: 10;*/
   border-radius: 20px;
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
@@ -153,4 +153,8 @@ option {
   & svg {
     color: var(--color-error);
   }
+}
+
+.aside-nav--charts {
+  height: 100%;
 }

@@ -1,13 +1,15 @@
 .home-page__container {
-  margin-top: 40px;
   display: flex;
   gap: 16px;
   justify-content: center;
-  padding-bottom: 20px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 
   &:has(.global-statistics) {
     justify-content: flex-start;
     margin-top: 0;
+    padding-bottom: 20px;
 
     @media (width <= 1023px) {
       flex-direction: column;
