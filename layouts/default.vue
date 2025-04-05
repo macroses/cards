@@ -7,7 +7,13 @@ const { checkActiveWorkout } = useWorkoutTimer()
 const { status } = useAuth()
 const workouts = useState<UserWorkout[]>(KEYS.GLOBAL_WORKOUTS)
 
-const MIN_LIMIT_TO_SHOW_CHARTS = workouts.value?.length >= 5
+const isChartControlVisible: ComputedRef<boolean> = computed((): boolean => {
+  if (!workouts.value) {
+    return false
+  }
+
+  return workouts.value.filter(workout => workout.completed).length >= 5
+})
 
 watch(status, async (newStatus) => {
   if (newStatus === 'authenticated') {
@@ -23,7 +29,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <TheAside :is-charts-control-visible="MIN_LIMIT_TO_SHOW_CHARTS" />
+  {{ isChartControlVisible }}
+  <TheAside :is-charts-control-visible="isChartControlVisible" />
   <main>
     <div class="container">
       <slot />
