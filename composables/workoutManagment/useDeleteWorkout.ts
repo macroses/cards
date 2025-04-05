@@ -1,6 +1,7 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import { API, GLOBAL_WORKOUTS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
+import { deleteCachedData } from '~/utils/cacheRunnedWorkout'
 
 export function useDeleteWorkout() {
   const { t } = useI18n()
@@ -26,9 +27,7 @@ export function useDeleteWorkout() {
 
         checkActiveWorkout(workouts.value)
 
-        const cache = await caches.open('workout-cache-v1')
-        const cacheKey = new URL(`workout-${id}`, window.location.origin).toString()
-        await cache.delete(cacheKey)
+        await deleteCachedData('workout', id)
       }
 
       return true

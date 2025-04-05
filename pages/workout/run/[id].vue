@@ -12,6 +12,7 @@ const { workout, isLoading, error } = useRunWorkout()
 const { updateSetField } = useUpdateCachedWorkout()
 const { updateSetTime } = useUpdateSetTime()
 const { timer } = useWorkoutTimer()
+const { finishWorkout, isLoading: isFinishing } = useFinishWorkout()
 
 const editingSetId = ref<string | null>(null)
 const editingValue = ref<number | string>(0)
@@ -116,6 +117,14 @@ async function handleSetTimeUpdate(setId: string) {
 
   await updateSetTime(workout.value, setId)
 }
+
+async function handleSaveWorkout() {
+  if (!workout.value) {
+    return
+  }
+
+  await finishWorkout(workout.value.id)
+}
 </script>
 
 <template>
@@ -131,7 +140,6 @@ async function handleSetTimeUpdate(setId: string) {
     <form
       v-else-if="workout"
       class="workout-content"
-      @submit.prevent
     >
       <div class="workout-header">
         <h2>{{ workout.title }}</h2>
@@ -242,7 +250,10 @@ async function handleSetTimeUpdate(setId: string) {
         </div>
       </div>
 
-      <TheButton type="submit">
+      <TheButton
+        :loading="isFinishing"
+        @click="handleSaveWorkout"
+      >
         Сохранить
       </TheButton>
     </form>

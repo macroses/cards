@@ -1,3 +1,4 @@
+import type { UserTrainingSession } from '~/ts/interfaces'
 import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
@@ -11,12 +12,19 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { workoutId, completed } = await readBody(event)
+    const { workoutId, completed, sets } = await readBody(event)
 
     if (!workoutId) {
       throw createError({
         statusCode: 400,
         message: 'ID тренировки обязателен',
+      })
+    }
+
+    if (!Array.isArray(sets)) {
+      throw createError({
+        statusCode: 400,
+        message: 'Неверный формат данных сетов',
       })
     }
 
@@ -46,25 +54,47 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Удаляем сеты без времени
-    await event.context.prisma.workoutSet.deleteMany({
-      where: {
-        workoutId,
-        setTime: null,
-      },
-    })
+    // Валидация данных сетов
+    const validSets = sets.map((set: UserTrainingSession) => ({
+      workoutId,
+      exerciseId: set.exerciseId,
+      weight: Number(set.weight) || 0,
+      repeats: Number(set.repeats) || 0,
+      difficulty: Number(set.difficulty) || 1,
+      completed: Boolean(set.completed),
+      setTime: set.setTime ? Number(set.setTime) : null,
+      setTimeAddedAt: set.setTimeAddedAt ? new Date(set.setTimeAddedAt) : null,
+    }))
 
-    const updatedWorkout = await event.context.prisma.workout.update({
-      where: { id: workoutId },
-      data: {
-        endedAt: new Date(),
-        completed: completed || true,
-      },
+    // Обновляем тренировку и все сеты
+    const updatedWorkout = await event.context.prisma.$transaction(async (tx) => {
+      // Удаляем старые сеты
+      await tx.workoutSet.deleteMany({
+        where: { workoutId },
+      })
+
+      // Создаем новые сеты
+      await tx.workoutSet.createMany({
+        data: validSets,
+      })
+
+      return tx.workout.update({
+        where: { id: workoutId },
+        data: {
+          endedAt: new Date(),
+          completed: completed || true,
+        },
+        include: {
+          exercises: true,
+          sets: true,
+        },
+      })
     })
 
     return updatedWorkout
   }
   catch (error: any) {
+    console.error('Error in finishWorkout:', error)
     throw createError({
       statusCode: error.statusCode || 500,
       message: error.message || 'Ошибка при завершении тренировки',

@@ -6,12 +6,18 @@ import { useWorkoutTimer } from '../workoutTimer/useWorkoutTimer'
 
 dayjs.extend(duration)
 
+/*
+ * Composable for updating set time
+ * - find last marked set
+ * - calculate elapsed time interval between last marked set and current time
+ * - update set time
+*/
+
 export function useUpdateSetTime() {
   const { activeWorkout } = useWorkoutTimer()
   const { updateSetField } = useUpdateCachedWorkout()
 
   function findLastMarkedSet(workout: CreateWorkoutResponse) {
-    // Находим последний отмеченный сет по времени setTimeAddedAt
     return workout.sets
       .filter(set => set.setTimeAddedAt !== null)
       .sort((a, b) => {
@@ -29,11 +35,9 @@ export function useUpdateSetTime() {
     let elapsed: number
 
     if (lastMarkedSet?.setTimeAddedAt) {
-      // Считаем время от момента сохранения последнего отмеченного сета
       elapsed = dayjs().diff(dayjs(lastMarkedSet.setTimeAddedAt), 'second')
     }
     else {
-      // Для первого сета тренировки считаем время от начала тренировки
       elapsed = dayjs().diff(dayjs(activeWorkout.value.startedAt), 'second')
     }
 

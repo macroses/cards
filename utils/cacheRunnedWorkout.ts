@@ -40,3 +40,15 @@ export async function getCachedData(cacheName: string, id: string) {
     return null
   }
 }
+
+export async function deleteCachedData(cacheName: string, id: string) {
+  try {
+    const cache = await caches.open(CACHE_NAME)
+    const cacheKey = getCacheKey(cacheName, id)
+
+    await cache.delete(cacheKey)
+  }
+  catch (error) {
+    console.error('Error deleting cached data:', error)
+  }
+}
