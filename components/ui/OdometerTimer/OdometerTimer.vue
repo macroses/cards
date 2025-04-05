@@ -57,6 +57,7 @@ function getTransform(digit: string): string {
   align-items: center;
   gap: 2px;
   font-variant-numeric: tabular-nums;
+  font-weight: 500;
 }
 
 .odometer-group {

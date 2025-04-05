@@ -29,7 +29,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  {{ isChartControlVisible }}
   <TheAside :is-charts-control-visible="isChartControlVisible" />
   <main>
     <div class="container">
