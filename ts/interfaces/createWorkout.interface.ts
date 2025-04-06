@@ -1,22 +1,11 @@
-// Request types
+import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces/workoutUserTemplate.interface'
+
 export interface CreateWorkoutRequest {
   title: string
   color: string
   workoutDate: Date
-  exercises: Array<{
-    id: string
-    name: string
-  }>
-  sessions: Array<{
-    id: string
-    exerciseId: string
-    weight: number | null
-    repeats: number | null
-    difficulty: number
-    completed: boolean
-    setTime: number | null
-    setTimeAddedAt?: string | null
-  }>
+  exercises: UserWorkoutExercise[]
+  sessions: UserTrainingSession[]
 }
 
 export interface CreateWorkoutResponse {
@@ -36,15 +25,5 @@ export interface CreateWorkoutResponse {
     workoutId: string
     exerciseId: string
   }>
-  sets: Array<{
-    id: string
-    workoutId: string
-    exerciseId: string
-    weight: number
-    repeats: number
-    difficulty: number
-    completed: boolean
-    setTime: number | null
-    setTimeAddedAt?: string | null
-  }>
+  sets: UserTrainingSession[]
 }

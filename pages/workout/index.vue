@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExerciseFormData, UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
+import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 import ExercisesList from '@/components/Exercises/ExerrcisesList/ExercisesList.vue'
 import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
 import TheLoader from '~/components/ui/TheLoader/TheLoader.vue'
@@ -58,7 +58,7 @@ function handleRemoveExercise(exerciseId: string): void {
   workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.exerciseId !== exerciseId)
 }
 
-function handleAddSet(set: ExerciseFormData) {
+function handleAddSet(set: UserTrainingSession) {
   const sessionSet: UserTrainingSession = {
     ...set,
     setTime: set.setTime ? Number(set.setTime) : null,

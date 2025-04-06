@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type {
-  ExerciseFormData,
   UserTrainingSession,
   UserWorkoutExercise,
 } from '~/ts/interfaces'
@@ -15,13 +14,13 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (event: 'removeExercise', id: string): void
-  (event: 'addSet', exerciseForm: ExerciseFormData): void
+  (event: 'addSet', exerciseForm: UserTrainingSession): void
   (event: 'removeSet', setId: string): void
 }>()
 
 const exerciseForm = reactive<Partial<UserTrainingSession>>({
-  weight: null,
-  repeats: null,
+  weight: 0,
+  repeats: 0,
   difficulty: DIFFICULT_LEVEL.WARM,
 })
 
@@ -51,8 +50,8 @@ function handleDeleteExercise(exerciseId: string) {
 }
 
 function resetExerciseForm() {
-  exerciseForm.weight = null
-  exerciseForm.repeats = null
+  exerciseForm.weight = 0
+  exerciseForm.repeats = 0
   exerciseForm.difficulty = DIFFICULT_LEVEL.WARM
 }
 
@@ -69,7 +68,7 @@ function appendSession(exerciseId: string) {
     difficulty: exerciseForm.difficulty,
     completed: false,
     setTime: null,
-  } as ExerciseFormData)
+  } as UserTrainingSession)
 }
 
 function getExerciseSessions(exerciseId: string) {

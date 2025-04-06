@@ -37,7 +37,7 @@ function handleExerciseClick(exerciseId: string) {
   emit('update:selectedExerciseId', exerciseId)
 }
 
-function setTime(time: number | null): string {
+function setTime(time: number | null | undefined): string {
   if (!time) {
     return ''
   }
