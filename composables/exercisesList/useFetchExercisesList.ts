@@ -6,6 +6,7 @@ export function useFetchExercisesList() {
   const { data: exercisesList, status, error, refresh } = useCachedFetch<unknown, ExerciseServerTemplate[]>({
     url: API.EXERCISES_LIST,
     key: KEYS.GET_EXERCISES_LIST,
+    initialData: [],
     transform: (payload) => {
       if (!Array.isArray(payload)) {
         return []
@@ -13,7 +14,6 @@ export function useFetchExercisesList() {
 
       return payload
     },
-    initialData: [],
   })
 
   return {

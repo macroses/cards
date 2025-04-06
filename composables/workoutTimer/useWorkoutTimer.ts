@@ -9,6 +9,11 @@ import {
 
 dayjs.extend(duration)
 
+/**
+ * Composable for workout timer management.
+ * Handles timer start/stop, tracks active workout time, and maintains timer state.
+ */
+
 type UnionWorkout = UserWorkout[] | CreateWorkoutResponse[]
 
 export function useWorkoutTimer() {

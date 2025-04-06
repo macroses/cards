@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Provider } from 'next-auth/providers/index'
 import { ref } from 'vue'
+import { PAGES } from '~/constants'
 
 definePageMeta({
   layout: 'empty',
@@ -44,8 +45,7 @@ async function handleSubmit() {
       error.value = result.error
     }
     else {
-      // Успешная авторизация
-      navigateTo('/')
+      navigateTo(PAGES.HOME)
     }
   }
   catch (err: any) {

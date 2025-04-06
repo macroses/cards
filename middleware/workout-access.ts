@@ -1,3 +1,5 @@
+import { PAGES } from '~/constants'
+
 export default defineNuxtRouteMiddleware(async (to) => {
   if (!to.query.edit) {
     return
@@ -6,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const { data: session } = await useFetch('/api/auth/session')
 
   if (!session.value) {
-    return navigateTo('/login')
+    return navigateTo(PAGES.LOGIN)
   }
 
   try {

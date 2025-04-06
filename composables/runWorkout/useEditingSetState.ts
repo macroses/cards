@@ -1,5 +1,10 @@
 import type { EditingState } from '~/ts/interfaces'
 
+/**
+ * Composable for managing the editing state of workout sets.
+ * Handles input focus, refs, and editing interactions for weight and repeats fields.
+ */
+
 export function useEditingSetState() {
   const editingState = ref<EditingState>({
     setId: null,

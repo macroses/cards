@@ -2,6 +2,11 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import { saveCacheData } from '~/utils/cacheRunnedWorkout'
 
+/**
+ * Composable for updating cached workout.
+ * Finds set by id, updates set field, and saves updated workout to cache.
+ */
+
 export function useUpdateCachedWorkout() {
   async function updateSetField(
     workout: CreateWorkoutResponse,
@@ -21,7 +26,6 @@ export function useUpdateCachedWorkout() {
 
       await saveCacheData('workout', updatedWorkout)
 
-      // Обновляем состояние workout
       workout.sets = updatedWorkout.sets
 
       return true

@@ -45,7 +45,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-white);
   border-radius: inherit;
   z-index: 10000;
 }

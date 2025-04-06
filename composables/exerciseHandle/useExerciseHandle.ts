@@ -3,6 +3,12 @@ import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import { useCachedFetch } from '~/utils/useCachedFetch'
 
+/*
+ * Composable for exercise handle
+ * - create exercise
+ * - delete exercise
+ */
+
 export function useExerciseHandle() {
   const isLoading = ref(false)
   const error = ref<string | null>(null)
@@ -12,6 +18,7 @@ export function useExerciseHandle() {
   const { data: exercises, refresh: refreshExercises } = useCachedFetch<unknown, ExerciseServerTemplate[]>({
     url: API.GET_USER_EXERCISES,
     key: KEYS.USER_EXERCISES,
+    initialData: [],
     transform: (payload) => {
       if (!Array.isArray(payload)) {
         return []
@@ -19,7 +26,6 @@ export function useExerciseHandle() {
 
       return payload as ExerciseServerTemplate[]
     },
-    initialData: [],
   })
 
   const createExercise = async (exercise: Omit<ExerciseServerTemplate, 'id'>) => {
@@ -39,7 +45,7 @@ export function useExerciseHandle() {
       return response
     }
     catch (e) {
-      error.value = 'Ошибка при создании упражнения'
+      error.value = t('error.exercise_create')
       console.error(e)
     }
     finally {

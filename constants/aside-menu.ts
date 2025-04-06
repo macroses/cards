@@ -1,12 +1,4 @@
-import type { ButtonVariant } from '~/ts/componentProps'
-
-interface NavigationItem {
-  tooltip: string
-  path: string
-  icon: string
-  variant: ButtonVariant
-  ariaLabel: string
-}
+import type { NavigationItem } from '~/ts/interfaces'
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
@@ -30,4 +22,4 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     variant: 'ghost',
     ariaLabel: 'Body parameters',
   },
-]
+] as const

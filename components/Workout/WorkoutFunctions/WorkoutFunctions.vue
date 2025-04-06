@@ -2,7 +2,7 @@
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
-import { GLOBAL_WORKOUTS } from '~/constants'
+import { GLOBAL_WORKOUTS, PAGES } from '~/constants'
 import { getCachedData, saveCacheData } from '~/utils/cacheRunnedWorkout'
 
 const {
@@ -40,12 +40,13 @@ async function openRunWorkoutConfirm() {
     const workout = workoutsList.value?.find(({ id }: CreateWorkoutResponse) => id === workoutId)
 
     if (workout) {
-      // Проверяем наличие кэша перед сохранением
       const cachedWorkout = await getCachedData('workout', workoutId)
+
       if (!cachedWorkout) {
         await saveCacheData('workout', workout)
       }
-      await navigateTo(localePath(`/workout/run/${workoutId}`))
+
+      await navigateTo(localePath(`${PAGES.WORKOUT_RUN}/${workoutId}`))
       return
     }
   }
@@ -65,7 +66,7 @@ async function handleStartWorkout() {
       await saveCacheData('workout', workout)
     }
 
-    await navigateTo(localePath(`/workout/run/${workoutId}`))
+    await navigateTo(localePath(`${PAGES.WORKOUT_RUN}/${workoutId}`))
   }
 }
 

@@ -4,20 +4,17 @@ import type {
   Statistics,
   UserTrainingSession,
 } from '~/ts/interfaces'
-import { API, KEYS } from '~/constants'
+import { API, KEYS, PAGES } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import { deleteCachedData, getCachedData } from '~/utils/cacheRunnedWorkout'
 import { useWorkoutTimer } from '../workoutTimer/useWorkoutTimer'
 
-/*
- * Composable for finishing workout
- * When workout is finished:
- * - update workout in database
- * - update workout in local state
- * - delete workout from cache
- * - stop timer
- * - redirect to home page
-*/
+/**
+ * Composable for handling workout completion.
+ * Saves final workout data, clears cache, updates global state, and redirects to home page.
+ */
+
+const CACHE_NAME = 'workout'
 
 export function useFinishWorkout() {
   const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
@@ -33,10 +30,10 @@ export function useFinishWorkout() {
     try {
       isLoading.value = true
 
-      const cachedWorkout = await getCachedData('workout', workoutId)
+      const cachedWorkout = await getCachedData(CACHE_NAME, workoutId)
 
       if (!cachedWorkout) {
-        throw new Error('Тренировка не найдена в кэше')
+        throw new Error(t('error.workout_not_in_cache'))
       }
 
       const updatedWorkout = await $fetch<CreateWorkoutResponse>(API.FINISH_WORKOUT, {
@@ -56,7 +53,7 @@ export function useFinishWorkout() {
         },
       })
 
-      await deleteCachedData('workout', workoutId)
+      await deleteCachedData(CACHE_NAME, workoutId)
 
       if (workoutsList.value) {
         workoutsList.value = workoutsList.value.map(workout =>
@@ -76,13 +73,12 @@ export function useFinishWorkout() {
       chartsState.value = null
 
       toast(t('toast.workout_completed'), ToastStatusesEnum.SUCCESS)
-      await navigateTo('/')
+      await navigateTo(PAGES.HOME)
 
       return updatedWorkout
     }
     catch (error: unknown) {
-      console.error('Error finishing workout:', error)
-      toast(t('toast.workout_ended'), ToastStatusesEnum.ERROR)
+      console.error(t('error.workout_finish'), error)
       return null
     }
     finally {

@@ -2,6 +2,11 @@ import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
+/**
+ * Composable for starting workout.
+ * Updates workout in database, updates local state, and starts timer.
+ */
+
 export function useStartWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
@@ -17,7 +22,6 @@ export function useStartWorkout() {
         body: { workoutId },
       })
 
-      // Обновляем тренировку локально в списке
       if (workoutsList.value) {
         workoutsList.value = workoutsList.value.map(workout =>
           workout.id === workoutId
@@ -35,7 +39,7 @@ export function useStartWorkout() {
       return true
     }
     catch (error: unknown) {
-      console.error('Error starting workout:', error)
+      console.error(t('error.workout_start'), error)
       toast(t('toast.workout_start_error'), ToastStatusesEnum.ERROR)
       return false
     }

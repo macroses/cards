@@ -18,6 +18,8 @@ const editingSetId = ref<string | null>(null)
 const editingValue = ref<number | string>(0)
 const editingField = ref<UnionSetFields | null>(null)
 
+const isDescriptionVisible = shallowRef(true)
+
 async function updateSetFieldValue(setId: string, field: UnionSetFields, value: number | string) {
   if (!workout.value || !value) {
     return false
@@ -125,130 +127,151 @@ async function handleSaveWorkout() {
 
   await finishWorkout(workout.value.id)
 }
+
+useHead({
+  title: computed(() => workout.value?.title || 'Тренировка'),
+})
 </script>
 
 <template>
   <div class="run-template">
-    <div v-if="isLoading" class="loading">
-      Загрузка тренировки...
-    </div>
+    <TheLoader v-if="isLoading" />
 
     <div v-else-if="error" class="error">
       {{ error }}
     </div>
 
     <form
-      v-else-if="workout"
+      v-else-if="workout && !isLoading"
       class="workout-content"
     >
-      <div class="workout-header">
-        <h2>{{ workout.title }}</h2>
-        <OdometerTimer :time="timer" />
+      <div
+        class="workout-description"
+        :class="{ hidden: !isDescriptionVisible }"
+      >
+        <h2 class="workout-header">
+          {{ workout.title }}
+        </h2>
+        <div>{{ dayjs(workout.workoutDate).format('DD.MM.YYYY') }}</div>
+        <TheButton
+          variant="secondary"
+          icon-only
+          class="close-description"
+          @click="isDescriptionVisible = false"
+        >
+          <TheIcon
+            icon-name="xmark"
+            width="20px"
+          />
+        </TheButton>
       </div>
 
-      <div
+      <OdometerTimer :time="timer" />
+      <ul
         v-for="(exercise, exerciseId) in exerciseSets"
         :key="exerciseId"
         class="exercise-card"
       >
-        <h3>{{ exercise.name }}</h3>
+        <li class="exercise-card__item">
+          <h3>{{ exercise.name }}</h3>
 
-        <div class="sets-table">
-          <div
-            v-for="set in exercise.sets"
-            :key="set.id"
-            class="set-row"
-          >
-            <div class="set-cell">
-              <TheSelectCustom
-                :model-value="set.difficulty"
-                class="edit-input"
-                @update:model-value="(value) => handleDifficultyChange(set.id, value)"
-              >
-                <template #options>
-                  <option
-                    v-for="difficulty in WORKOUT_DIFFICULTY"
-                    :key="difficulty.value"
-                    :value="difficulty.value"
-                  >
-                    {{ difficulty.label }}
-                  </option>
-                </template>
-              </TheSelectCustom>
-            </div>
-            <div class="set-cell">
-              <TheInput
-                v-if="isInputVisible(set.id, 'weight')"
-                v-model.number="editingValue"
-                v-focus
-                type="number"
-                placeholder="Вес"
-                inputmode="decimal"
-                class="edit-input"
-                @blur="saveEdit"
-                @keydown="handleKeyDown"
-              />
-              <div
-                v-else
-                class="editable-value"
-                @click="startEditing(set, 'weight')"
-              >
-                {{ set.weight }}
+          <div class="sets-table">
+            <div
+              v-for="set in exercise.sets"
+              :key="set.id"
+              class="set-row"
+            >
+              <div class="set-cell">
+                <TheSelectCustom
+                  :model-value="set.difficulty"
+                  class="edit-input"
+                  @update:model-value="handleDifficultyChange(set.id, $event)"
+                >
+                  <template #options>
+                    <option
+                      v-for="difficulty in WORKOUT_DIFFICULTY"
+                      :key="difficulty.value"
+                      :value="difficulty.value"
+                    >
+                      {{ difficulty.label }}
+                    </option>
+                  </template>
+                </TheSelectCustom>
               </div>
-            </div>
+              <div class="set-cell">
+                <TheInput
+                  v-if="isInputVisible(set.id, 'weight')"
+                  v-model.number="editingValue"
+                  v-focus
+                  type="number"
+                  placeholder="Вес"
+                  inputmode="decimal"
+                  class="edit-input"
+                  @blur="saveEdit"
+                  @keydown="handleKeyDown"
+                />
+                <div
+                  v-else
+                  class="editable-value"
+                  @click="startEditing(set, 'weight')"
+                >
+                  {{ set.weight }}
+                </div>
+              </div>
 
-            <div class="set-cell">
-              <TheInput
-                v-if="isInputVisible(set.id, 'repeats')"
-                v-model.number="editingValue"
-                v-focus
-                type="number"
-                placeholder="Повторения"
-                inputmode="numeric"
-                class="edit-input"
-                @blur="saveEdit"
-                @keydown="handleKeyDown"
-              />
-              <div
-                v-else
-                class="editable-value"
-                @click="startEditing(set, 'repeats')"
-              >
-                {{ set.repeats }}
+              <div class="set-cell">
+                <TheInput
+                  v-if="isInputVisible(set.id, 'repeats')"
+                  v-model.number="editingValue"
+                  v-focus
+                  type="number"
+                  placeholder="Повторения"
+                  inputmode="numeric"
+                  class="edit-input"
+                  @blur="saveEdit"
+                  @keydown="handleKeyDown"
+                />
+                <div
+                  v-else
+                  class="editable-value"
+                  @click="startEditing(set, 'repeats')"
+                >
+                  {{ set.repeats }}
+                </div>
               </div>
-            </div>
-            <div class="set-cell">
-              <TheInput
-                v-if="isInputVisible(set.id, 'setTime') && set.setTimeAddedAt"
-                v-model="editingValue"
-                v-focus
-                type="text"
-                placeholder="00:00"
-                pattern="[0-9]{2}:[0-9]{2}"
-                inputmode="numeric"
-                class="edit-input"
-                @blur="saveEdit"
-                @keydown="handleKeyDown"
-              />
-              <div
-                v-else
-                class="editable-value"
-                @click="startEditing(set, 'setTime')"
-              >
-                {{ dayjs.duration(set.setTime || 0, 'seconds').format('mm:ss') }}
+              <div class="set-cell">
+                <TheInput
+                  v-if="isInputVisible(set.id, 'setTime') && set.setTimeAddedAt"
+                  v-model="editingValue"
+                  v-focus
+                  type="text"
+                  placeholder="00:00"
+                  pattern="[0-9]{2}:[0-9]{2}"
+                  inputmode="numeric"
+                  class="edit-input"
+                  @blur="saveEdit"
+                  @keydown="handleKeyDown"
+                />
+                <div
+                  v-else
+                  class="editable-value"
+                  @click="startEditing(set, 'setTime')"
+                >
+                  {{ dayjs.duration(set.setTime || 0, 'seconds').format('mm:ss') }}
+                </div>
+                <TheButton
+                  v-if="!set.setTimeAddedAt"
+                  variant="secondary"
+                  class="mark-set-time"
+                  @click="handleSetTimeUpdate(set.id)"
+                >
+                  check
+                </TheButton>
               </div>
-              <TheButton
-                v-if="!set.setTimeAddedAt"
-                variant="secondary"
-                class="mark-set-time"
-                @click="handleSetTimeUpdate(set.id)"
-              >
-                check
-              </TheButton>
             </div>
           </div>
-        </div>
-      </div>
+        </li>
+      </ul>
 
       <TheButton
         :loading="isFinishing"
@@ -256,9 +279,16 @@ async function handleSaveWorkout() {
       >
         Сохранить
       </TheButton>
+
+      <!--      <div class="run__initial"> -->
+      <!--        <VChart :option="option" /> -->
+      <!--      </div> -->
     </form>
 
-    <div v-else class="no-data">
+    <div
+      v-else
+      class="no-data"
+    >
       Тренировка не найдена
     </div>
   </div>
@@ -269,11 +299,34 @@ async function handleSaveWorkout() {
   padding: 16px;
 }
 
-.workout-header {
+.workout-description {
+  position: fixed;
+  top: 4px;
+  left: calc(50% - 150px);
+  background-color: var(--color-white);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+  border-radius: 20px;
+  padding: 12px 55px 12px 12px;
+  z-index: 10;
+  transition: transform var(--base-transition);
+  max-width: 320px;
+  width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+
+  &.hidden {
+    transform: translateY(-120%);
+  }
+}
+
+.workout-header {
+  font-size: 16px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .exercise-card {
@@ -318,5 +371,11 @@ async function handleSaveWorkout() {
 
 .editable-value:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+.close-description {
+  position: absolute;
+  right: 12px;
+  top: 12px;
 }
 </style>

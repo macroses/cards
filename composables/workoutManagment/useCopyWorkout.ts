@@ -1,6 +1,11 @@
 import { API_COPY } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
+/**
+ * Composable for copying workouts.
+ * Creates a new workout based on existing one with specified date.
+ */
+
 export function useCopyWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()

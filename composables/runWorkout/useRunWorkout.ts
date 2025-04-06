@@ -1,12 +1,19 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import { getCachedData } from '~/utils/cacheRunnedWorkout'
 
+/**
+ * Composable for running workout.
+ * Gets workout from cache, redirects to home page if not found.
+ */
+
 export function useRunWorkout() {
   const route = useRoute()
   const workoutId = route.params.id as string
   const workout = ref<CreateWorkoutResponse | null>(null)
   const isLoading = ref(true)
   const error = ref<string | null>(null)
+
+  const { t } = useI18n()
 
   onMounted(async () => {
     if (!workoutId) {
@@ -18,15 +25,16 @@ export function useRunWorkout() {
     try {
       const cachedResult = await getCachedData('workout', workoutId)
 
-      if (cachedResult) {
-        workout.value = cachedResult
+      if (!cachedResult) {
+        error.value = t('error.workout_not_in_cache')
+
+        return
       }
-      else {
-        error.value = 'Тренировка не найдена в кэше'
-      }
+
+      workout.value = cachedResult
     }
-    catch (e: any) {
-      error.value = 'Ошибка при получении данных тренировки'
+    catch (err: unknown) {
+      console.error(err)
     }
     finally {
       isLoading.value = false

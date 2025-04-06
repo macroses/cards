@@ -4,7 +4,7 @@ import type { ChartsApiResponse, CreateWorkoutResponse, Statistics } from '~/ts/
 import { useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import { GLOBAL_DATE, GLOBAL_WORKOUTS, KEYS } from '~/constants'
+import { GLOBAL_DATE, GLOBAL_WORKOUTS, KEYS, PAGES } from '~/constants'
 
 dayjs.extend(duration)
 
@@ -50,7 +50,7 @@ const isStatisticVisible = computed(() => {
 })
 
 function toEditPage(): void {
-  navigateTo(localePath(`/workout/?edit=${selectedWorkout.value?.id}`))
+  navigateTo(localePath(`${PAGES.WORKOUT}/?edit=${selectedWorkout.value?.id}`))
 }
 
 async function handleCopyWorkout(): Promise<void> {
@@ -95,6 +95,10 @@ function showResultModal() {
     selectedExerciseId.value = selectedWorkout.value.exercises[0].exerciseId
   }
 }
+
+useHead({
+  title: 'Home',
+})
 </script>
 
 <template>

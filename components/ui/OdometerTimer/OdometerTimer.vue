@@ -3,16 +3,14 @@ const props = defineProps<{
   time: string
 }>()
 
-// Кэшируем массив цифр для оптимизации
 const DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-// Мемоизируем разбивку времени для предотвращения лишних вычислений
 const timeGroups = computed(() => {
   const parts = props.time.split(':')
-  return parts.map(part => part.split(''))
+  // Если часы "00", возвращаем только минуты и секунды
+  return (parts[0] === '00' ? parts.slice(1) : parts).map(part => part.split(''))
 })
 
-// Оптимизированная функция получения transform для цифры
 function getTransform(digit: string): string {
   return `translateY(-${DIGITS.indexOf(digit) * 100}%)`
 }
@@ -82,7 +80,7 @@ function getTransform(digit: string): string {
 .odometer-digit__wrapper {
   position: absolute;
   inset: 0;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s linear;
   will-change: transform;
 }
 

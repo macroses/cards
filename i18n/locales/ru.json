@@ -64,7 +64,11 @@
     "workouts_load_error": "Ошибка при загрузке тренировок",
     "workout_date_change_error": "Ошибка при изменении даты тренировки",
     "workout_create_error": "Ошибка при создании тренировки",
-    "workout_update_error": "Ошибка при обновлении тренировки"
+    "workout_update_error": "Ошибка при обновлении тренировки",
+    "exercise_create": "Ошибка при создании упражнения",
+    "workout_start": "Ошибка при начале тренировки:",
+    "workout_finish": "Ошибка при завершении тренировки:",
+    "workout_not_in_cache": "Тренировка не найдена в кэше"
   },
 
   "main_navigation": {

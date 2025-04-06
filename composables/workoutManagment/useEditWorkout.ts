@@ -2,6 +2,11 @@ import type { LocationQuery } from '#vue-router'
 import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
 import { GLOBAL_WORKOUTS } from '~/constants'
 
+/**
+ * Composable for editing workouts.
+ * Initializes edit mode, populates form with existing workout data.
+ */
+
 type EditWorkoutReturn = Readonly<{
   editableWorkout: ComputedRef<CreateWorkoutResponse | null | undefined>
   initEditMode: () => Promise<void>

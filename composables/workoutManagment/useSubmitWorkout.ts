@@ -4,8 +4,13 @@ import type {
   SubmitWorkoutReturn,
   UserWorkout,
 } from '~/ts/interfaces'
-import { API, GLOBAL_WORKOUTS } from '~/constants'
+import { API, GLOBAL_WORKOUTS, PAGES } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
+
+/**
+ * Composable for retrieving last exercise sets.
+ * Finds and returns sets from the most recent workout for given exercise.
+ */
 
 export function useSubmitWorkout(): SubmitWorkoutReturn {
   const { t } = useI18n()
@@ -60,7 +65,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
 
       if (workoutId) {
         if (!hasWorkoutChanged(workout)) {
-          navigateTo('/')
+          navigateTo(PAGES.HOME)
           return true
         }
 
@@ -81,7 +86,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
         toast(t('toast.workout_created'), ToastStatusesEnum.SUCCESS)
       }
 
-      navigateTo('/')
+      navigateTo(PAGES.HOME)
       await fetchWorkouts()
 
       return true

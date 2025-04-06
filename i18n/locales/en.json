@@ -64,7 +64,11 @@
     "workouts_load_error": "Error while loading workouts",
     "workout_date_change_error": "Error while changed workout date",
     "workout_create_error": "Error while creating workout",
-    "workout_update_error": "Error while updating workout"
+    "workout_update_error": "Error while updating workout",
+    "exercise_create": "Error while creating exercise",
+    "workout_start": "Error while starting workout:",
+    "workout_finish": "Error while finishing workout:",
+    "workout_not_in_cache": "Workout not found in cache"
   },
 
   "main_navigation": {

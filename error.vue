@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
+import { PAGES } from '~/constants'
 
 defineProps({
   error: Object as () => NuxtError,
@@ -9,7 +10,7 @@ const localePath = useLocalePath()
 
 function handleError() {
   clearError()
-  navigateTo(localePath('/'))
+  navigateTo(localePath(PAGES.HOME))
 }
 </script>
 

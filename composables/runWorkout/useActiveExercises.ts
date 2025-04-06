@@ -1,5 +1,10 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
 
+/**
+ * Composable for managing active exercises during workout.
+ * Provides functionality to track selected exercises using a Set collection.
+ */
+
 export function useActiveExercises() {
   const activeExercises = ref<Set<string>>(new Set())
 

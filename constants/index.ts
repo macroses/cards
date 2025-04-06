@@ -1,6 +1,7 @@
 export * from './api'
 export * from './aside-menu'
 export * from './exercises-data'
+export * from './pages'
 export * from './state-keys'
 export * from './strings'
 export * from './workout'

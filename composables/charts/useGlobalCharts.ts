@@ -9,6 +9,13 @@ import type {
 } from '~/ts/interfaces'
 import { API, KEYS } from '~/constants'
 
+/*
+ * Composable for global charts
+ * - fetch charts data from server
+ * - process charts data
+ * - update charts
+ */
+
 export function useGlobalCharts(): GlobalChartsReturn {
   const { t } = useI18n()
   const dayjs = useDayjs()
@@ -156,7 +163,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
     exerciseChartOption.value = {
       tooltip: { trigger: 'axis' },
       legend: {
-        data: [t('dashboard.maxWeight'), t('dashboard.avgWeight'), t('dashboard.setsCount')],
+        data: [
+          t('dashboard.maxWeight'),
+          t('dashboard.avgWeight'),
+          t('dashboard.setsCount'),
+        ],
       },
       xAxis: {
         type: 'category',

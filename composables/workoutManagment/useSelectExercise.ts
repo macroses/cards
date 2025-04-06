@@ -4,6 +4,11 @@ import type {
   UserWorkoutExercise,
 } from '~/ts/interfaces'
 
+/**
+ * Composable for selecting exercises for workouts.
+ * Handles exercise selection and updates workout data.
+ */
+
 export function useSelectExercise(): SelectExerciseReturn {
   const { getLastSets } = useLastExerciseSets()
 

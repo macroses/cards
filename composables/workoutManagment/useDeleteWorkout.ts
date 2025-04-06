@@ -3,6 +3,11 @@ import { API, GLOBAL_WORKOUTS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import { deleteCachedData } from '~/utils/cacheRunnedWorkout'
 
+/**
+ * Composable for deleting workouts.
+ * Handles workout deletion, updates local state, and clears cache.
+ */
+
 export function useDeleteWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()

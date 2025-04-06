@@ -8,6 +8,11 @@ import type {
   WorkoutSet,
 } from '~/ts/interfaces/'
 
+/**
+ * Composable for analyzing workout results and comparing them with previous workouts.
+ * Provides methods for generating chart data and calculating progress metrics
+ * (weight, repeats, time, volume).
+ */
 export function useWorkoutResults() {
   const { t } = useI18n()
 

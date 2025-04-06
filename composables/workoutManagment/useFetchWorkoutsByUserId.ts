@@ -5,6 +5,11 @@ import {
   KEYS,
 } from '~/constants'
 
+/**
+ * Composable for fetching user's workouts.
+ * Retrieves workout list from API and manages loading state.
+ */
+
 export function useFetchWorkoutsByUserId() {
   const workouts = useState<CreateWorkoutResponse | null>(KEYS.GLOBAL_WORKOUTS, () => null)
   const { status } = useAuth()

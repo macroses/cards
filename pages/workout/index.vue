@@ -99,6 +99,10 @@ watch(selectedDate, (newDate: Date) => {
 onMounted(async () => {
   await initEditMode()
 })
+
+useHead({
+  title: computed(() => 'Create workout'),
+})
 </script>
 
 <template>

@@ -6,12 +6,10 @@ import { useWorkoutTimer } from '../workoutTimer/useWorkoutTimer'
 
 dayjs.extend(duration)
 
-/*
- * Composable for updating set time
- * - find last marked set
- * - calculate elapsed time interval between last marked set and current time
- * - update set time
-*/
+/**
+ * Composable for updating set time.
+ * Finds last marked set, calculates elapsed time interval, and updates set time.
+ */
 
 export function useUpdateSetTime() {
   const { activeWorkout } = useWorkoutTimer()
