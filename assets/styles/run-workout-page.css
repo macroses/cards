@@ -49,3 +49,23 @@
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
 }
+
+.workout-content__item-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sets-table {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows var(--base-transition);
+
+  &.active {
+    grid-template-rows: 1fr;
+  }
+}
+
+.sets-table__content {
+  min-height: 0;
+}

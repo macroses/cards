@@ -1,4 +1,5 @@
 import { PAGES } from '~/constants'
+import { isApiError } from '~/ts/guards'
 
 export default defineNuxtRouteMiddleware(async (to) => {
   if (!to.query.edit) {
@@ -18,19 +19,22 @@ export default defineNuxtRouteMiddleware(async (to) => {
     })
   }
   catch (error: any) {
-    const isServer = useRuntimeConfig().app.ssrContext !== undefined
+    if (isApiError(error)) {
+      const isServer = useRuntimeConfig().app.ssrContext !== undefined
 
-    if (isServer) {
+      if (!isServer) {
+        return showError({
+          statusCode: error.statusCode,
+          message: error.message,
+        })
+      }
+
       throw createError({
-        statusCode: error.statusCode || 404,
-        message: error.message || 'Тренировка не найдена',
+        statusCode: error.statusCode,
+        message: error.message,
       })
     }
-    else {
-      return showError({
-        statusCode: error.statusCode || 404,
-        message: error.message || 'Тренировка не найдена',
-      })
-    }
+
+    throw error
   }
 })

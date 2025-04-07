@@ -1,4 +1,4 @@
-import { API_COPY } from '~/constants'
+import { API } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 /**
@@ -16,7 +16,7 @@ export function useCopyWorkout() {
     try {
       isLoading.value = true
 
-      await $fetch(API_COPY, {
+      await $fetch(API.COPY_WORKOUT, {
         method: 'POST',
         body: {
           workoutId,
