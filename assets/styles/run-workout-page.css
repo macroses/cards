@@ -50,9 +50,32 @@
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
 }
 
+.workout-content__item {
+
+}
+
 .workout-content__item-title {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
+  margin-bottom: 0;
+  width: 100%;
+  justify-content: flex-start;
+  display: flex;
+  gap: 8px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 12px;
+  padding: 8px;
+  transition: background-color var(--base-transition);
+  cursor: pointer;
+
+  &:hover {
+    background-color: oklch(from var(--color-accent) l c h / 0.1);
+  }
+
+  &.active {
+    background-color: oklch(from var(--color-accent) l c h / 0.1);
+  }
 }
 
 .sets-table {
@@ -68,4 +91,12 @@
 
 .sets-table__content {
   min-height: 0;
+}
+
+.set-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 0;
+  align-items: center;
 }

@@ -1,20 +1,29 @@
-<script setup lang="ts">
-const dropdown = useTemplateRef<HTMLDivElement>('dropdown')
-const list = [1, 2, 3, 4, 5]
-const modelValue = defineModel<number>()
+<script setup lang="ts" generic="T">
+const props = defineProps<{
+  valueClass?: string | number | null
+}>()
 
+const dropdown = useTemplateRef<HTMLDivElement>('dropdown')
 const isOpen = ref(false)
+
+const modelValue = defineModel<T>()
 
 function toggleDropdown() {
   isOpen.value = !isOpen.value
 }
 
-function selectValue(value: number) {
+function selectValue(value: T) {
   modelValue.value = value
   isOpen.value = false
 }
 
-onClickOutside(dropdown, () => isOpen.value = false)
+onClickOutside(dropdown, () => {
+  isOpen.value = false
+})
+
+defineExpose({
+  selectValue,
+})
 </script>
 
 <template>
@@ -26,28 +35,27 @@ onClickOutside(dropdown, () => isOpen.value = false)
       class="dropdown__selected-value"
       :class="{
         opened: isOpen,
-        [`difficulty-${modelValue}`]: modelValue,
+        valueClass: props.valueClass,
       }"
       @click="toggleDropdown"
     >
       {{ modelValue }}
+      <TheIcon
+        icon-name="angle-down"
+        width="14px"
+      />
     </div>
+
     <Transition>
-      <ul
+      <div
         v-if="isOpen"
-        class="dropdown__list"
-        :class="{ opened: isOpen }"
+        class="dropdown__parent"
+        :class="{ active: isOpen }"
       >
-        <li
-          v-for="item in list"
-          :key="item"
-          class="dropdown__list-item"
-          :class="`difficulty-${item}`"
-          @click="selectValue(item)"
-        >
-          {{ item }}
-        </li>
-      </ul>
+        <div class="dropdown__list">
+          <slot :select-value="selectValue" />
+        </div>
+      </div>
     </Transition>
   </div>
 </template>

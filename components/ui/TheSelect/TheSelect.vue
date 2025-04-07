@@ -2,7 +2,7 @@
 import { watchImmediate } from '@vueuse/core'
 
 interface Option {
-  id: number
+  id?: number
   value: string
 }
 

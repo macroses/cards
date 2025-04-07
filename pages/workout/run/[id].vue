@@ -157,7 +157,7 @@ useHead({
       v-else-if="workout && !isLoading"
       class="run-template__wrap"
     >
-      <form v-auto-animate="{ duration: 100 }" class="workout-content">
+      <form class="workout-content">
         <!--        <div -->
         <!--          class="workout-description" -->
         <!--          :class="{ hidden: !isDescriptionVisible }" -->
@@ -183,20 +183,20 @@ useHead({
         <ul
           v-for="(exercise, exerciseId) in exerciseSets"
           :key="exerciseId"
-          v-auto-animate="{ duration: 100 }"
           class="workout-content__card"
         >
           <li class="workout-content__item">
-            <h3
+            <button
               class="workout-content__item-title"
-              @click="toggleExercise(exerciseId)"
+              :class="{ active: activeExerciseId === exerciseId }"
+              @click.prevent="toggleExercise(exerciseId)"
             >
-              {{ exercise.name }}
               <TheIcon
                 icon-name="angle-down"
                 width="14px"
               />
-            </h3>
+              {{ exercise.name }}
+            </button>
 
             <div
               class="sets-table"
@@ -209,21 +209,22 @@ useHead({
                   class="set-row"
                 >
                   <div class="set-cell">
-                    <TheSelectCustom
-                      :model-value="set.difficulty"
-                      class="edit-input"
+                    <TheDropdown
+                      v-model="set.difficulty"
                       @update:model-value="handleDifficultyChange(set.id, $event)"
                     >
-                      <template #options>
-                        <option
+                      <template #default="{ selectValue }">
+                        <li
                           v-for="difficulty in WORKOUT_DIFFICULTY"
                           :key="difficulty.value"
-                          :value="difficulty.value"
+                          class="dropdown__list-item"
+                          :class="`difficulty-${difficulty.value}`"
+                          @click="selectValue(difficulty.value)"
                         >
                           {{ difficulty.label }}
-                        </option>
+                        </li>
                       </template>
-                    </TheSelectCustom>
+                    </TheDropdown>
                   </div>
                   <div class="set-cell">
                     <TheInput

@@ -1,5 +1,5 @@
 .button {
-  border: 0;
+  border: 1px solid transparent;
   border-radius: 12px;
   transition:
     box-shadow var(--base-transition),
