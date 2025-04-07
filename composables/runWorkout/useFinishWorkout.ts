@@ -24,6 +24,7 @@ export function useFinishWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const { stopTimer } = useWorkoutTimer()
+  const { fetchWorkouts } = useFetchWorkoutsByUserId()
   const isLoading = shallowRef(false)
 
   async function finishWorkout(workoutId: string) {
@@ -86,8 +87,32 @@ export function useFinishWorkout() {
     }
   }
 
+  async function resetNoTimeWorkout(runWorkoutId?: string) {
+    if (runWorkoutId) {
+      try {
+        await $fetch(API.RESET_WORKOUT, {
+          method: 'PUT',
+          body: {
+            workoutId: runWorkoutId,
+          },
+        })
+
+        stopTimer()
+        navigateTo('/')
+
+        await deleteCachedData(CACHE_NAME, runWorkoutId)
+        await fetchWorkouts()
+      }
+      catch (error) {
+        console.error('Error resetting workout:', error)
+        toast(t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
+      }
+    }
+  }
+
   return {
     finishWorkout,
+    resetNoTimeWorkout,
     isLoading,
   }
 }

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
+import NoTimeMarkedReset from '~/components/NoTimeMarkedReset/NoTimeMarkedReset.vue'
 import { WORKOUT_DIFFICULTY } from '~/constants/workout'
 
 definePageMeta({
@@ -12,7 +14,7 @@ const { workout, isLoading, error } = useRunWorkout()
 const { updateSetField } = useUpdateCachedWorkout()
 const { updateSetTime } = useUpdateSetTime()
 const { timer } = useWorkoutTimer()
-const { finishWorkout, isLoading: isFinishing } = useFinishWorkout()
+const { finishWorkout, isLoading: isFinishing, resetNoTimeWorkout } = useFinishWorkout()
 
 const editingSetId = ref<string | null>(null)
 const editingValue = ref<number | string>(0)
@@ -20,6 +22,8 @@ const editingField = ref<UnionSetFields | null>(null)
 const activeExerciseId = ref<string | null>(null)
 
 const isDescriptionVisible = shallowRef(true)
+
+const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
 
 async function updateSetFieldValue(setId: string, field: UnionSetFields, value: number | string) {
   if (!workout.value || !value) {
@@ -133,11 +137,30 @@ async function handleSaveWorkout() {
     return
   }
 
+  if (!checkSetsHaveTime()) {
+    noTimeModal.value?.openModal()
+
+    return
+  }
+
   await finishWorkout(workout.value.id)
 }
 
 function toggleExercise(exerciseId: string) {
   activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
+}
+
+async function handleResetNoTimeWorkout() {
+  noTimeModal.value?.closeModal()
+  await resetNoTimeWorkout(workout.value?.id)
+}
+
+function checkSetsHaveTime(): boolean {
+  if (!workout.value) {
+    return false
+  }
+
+  return workout.value.sets.some(set => typeof set.setTime === 'number' && set.setTime > 0)
 }
 
 useHead({
@@ -314,5 +337,10 @@ useHead({
     >
       Тренировка не найдена
     </div>
+
+    <NoTimeMarkedReset
+      ref="noTimeModal"
+      @reset-no-time-workout="handleResetNoTimeWorkout"
+    />
   </div>
 </template>

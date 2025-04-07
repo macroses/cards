@@ -16,7 +16,7 @@
 }
 
 .home-page__calendar {
-  /*max-width: 524px;*/
+  max-width: 576px;
   flex: 1;
   display: flex;
   flex-direction: column;
