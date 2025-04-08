@@ -3,6 +3,7 @@ import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
+import { vMaska } from 'maska/vue'
 import NoTimeMarkedReset from '~/components/NoTimeMarkedReset/NoTimeMarkedReset.vue'
 import { WORKOUT_DIFFICULTY } from '~/constants/workout'
 
@@ -203,7 +204,10 @@ useHead({
             :key="exerciseId"
             class="workout-content__card"
           >
-            <li class="workout-content__item">
+            <li
+              v-auto-animate="{ duration: 100 }"
+              class="workout-content__item"
+            >
               <button
                 class="workout-content__item-title"
                 :class="{ active: activeExerciseId === exerciseId }"
@@ -217,6 +221,7 @@ useHead({
               </button>
 
               <div
+                v-if="activeExerciseId === exerciseId"
                 class="sets-table"
                 :class="{ active: activeExerciseId === exerciseId }"
               >
@@ -235,7 +240,7 @@ useHead({
                           <li
                             v-for="difficulty in WORKOUT_DIFFICULTY"
                             :key="difficulty.value"
-                            class="dropdown__list-item"
+                            class="difficulty__list-item"
                             :class="`difficulty-${difficulty.value}`"
                             @click="selectValue(difficulty.value)"
                           >
@@ -290,9 +295,9 @@ useHead({
                         v-if="isInputVisible(set.id, 'setTime') && set.setTimeAddedAt"
                         v-model="editingValue"
                         v-focus
+                        v-maska="'##:##'"
                         type="text"
-                        placeholder="00:00"
-                        pattern="[0-9]{2}:[0-9]{2}"
+                        placeholder="00m:00s"
                         inputmode="numeric"
                         class="edit-input"
                         @blur="saveEdit"
@@ -308,10 +313,14 @@ useHead({
                       <TheButton
                         v-if="!set.setTimeAddedAt"
                         variant="secondary"
+                        icon-only
                         class="mark-set-time"
                         @click="handleSetTimeUpdate(set.id)"
                       >
-                        check
+                        <TheIcon
+                          icon-name="clock"
+                          width="18px"
+                        />
                       </TheButton>
                     </div>
                   </div>

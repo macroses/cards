@@ -13,8 +13,8 @@ const {
 <template>
   <button
     v-if="!linkPath"
-    :type="type"
-    :disabled="disabled"
+    :type
+    :disabled
     :inert="disabled"
     class="button"
     :class="{

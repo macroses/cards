@@ -11,9 +11,10 @@
   background: white;
   height: 36px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  outline: 1px solid transparent;
-  transition: outline-color var(--base-transition);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  transition: border-radius var(--base-transition);
 
   &:hover {
     outline-color: oklch(from var(--color-accent) l c h / 0.5);
@@ -23,68 +24,27 @@
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
-
-  &.difficulty-1 {
-    background-color: var(--difficulty-1);
-  }
-
-  &.difficulty-2 {
-    background-color: var(--difficulty-2);
-    color: white;
-  }
-
-  &.difficulty-3 {
-    background-color: var(--difficulty-3);
-  }
-
-  &.difficulty-4 {
-    background-color: var(--difficulty-4);
-    color: white;
-  }
-
-  &.difficulty-5 {
-    background-color: var(--difficulty-5);
-    color: white;
-  }
 }
 
-.dropdown__list {
+.dropdown__values-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
   padding: 0;
   list-style: none;
   background: white;
-  border: 1px solid #e2e8f0;
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   border-top: 0;
   border-radius: 0 0 12px 12px;
   z-index: 10;
   overflow: hidden;
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
 }
 
 .dropdown__list-item {
   padding: 4px 12px;
   cursor: pointer;
-
-  &.difficulty-1 {
-    background-color: var(--difficulty-1);
-  }
-
-  &.difficulty-2 {
-    background-color: var(--difficulty-2);
-    color: white;
-  }
-
-  &.difficulty-3 {
-    background-color: var(--difficulty-3);
-  }
-
-  &.difficulty-4 {
-    background-color: var(--difficulty-4);
-    color: white;
-  }
-
-  &.difficulty-5 {
-    background-color: var(--difficulty-5);
-    color: white;
-  }
 
   &:hover {
     opacity: 0.8;
