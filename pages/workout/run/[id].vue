@@ -16,6 +16,7 @@ const { updateSetField } = useUpdateCachedWorkout()
 const { updateSetTime } = useUpdateSetTime()
 const { timer } = useWorkoutTimer()
 const { finishWorkout, isLoading: isFinishing, resetNoTimeWorkout } = useFinishWorkout()
+const { getExerciseSets } = useExerciseSets()
 
 const editingSetId = ref<string | null>(null)
 const editingValue = ref<number | string>(0)
@@ -39,25 +40,7 @@ async function updateSetFieldValue(setId: string, field: UnionSetFields, value: 
   )
 }
 
-const exerciseSets = computed(() => {
-  if (!workout.value) {
-    return {}
-  }
-
-  return workout.value.sets.reduce((acc, set) => {
-    const exerciseId = set.exerciseId
-
-    if (!acc[exerciseId]) {
-      acc[exerciseId] = {
-        sets: [],
-        name: workout.value?.exercises.find(e => e.exerciseId === exerciseId)?.exerciseName || 'Unknown',
-      }
-    }
-    acc[exerciseId].sets.push(set)
-
-    return acc
-  }, {} as Record<string, { sets: CreateWorkoutResponse['sets'], name: string }>)
-})
+const exerciseSets = computed(() => getExerciseSets(workout.value))
 
 watch(() => workout.value, (newWorkout) => {
   if (newWorkout && !activeExerciseId.value) {
@@ -148,6 +131,11 @@ async function handleSaveWorkout() {
 }
 
 function toggleExercise(exerciseId: string) {
+  // Если идет редактирование, не переключаем упражнение
+  if (editingSetId.value || editingField.value) {
+    return
+  }
+
   activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
 }
 
@@ -259,7 +247,7 @@ useHead({
                         inputmode="decimal"
                         class="edit-input"
                         @blur="saveEdit"
-                        @keydown="handleKeyDown"
+                        @keydown.stop="handleKeyDown"
                       />
                       <div
                         v-else
@@ -280,7 +268,7 @@ useHead({
                         inputmode="numeric"
                         class="edit-input"
                         @blur="saveEdit"
-                        @keydown="handleKeyDown"
+                        @keydown.stop="handleKeyDown"
                       />
                       <div
                         v-else
@@ -296,12 +284,13 @@ useHead({
                         v-model="editingValue"
                         v-focus
                         v-maska="'##:##'"
+                        no-clear
                         type="text"
                         placeholder="00m:00s"
                         inputmode="numeric"
                         class="edit-input"
                         @blur="saveEdit"
-                        @keydown="handleKeyDown"
+                        @keydown.stop="handleKeyDown"
                       />
                       <div
                         v-else-if="set.setTimeAddedAt"

@@ -14,23 +14,21 @@ const emit = defineEmits<{
 
 dayjs.extend(duration)
 
+const { getExerciseSets } = useExerciseSets()
+
 const exerciseSets = computed(() => {
   if (!props.selectedWorkout) {
-    return {} as Record<string, CreateWorkoutResponse['sets']>
+    return {}
   }
 
-  return props.selectedWorkout.sets.reduce((
-    acc: Record<string, CreateWorkoutResponse['sets']>,
-    set: CreateWorkoutResponse['sets'][0],
-  ) => {
-    if (!acc[set.exerciseId]) {
-      acc[set.exerciseId] = []
-    }
+  const groupedSets = getExerciseSets(props.selectedWorkout)
+  const result: Record<string, CreateWorkoutResponse['sets']> = {}
 
-    acc[set.exerciseId].push(set)
+  for (const [exerciseId, data] of Object.entries(groupedSets)) {
+    result[exerciseId] = data.sets
+  }
 
-    return acc
-  }, {})
+  return result
 })
 
 function handleExerciseClick(exerciseId: string) {
