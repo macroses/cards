@@ -94,7 +94,7 @@
   border-radius: 12px;
   border: 1px solid transparent;
 
-  &:not(:first-child, :has(.mark-set-time)) {
+  &:not(:first-child, :has(.mark-set-time), :has(.input-wrapper)) {
     border: 1px solid var(--color-border);
   }
 }
@@ -110,8 +110,35 @@
 .difficulty__list-item {
   background-color: var(--color-white);
   transition: background-color var(--base-transition);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
 
   &:hover {
     background-color: var(--table-dark-bg);
+  }
+
+  & span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  & .difficulty-1 {
+    background-color: var(--difficulty-1);
+  }
+  & .difficulty-2 {
+    background-color: var(--difficulty-2);
+  }
+  & .difficulty-3 {
+    background-color: var(--difficulty-3);
+  }
+  & .difficulty-4 {
+    background-color: var(--difficulty-4);
+  }
+  & .difficulty-5 {
+    background-color: var(--difficulty-5);
   }
 }

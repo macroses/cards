@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
@@ -222,6 +221,7 @@ useHead({
                     <div class="set-cell">
                       <TheDropdown
                         v-model="set.difficulty"
+                        no-icon
                         @update:model-value="handleDifficultyChange(set.id, $event)"
                       >
                         <template #default="{ selectValue }">
@@ -229,10 +229,10 @@ useHead({
                             v-for="difficulty in WORKOUT_DIFFICULTY"
                             :key="difficulty.value"
                             class="difficulty__list-item"
-                            :class="`difficulty-${difficulty.value}`"
                             @click="selectValue(difficulty.value)"
                           >
-                            {{ difficulty.label }}
+                            <span :class="`difficulty-${difficulty.value}`" />
+                            {{ difficulty.value }}
                           </li>
                         </template>
                       </TheDropdown>

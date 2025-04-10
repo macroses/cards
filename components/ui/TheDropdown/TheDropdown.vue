@@ -2,6 +2,7 @@
 const props = defineProps<{
   valueClass?: string | number | null
   isValueVisible?: boolean
+  noIcon?: boolean
 }>()
 
 const dropdown = useTemplateRef<HTMLDivElement>('dropdown')
@@ -36,11 +37,12 @@ defineExpose({
       class="dropdown__selected-value"
       :class="{
         opened: isOpen,
-        valueClass: props.valueClass,
+        [`dropdown__selected-value--${modelValue}`]: modelValue,
       }"
       @click="toggleDropdown"
     >
       <TheIcon
+        v-if="!props.noIcon"
         icon-name="angle-down"
         width="14px"
       />
