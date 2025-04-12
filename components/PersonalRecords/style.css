@@ -1,0 +1,78 @@
+.personal-record-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: oklch(from var(--color-success) l c h / 0.1);
+  border: 1px solid var(--color-success);
+  border-radius: var(--radius-default);
+  padding: 16px;
+  max-width: 350px;
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+  z-index: 1000;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.notification-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--color-success);
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.records-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.record-item {
+  padding: 8px 0;
+  border-bottom: 1px solid oklch(from var(--color-success) l c h / 0.2);
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.record-exercise {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.record-type {
+  font-size: 14px;
+  color: oklch(from var(--color-text) l c h / 0.7);
+  margin-bottom: 2px;
+}
+
+.record-value {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}

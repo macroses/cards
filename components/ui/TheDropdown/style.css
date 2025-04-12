@@ -7,7 +7,7 @@
 .dropdown__selected-value {
   position: relative;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   background: white;
   height: 36px;
