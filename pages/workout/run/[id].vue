@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
 import NoTimeMarkedReset from '~/components/NoTimeMarkedReset/NoTimeMarkedReset.vue'
+import { KEYS } from '~/constants'
 import { WORKOUT_DIFFICULTY } from '~/constants/workout'
 
-definePageMeta({
-  middleware: ['auth'],
-})
+const allWorkouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
 
 const { workout, isLoading, error } = useRunWorkout()
 const { updateSetField } = useUpdateCachedWorkout()
@@ -16,6 +16,7 @@ const { updateSetTime } = useUpdateSetTime()
 const { timer } = useWorkoutTimer()
 const { finishWorkout, isLoading: isFinishing, resetNoTimeWorkout } = useFinishWorkout()
 const { getExerciseSets } = useExerciseSets()
+const { checkPersonalRecord, newRecords, clearNewRecords } = usePersonalRecords()
 
 const editingSetId = ref<string | null>(null)
 const editingValue = ref<number | string>(0)
@@ -23,6 +24,7 @@ const editingField = ref<UnionSetFields | null>(null)
 const activeExerciseId = ref<string | null>(null)
 
 const isDescriptionVisible = shallowRef(true)
+const showRecordNotification = ref(false)
 
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
 
@@ -78,6 +80,10 @@ async function saveEdit() {
     valueToSave,
   )
 
+  if (editingField.value === 'weight' || editingField.value === 'repeats') {
+    await checkForPersonalRecords(editingSetId.value)
+  }
+
   editingSetId.value = null
   editingField.value = null
 }
@@ -106,6 +112,7 @@ async function handleSetTimeUpdate(setId: string) {
   }
 
   await updateSetTime(workout.value, setId)
+  await checkForPersonalRecords(setId)
 }
 
 async function handleSaveWorkout() {
@@ -134,6 +141,24 @@ function toggleExercise(exerciseId: string) {
 async function handleResetNoTimeWorkout() {
   noTimeModal.value?.closeModal()
   await resetNoTimeWorkout(workout.value?.id)
+}
+
+async function checkForPersonalRecords(setId: string) {
+  if (!workout.value || !allWorkouts.value)
+    return
+
+  const set = workout.value.sets.find(s => s.id === setId)
+  if (!set)
+    return
+
+  const exerciseName = workout.value.exercises.find(e => e.exerciseId === set.exerciseId)?.exerciseName || ''
+
+  // Проверяем, является ли текущий подход новым личным рекордом
+  const hasNewRecord = checkPersonalRecord(set, exerciseName, allWorkouts.value)
+
+  if (hasNewRecord) {
+    showRecordNotification.value = true
+  }
 }
 
 function checkSetsHaveTime(): boolean {
@@ -334,10 +359,10 @@ useHead({
       @reset-no-time-workout="handleResetNoTimeWorkout"
     />
 
-    <!--    <PersonalRecordsNotify -->
-    <!--      :records="newRecords" -->
-    <!--      :visible="showRecordNotification" -->
-    <!--      @close="showRecordNotification = false; clearNewRecords()" -->
-    <!--    /> -->
+    <PersonalRecordsNotify
+      :records="newRecords"
+      :visible="showRecordNotification"
+      @close="showRecordNotification = false; clearNewRecords()"
+    />
   </div>
 </template>

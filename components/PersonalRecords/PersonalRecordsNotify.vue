@@ -6,7 +6,7 @@ defineProps<{
   visible: boolean
 }>()
 
-const emit = defineEmits<{
+defineEmits<{
   (event: 'close'): void
 }>()
 
@@ -28,10 +28,6 @@ function getRecordText(record: NewRecord): string {
       return ''
   }
 }
-
-function handleClose() {
-  emit('close')
-}
 </script>
 
 <template>
@@ -44,11 +40,11 @@ function handleClose() {
         <h3>🏆 Новые личные рекорды!</h3>
         <button
           class="close-button"
-          @click="handleClose"
+          @click="$emit('close')"
         >
           <TheIcon
             icon-name="xmark"
-            width="14px"
+            width="18px"
           />
         </button>
       </div>
