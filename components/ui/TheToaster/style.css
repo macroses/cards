@@ -1,8 +1,9 @@
 .toaster {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   z-index: 9999;
+  width: 300px;
 }
 
 .toaster-container {
@@ -11,8 +12,9 @@
 
 .toast {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
+  position: relative;
 
   padding: 10px 20px;
   margin-bottom: 10px;
@@ -25,6 +27,17 @@
   box-shadow: rgba(0, 0, 0, 0.08) 0 4px 12px;
 }
 
+/* Стандартные уведомления */
+.toast:not(.toast-custom) {
+  align-items: center;
+}
+
+.toast-custom {
+  flex-direction: column;
+  color: var(--color-text);
+  padding: 0;
+}
+
 svg {
   min-width: 20px;
 }
@@ -34,7 +47,9 @@ svg {
 }
 
 .close-toast-button {
-  position: relative;
+  position: absolute;
+  top: 8px;
+  right: 8px;
   max-width: 24px;
   min-width: 24px;
   height: 24px;

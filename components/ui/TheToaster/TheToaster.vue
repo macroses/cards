@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import type { Toast, ToastType } from '~/ts/componentProps'
+import type { NewRecord } from '~/ts/types/personalRecords.types'
+import { markRaw } from 'vue'
+import RecordToastContent from '~/components/PersonalRecords/RecordToastContent.vue'
 
 const props = withDefaults(defineProps<{
   ms?: number
+  customMs?: number
 }>(), {
-  ms: 7000,
+  ms: 5000,
+  customMs: -1,
 })
 
+const RecordToastContentRaw = markRaw(RecordToastContent)
+
 const toasts = ref<Toast[]>([])
-const toastTimer = props.ms || 7000
 let toastId = 0
+const timeouts = new Map<number, NodeJS.Timeout>()
 
 function removeToast(id: number) {
   const index = toasts.value.findIndex((toast: Toast) => toast.id === id)
@@ -17,25 +24,70 @@ function removeToast(id: number) {
   if (index !== -1) {
     toasts.value.splice(index, 1)
   }
+
+  const timeout = timeouts.get(id)
+  if (timeout) {
+    clearTimeout(timeout)
+    timeouts.delete(id)
+  }
 }
 
 function addToast(message: string, type: ToastType = 'info') {
   const id = toastId++
-
   toasts.value.push({ id, message, type })
-  setTimeout(() => removeToast(id), toastTimer)
+
+  const timeout = setTimeout(() => removeToast(id), props.ms)
+  timeouts.set(id, timeout)
 }
 
-const { setToastFunction } = useToastState()
+function addCustomToast(component: Component, componentProps: Record<string, any> = {}) {
+  const id = toastId++
+
+  toasts.value.push({
+    id,
+    type: 'custom',
+    component: markRaw(component),
+    componentProps,
+  })
+
+  // Используем ms из componentProps, если оно есть, иначе используем props.customMs
+  const timeout = setTimeout(
+    () => removeToast(id),
+    componentProps.ms || props.customMs,
+  )
+
+  timeouts.set(id, timeout)
+}
+
+function addRecordToast(records: NewRecord[], options?: { ms?: number }) {
+  if (records.length > 0) {
+    addCustomToast(RecordToastContentRaw, {
+      records,
+      ms: options?.ms,
+    })
+  }
+}
+
+function getToastDuration(toast: Toast) {
+  if (toast.type === 'custom') {
+    return toast.componentProps?.ms || props.customMs
+  }
+  return props.ms
+}
+
+const { setToastFunction, setCustomToastFunction } = useToastState()
 
 onMounted(() => {
   setToastFunction(addToast)
+  setCustomToastFunction(addCustomToast)
+
+  const { setRecordToastFunction } = usePersonalRecords()
+  setRecordToastFunction(addRecordToast)
 })
 
 onUnmounted(() => {
-  setToastFunction(() => {
-    console.warn('Toast function is not available')
-  })
+  timeouts.forEach(timeout => clearTimeout(timeout))
+  timeouts.clear()
 })
 </script>
 
@@ -55,24 +107,34 @@ onUnmounted(() => {
         class="toast"
         :class="[`toast-${toast.type}`]"
       >
-        <TheIcon
-          v-if="toast.type === 'info'"
-          icon-name="lightbulb"
-          width="20px"
+        <template v-if="toast.type !== 'custom'">
+          <TheIcon
+            v-if="toast.type === 'info'"
+            icon-name="lightbulb"
+            width="20px"
+          />
+          <TheIcon
+            v-else-if="toast.type === 'success'"
+            icon-name="badge-check"
+            width="20px"
+          />
+          <TheIcon
+            v-else
+            icon-name="triangle-exclamation"
+            width="20px"
+          />
+          <p class="toast-message">
+            {{ toast.message }}
+          </p>
+        </template>
+
+        <!-- Кастомные компоненты -->
+        <component
+          :is="toast.component"
+          v-else-if="toast.component"
+          v-bind="toast.componentProps || {}"
         />
-        <TheIcon
-          v-else-if="toast.type === 'success'"
-          icon-name="badge-check"
-          width="20px"
-        />
-        <TheIcon
-          v-else
-          icon-name="triangle-exclamation"
-          width="20px"
-        />
-        <p class="toast-message">
-          {{ toast.message }}
-        </p>
+
         <button
           class="close-toast-button"
           @click="removeToast(toast.id)"
@@ -98,7 +160,7 @@ onUnmounted(() => {
                 attributeName="stroke-dashoffset"
                 from="0"
                 to="100"
-                :dur="`${toastTimer}ms`"
+                :dur="`${getToastDuration(toast)}ms`"
                 fill="freeze"
               />
             </circle>

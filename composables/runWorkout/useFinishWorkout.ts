@@ -25,6 +25,7 @@ export function useFinishWorkout() {
   const { toast } = useToastState()
   const { stopTimer } = useWorkoutTimer()
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
+  const { checkPersonalRecords } = usePersonalRecords()
   const isLoading = shallowRef(false)
 
   async function finishWorkout(workoutId: string) {
@@ -72,6 +73,11 @@ export function useFinishWorkout() {
 
       globalStats.value = null
       chartsState.value = null
+
+      // Проверяем личные рекорды после завершения тренировки
+      if (updatedWorkout && workoutsList.value) {
+        checkPersonalRecords(updatedWorkout, workoutsList.value)
+      }
 
       toast(t('toast.workout_completed'), ToastStatusesEnum.SUCCESS)
       await navigateTo(PAGES.HOME)

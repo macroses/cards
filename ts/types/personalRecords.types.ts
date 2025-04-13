@@ -1,4 +1,4 @@
-export type RecordType = 'weight' | 'repeats' | 'volume'
+export type RecordType = 'weight' | 'volume'
 
 export interface PersonalRecord {
   type: RecordType

@@ -2,14 +2,25 @@ import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces
 import type { NewRecord, PersonalRecord, RecordType } from '~/ts/types/personalRecords.types'
 import { KEYS } from '~/constants'
 
+type RecordToastFunction = (records: NewRecord[], options?: { ms?: number }) => void
+
+// Глобальная функция для отображения уведомлений о рекордах
+const recordToastFunction = ref<RecordToastFunction>(() => {
+  console.warn('Record toast function is not yet initialized')
+})
+
 export function usePersonalRecords() {
   const personalRecords = useState<Record<string, PersonalRecord[]>>(KEYS.PERSONAL_RECORDS_KEY, () => ({}))
   const newRecords = ref<NewRecord[]>([])
 
+  /**
+   * Проверяет один сет на наличие личных рекордов
+   */
   function checkPersonalRecord(
     set: UserTrainingSession,
     exerciseName: string,
     workouts: CreateWorkoutResponse[] | null,
+    showToast: boolean = false,
   ) {
     if (!workouts || !workouts.length) {
       return false
@@ -20,11 +31,11 @@ export function usePersonalRecords() {
 
     const previousSets = workouts
       .filter(workout => workout.completed)
-      .flatMap((workout) => {
-        return workout.sets.filter(s => s.exerciseId === exerciseId)
+      .flatMap(({ sets }) => {
+        return sets.filter(s => s.exerciseId === exerciseId)
       })
 
-    const maxWeight = Math.max(0, ...previousSets.map(previousSet => previousSet.weight || 0))
+    const maxWeight = Math.max(0, ...previousSets.map(({ weight }) => weight || 0))
 
     if (weight > maxWeight && weight > 0) {
       addNewRecord({
@@ -36,34 +47,58 @@ export function usePersonalRecords() {
       })
     }
 
-    const setsWithSameWeight = previousSets.filter(s => Math.abs(s.weight - weight) < 0.1)
-    const maxReps = Math.max(0, ...setsWithSameWeight.map(s => s.repeats || 0))
-    if (repeats > maxReps && repeats > 0 && setsWithSameWeight.length > 0) {
-      addNewRecord({
-        type: 'repeats',
-        value: repeats,
-        exerciseId,
-        exerciseName,
-        previousValue: maxReps,
-      })
-    }
-
-    const maxVolume = Math.max(0, ...previousSets.map(s => (s.weight || 0) * (s.repeats || 0)))
+    const maxVolume = Math.max(0, ...previousSets.map(({ weight, repeats }) => (weight || 0) * (repeats || 0)))
     if (volume > maxVolume && volume > 0) {
       addNewRecord({
         type: 'volume',
-        value: volume,
+        value: volume / 1000,
         exerciseId,
         exerciseName,
-        previousValue: maxVolume,
+        previousValue: maxVolume / 1000,
       })
     }
 
-    return newRecords.value.length > 0
+    const hasNewRecords = newRecords.value.length > 0
+
+    // Показываем уведомление только если явно запрошено
+    if (hasNewRecords && showToast) {
+      recordToastFunction.value([...newRecords.value])
+    }
+
+    return hasNewRecords
+  }
+
+  /**
+   * Проверяет всю тренировку на наличие личных рекордов
+   */
+  function checkPersonalRecords(
+    workout: CreateWorkoutResponse,
+    allWorkouts: CreateWorkoutResponse[],
+  ) {
+    if (!workout || !allWorkouts.length) {
+      return false
+    }
+
+    // Очищаем предыдущие рекорды
+    clearNewRecords()
+
+    // Проверяем каждый сет в тренировке
+    for (const set of workout.sets) {
+      const exerciseName = workout.exercises.find(({ exerciseId }) => exerciseId === set.exerciseId)?.exerciseName || ''
+      checkPersonalRecord(set, exerciseName, allWorkouts)
+    }
+
+    // Если есть новые рекорды, показываем уведомление
+    if (newRecords.value.length > 0) {
+      recordToastFunction.value([...newRecords.value], { ms: 60000 })
+      return true
+    }
+
+    return false
   }
 
   function addNewRecord(record: NewRecord) {
-    const existingRecord = newRecords.value.find(r => r.type === record.type && r.exerciseId === record.exerciseId)
+    const existingRecord = newRecords.value.find(({ type, exerciseId }) => type === record.type && exerciseId === record.exerciseId)
 
     if (existingRecord) {
       if (record.value > existingRecord.value) {
@@ -112,11 +147,17 @@ export function usePersonalRecords() {
     return personalRecords.value[key][0]
   }
 
+  function setRecordToastFunction(fn: RecordToastFunction) {
+    recordToastFunction.value = fn
+  }
+
   return {
     personalRecords,
     newRecords,
     checkPersonalRecord,
+    checkPersonalRecords,
     clearNewRecords,
     getBestRecord,
+    setRecordToastFunction,
   }
 }
