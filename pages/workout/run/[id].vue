@@ -12,6 +12,7 @@ const { updateSetTime } = useUpdateSetTime()
 const { timer } = useWorkoutTimer()
 const { finishWorkout, isLoading: isFinishing, resetNoTimeWorkout } = useFinishWorkout()
 const { getExerciseSets } = useExerciseSets()
+const { addSet, deleteSet } = useManageSets()
 
 const editingSetId = ref<string | null>(null)
 const editingValue = ref<number | string>(0)
@@ -102,6 +103,22 @@ async function handleSetTimeUpdate(setId: string) {
   }
 
   await updateSetTime(workout.value, setId)
+}
+
+async function handleDeleteSet(setId: string) {
+  if (!workout.value) {
+    return
+  }
+
+  await deleteSet(workout.value, setId)
+}
+
+async function handleAddSet(exerciseId: string) {
+  if (!workout.value) {
+    return
+  }
+
+  await addSet(workout.value, exerciseId)
 }
 
 async function handleSaveWorkout() {
@@ -338,6 +355,8 @@ useHead({
                       <TheButton
                         variant="transparent"
                         icon-only
+                        :class="{ disabled: exercise.sets.length === 1 }"
+                        @click="handleDeleteSet(set.id)"
                       >
                         <TheIcon
                           icon-name="trash-can"
@@ -347,6 +366,12 @@ useHead({
                     </div>
                   </div>
                 </div>
+                <TheButton
+                  variant="secondary"
+                  @click="handleAddSet(exerciseId)"
+                >
+                  Добавить
+                </TheButton>
               </div>
             </li>
           </ul>
@@ -377,3 +402,22 @@ useHead({
     />
   </div>
 </template>
+
+<style scoped>
+.add-set-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-set-button:hover {
+  background-color: #e0e0e0;
+}
+</style>

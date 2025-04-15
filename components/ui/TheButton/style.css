@@ -21,15 +21,18 @@
   height: 36px;
   min-height: 36px;
   cursor: pointer;
+  position: relative;
   -webkit-tap-highlight-color: transparent;
 
   &:focus-visible {
     outline: 2px solid var(--color-accent);
   }
 
-  &[disabled] {
-    background-color: gray;
+  &[disabled], &.disabled {
+    background-color: var(--table-dark-bg);
+    color: #c5c5c5;
     pointer-events: none;
+
   }
 }
 
