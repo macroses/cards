@@ -1,0 +1,25 @@
+.workout-time-predictor {
+  display: flex;
+  align-items: center;
+  background-color: var(--table-dark-bg);
+  border-radius: var(--radius-default);
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+}
+
+.predictor-icon {
+  margin-right: 8px;
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.predictor-text {
+  font-size: 14px;
+  color: var(--color-text);
+  flex: 1;
+}

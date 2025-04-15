@@ -131,7 +131,7 @@ onClickOutside(dropdownRef, () => {
           class="date-menu__dropdown"
         >
           <TheButton
-            variant="ghost"
+            :variant="isDropdownOpen ? 'secondary' : 'ghost'"
             icon-only
             @click.stop="toggleDropdown"
           >
