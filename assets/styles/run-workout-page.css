@@ -49,11 +49,12 @@
   width: 100%;
   justify-content: flex-start;
   display: flex;
+  align-items: center;
   gap: 8px;
   background-color: transparent;
   border: 0;
   border-radius: 12px;
-  padding: 8px;
+  padding: 0 0 0 8px;
   transition: background-color var(--base-transition);
   cursor: pointer;
 
@@ -64,6 +65,10 @@
   &.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+  }
+
+  & .button {
+    margin-left: auto;
   }
 }
 

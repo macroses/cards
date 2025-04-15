@@ -7,7 +7,7 @@ import { saveCacheData } from '~/utils/cacheRunnedWorkout'
  * Provides functions for adding and deleting sets with caching.
  */
 
-const MAX_SETS_COUNT = 100
+const MAX_SETS_COUNT = 50
 
 export function useManageSets() {
   async function addSet(
@@ -15,7 +15,9 @@ export function useManageSets() {
     exerciseId: string,
   ): Promise<boolean> {
     try {
-      if (workout.sets.length > MAX_SETS_COUNT) {
+      const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
+
+      if (exerciseSets.length >= MAX_SETS_COUNT) {
         return false
       }
 
@@ -51,7 +53,14 @@ export function useManageSets() {
     setId: string,
   ): Promise<boolean> {
     try {
-      if (workout.sets.length === 1) {
+      const exerciseId = workout.sets.find(set => set.id === setId)?.exerciseId
+      if (!exerciseId) {
+        return false
+      }
+
+      const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
+
+      if (exerciseSets.length === 1) {
         return false
       }
 

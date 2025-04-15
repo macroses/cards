@@ -201,7 +201,7 @@ useHead({
               v-auto-animate="{ duration: 100 }"
               class="workout-content__item"
             >
-              <button
+              <div
                 class="workout-content__item-title"
                 :class="{ active: activeExerciseId === exerciseId }"
                 @click.prevent="toggleExercise(exerciseId)"
@@ -211,14 +211,29 @@ useHead({
                   width="14px"
                 />
                 {{ exercise.name }}
-              </button>
+                <TheButton
+                  v-tooltip="'Добавить подход'"
+                  variant="transparent"
+                  type="button"
+                  icon-only
+                  @click.stop="handleAddSet(exerciseId)"
+                >
+                  <TheIcon
+                    icon-name="plus"
+                    width="18px"
+                  />
+                </TheButton>
+              </div>
 
               <div
                 v-if="activeExerciseId === exerciseId"
                 class="sets-table"
                 :class="{ active: activeExerciseId === exerciseId }"
               >
-                <div class="sets-table__content">
+                <div
+                  v-auto-animate="{ duration: 100 }"
+                  class="sets-table__content"
+                >
                   <ul>
                     <li class="set-header">
                       <div class="set-header__cell">
@@ -366,12 +381,6 @@ useHead({
                     </div>
                   </div>
                 </div>
-                <TheButton
-                  variant="secondary"
-                  @click="handleAddSet(exerciseId)"
-                >
-                  Добавить
-                </TheButton>
               </div>
             </li>
           </ul>
