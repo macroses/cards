@@ -87,7 +87,7 @@ onMounted(() => {
           :aria-label="isChartsDisabled ? 'Enable charts' : 'Disable charts'"
           class="aside-nav__charts-button"
           :class="[
-            { disabled: isMounted && isChartsDisabled },
+            { inactive: isMounted && isChartsDisabled },
           ]"
           @click="toggleCharts"
         >

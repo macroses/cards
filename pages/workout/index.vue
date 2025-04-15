@@ -9,7 +9,7 @@ import { WORKOUT_COLORS } from '~/constants'
 definePageMeta({
   middleware: [
     'workout-access',
-    'auth',
+    'sidebase-auth',
   ],
 })
 

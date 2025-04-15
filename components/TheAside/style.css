@@ -23,7 +23,7 @@
 }
 
 .aside-nav__charts-button {
-  &.disabled {
+  &.inactive {
     background-color: oklch(from var(--color-error) l c h / 0.1);
     color: var(--color-error);
     position: relative;

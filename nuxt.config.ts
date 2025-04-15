@@ -35,7 +35,7 @@ export default defineNuxtConfig({
 
   auth: {
     globalAppMiddleware: true,
-    baseURL: `http://localhost:${process.env.PORT || 3000}`,
+    baseURL: `http://localhost:${process.env.PORT || 3000}/api/auth`,
     provider: {
       type: 'authjs',
     },
