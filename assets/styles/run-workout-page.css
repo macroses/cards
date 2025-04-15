@@ -62,7 +62,6 @@
   }
 
   &.active {
-    background-color: var(--table-dark-bg);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -79,10 +78,27 @@
 
 .set-row {
   display: grid;
-  grid-template-columns: 60px 1fr 1fr 70px;
+  grid-template-columns: 60px 1fr 1fr 70px 36px;
   gap: 8px;
   padding: 8px;
   align-items: center;
+}
+
+.set-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 70px 36px;
+  align-items: center;
+  padding: 8px;
+  background-color: var(--table-dark-bg);
+  gap: 8px;
+}
+
+.set-header__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 12px;
 }
 
 .set-cell {
@@ -94,7 +110,7 @@
   border-radius: 12px;
   border: 1px solid transparent;
 
-  &:not(:first-child, :has(.mark-set-time), :has(.input-wrapper)) {
+  &:not(:first-child, :has(.mark-set-time), :has(.input-wrapper), :last-child) {
     border: 1px solid var(--color-border);
   }
 }

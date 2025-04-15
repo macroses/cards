@@ -202,6 +202,39 @@ useHead({
                 :class="{ active: activeExerciseId === exerciseId }"
               >
                 <div class="sets-table__content">
+                  <ul>
+                    <li class="set-header">
+                      <div class="set-header__cell">
+                        <TheIcon
+                          icon-name="chart-simple"
+                          width="12px"
+                        />
+                        Level
+                      </div>
+                      <div class="set-header__cell">
+                        <TheIcon
+                          icon-name="weight-hanging"
+                          width="12px"
+                        />
+                        Weight
+                      </div>
+                      <div class="set-header__cell">
+                        <TheIcon
+                          icon-name="repeat"
+                          width="12px"
+                        />
+                        Repeats
+                      </div>
+                      <div class="set-header__cell">
+                        <TheIcon
+                          icon-name="clock"
+                          width="12px"
+                        />
+                        Time
+                      </div>
+                      <div class="set-header__cell" />
+                    </li>
+                  </ul>
                   <div
                     v-for="set in exercise.sets"
                     :key="set.id"
@@ -297,6 +330,17 @@ useHead({
                       >
                         <TheIcon
                           icon-name="clock"
+                          width="18px"
+                        />
+                      </TheButton>
+                    </div>
+                    <div class="set-cell">
+                      <TheButton
+                        variant="transparent"
+                        icon-only
+                      >
+                        <TheIcon
+                          icon-name="trash-can"
                           width="18px"
                         />
                       </TheButton>
