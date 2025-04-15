@@ -41,6 +41,10 @@
     "set": "Set",
     "select_date_to_copy": "Select date to copy"
   },
+  
+  "prediction": {
+    "info": "Estimated finish in {time}"
+  },
 
   "toast": {
     "enter_workout_name": "Enter workout name",

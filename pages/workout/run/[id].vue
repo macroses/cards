@@ -136,7 +136,7 @@ function checkSetsHaveTime(): boolean {
     return false
   }
 
-  return workout.value.sets.some(set => typeof set.setTime === 'number' && set.setTime > 0)
+  return workout.value.sets.some(set => (set.setTime ?? 0) > 0)
 }
 
 useHead({
@@ -167,6 +167,7 @@ useHead({
 
           <TheButton
             variant="success"
+            inert
             class="workout-description__odometer"
           >
             <OdometerTimer :time="timer" />
@@ -314,7 +315,9 @@ useHead({
           </TheButton>
         </div>
       </form>
-      <div class="run-template__charts" />
+      <div class="run-template__charts">
+        <WorkoutTimePredictor :workout />
+      </div>
     </div>
 
     <div
