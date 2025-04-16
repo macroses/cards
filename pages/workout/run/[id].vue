@@ -18,8 +18,9 @@ const { addSet, deleteSet } = useManageSets()
 // 👀 UI components and states
 const MyMotion = motion.div
 const isDescriptionVisible = shallowRef(true)
+const shakeCounter = shallowRef(0)
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
-const shake = ref(false)
+const valueChanged = ref<string | null>(null)
 
 // 🏋 Main workout states
 const activeExerciseId = ref<string | null>(null)
@@ -51,6 +52,8 @@ async function updateSetFieldValue(setId: string, field: UnionSetFields, value: 
   if (!workout.value || !value) {
     return false
   }
+
+  valueChanged.value = `${setId}-${field}`
 
   return await updateSetField(
     workout.value,
@@ -120,15 +123,6 @@ async function handleSetTimeUpdate(setId: string) {
   await updateSetTime(workout.value, setId)
 }
 
-// Animations UI
-function triggerShake() {
-  shake.value = true
-
-  setTimeout(() => {
-    shake.value = false
-  }, 200)
-}
-
 // Manage sets
 async function handleDeleteSet(setId: string) {
   if (!workout.value) {
@@ -136,7 +130,7 @@ async function handleDeleteSet(setId: string) {
   }
 
   await deleteSet(workout.value, setId)
-  triggerShake()
+  shakeCounter.value++
 }
 
 async function handleAddSet(exerciseId: string) {
@@ -145,7 +139,7 @@ async function handleAddSet(exerciseId: string) {
   }
 
   await addSet(workout.value, exerciseId)
-  triggerShake()
+  shakeCounter.value++
 }
 
 // Finish workout
@@ -214,11 +208,16 @@ useHead({
         </div>
 
         <MyMotion
+          :key="shakeCounter"
           class="workout-content__exercises"
-          :animate="shake ? {
-            rotate: [0, 0.5, 0, -0.5, 0],
+          :animate="shakeCounter ? {
+            rotate: ['0deg', '0.5deg', '0deg', '-0.5deg', '0deg'],
           } : {}"
-          :transition="{ duration: 0.3, type: 'tween' }"
+          :transition="{
+            duration: 0.2,
+            type: 'tween',
+            repeat: 0,
+          }"
         >
           <ul
             v-for="(exercise, exerciseId) in exerciseSets"
