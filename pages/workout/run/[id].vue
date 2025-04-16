@@ -15,15 +15,38 @@ const { finishWorkout, isLoading: isFinishing, resetNoTimeWorkout } = useFinishW
 const { getExerciseSets } = useExerciseSets()
 const { addSet, deleteSet } = useManageSets()
 
-const editingSetId = ref<string | null>(null)
-const editingValue = ref<number | string>(0)
-const editingField = ref<UnionSetFields | null>(null)
-const activeExerciseId = ref<string | null>(null)
-
+// 👀 UI components and states
 const MyMotion = motion.div
 const isDescriptionVisible = shallowRef(true)
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
+const shake = ref(false)
 
+// 🏋 Main workout states
+const activeExerciseId = ref<string | null>(null)
+const exerciseSets = computed(() => getExerciseSets(workout.value))
+
+// Initialize active exercise
+watch(() => workout.value, (newWorkout) => {
+  if (newWorkout && !activeExerciseId.value) {
+    const firstExerciseId = Object.keys(exerciseSets.value)[0]
+    activeExerciseId.value = firstExerciseId
+  }
+}, { immediate: true })
+
+// Editing set states
+const editingSetId = ref<string | null>(null)
+const editingValue = ref<number | string>(0)
+const editingField = ref<UnionSetFields | null>(null)
+
+function toggleExercise(exerciseId: string) {
+  if (editingSetId.value || editingField.value) {
+    return
+  }
+
+  activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
+}
+
+// Editing sets functions
 async function updateSetFieldValue(setId: string, field: UnionSetFields, value: number | string) {
   if (!workout.value || !value) {
     return false
@@ -37,22 +60,12 @@ async function updateSetFieldValue(setId: string, field: UnionSetFields, value: 
   )
 }
 
-const exerciseSets = computed(() => getExerciseSets(workout.value))
-
-watch(() => workout.value, (newWorkout) => {
-  if (newWorkout && !activeExerciseId.value) {
-    const firstExerciseId = Object.keys(exerciseSets.value)[0]
-    activeExerciseId.value = firstExerciseId
-  }
-}, { immediate: true })
-
 function startEditing(set: any, field: UnionSetFields) {
   editingSetId.value = set.id
   editingField.value = field
 
   if (field !== 'setTime') {
     editingValue.value = set[field]
-
     return
   }
 
@@ -98,6 +111,7 @@ function handleDifficultyChange(setId: string, value: number | undefined) {
   updateSetFieldValue(setId, 'difficulty', value)
 }
 
+// Editing set time
 async function handleSetTimeUpdate(setId: string) {
   if (!workout.value) {
     return
@@ -106,29 +120,41 @@ async function handleSetTimeUpdate(setId: string) {
   await updateSetTime(workout.value, setId)
 }
 
-const shake = ref(false)
-
+// Animations UI
 function triggerShake() {
   shake.value = true
+
   setTimeout(() => {
     shake.value = false
   }, 200)
 }
 
+// Manage sets
 async function handleDeleteSet(setId: string) {
-  if (!workout.value)
+  if (!workout.value) {
     return
+  }
 
   await deleteSet(workout.value, setId)
   triggerShake()
 }
 
 async function handleAddSet(exerciseId: string) {
-  if (!workout.value)
+  if (!workout.value) {
     return
+  }
 
   await addSet(workout.value, exerciseId)
   triggerShake()
+}
+
+// Finish workout
+function checkSetsHaveTime(): boolean {
+  if (!workout.value) {
+    return false
+  }
+
+  return workout.value.sets.some(set => (set.setTime ?? 0) > 0)
 }
 
 async function handleSaveWorkout() {
@@ -138,32 +164,15 @@ async function handleSaveWorkout() {
 
   if (!checkSetsHaveTime()) {
     noTimeModal.value?.openModal()
-
     return
   }
 
   await finishWorkout(workout.value.id)
 }
 
-function toggleExercise(exerciseId: string) {
-  if (editingSetId.value || editingField.value) {
-    return
-  }
-
-  activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
-}
-
 async function handleResetNoTimeWorkout() {
   noTimeModal.value?.closeModal()
   await resetNoTimeWorkout(workout.value?.id)
-}
-
-function checkSetsHaveTime(): boolean {
-  if (!workout.value) {
-    return false
-  }
-
-  return workout.value.sets.some(set => (set.setTime ?? 0) > 0)
 }
 
 useHead({
