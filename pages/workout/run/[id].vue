@@ -3,6 +3,7 @@ import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
+import { motion } from 'motion-v'
 import NoTimeMarkedReset from '~/components/NoTimeMarkedReset/NoTimeMarkedReset.vue'
 import { WORKOUT_DIFFICULTY } from '~/constants/workout'
 
@@ -19,8 +20,8 @@ const editingValue = ref<number | string>(0)
 const editingField = ref<UnionSetFields | null>(null)
 const activeExerciseId = ref<string | null>(null)
 
+const MyMotion = motion.div
 const isDescriptionVisible = shallowRef(true)
-
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
 
 async function updateSetFieldValue(setId: string, field: UnionSetFields, value: number | string) {
@@ -105,20 +106,29 @@ async function handleSetTimeUpdate(setId: string) {
   await updateSetTime(workout.value, setId)
 }
 
+const shake = ref(false)
+
+function triggerShake() {
+  shake.value = true
+  setTimeout(() => {
+    shake.value = false
+  }, 200)
+}
+
 async function handleDeleteSet(setId: string) {
-  if (!workout.value) {
+  if (!workout.value)
     return
-  }
 
   await deleteSet(workout.value, setId)
+  triggerShake()
 }
 
 async function handleAddSet(exerciseId: string) {
-  if (!workout.value) {
+  if (!workout.value)
     return
-  }
 
   await addSet(workout.value, exerciseId)
+  triggerShake()
 }
 
 async function handleSaveWorkout() {
@@ -172,7 +182,10 @@ useHead({
       v-else-if="workout && !isLoading"
       class="run-template__wrap"
     >
-      <form class="workout-content">
+      <form
+        class="workout-content"
+        @submit.prevent
+      >
         <div
           class="workout-description"
           :class="{ hidden: !isDescriptionVisible }"
@@ -191,7 +204,13 @@ useHead({
           </TheButton>
         </div>
 
-        <div class="workout-content__exercises">
+        <MyMotion
+          class="workout-content__exercises"
+          :animate="shake ? {
+            rotate: [0, 0.5, 0, -0.5, 0],
+          } : {}"
+          :transition="{ duration: 0.3, type: 'tween' }"
+        >
           <ul
             v-for="(exercise, exerciseId) in exerciseSets"
             :key="exerciseId"
@@ -212,6 +231,7 @@ useHead({
                 />
                 {{ exercise.name }}
                 <TheButton
+                  v-if="activeExerciseId === exerciseId"
                   v-tooltip="'Добавить подход'"
                   variant="transparent"
                   type="button"
@@ -391,11 +411,9 @@ useHead({
           >
             Сохранить
           </TheButton>
-        </div>
+        </MyMotion>
       </form>
-      <div class="run-template__charts">
-        <WorkoutTimePredictor :workout />
-      </div>
+      <div class="run-template__charts" />
     </div>
 
     <div
@@ -411,22 +429,3 @@ useHead({
     />
   </div>
 </template>
-
-<style scoped>
-.add-set-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.add-set-button:hover {
-  background-color: #e0e0e0;
-}
-</style>
