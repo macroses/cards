@@ -73,3 +73,9 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.available-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
