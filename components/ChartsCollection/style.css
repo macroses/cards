@@ -1,39 +1,27 @@
 .charts-collection {
-  border-radius: 20px;
-  background: white;
-  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
-  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   overflow: hidden;
   position: relative;
-  transition: all 0.2s ease;
 }
-
 
 .charts-collection__tabs {
   display: flex;
   overflow-x: auto;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 0 16px;
 }
 
 .charts-collection__tab {
-  padding: 12px 16px;
   cursor: pointer;
   white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 2px solid transparent;
+  font-size: 14px;
   transition: all 0.2s ease;
   user-select: none;
 }
 
 .charts-collection__tab--active {
-  border-bottom: 2px solid var(--color-accent);
-  font-weight: 500;
-}
 
+}
 
 .tab-close-icon {
   opacity: 0.5;

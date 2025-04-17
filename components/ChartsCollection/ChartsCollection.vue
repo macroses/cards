@@ -23,24 +23,24 @@ function updateCollectedCharts() {
 watch(() => props.collectedChartIds, updateCollectedCharts, { immediate: true, deep: true })
 watch(() => props.charts, updateCollectedCharts, { immediate: true, deep: true })
 
-function removeChart(index: number) {
+async function removeChart(index: number) {
   if (index === 0) {
     return
   }
 
   const chartId = collectedCharts.value[index].id
 
-  collectedCharts.value.splice(index, 1)
-
-  if (activeTabIndex.value >= collectedCharts.value.length) {
-    activeTabIndex.value = collectedCharts.value.length - 1
+  if (!document.startViewTransition) {
+    emit('chartRemoved', chartId)
+    return
   }
 
-  if (activeTabIndex.value < 0) {
-    activeTabIndex.value = 0
-  }
+  const transition = document.startViewTransition(async () => {
+    await nextTick()
+    emit('chartRemoved', chartId)
+  })
 
-  emit('chartRemoved', chartId)
+  await transition.finished
 }
 
 function selectTab(index: number): void {
@@ -59,9 +59,8 @@ function handleExerciseSelect(exerciseId: string): void {
         v-for="(chart, index) in collectedCharts"
         :key="index"
         class="charts-collection__tab"
-        :class="{
-          'charts-collection__tab--active': activeTabIndex === index,
-        }"
+        :class="{ 'charts-collection__tab--active': activeTabIndex === index }"
+        :style="{ '--chart-transition-name': `chart-${chart.id}` }"
         @click="selectTab(index)"
       >
         {{ $t(chart.title) }}

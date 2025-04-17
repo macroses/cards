@@ -38,17 +38,31 @@ const availableCharts = computed(() => {
   return charts.value.filter((_, index) => !collectedChartIds.value.includes(index))
 })
 
-function addChart(chartId: number) {
-  if (!collectedChartIds.value.includes(chartId)) {
+async function addChart(chartId: number) {
+  if (!document.startViewTransition) {
     collectedChartIds.value.push(chartId)
+    return
   }
+
+  await document.startViewTransition(async () => {
+    collectedChartIds.value.push(chartId)
+  }).finished
 }
 
-function onChartRemoved(chartId: number) {
+async function onChartRemoved(chartId: number) {
   const index = collectedChartIds.value.indexOf(chartId)
 
   if (index > 0) {
-    collectedChartIds.value.splice(index, 1)
+    if (!document.startViewTransition) {
+      collectedChartIds.value.splice(index, 1)
+      return
+    }
+
+    const transition = document.startViewTransition(async () => {
+      collectedChartIds.value.splice(index, 1)
+    })
+
+    await transition.finished
   }
 }
 </script>
@@ -65,11 +79,17 @@ function onChartRemoved(chartId: number) {
       @chart-removed="onChartRemoved"
     />
 
-    <div v-if="availableCharts.length > 0" class="available-charts">
+    <div
+      v-if="availableCharts.length > 0"
+      class="available-charts"
+    >
       <div
         v-for="(chart, index) in availableCharts"
         :key="index"
-        class="chart-container clickable"
+        class="chart-container available clickable"
+        :style="{
+          '--chart-transition-name': `chart-${charts.indexOf(chart)}`,
+        }"
         @click="addChart(charts.indexOf(chart))"
       >
         <h3 class="chart-container__title">

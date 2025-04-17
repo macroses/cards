@@ -1,6 +1,11 @@
 .dashboard__charts {
   flex: 1;
   min-width: 0;
+
+  /*::view-transition-group(*) {*/
+  /*  animation-duration: 300ms;*/
+  /*  animation-timing-function: var(--back-out);*/
+  /*}*/
 }
 
 .dashboard-charts {
@@ -14,6 +19,17 @@
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   overflow: hidden;
+  view-transition-name: none;
+}
+
+.chart-container.available {
+  --chart-transition-name: 0;
+  view-transition-name: var(--chart-transition-name);
+}
+
+.charts-collection__tab {
+  --chart-transition-name: 0;
+  view-transition-name: var(--chart-transition-name);
 }
 
 .chart-container__title {
@@ -52,26 +68,9 @@
   }
 }
 
-.exercise-button {
-  padding: 0.5rem;
-  border-radius: 4px;
-  background: none;
-  cursor: pointer;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-}
-
-.exercise-button.active {
-  color: blueviolet;
-}
-
 .dashboard-charts__list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .available-charts {
