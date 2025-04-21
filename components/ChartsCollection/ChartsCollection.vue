@@ -30,17 +30,21 @@ async function removeChart(index: number) {
 
   const chartId = collectedCharts.value[index].id
 
+  if (activeTabIndex.value === index) {
+    activeTabIndex.value = 0
+  }
+
+  else if (activeTabIndex.value > index) {
+    activeTabIndex.value -= 1
+  }
+
+  emit('chartRemoved', chartId)
+
   if (!document.startViewTransition) {
-    emit('chartRemoved', chartId)
     return
   }
 
-  const transition = document.startViewTransition(async () => {
-    await nextTick()
-    emit('chartRemoved', chartId)
-  })
-
-  await transition.finished
+  return document.startViewTransition().finished
 }
 
 function selectTab(index: number): void {
