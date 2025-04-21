@@ -1,11 +1,6 @@
 .dashboard__charts {
   flex: 1;
   min-width: 0;
-
-  /*::view-transition-group(*) {*/
-  /*  animation-duration: 300ms;*/
-  /*  animation-timing-function: var(--back-out);*/
-  /*}*/
 }
 
 .dashboard-charts {
@@ -71,6 +66,7 @@
 .dashboard-charts__list {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
 .available-charts {
