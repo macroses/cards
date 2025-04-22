@@ -48,6 +48,9 @@ p {
   color: var(--color-text);
 }
 
+::view-transition-group(*) {
+  animation-duration: 0.4s;
+}
 /*::-webkit-inner-spin-button,*/
 /*::-webkit-outer-spin-button {*/
 /*  -webkit-appearance: none;*/

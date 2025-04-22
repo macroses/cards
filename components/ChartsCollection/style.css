@@ -4,6 +4,8 @@
 
   background-color: var(--color-white);
   border-radius: 20px;
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
 }
 
 .charts-collection__content {
@@ -15,10 +17,19 @@
 
 .charts-collection__tabs {
   display: flex;
-  gap: 4px;
+  gap: 8px;
   overflow-x: auto;
   margin-bottom: -1px;
   padding: 20px 0 0 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.charts-collection__tabs--active {
+  &.charts-collection__tab {
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
 
 .charts-collection__tab {
@@ -28,7 +39,8 @@
   align-items: center;
   gap: 8px;
   padding: 4px 8px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
   transition: all 0.2s ease;
   user-select: none;
 
@@ -54,15 +66,6 @@
 .exercise-chart-container {
   display: flex;
   gap: 8px;
-}
-
-.exercise-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 150px;
-  max-width: 150px;
-  margin-top: 12px;
 }
 
 .add-chart-button {
@@ -125,11 +128,11 @@
 }
 
 /* Chart-specific view transitions */
-::view-transition-group(chart-\d+) {
+::view-transition-group(root) {
   animation-duration: 2s;
 }
 
-::view-transition-group(available-charts) {
-  animation-duration: 3s;
-  animation-timing-function: var(--back-out);
-}
+/*::view-transition-group(available-charts) {*/
+/*  animation-duration: 3s;*/
+/*  animation-timing-function: var(--back-out);*/
+/*}*/

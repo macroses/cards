@@ -63,7 +63,10 @@ function handleExerciseSelect(exerciseId: string): void {
         v-for="(chart, index) in collectedCharts"
         :key="index"
         class="charts-collection__tab"
-        :class="{ active: activeTabIndex !== index }"
+        :class="{
+          'button--secondary': activeTabIndex !== index,
+          'button charts-collection__tabs--active': collectedCharts.length > 1,
+        }"
         :style="{ '--chart-transition-name': `chart-${chart.id}` }"
         @click="selectTab(index)"
       >
