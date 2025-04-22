@@ -117,6 +117,13 @@ export function useGlobalCharts(): GlobalChartsReturn {
 
   function updateVolumeChart(data: ChartData[]) {
     volumeChartOption.value = {
+      grid: {
+        top: 40, // отступ сверху
+        right: 20, // отступ справа
+        bottom: 10, // отступ снизу
+        left: 30, // отступ слева
+        containLabel: true, // включает пространство для подписей осей
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'cross' },
@@ -129,11 +136,21 @@ export function useGlobalCharts(): GlobalChartsReturn {
       yAxis: [
         {
           ...getAxisConfig(t('dashboard.volume')),
+          nameTextStyle: {
+            padding: [0, 0, 0, 40],
+            fontWeight: 600,
+            color: 'var(--color-text)',
+          },
           position: 'left',
           splitLine: { show: true },
         },
         {
           ...getAxisConfig(t('dashboard.intensity')),
+          nameTextStyle: {
+            padding: [0, 0, 0, 30],
+            fontWeight: 600,
+            color: 'var(--color-text)',
+          },
           position: 'right',
           splitLine: { show: false },
         },
@@ -161,12 +178,20 @@ export function useGlobalCharts(): GlobalChartsReturn {
 
   function updateExerciseChart(data: ExerciseData[]) {
     exerciseChartOption.value = {
+      grid: {
+        right: 30,
+        left: 0,
+        containLabel: true,
+      },
       tooltip: { trigger: 'axis' },
       legend: {
         data: [
-          t('dashboard.maxWeight'),
-          t('dashboard.avgWeight'),
-          t('dashboard.setsCount'),
+          {
+            name: t('dashboard.maxWeight'),
+            icon: 'circle',
+          },
+          { name: t('dashboard.avgWeight'), icon: 'circle' },
+          { name: t('dashboard.setsCount'), icon: 'circle' },
         ],
       },
       xAxis: {
@@ -216,6 +241,12 @@ export function useGlobalCharts(): GlobalChartsReturn {
 
   function updateDurationChart(data: DurationData[]) {
     durationChartOption.value = {
+      grid: {
+        bottom: 60,
+        right: 30,
+        left: 30,
+        containLabel: true, // включает пространство для подписей осей
+      },
       tooltip: { trigger: 'axis' },
       legend: {
         data: [t('dashboard.duration'), t('dashboard.avgSetTime')],
@@ -227,6 +258,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
       },
       yAxis: {
         ...getAxisConfig(t('dashboard.time')),
+        nameTextStyle: {
+          padding: [0, 0, 0, 0],
+          fontWeight: 600,
+          color: 'var(--color-text)',
+        },
         splitLine: { show: true },
       },
       series: [
