@@ -90,17 +90,25 @@ async function onChartRemoved(chartId: number) {
         :style="{
           '--chart-transition-name': `chart-${charts.indexOf(chart)}`,
         }"
-        @click="addChart(charts.indexOf(chart))"
       >
-        <h3 class="chart-container__title">
-          {{ $t(chart.title) }}
-          <span class="add-icon">
+        <div class="chart-container__header">
+          <h3 class="chart-container__title">
+            {{ $t(chart.title) }}
+          </h3>
+
+          <TheButton
+            v-tooltip="{ content: 'Add to collection', position: 'left' }"
+            variant="secondary"
+            icon-only
+            @click.stop="addChart(charts.indexOf(chart))"
+          >
             <TheIcon
-              icon-name="plus"
-              width="14px"
+              icon-name="merge"
+              width="18px"
+              class="add-chart__icon"
             />
-          </span>
-        </h3>
+          </TheButton>
+        </div>
 
         <template v-if="chart.type === 'exercise'">
           <div class="exercise-chart-container">

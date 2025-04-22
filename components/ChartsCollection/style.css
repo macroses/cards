@@ -1,18 +1,24 @@
 .charts-collection {
   overflow: hidden;
   position: relative;
+
+  background-color: var(--color-white);
+  border-radius: 20px;
 }
 
 .charts-collection__content {
   & .chart-container {
-    border-top-left-radius: 0;
+    border: 0;
+    border-radius: 0;
   }
 }
 
 .charts-collection__tabs {
   display: flex;
+  gap: 4px;
   overflow-x: auto;
   margin-bottom: -1px;
+  padding: 20px 0 0 20px;
 }
 
 .charts-collection__tab {
@@ -25,20 +31,10 @@
   font-size: 14px;
   transition: all 0.2s ease;
   user-select: none;
-  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
-  border-bottom: 0;
 
-  &:first-child {
-    border-top-left-radius: 8px;
+  &.button:hover {
+    transform: none;
   }
-
-  &:last-child {
-    border-top-right-radius: 8px;
-  }
-}
-
-.charts-collection__tab--active {
-  background: white;
 }
 
 .tab-close-icon {

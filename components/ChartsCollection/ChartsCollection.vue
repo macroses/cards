@@ -63,7 +63,7 @@ function handleExerciseSelect(exerciseId: string): void {
         v-for="(chart, index) in collectedCharts"
         :key="index"
         class="charts-collection__tab"
-        :class="{ 'charts-collection__tab--active': activeTabIndex === index }"
+        :class="{ active: activeTabIndex !== index }"
         :style="{ '--chart-transition-name': `chart-${chart.id}` }"
         @click="selectTab(index)"
       >
@@ -71,7 +71,7 @@ function handleExerciseSelect(exerciseId: string): void {
         <TheIcon
           v-if="index !== 0"
           icon-name="xmark"
-          width="12px"
+          width="18px"
           class="tab-close-icon"
           @click.stop="removeChart(index)"
         />

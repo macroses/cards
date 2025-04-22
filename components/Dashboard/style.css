@@ -27,11 +27,21 @@
   view-transition-name: var(--chart-transition-name);
 }
 
+.chart-container__header {
+  display: flex;
+  padding: 12px 16px 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .chart-container__title {
-  padding: 16px 16px 0;
   font-size: 16px;
   margin-bottom: 0;
   font-weight: 500;
+}
+
+.add-chart__icon {
+  transform: rotate(-90deg);
 }
 
 .chart {
