@@ -120,7 +120,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
       grid: {
         top: 40, // отступ сверху
         right: 20, // отступ справа
-        bottom: 10, // отступ снизу
+        bottom: 20, // отступ снизу
         left: 30, // отступ слева
         containLabel: true, // включает пространство для подписей осей
       },
@@ -181,6 +181,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
       grid: {
         right: 30,
         left: 0,
+        bottom: 20,
         containLabel: true,
       },
       tooltip: { trigger: 'axis' },
@@ -242,7 +243,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
   function updateDurationChart(data: DurationData[]) {
     durationChartOption.value = {
       grid: {
-        bottom: 60,
+        bottom: 20,
         right: 30,
         left: 30,
         containLabel: true, // включает пространство для подписей осей
@@ -250,6 +251,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
       tooltip: { trigger: 'axis' },
       legend: {
         data: [t('dashboard.duration'), t('dashboard.avgSetTime')],
+        padding: [20, 0, 0, 0],
       },
       xAxis: {
         type: 'category',

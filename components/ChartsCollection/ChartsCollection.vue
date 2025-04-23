@@ -10,6 +10,7 @@ const emit = defineEmits<{
 
 const collectedCharts = ref<CollectedChart[]>([])
 const activeTabIndex = ref<number>(0)
+const transitionName = ref<'slideChart' | 'slideChartRight'>('slideChartRight')
 
 function updateCollectedCharts() {
   collectedCharts.value = props.collectedChartIds
@@ -31,10 +32,12 @@ async function removeChart(index: number) {
   const chartId = collectedCharts.value[index].id
 
   if (activeTabIndex.value === index) {
+    // When removing the active tab, transition to the first tab
+    transitionName.value = 'slideChart'
     activeTabIndex.value = 0
   }
-
   else if (activeTabIndex.value > index) {
+    // When removing a tab before the active tab, adjust index but don't animate
     activeTabIndex.value -= 1
   }
 
@@ -48,6 +51,8 @@ async function removeChart(index: number) {
 }
 
 function selectTab(index: number): void {
+  // Set transition direction based on index change
+  transitionName.value = index > activeTabIndex.value ? 'slideChartRight' : 'slideChart'
   activeTabIndex.value = index
 }
 
@@ -58,14 +63,17 @@ function handleExerciseSelect(exerciseId: string): void {
 
 <template>
   <div class="charts-collection" @click.stop>
-    <div class="charts-collection__tabs">
+    <div
+      class="charts-collection__tabs"
+      :class="{ 'charts-collection__tabs--active': collectedCharts.length > 1 }"
+    >
       <div
         v-for="(chart, index) in collectedCharts"
         :key="index"
         class="charts-collection__tab"
         :class="{
           'button--secondary': activeTabIndex !== index,
-          'button charts-collection__tabs--active': collectedCharts.length > 1,
+          'button': collectedCharts.length > 1,
         }"
         :style="{ '--chart-transition-name': `chart-${chart.id}` }"
         @click="selectTab(index)"
@@ -82,8 +90,15 @@ function handleExerciseSelect(exerciseId: string): void {
     </div>
 
     <div class="charts-collection__content">
-      <template v-if="activeTabIndex < collectedCharts.length">
-        <div class="chart-container">
+      <Transition
+        mode="out-in"
+        :name="transitionName"
+      >
+        <div
+          v-if="activeTabIndex < collectedCharts.length"
+          :key="activeTabIndex"
+          class="chart-container"
+        >
           <template v-if="collectedCharts[activeTabIndex].type === 'exercise'">
             <div class="exercise-chart-container">
               <div class="exercise-list">
@@ -118,7 +133,7 @@ function handleExerciseSelect(exerciseId: string): void {
             <p>Данные графика недоступны</p>
           </div>
         </div>
-      </template>
+      </Transition>
     </div>
   </div>
 </template>

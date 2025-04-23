@@ -19,16 +19,20 @@
   display: flex;
   gap: 8px;
   overflow-x: auto;
+  scrollbar-width: none;
   margin-bottom: -1px;
-  padding: 20px 0 0 12px;
+  padding: 16px 20px 0 12px;
   font-size: 16px;
   font-weight: 500;
 }
 
 .charts-collection__tabs--active {
-  &.charts-collection__tab {
+  padding-left: 16px;
+
+  & .charts-collection__tab {
     font-size: 14px;
     font-weight: 400;
+    min-width: fit-content;
   }
 }
 
@@ -41,7 +45,7 @@
   padding: 4px 8px;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--base-transition);
   user-select: none;
 
   &.button:hover {
@@ -51,7 +55,8 @@
 
 .tab-close-icon {
   opacity: 0.5;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--base-transition);
+  min-width: 18px;
 }
 
 .tab-close-icon:hover {
@@ -127,12 +132,39 @@
   color: #666;
 }
 
-/* Chart-specific view transitions */
-::view-transition-group(root) {
-  animation-duration: 2s;
+/* Chart slide transitions */
+.slideChart-enter-active,
+.slideChart-leave-active {
+  transition:
+    opacity var(--base-transition),
+    transform var(--base-transition);
 }
 
-/*::view-transition-group(available-charts) {*/
-/*  animation-duration: 3s;*/
-/*  animation-timing-function: var(--back-out);*/
-/*}*/
+.slideChart-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.slideChart-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+  overflow: hidden;
+}
+
+.slideChartRight-enter-active,
+.slideChartRight-leave-active {
+  transition:
+    opacity var(--base-transition),
+    transform var(--base-transition);
+}
+
+.slideChartRight-enter-from {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.slideChartRight-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+  overflow: hidden;
+}
