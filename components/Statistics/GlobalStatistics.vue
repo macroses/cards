@@ -28,7 +28,7 @@ defineProps<{
           {{ $t('statistics.max_tonnage') }}
         </div>
         <div class="statistic-item__value">
-          {{ statistics.maxTonnage }}
+          {{ statistics.maxTonnage }} т
         </div>
       </li>
       <li class="statistic-item">
@@ -43,7 +43,7 @@ defineProps<{
           {{ $t('statistics.total_tonnage') }}
         </div>
         <div class="statistic-item__value">
-          {{ statistics.totalTonnage }}
+          {{ statistics.totalTonnage }} т
         </div>
       </li>
       <li class="statistic-item">
@@ -58,7 +58,7 @@ defineProps<{
           {{ $t('statistics.avg_duration') }}
         </div>
         <div class="statistic-item__value">
-          {{ statistics.avgWorkoutDuration }}
+          {{ statistics.avgWorkoutDuration }} мин
         </div>
       </li>
       <li class="statistic-item">
@@ -73,7 +73,7 @@ defineProps<{
           {{ $t('statistics.avg_set_time') }}
         </div>
         <div class="statistic-item__value">
-          {{ statistics.avgSetTime }}
+          {{ statistics.avgSetTime }} сек
         </div>
       </li>
       <li class="statistic-item">

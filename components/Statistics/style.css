@@ -28,6 +28,11 @@
   gap: 8px;
 }
 
+.statistic-item__value {
+  font-weight: 500;
+  font-size: 14px;
+}
+
 .statistic-item__label-icon {
   position: relative;
 

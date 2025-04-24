@@ -32,12 +32,10 @@ async function removeChart(index: number) {
   const chartId = collectedCharts.value[index].id
 
   if (activeTabIndex.value === index) {
-    // When removing the active tab, transition to the first tab
     transitionName.value = 'slideChart'
     activeTabIndex.value = 0
   }
   else if (activeTabIndex.value > index) {
-    // When removing a tab before the active tab, adjust index but don't animate
     activeTabIndex.value -= 1
   }
 
@@ -51,7 +49,6 @@ async function removeChart(index: number) {
 }
 
 function selectTab(index: number): void {
-  // Set transition direction based on index change
   transitionName.value = index > activeTabIndex.value ? 'slideChartRight' : 'slideChart'
   activeTabIndex.value = index
 }
