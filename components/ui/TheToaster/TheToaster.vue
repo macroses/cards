@@ -111,17 +111,17 @@ onUnmounted(() => {
           <TheIcon
             v-if="toast.type === 'info'"
             icon-name="lightbulb"
-            width="20px"
+            width="20"
           />
           <TheIcon
             v-else-if="toast.type === 'success'"
             icon-name="badge-check"
-            width="20px"
+            width="20"
           />
           <TheIcon
             v-else
             icon-name="triangle-exclamation"
-            width="20px"
+            width="20"
           />
           <p class="toast-message">
             {{ toast.message }}
@@ -141,7 +141,7 @@ onUnmounted(() => {
         >
           <TheIcon
             icon-name="xmark"
-            width="12px"
+            width="12"
             class="close-icon"
           />
           <svg class="progress-ring" viewBox="0 0 36 36">

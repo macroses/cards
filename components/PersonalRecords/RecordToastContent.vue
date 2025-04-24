@@ -36,7 +36,7 @@ const groupedRecords = computed<GroupedRecord[]>(() =>
       <h3>
         <TheIcon
           icon-name="trophy-star"
-          width="20px"
+          width="20"
         />
         Новые личные рекорды!
       </h3>
@@ -67,7 +67,7 @@ const groupedRecords = computed<GroupedRecord[]>(() =>
               <span class="record-value__current">
                 <TheIcon
                   icon-name="fire"
-                  width="18px"
+                  width="18"
                   class="record-value__icon"
                 />
                 {{ record.value }}

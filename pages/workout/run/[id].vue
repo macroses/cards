@@ -235,7 +235,7 @@ useHead({
               >
                 <TheIcon
                   icon-name="angle-down"
-                  width="14px"
+                  width="14"
                 />
                 {{ exercise.name }}
                 <TheButton
@@ -248,7 +248,7 @@ useHead({
                 >
                   <TheIcon
                     icon-name="plus"
-                    width="18px"
+                    width="18"
                   />
                 </TheButton>
               </div>
@@ -267,28 +267,28 @@ useHead({
                       <div class="set-header__cell">
                         <TheIcon
                           icon-name="chart-simple"
-                          width="12px"
+                          width="12"
                         />
                         Level
                       </div>
                       <div class="set-header__cell">
                         <TheIcon
                           icon-name="weight-hanging"
-                          width="12px"
+                          width="12"
                         />
                         Weight
                       </div>
                       <div class="set-header__cell">
                         <TheIcon
                           icon-name="repeat"
-                          width="12px"
+                          width="12"
                         />
                         Repeats
                       </div>
                       <div class="set-header__cell">
                         <TheIcon
                           icon-name="clock"
-                          width="12px"
+                          width="12"
                         />
                         Time
                       </div>
@@ -390,7 +390,7 @@ useHead({
                       >
                         <TheIcon
                           icon-name="clock"
-                          width="18px"
+                          width="18"
                         />
                       </TheButton>
                     </div>
@@ -403,7 +403,7 @@ useHead({
                       >
                         <TheIcon
                           icon-name="trash-can"
-                          width="18px"
+                          width="18"
                         />
                       </TheButton>
                     </div>

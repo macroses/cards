@@ -63,7 +63,7 @@ defineExpose({
           >
             <TheIcon
               icon-name="xmark"
-              width="20px"
+              width="20"
             />
           </button>
           <div class="modal-header">

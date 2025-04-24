@@ -161,7 +161,7 @@ useHead({
         >
           <TheIcon
             icon-name="xmark"
-            width="20px"
+            width="20"
           />
         </TheButton>
       </div>

@@ -24,7 +24,7 @@ const emit = defineEmits<{
     >
       <TheIcon
         icon-name="circle-info"
-        width="20px"
+        width="20"
       />
     </TheButton>
   </li>

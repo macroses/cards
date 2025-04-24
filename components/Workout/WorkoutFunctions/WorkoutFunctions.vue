@@ -137,7 +137,7 @@ onClickOutside(dropdownRef, () => {
           >
             <TheIcon
               icon-name="sliders"
-              width="18px"
+              width="18"
             />
           </TheButton>
 
@@ -151,7 +151,7 @@ onClickOutside(dropdownRef, () => {
                 class="date-menu__dropdown-item date-menu__dropdown-item--copy"
                 @click.stop="handleCopyWorkout"
               >
-                <TheIcon icon-name="copy" width="18px" />
+                <TheIcon icon-name="copy" width="18" />
                 {{ $t('main_navigation.copy_workout') }}
               </button>
             </li>
@@ -160,7 +160,7 @@ onClickOutside(dropdownRef, () => {
                 class="date-menu__dropdown-item date-menu__dropdown-item--update"
                 @click="emit('updateWorkout')"
               >
-                <TheIcon icon-name="pen-to-square" width="18px" />
+                <TheIcon icon-name="pen-to-square" width="18" />
                 {{ $t('main_navigation.edit_workout') }}
               </button>
             </li>
@@ -169,7 +169,7 @@ onClickOutside(dropdownRef, () => {
                 class="date-menu__dropdown-item date-menu__dropdown-item--delete"
                 @click.stop="emit('deleteWorkout')"
               >
-                <TheIcon icon-name="trash-can" width="18px" />
+                <TheIcon icon-name="trash-can" width="18" />
                 {{ $t('main_navigation.delete_workout') }}
               </button>
             </li>

@@ -11,26 +11,36 @@
   margin-bottom: 16px;
 }
 
-.global-statistics__grid {
-
-}
-
 .statistic-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 16px;
-  background-color: oklch(from var(--color-accent) l c h / 0.05);
-  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  border-bottom: 1px solid oklch(from var(--color-accent) l c h / 0.1);
   padding: 12px;
-  border-radius: 12px;
   margin-bottom: 4px;
 }
 
-.statistic-item__value {
-  color: var(--color-accent);
+.statistic-item__label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.statistic-item__label {
+.statistic-item__label-icon {
+  position: relative;
 
+  span {
+    position: absolute;
+    top: 15px;
+    left: calc(50%);
+    transform: translateX(-50%);
+    display: block;
+    background-color: var(--color-accent);
+    color: #fff;
+    font-size: 8px;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
 }

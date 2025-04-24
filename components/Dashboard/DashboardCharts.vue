@@ -58,11 +58,9 @@ async function onChartRemoved(chartId: number) {
       return
     }
 
-    const transition = document.startViewTransition(async () => {
+    await document.startViewTransition(() => {
       collectedChartIds.value.splice(index, 1)
-    })
-
-    await transition.finished
+    }).finished
   }
 }
 </script>
@@ -84,8 +82,8 @@ async function onChartRemoved(chartId: number) {
       class="available-charts"
     >
       <div
-        v-for="(chart, index) in availableCharts"
-        :key="index"
+        v-for="chart in availableCharts"
+        :key="chart.title"
         class="chart-container available clickable"
         :style="{
           '--chart-transition-name': `chart-${charts.indexOf(chart)}`,
@@ -104,7 +102,7 @@ async function onChartRemoved(chartId: number) {
           >
             <TheIcon
               icon-name="merge"
-              width="18px"
+              width="18"
               class="add-chart__icon"
             />
           </TheButton>

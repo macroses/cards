@@ -87,7 +87,7 @@ async function confirmDelete(exerciseId: string) {
           >
             <TheIcon
               icon-name="trash-can"
-              width="18px"
+              width="18"
             />
           </TheButton>
         </div>

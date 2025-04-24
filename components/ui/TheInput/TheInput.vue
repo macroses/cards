@@ -91,7 +91,7 @@ watch(modelValue, () => validate())
     >
       <TheIcon
         icon-name="xmark"
-        width="16px"
+        width="16"
       />
     </button>
     <span v-if="error" class="input__error-message">

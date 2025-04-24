@@ -44,7 +44,7 @@ defineExpose({
       <TheIcon
         v-if="!props.noIcon"
         icon-name="angle-down"
-        width="14px"
+        width="14"
       />
       {{ modelValue }}
     </div>

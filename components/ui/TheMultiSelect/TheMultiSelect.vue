@@ -73,7 +73,7 @@ onClickOutside(multiselectDropdown, () => (isDropdownVisible.value = false))
         <span class="multiselect__placeholder-value">{{ label }}</span>
         <TheIcon
           icon-name="angle-down"
-          width="14px"
+          width="14"
         />
       </div>
       <div
@@ -86,7 +86,7 @@ onClickOutside(multiselectDropdown, () => (isDropdownVisible.value = false))
         <TheIcon
           v-if="!isSingleSelect"
           icon-name="xmark"
-          width="13px"
+          width="13"
           @click.stop="removeItem(item)"
         />
       </div>
@@ -108,7 +108,7 @@ onClickOutside(multiselectDropdown, () => (isDropdownVisible.value = false))
           <TheIcon
             v-if="isItemSelected(item)"
             icon-name="check"
-            width="15px"
+            width="15"
           />
         </li>
       </ul>

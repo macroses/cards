@@ -87,7 +87,7 @@ function isExerciseSelected(exerciseId: string) {
       >
         <TheIcon
           icon-name="angle-down"
-          width="14px"
+          width="14"
           class="muscle-item__title-icon"
         />
         <span class="muscle-name">{{ group.primary }}</span>

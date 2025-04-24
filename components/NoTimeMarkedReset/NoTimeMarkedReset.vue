@@ -22,7 +22,7 @@ defineExpose({
       <h3>
         <TheIcon
           icon-name="triangle-exclamation"
-          width="24px"
+          width="24"
           class="warning-icon"
         />
         {{ $t('workout.no_time_warning') }}

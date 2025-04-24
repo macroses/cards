@@ -67,7 +67,7 @@ function setTime(time: number | null | undefined): string {
             >
               <TheIcon
                 icon-name="angle-right"
-                width="20px"
+                width="20"
               />
             </TheButton>
           </div>

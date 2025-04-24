@@ -52,7 +52,7 @@ onClickOutside(dropdownParent, () => (isDropdownOpened.value = false))
       {{ valueModel || defaultValue }}
       <TheIcon
         icon-name="angle-down"
-        width="14px"
+        width="14"
       />
     </p>
     <div

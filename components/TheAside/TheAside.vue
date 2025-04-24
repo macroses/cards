@@ -64,7 +64,7 @@ onMounted(() => {
         >
           <TheIcon
             :icon-name="item.icon"
-            width="20px"
+            width="20"
             aria-hidden="true"
           />
         </TheButton>
@@ -93,7 +93,7 @@ onMounted(() => {
         >
           <TheIcon
             icon-name="chart-user"
-            width="20px"
+            width="20"
             aria-hidden="true"
           />
         </TheButton>
@@ -104,14 +104,14 @@ onMounted(() => {
           <option @click="changeLanguage('en')">
             <NuxtImg
               src="/icons/us.svg"
-              width="20px"
+              width="20"
               height="20px"
             />
           </option>
           <option @click="changeLanguage('ru')">
             <NuxtImg
               src="/icons/ru.svg"
-              width="20px"
+              width="20"
               height="20px"
             />
           </option>
@@ -127,7 +127,7 @@ onMounted(() => {
         >
           <TheIcon
             icon-name="right-from-bracket"
-            width="20px"
+            width="20"
           />
         </TheButton>
       </li>
@@ -146,7 +146,7 @@ onMounted(() => {
         <div class="logout-modal__content">
           <TheIcon
             icon-name="light-emergency-on"
-            width="32px"
+            width="32"
           />
           <p>Точно хотите выйти?</p>
         </div>

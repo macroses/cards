@@ -47,7 +47,7 @@ onClickOutside(containerRef, () => (isDropDownActive.value = false))
     <TheIcon
       class="dropdown-color__arrow"
       icon-name="angle-down"
-      width="11px"
+      width="11"
     />
     <ul
       v-if="isDropDownActive"

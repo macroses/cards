@@ -123,7 +123,7 @@ watch(() => props.selectedExercises, (exercises) => {
         >
           <TheIcon
             icon-name="angle-down"
-            width="14px"
+            width="14"
             class="workout__exercises__title-icon"
           />
           <span>{{ exercise.name }}</span>
@@ -140,7 +140,7 @@ watch(() => props.selectedExercises, (exercises) => {
             >
               <TheIcon
                 icon-name="clock-rotate-left"
-                width="14px"
+                width="14"
               />
             </TheButton>
             <TheButton
@@ -150,7 +150,7 @@ watch(() => props.selectedExercises, (exercises) => {
             >
               <TheIcon
                 icon-name="xmark"
-                width="14px"
+                width="14"
               />
             </TheButton>
           </div>
@@ -227,7 +227,7 @@ watch(() => props.selectedExercises, (exercises) => {
                 >
                   <TheIcon
                     icon-name="xmark"
-                    width="16px"
+                    width="16"
                   />
                 </TheButton>
               </li>

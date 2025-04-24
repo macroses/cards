@@ -103,7 +103,7 @@ function onTouchEnd(event: TouchEvent) {
       >
         <TheIcon
           icon-name="angle-left"
-          width="20px"
+          width="20"
           aria-label="previous month"
         />
       </TheButton>
@@ -114,7 +114,7 @@ function onTouchEnd(event: TouchEvent) {
       >
         <TheIcon
           icon-name="angle-right"
-          width="20px"
+          width="20"
           aria-label="previous month"
         />
       </TheButton>
@@ -127,7 +127,7 @@ function onTouchEnd(event: TouchEvent) {
       >
         <TheIcon
           icon-name="arrow-rotate-left"
-          width="18px"
+          width="18"
           aria-label="current month"
         />
       </TheButton>
