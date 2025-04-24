@@ -1,22 +1,27 @@
 .home-page__container {
   margin-top: 80px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 16px;
-  justify-content: center;
   padding-bottom: 20px;
 
   &:has(.global-statistics) {
-    justify-content: flex-start;
+    grid-template-columns: 1fr 1fr;
     margin-top: 0;
 
     @media (width <= 1023px) {
       flex-direction: column;
     }
   }
+
+  &:not(:has(.global-statistics)) {
+    place-items: center;
+  }
 }
 
 .home-page__calendar {
   max-width: 576px;
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;

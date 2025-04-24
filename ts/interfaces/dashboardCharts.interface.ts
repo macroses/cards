@@ -8,7 +8,6 @@ export interface CollectedChart {
   type: 'default' | 'exercise'
 }
 
-
 // Интерфейс для пропсов компонента ChartsCollection
 export interface ChartsCollectionProps {
   charts: Array<{
