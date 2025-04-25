@@ -77,10 +77,18 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (width <= 1023px) {
+    gap: 8px;
+  }
 }
 
 .available-charts {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (width <= 1023px) {
+    gap: 8px;
+  }
 }

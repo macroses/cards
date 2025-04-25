@@ -21,8 +21,12 @@ function updateCollectedCharts() {
     }))
 }
 
-watch(() => props.collectedChartIds, updateCollectedCharts, { immediate: true, deep: true })
-watch(() => props.charts, updateCollectedCharts, { immediate: true, deep: true })
+watch([
+  () => props.collectedChartIds,
+  () => props.charts,
+], () => {
+  updateCollectedCharts()
+}, { immediate: true, deep: true })
 
 async function removeChart(index: number) {
   if (index === 0) {
