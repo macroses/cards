@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ChartsCollectionProps, CollectedChart } from '~/ts/interfaces/dashboardCharts.interface'
+import type { ChartsCollectionProps } from '~/ts/interfaces/dashboardCharts.interface'
 
 const props = defineProps<ChartsCollectionProps>()
 
@@ -8,58 +8,14 @@ const emit = defineEmits<{
   'chartRemoved': [chartId: number]
 }>()
 
-const collectedCharts = ref<CollectedChart[]>([])
-const activeTabIndex = ref<number>(0)
-const transitionName = ref<'slideChart' | 'slideChartRight'>('slideChartRight')
-
-function updateCollectedCharts() {
-  collectedCharts.value = props.collectedChartIds
-    .filter(id => id < props.charts.length)
-    .map(id => ({
-      ...props.charts[id],
-      id,
-    }))
-}
-
-watch([
-  () => props.collectedChartIds,
-  () => props.charts,
-], () => {
-  updateCollectedCharts()
-}, { immediate: true, deep: true })
-
-async function removeChart(index: number) {
-  if (index === 0) {
-    return
-  }
-
-  const chartId = collectedCharts.value[index].id
-
-  if (activeTabIndex.value === index) {
-    transitionName.value = 'slideChart'
-    activeTabIndex.value = 0
-  }
-  else if (activeTabIndex.value > index) {
-    activeTabIndex.value -= 1
-  }
-
-  emit('chartRemoved', chartId)
-
-  if (!document.startViewTransition) {
-    return
-  }
-
-  return document.startViewTransition().finished
-}
-
-function selectTab(index: number): void {
-  transitionName.value = index > activeTabIndex.value ? 'slideChartRight' : 'slideChart'
-  activeTabIndex.value = index
-}
-
-function handleExerciseSelect(exerciseId: string): void {
-  emit('update:selectedExercise', exerciseId)
-}
+const {
+  collectedCharts,
+  activeTabIndex,
+  transitionName,
+  removeChart,
+  selectTab,
+  handleExerciseSelect,
+} = useChartsCollection(props, emit)
 </script>
 
 <template>

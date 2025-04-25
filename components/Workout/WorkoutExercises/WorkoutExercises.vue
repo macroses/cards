@@ -3,6 +3,7 @@ import type {
   UserTrainingSession,
   UserWorkoutExercise,
 } from '~/ts/interfaces'
+import { nanoid } from 'nanoid'
 import { MAX_LENGTH_NUMBER } from '~/constants'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
@@ -61,7 +62,7 @@ function appendSession(exerciseId: string) {
   }
 
   emit('addSet', {
-    id: crypto.randomUUID(),
+    id: nanoid(),
     exerciseId,
     weight: exerciseForm.weight,
     repeats: exerciseForm.repeats,

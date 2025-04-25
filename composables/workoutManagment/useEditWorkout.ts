@@ -1,5 +1,6 @@
 import type { LocationQuery } from '#vue-router'
 import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
+import { nanoid } from 'nanoid'
 import { GLOBAL_WORKOUTS } from '~/constants'
 
 /**
@@ -19,8 +20,9 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
   const { selectExercise } = useSelectExercise()
 
   const editableWorkout = computed(() => {
-    if (!workoutEditId.value?.edit)
+    if (!workoutEditId.value?.edit) {
       return null
+    }
 
     return workoutsList.value?.find((workout: CreateWorkoutResponse) => workout.id === workoutEditId.value?.edit)
   })
@@ -42,7 +44,7 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
 
     foundWorkout.sets.forEach((set) => {
       workout.sessions.push({
-        id: crypto.randomUUID(),
+        id: nanoid(),
         exerciseId: set.exerciseId,
         weight: set.weight,
         repeats: set.repeats,

@@ -1,4 +1,5 @@
 import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
+import { nanoid } from 'nanoid'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import { saveCacheData } from '~/utils/cacheRunnedWorkout'
 
@@ -22,7 +23,7 @@ export function useManageSets() {
       }
 
       const newSet: UserTrainingSession = {
-        id: crypto.randomUUID(),
+        id: nanoid(),
         exerciseId,
         weight: 0,
         repeats: 0,
