@@ -21,9 +21,13 @@
   overflow-x: auto;
   scrollbar-width: none;
   margin-bottom: -1px;
-  padding: 16px 20px 0 12px;
+  padding: 16px 16px 0 12px;
   font-size: 16px;
   font-weight: 500;
+
+  @media (width <= 768px) {
+    padding: 8px 8px 0 8px;
+  }
 }
 
 .charts-collection__tabs--active {
@@ -33,6 +37,10 @@
     font-size: 14px;
     font-weight: 400;
     min-width: fit-content;
+  }
+
+  @media (width <= 768px) {
+    padding-left: 8px;
   }
 }
 

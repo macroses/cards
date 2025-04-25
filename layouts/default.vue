@@ -42,10 +42,26 @@ onMounted(async () => {
   max-width: 1200px;
   margin: 0 auto;
   padding-inline: 16px;
+
+  @media (width <= 1023px) {
+    padding-inline: 8px;
+  }
+
+  @media (width <= 525px) {
+    margin-bottom: 50px;
+  }
 }
 
 main {
   padding-top: 16px;
   padding-left: 58px;
+
+  @media (width <= 1023px) {
+    padding-top: 8px;
+  }
+
+  @media (width <= 525px) {
+    padding-left: 0;
+  }
 }
 </style>

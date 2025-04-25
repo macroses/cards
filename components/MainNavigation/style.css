@@ -7,4 +7,9 @@
   position: absolute;
   top: 4px;
   right: 16px;
+
+  @media (width <= 768px) {
+    padding-top: 4px;
+    right: 8px;
+  }
 }

@@ -73,14 +73,13 @@
   }
 }
 
-.dashboard-charts__list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
+.dashboard-charts__list,
 .available-charts {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (width <= 1023px) {
+    gap: 8px;
+  }
 }
