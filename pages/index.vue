@@ -16,6 +16,7 @@ const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
 const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 const isCopyMode = ref(false)
 const workoutToCopy = ref<string | null>(null)
+const isLoading = ref(true)
 
 const localePath = useLocalePath()
 const { deleteWorkout } = useDeleteWorkout()
@@ -99,10 +100,33 @@ function showResultModal() {
 useHead({
   title: 'Home',
 })
+
+const { isLoading: isWorkoutsLoading } = useFetchWorkoutsByUserId()
+const { isLoading: statsStatus } = useGlobalStatistics()
+const { isLoading: chartsStatus } = useGlobalCharts()
+
+watch(
+  [workouts, isWorkoutsLoading, statsStatus, chartsStatus],
+  ([workoutsValue, isLoadingValue, statsStatusValue, chartsStatusValue]) => {
+    if (
+      workoutsValue
+      && !isLoadingValue
+      && !statsStatusValue
+      && !chartsStatusValue
+    ) {
+      isLoading.value = false
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
-  <div class="home-page__container">
+  <TheLoader v-if="isLoading" />
+  <div
+    v-else
+    class="home-page__container"
+  >
     <div class="home-page__calendar">
       <div
         v-auto-animate="{ duration: 100 }"

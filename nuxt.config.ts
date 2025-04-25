@@ -18,9 +18,9 @@ export default defineNuxtConfig({
     },
   },
 
-  // experimental: {
-  //   viewTransition: true,
-  // },
+  experimental: {
+    viewTransition: true,
+  },
 
   css: ['~/assets/styles/main.css'],
 
