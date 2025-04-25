@@ -12,21 +12,6 @@
   border-radius: 20px;
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
-
-  @media (width <= 1023px) {
-    top: 8px;
-    height: calc(100vh - 16px);
-  }
-
-  @media (width <= 525px) {
-    height: auto;
-    width: 100%;
-    flex-direction: row;
-    top: auto;
-    bottom: 4px;
-    width: calc(100% - 16px);
-    left: 8px;
-  }
 }
 
 .aside-nav__list {
@@ -35,10 +20,6 @@
   align-items: center;
   gap: 8px;
   flex: 1;
-
-  @media (width <= 525px) {
-    flex-direction: row;
-  }
 }
 
 .aside-nav__charts-button {
@@ -69,15 +50,6 @@
   align-items: center;
   width: 100%;
   gap: 8px;
-
-  @media (width <= 525px) {
-    flex-direction: row;
-    width: auto;
-  }
-
-  & select {
-    width: 36px;
-  }
 }
 
 .aside-nav__bottom-item {

@@ -10,8 +10,7 @@
     margin-top: 0;
 
     @media (width <= 1023px) {
-      gap: 8px;
-      grid-template-columns: 1fr;
+      flex-direction: column;
     }
   }
 
@@ -31,15 +30,11 @@
 
   @media (width <= 1023px) {
     max-width: 100%;
-    flex-direction: row;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
     & .global-statistics {
       height: 100%;
     }
-  }
-
-  @media (width <= 768px) {
-    flex-direction: column;
   }
 }

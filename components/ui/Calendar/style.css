@@ -4,17 +4,6 @@
   padding: 16px;
   border-radius: 20px;
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
-
-  @media (width <= 1023px) {
-    flex-grow: 1;
-  }
-}
-
-.global-statistics__wr {
-  @media (width <= 1023px) {
-    flex-grow: 1;
-    min-width: 0;
-  }
 }
 
 .calendar {
