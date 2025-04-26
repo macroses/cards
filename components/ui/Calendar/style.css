@@ -15,9 +15,11 @@
 }
 
 .global-statistics__wr {
+  grid-area: statistics;
+  grid-row: 2 / 4;
+
   @media (width <= 1023px) {
-    flex-grow: 1;
-    min-width: 0;
+    grid-row: auto;
   }
 }
 

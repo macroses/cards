@@ -155,13 +155,6 @@ watch(
           @open-results="showResultModal"
         />
       </div>
-      <div
-        v-if="isStatisticVisible"
-        class="global-statistics__wr"
-        style="view-transition-name: global-statistics"
-      >
-        <GlobalStatistics :statistics />
-      </div>
     </div>
 
     <div
@@ -170,6 +163,14 @@ watch(
       style="view-transition-name: dashboard-charts"
     >
       <DashboardCharts />
+    </div>
+
+    <div
+      v-if="isStatisticVisible"
+      class="global-statistics__wr"
+      style="view-transition-name: global-statistics"
+    >
+      <GlobalStatistics :statistics />
     </div>
 
     <Transition>

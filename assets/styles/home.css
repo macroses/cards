@@ -6,12 +6,18 @@
   padding-bottom: 20px;
 
   &:has(.global-statistics) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: "calendar charts" "statistics charts";
     margin-top: 0;
 
     @media (width <= 1023px) {
+      grid-template-areas: "calendar statistics" "charts charts";
       gap: 8px;
-      grid-template-columns: 1fr;
+    }
+
+    @media (width <= 768px) {
+      grid-template-columns: 100%;
+      grid-template-areas: "calendar" "statistics" "charts";
     }
   }
 
@@ -27,6 +33,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  grid-area: calendar;
   view-transition-name: calendar-block;
 
   @media (width <= 1023px) {
@@ -41,5 +48,17 @@
 
   @media (width <= 768px) {
     flex-direction: column;
+  }
+}
+
+.home-page__container:not(:has(.available-charts)) {
+  grid-template-areas: "calendar charts" "statistics statistics";
+
+  @media (width <= 1023px) {
+    grid-template-areas: "calendar statistics" "charts charts";
+  }
+
+  @media (width <= 768px) {
+    grid-template-areas: "calendar" "statistics" "charts";
   }
 }

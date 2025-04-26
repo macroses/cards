@@ -38,13 +38,13 @@ const availableCharts = computed(() => {
   return charts.value.filter((_, index) => !collectedChartIds.value.includes(index))
 })
 
-async function addChart(chartId: number) {
+async function addChartToCollection(chartId: number) {
   if (!document.startViewTransition) {
     collectedChartIds.value.push(chartId)
     return
   }
 
-  await document.startViewTransition(async () => {
+  await document.startViewTransition(() => {
     collectedChartIds.value.push(chartId)
   }).finished
 }
@@ -98,7 +98,7 @@ async function onChartRemoved(chartId: number) {
             v-tooltip="{ content: 'Add to collection', position: 'left' }"
             variant="secondary"
             icon-only
-            @click.stop="addChart(charts.indexOf(chart))"
+            @click.stop="addChartToCollection(charts.indexOf(chart))"
           >
             <TheIcon
               icon-name="merge"

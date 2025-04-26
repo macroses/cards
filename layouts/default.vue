@@ -48,7 +48,7 @@ onMounted(async () => {
   }
 
   @media (width <= 525px) {
-    margin-bottom: 50px;
+    margin-bottom: 45px;
   }
 }
 

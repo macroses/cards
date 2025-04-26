@@ -1,6 +1,7 @@
 .dashboard__charts {
-  flex: 1;
-  min-width: 0;
+  /*flex: 1;*/
+  /*min-width: 0;*/
+  grid-area: charts;
 }
 
 .dashboard-charts {
