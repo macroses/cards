@@ -7,14 +7,10 @@ const {
   popularExercises,
   getExerciseName,
   isLoading,
-  refresh,
 } = useGlobalCharts()
 
-onMounted(async () => {
-  if (isLoading.value || !charts.value[0]?.option) {
-    await refresh()
-  }
-
+onMounted(() => {
+  // Проверяем только валидацию чартов, не делаем дополнительный запрос
   validateCollectedCharts()
 })
 

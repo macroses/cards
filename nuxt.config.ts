@@ -64,6 +64,9 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     locales: ['en', 'ru'],
     strategy: 'prefix',
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   components: [

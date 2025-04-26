@@ -89,7 +89,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
       processChartsData(chartsState.value)
     }
 
-    if (isInitialFetch.value) {
+    else if (isInitialFetch.value) {
       try {
         await refresh()
         isInitialFetch.value = false
