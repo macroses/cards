@@ -53,6 +53,10 @@
   gap: 8px;
   padding-left: 16px;
   padding-top: 12px;
+
+  @media (width <= 525px) {
+    flex-direction: column;
+  }
 }
 
 .exercise-list {

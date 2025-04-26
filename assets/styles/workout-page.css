@@ -23,6 +23,10 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  @media (width <= 1023px) {
+    padding: 8px;
+  }
 }
 
 .muscles-list {
@@ -35,6 +39,33 @@
   border-radius: 20px;
   background-color: var(--color-white);
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+
+  @media (width <= 1023px) {
+    padding: 8px;
+  }
+
+  @media (width <= 768px) {
+    position: fixed;
+    bottom: 64px;
+    width: calc(100% - 16px);
+    left: 8px;
+    z-index: 10;
+  }
+}
+
+.button.show-exercises-list {
+  svg {
+    transform: rotate(180deg);
+  }
+
+  @media (width <= 768px) {
+    display: block;
+    position: fixed;
+    left: 50%;
+    bottom: 48px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
 }
 
 .workout__name {

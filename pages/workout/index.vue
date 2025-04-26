@@ -72,6 +72,13 @@ function handleRemoveSet(setId: string) {
   workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.id !== setId)
 }
 
+const isMobileListVisible = shallowRef(false)
+const isMobile = useMediaQuery('(max-width: 768px)')
+
+function toggleMobileList() {
+  isMobileListVisible.value = !isMobileListVisible.value
+}
+
 const isWorkoutValid = computed(() => {
   if (!workout.exercises.length) {
     return
@@ -93,6 +100,12 @@ watch(selectedDate, (newDate: Date) => {
 
   for (const exercise of workout.exercises) {
     getLastSets(exercise.id, workout.workoutDate)
+  }
+})
+
+watch(isMobile, (mobile) => {
+  if (mobile) {
+    isMobileListVisible.value = false
   }
 })
 
@@ -138,31 +151,55 @@ useHead({
       </TheButton>
     </template>
     <template #exercises-list>
-      <div class="muscles-list">
-        <div class="tabs-container">
-          <TheButton
-            :variant="isExercisesList ? 'primary' : 'secondary'"
-            @click="isExercisesList = true"
+      <!-- Оборачиваем мобильную логику в ClientOnly -->
+      <ClientOnly>
+        <div
+          v-if="!isMobile || isMobileListVisible"
+          class="muscles-list"
+        >
+          <button
+            v-if="isMobile && isMobileListVisible"
+            class="close-exercises-list"
+            @click="toggleMobileList"
           >
-            All exercises
-          </TheButton>
-          <TheButton
-            :variant="isExercisesList ? 'secondary' : 'primary'"
-            @click="isExercisesList = false"
-          >
-            My exercises
-          </TheButton>
+            down
+          </button>
+          <div class="tabs-container">
+            <TheButton
+              :variant="isExercisesList ? 'primary' : 'secondary'"
+              @click="isExercisesList = true"
+            >
+              All exercises
+            </TheButton>
+            <TheButton
+              :variant="isExercisesList ? 'secondary' : 'primary'"
+              @click="isExercisesList = false"
+            >
+              My exercises
+            </TheButton>
+          </div>
+          <TheLoader v-if="status !== 'success'" />
+          <Component
+            :is="chosenExercisesList"
+            v-else
+            :selected-exercises="workout.exercises"
+            :exercises-list="exercisesList"
+            @remove-exercise="handleRemoveExercise"
+            @select-exercise="handleSelectExercise"
+          />
         </div>
-        <TheLoader v-if="status !== 'success'" />
-        <Component
-          :is="chosenExercisesList"
-          v-else
-          :selected-exercises="workout.exercises"
-          :exercises-list="exercisesList"
-          @remove-exercise="handleRemoveExercise"
-          @select-exercise="handleSelectExercise"
-        />
-      </div>
+        <TheButton
+          v-if="isMobile && !isMobileListVisible"
+          class="show-exercises-list"
+          @click="toggleMobileList"
+        >
+          Exercises
+          <TheIcon
+            icon-name="angle-down"
+            width="14"
+          />
+        </TheButton>
+      </ClientOnly>
     </template>
   </WorkoutWrapper>
 </template>
