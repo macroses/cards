@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 export type WorkoutSet = CreateWorkoutResponse['sets'][0]
 export type MetricFn = (set: WorkoutSet) => number

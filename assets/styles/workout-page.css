@@ -48,9 +48,17 @@
     position: fixed;
     bottom: 64px;
     width: calc(100% - 16px);
+    max-height: calc(100vh - 72px);
     left: 8px;
     z-index: 10;
   }
+}
+
+.close-exercises-list {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  height: 25px;
 }
 
 .button.show-exercises-list {
@@ -213,6 +221,8 @@
 .exercises-empty {
   height: 36px;
   display: flex;
+  gap: 8px;
+  color: oklch(from var(--color-text) l c h / 0.7);
   align-items: center;
   justify-content: center;
 }

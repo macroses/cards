@@ -242,6 +242,10 @@ watch(() => props.selectedExercises, (exercises) => {
       class="exercises-empty"
     >
       {{ $t('workout.add_exercise') }}
+      <TheIcon
+        icon-name="list-check"
+        width="20"
+      />
     </p>
   </div>
 </template>

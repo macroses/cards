@@ -1,4 +1,4 @@
-import type { ChartsCollectionProps, CollectedChart } from '~/ts/interfaces/dashboardCharts.interface'
+import type { ChartsCollectionProps, CollectedChart } from '~/ts/interfaces'
 import { ref, watch } from 'vue'
 
 export function useChartsCollection(props: ChartsCollectionProps, emit: {

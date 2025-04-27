@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 export interface RunWorkoutReturn {
   runWorkout: ComputedRef<CreateWorkoutResponse | null | undefined>

@@ -24,11 +24,11 @@ export default defineEventHandler(async (event) => {
     })
 
     // Получаем только завершенные тренировки для расчета статистики
-    const completedWorkouts = workouts.filter(w => w.completed)
+    const completedWorkouts = workouts.filter(({ completed }) => completed)
 
     // Максимальный тоннаж за тренировку
-    const maxTonnage = Math.max(...completedWorkouts.map((workout) => {
-      return workout.sets.reduce((sum, set) => {
+    const maxTonnage = Math.max(...completedWorkouts.map(({ sets }) => {
+      return sets.reduce((sum, set) => {
         return sum + (set.weight * set.repeats) / SECOND
       }, 0)
     }))
@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
       }
 
       return total
-    }, 0) / completedWorkouts.filter(w => w.startedAt && w.endedAt).length
+    }, 0) / completedWorkouts.filter(({ startedAt, endedAt }) => startedAt && endedAt).length
 
     // Среднее время на подход
     const avgSetTime = completedWorkouts.reduce((total, workout) => {

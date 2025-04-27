@@ -3,9 +3,8 @@ import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
-import { motion } from 'motion-v'
 import NoTimeMarkedReset from '~/components/NoTimeMarkedReset/NoTimeMarkedReset.vue'
-import { WORKOUT_DIFFICULTY } from '~/constants/workout'
+import { WORKOUT_DIFFICULTY } from '~/constants'
 
 const { workout, isLoading, error } = useRunWorkout()
 const { updateSetField } = useUpdateCachedWorkout()
@@ -16,7 +15,6 @@ const { getExerciseSets } = useExerciseSets()
 const { addSet, deleteSet } = useManageSets()
 
 // 👀 UI components and states
-const MyMotion = motion.div
 const isDescriptionVisible = shallowRef(true)
 const shakeCounter = shallowRef(0)
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
@@ -207,18 +205,7 @@ useHead({
           </TheButton>
         </div>
 
-        <MyMotion
-          :key="shakeCounter"
-          class="workout-content__exercises"
-          :animate="shakeCounter ? {
-            rotate: ['0deg', '0.5deg', '0deg', '-0.5deg', '0deg'],
-          } : {}"
-          :transition="{
-            duration: 0.2,
-            type: 'tween',
-            repeat: 0,
-          }"
-        >
+        <div class="workout-content__exercises">
           <ul
             v-for="(exercise, exerciseId) in exerciseSets"
             :key="exerciseId"
@@ -419,7 +406,7 @@ useHead({
           >
             Сохранить
           </TheButton>
-        </MyMotion>
+        </div>
       </form>
       <div class="run-template__charts" />
     </div>

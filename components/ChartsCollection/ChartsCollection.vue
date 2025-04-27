@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ChartsCollectionProps } from '~/ts/interfaces/dashboardCharts.interface'
+import type { ChartsCollectionProps } from '~/ts/interfaces'
 
 const props = defineProps<ChartsCollectionProps>()
 

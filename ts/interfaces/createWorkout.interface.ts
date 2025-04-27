@@ -1,4 +1,4 @@
-import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces/workoutUserTemplate.interface'
+import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
 
 export interface CreateWorkoutRequest {
   title: string

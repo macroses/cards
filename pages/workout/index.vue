@@ -38,6 +38,7 @@ const { getLastSets } = useLastExerciseSets()
 const { exercisesList, status } = useFetchExercisesList()
 
 const isExercisesList = shallowRef(true)
+const exercisesListRef = useTemplateRef<HTMLDivElement>('exercisesListRef')
 
 async function handleSelectExercise(exercise: UserWorkoutExercise): Promise<void> {
   if (!document.startViewTransition) {
@@ -75,8 +76,15 @@ function handleRemoveSet(setId: string) {
 const isMobileListVisible = shallowRef(false)
 const isMobile = useMediaQuery('(max-width: 768px)')
 
-function toggleMobileList() {
-  isMobileListVisible.value = !isMobileListVisible.value
+async function toggleMobileList() {
+  if (!document.startViewTransition) {
+    isMobileListVisible.value = !isMobileListVisible.value
+    return
+  }
+
+  await document.startViewTransition(() => {
+    isMobileListVisible.value = !isMobileListVisible.value
+  }).finished
 }
 
 const isWorkoutValid = computed(() => {
@@ -116,6 +124,10 @@ onMounted(async () => {
 useHead({
   title: computed(() => 'Create workout'),
 })
+
+onClickOutside(exercisesListRef, async () => {
+  await toggleMobileList()
+})
 </script>
 
 <template>
@@ -144,25 +156,31 @@ useHead({
         @remove-set="handleRemoveSet"
       />
       <TheButton
-        :disabled="!isWorkoutValid"
+        v-if="isWorkoutValid"
         @click="submitWorkout(workout)"
       >
         {{ $t('workout.save_workout') }}
       </TheButton>
     </template>
     <template #exercises-list>
-      <!-- Оборачиваем мобильную логику в ClientOnly -->
       <ClientOnly>
         <div
           v-if="!isMobile || isMobileListVisible"
+          ref="exercisesListRef"
           class="muscles-list"
+          :style="{ viewTransitionName: 'exercises-list' }"
         >
           <button
             v-if="isMobile && isMobileListVisible"
+            variant="transparent"
+            icon-only
             class="close-exercises-list"
             @click="toggleMobileList"
           >
-            down
+            <TheIcon
+              icon-name="angle-down"
+              width="25"
+            />
           </button>
           <div class="tabs-container">
             <TheButton
@@ -191,6 +209,7 @@ useHead({
         <TheButton
           v-if="isMobile && !isMobileListVisible"
           class="show-exercises-list"
+          :style="{ viewTransitionName: 'exercises-list' }"
           @click="toggleMobileList"
         >
           Exercises

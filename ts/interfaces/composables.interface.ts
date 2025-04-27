@@ -1,4 +1,4 @@
-import type { UserWorkout } from '~/ts/interfaces/workoutUserTemplate.interface'
+import type { UserWorkout } from '~/ts/interfaces'
 
 export interface CheckWorkoutAccessReturn {
   checkWorkoutAccess: () => Promise<void>

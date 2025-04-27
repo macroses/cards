@@ -9,8 +9,8 @@ interface GroupedWorkout {
 }
 
 function groupWorkoutsByDate(workouts: any[]): GroupedWorkout[] {
-  const grouped = workouts.reduce((acc, workout) => {
-    const date = new Date(workout.workoutDate)
+  const grouped = workouts.reduce((acc, { workoutDate, sets, exercises }) => {
+    const date = new Date(workoutDate)
     const dateKey = date.toISOString().split('T')[0]
 
     if (!acc[dateKey]) {
@@ -22,8 +22,8 @@ function groupWorkoutsByDate(workouts: any[]): GroupedWorkout[] {
       }
     }
 
-    acc[dateKey].sets.push(...workout.sets)
-    acc[dateKey].exercises.push(...workout.exercises)
+    acc[dateKey].sets.push(...sets)
+    acc[dateKey].exercises.push(...exercises)
     acc[dateKey].workoutsCount++
 
     return acc
@@ -61,22 +61,22 @@ export default defineEventHandler(async (event) => {
     const groupedWorkouts = groupWorkoutsByDate(workouts)
 
     // Данные для графика объема и интенсивности
-    const volumeData = groupedWorkouts.map((workout) => {
-      const totalVolume = workout.sets.reduce((sum, set) => {
+    const volumeData = groupedWorkouts.map(({ sets, workoutDate, workoutsCount }) => {
+      const totalVolume = sets.reduce((sum, set) => {
         if (!set.weight || !set.repeats)
           return sum
         return sum + (set.weight * set.repeats)
       }, 0)
 
-      const totalDuration = workout.sets.reduce((sum, set) => {
+      const totalDuration = sets.reduce((sum, set) => {
         return sum + (set.setTime || 0)
       }, 0)
 
       return {
-        date: workout.workoutDate,
+        date: workoutDate,
         volume: totalVolume / 1000,
         intensity: totalDuration > 0 ? totalVolume / totalDuration : 0,
-        workoutsCount: workout.workoutsCount,
+        workoutsCount,
       }
     })
 
@@ -97,10 +97,11 @@ export default defineEventHandler(async (event) => {
     // Популярные упражнения
     const exerciseCounts: Record<string, number> = {}
 
-    groupedWorkouts.forEach((workout) => {
-      workout.exercises.forEach((exercise) => {
-        if (exercise.exerciseId)
+    groupedWorkouts.forEach(({ exercises }) => {
+      exercises.forEach((exercise) => {
+        if (exercise.exerciseId) {
           exerciseCounts[exercise.exerciseId] = (exerciseCounts[exercise.exerciseId] || 0) + 1
+        }
       })
     })
 
@@ -121,8 +122,8 @@ export default defineEventHandler(async (event) => {
 
           return {
             date: workout.workoutDate,
-            maxWeight: Math.max(...sets.map(s => s.weight)),
-            avgWeight: sets.reduce((sum, s) => sum + s.weight, 0) / sets.length,
+            maxWeight: Math.max(...sets.map(({ weight }) => weight)),
+            avgWeight: sets.reduce((sum, { weight }) => sum + weight, 0) / sets.length,
             setsCount: sets.length,
           }
         })

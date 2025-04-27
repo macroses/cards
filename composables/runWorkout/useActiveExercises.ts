@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces/createWorkout.interface'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 /**
  * Composable for managing active exercises during workout.
