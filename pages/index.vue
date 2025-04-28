@@ -16,7 +16,6 @@ const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
 const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 const isCopyMode = ref(false)
 const workoutToCopy = ref<string | null>(null)
-const isLoading = ref(true)
 
 const localePath = useLocalePath()
 const { deleteWorkout } = useDeleteWorkout()
@@ -105,24 +104,16 @@ const { isLoading: isWorkoutsLoading } = useFetchWorkoutsByUserId()
 const { isLoading: statsStatus } = useGlobalStatistics()
 const { isLoading: chartsStatus } = useGlobalCharts()
 
-watch(
-  [workouts, isWorkoutsLoading, statsStatus, chartsStatus],
-  ([workoutsValue, isLoadingValue, statsStatusValue, chartsStatusValue]) => {
-    if (
-      workoutsValue
-      && !isLoadingValue
-      && !statsStatusValue
-      && !chartsStatusValue
-    ) {
-      isLoading.value = false
-    }
-  },
-  { immediate: true },
-)
+const isPageLoading = computed(() => {
+  return !workouts.value
+    || isWorkoutsLoading.value
+    || statsStatus.value
+    || chartsStatus.value
+})
 </script>
 
 <template>
-  <TheLoader v-if="isLoading" />
+  <TheLoader v-if="isPageLoading" />
   <div
     v-else
     class="home-page__container"

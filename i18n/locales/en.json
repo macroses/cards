@@ -97,6 +97,7 @@
     "volumeAndIntensity": "Volume and Intensity",
     "volume": "Volume (tons)",
     "intensity": "Intensity",
+    "intensityDescription": "Intensity is the ratio of volume to duration",
     "exerciseProgress": "Exercise Progress",
     "maxWeight": "Max Weight",
     "avgWeight": "Average Weight",

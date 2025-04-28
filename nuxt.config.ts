@@ -88,7 +88,7 @@ export default defineNuxtConfig({
 
   echarts: {
     ssr: true,
-    renderer: ['svg'],
+    renderer: ['canvas'],
     charts: [
       'LineChart',
       'BarChart',
@@ -109,25 +109,5 @@ export default defineNuxtConfig({
       'LegendComponent',
       'TitleComponent',
     ],
-  },
-
-  nitro: {
-    routeRules: {
-      '/**': {
-        headers: {
-          'X-XSS-Protection': '1; mode=block',
-          'X-Frame-Options': 'SAMEORIGIN',
-          'X-Content-Type-Options': 'nosniff',
-          'Referrer-Policy': 'strict-origin-when-cross-origin',
-          'Content-Security-Policy': 'default-src \'self\'; script-src \'self\' \'unsafe-inline\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data: blob:; font-src \'self\' data:',
-        },
-      },
-      '/api/**': {
-        headers: {
-          'Cache-Control': 'no-store, no-cache, must-revalidate',
-          'Pragma': 'no-cache',
-        },
-      },
-    },
   },
 })

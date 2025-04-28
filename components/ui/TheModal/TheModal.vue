@@ -1,7 +1,6 @@
 <script setup lang="ts">
 interface ModalProps {
   isOutsideClose?: boolean
-  bottomModal?: boolean
   hasCloseButton?: boolean
 }
 
@@ -11,12 +10,12 @@ defineOptions({
 
 const {
   isOutsideClose = true,
-  bottomModal = false,
   hasCloseButton = true,
 } = defineProps<ModalProps>()
 
 const isOpen = ref(false)
 const modalRef = useTemplateRef<HTMLDivElement>('modalRef')
+const isMobile = useMediaQuery('(max-width: 768px)')
 
 function openModal() {
   isOpen.value = true
@@ -46,13 +45,13 @@ defineExpose({
 
 <template>
   <Teleport to="body">
-    <Transition :name="bottomModal ? 'bottom' : 'modal'">
+    <Transition :name="isMobile ? 'bottom' : 'modal'">
       <div
         v-if="isOpen"
         ref="modalRef"
         v-bind="$attrs"
         class="modal-backdrop"
-        :class="{ bottomModal }"
+        :class="{ bottomModal: isMobile }"
         @click="handleBackdropClick"
       >
         <div class="modal">

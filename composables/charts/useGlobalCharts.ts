@@ -118,10 +118,10 @@ export function useGlobalCharts(): GlobalChartsReturn {
   function updateVolumeChart(data: ChartData[]) {
     volumeChartOption.value = {
       grid: {
-        top: 40, // отступ сверху
-        right: 20, // отступ справа
-        bottom: 20, // отступ снизу
-        left: 30, // отступ слева
+        top: 40,
+        right: 20,
+        bottom: 20,
+        left: 30,
         containLabel: true, // включает пространство для подписей осей
       },
       tooltip: {
@@ -146,13 +146,27 @@ export function useGlobalCharts(): GlobalChartsReturn {
         },
         {
           ...getAxisConfig(t('dashboard.intensity')),
+          name: t('dashboard.intensity'),
           nameTextStyle: {
             padding: [0, 0, 0, 30],
             fontWeight: 600,
             color: 'var(--color-text)',
+
           },
           position: 'right',
           splitLine: { show: false },
+          tooltip: {
+            show: true,
+            formatter: t('dashboard.intensityDescription'),
+            backgroundColor: '#fff',
+            borderColor: '#ddd',
+            borderWidth: 1,
+            padding: [5, 10],
+            textStyle: {
+              color: '#333',
+              fontSize: 12,
+            },
+          },
         },
       ],
       series: [
@@ -181,7 +195,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
       grid: {
         right: 30,
         left: 0,
-        bottom: 20,
+        bottom: 30,
         containLabel: true,
       },
       tooltip: { trigger: 'axis' },

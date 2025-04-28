@@ -111,7 +111,6 @@ function isExerciseSelected(exerciseId: string) {
   <Teleport to="body">
     <TheModal
       ref="modalRef"
-      bottom-modal
       class="body-modal"
     >
       <template #content>

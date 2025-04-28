@@ -97,6 +97,7 @@
     "volumeAndIntensity": "Объем и интенсивность",
     "volume": "Объем (тонн)",
     "intensity": "Интенсивность",
+    "intensityDescription": "Интенсивность - отношение объема к продолжительности",
     "exerciseProgress": "Прогресс упражнений",
     "maxWeight": "Максимальный вес",
     "avgWeight": "Средний вес",

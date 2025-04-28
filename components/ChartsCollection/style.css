@@ -1,14 +1,21 @@
 .charts-collection {
   overflow: hidden;
   position: relative;
+  height: 100%;
 
   background-color: var(--color-white);
   border-radius: 20px;
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+
+  & .chart-container {
+    box-shadow: none;
+  }
 }
 
 .charts-collection__content {
+  max-height: 293px;
+
   & .chart-container {
     border: 0;
     border-radius: 0;

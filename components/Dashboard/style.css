@@ -86,3 +86,7 @@
     gap: 8px;
   }
 }
+
+.dashboard-charts__list {
+  height: 100%;
+}

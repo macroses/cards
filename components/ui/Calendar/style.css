@@ -7,6 +7,7 @@
 
   @media (width <= 1023px) {
     flex-grow: 1;
+    max-width: 548px;
   }
 
   @media (width <= 768px) {

@@ -13,7 +13,7 @@ body {
   font-family: 'Poppins', 'Montserrat', sans-serif;
   font-size: 15px;
   color: var(--color-text);
-  background-image: linear-gradient(-45deg in oklch, transparent, oklch(from var(--color-accent) l c h / 0.1));
+  background-color: oklch(from var(--color-accent) l c h / 0.1);
   min-height: 100vh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
