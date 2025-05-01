@@ -1,5 +1,6 @@
 .workout-results__charts-wr{
   flex: 5;
+  position: relative;
 }
 
 .workout-results__charts {

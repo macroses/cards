@@ -15,7 +15,7 @@ const {
 const emit = defineEmits<{
   (event: 'deleteWorkout'): void
   (event: 'copyWorkout'): void
-  (event: 'updateWorkout'): void
+  (event: 'updateWorkout', workoutId: string): void
   (event: 'openResults'): void
 }>()
 
@@ -158,7 +158,7 @@ onClickOutside(dropdownRef, () => {
             <li v-if="!isWorkoutCompleted && !isWorkoutActive">
               <button
                 class="date-menu__dropdown-item date-menu__dropdown-item--update"
-                @click="emit('updateWorkout')"
+                @click="emit('updateWorkout', workoutId)"
               >
                 <TheIcon icon-name="pen-to-square" width="18" />
                 {{ $t('main_navigation.edit_workout') }}

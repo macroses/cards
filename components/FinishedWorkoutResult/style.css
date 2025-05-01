@@ -4,15 +4,11 @@
 }
 
 .workout-results__exercise-name {
-  font-size: 16px;
   font-weight: 500;
   margin-bottom: 4px;
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  height: 36px;
+  padding-inline: 16px;
+  background-color: var(--table-dark-bg);
 
   &.active {
     color: var(--color-accent);
@@ -21,7 +17,6 @@
 
 .workout-results__sets {
   width: 100%;
-  /*border: 1px solid oklch(from var(--color-accent) l c h / 0.2);*/
   border-radius: 8px;
   padding-block: 4px;
   overflow: hidden;
@@ -48,7 +43,9 @@
     padding-bottom: 4px;
   }
 
-
+  &:nth-child(even) {
+    background-color: var(--table-dark-bg);
+  }
 }
 
 .workout-results__set-difficulty {
@@ -91,6 +88,7 @@
 .workout-results__container {
   display: flex;
   height: 100%;
+  gap: 16px;
 }
 
 .workout-results {
@@ -101,11 +99,19 @@
 
 .workout-results__exercise {
   margin-bottom: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color var(--base-transition);
+  overflow: hidden;
+
+  &.active {
+    border-color: oklch(from var(--color-accent) l c h / 0.5);
+  }
 }
 
 .workout-results__wr {
   height: 100%;
   flex: 4;
   overflow: auto;
-  padding-right: 12px;
 }
