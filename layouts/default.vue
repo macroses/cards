@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UserWorkout } from '~/ts/interfaces'
-import { KEYS } from '@/constants'
+import { AUTHENTICATED, KEYS } from '@/constants'
 
 const { fetchWorkouts } = useFetchWorkoutsByUserId()
 const { checkActiveWorkout } = useWorkoutTimer()
@@ -16,16 +16,13 @@ const isChartControlVisible: ComputedRef<boolean> = computed((): boolean => {
 })
 
 watch(status, async (newStatus) => {
-  if (newStatus === 'authenticated') {
-    await fetchWorkouts()
-    checkActiveWorkout(workouts.value)
+  if (newStatus !== AUTHENTICATED) {
+    return
   }
-})
 
-onMounted(async () => {
   await fetchWorkouts()
   checkActiveWorkout(workouts.value)
-})
+}, { immediate: true })
 </script>
 
 <template>

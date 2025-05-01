@@ -188,6 +188,12 @@ const isPageLoading = computed(() => {
       :has-close-button="false"
       class="workout-results__modal"
     >
+      <template #header>
+        <h3>
+          {{ selectedWorkout.title }}
+          <span>{{ dayjs(selectedWorkout.workoutDate).format('DD.MM.YYYY') }}</span>
+        </h3>
+      </template>
       <template #content>
         <FinishedWorkoutResult
           v-if="selectedWorkout"

@@ -37,6 +37,13 @@ export function useWorkoutResults() {
     currentData: number[],
     previousData: number[],
   ) => ({
+    grid: {
+      top: 50,
+      right: 20,
+      bottom: 10,
+      left: 16,
+      containLabel: true, // включает пространство для подписей осей
+    },
     xAxis: {
       type: 'category',
       data: xAxisData,

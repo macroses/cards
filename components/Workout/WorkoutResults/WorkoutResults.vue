@@ -51,35 +51,37 @@ watchImmediate(() => props.selectedExerciseId, () => updateChart())
 </script>
 
 <template>
-  <div class="workout-results__charts">
-    <div class="chart-controls">
-      <TheButton
-        v-for="chart in chartTypes"
-        :key="chart.type"
-        :variant="selectedChartType === chart.type ? 'primary' : 'secondary'"
-        @click="selectChartType(chart.type)"
-      >
-        {{ chart.label }}
-      </TheButton>
-    </div>
-
-    <div class="chart-container">
-      <v-chart
-        v-if="chartOption"
-        class="chart"
-        :option="chartOption"
-        autoresize
-        style="height: 100%"
-        @init="onChartInit"
+  <div class="workout-results__charts-wr">
+    <div class="workout-results__charts">
+      <WorkoutProgress
+        v-if="workouts"
+        :workout="workout"
+        :workouts="workouts"
+        :selected-exercise-id="selectedExerciseId"
       />
-    </div>
 
-    <WorkoutProgress
-      v-if="workouts"
-      :workout="workout"
-      :workouts="workouts"
-      :selected-exercise-id="selectedExerciseId"
-    />
+      <div class="chart-controls">
+        <TheButton
+          v-for="chart in chartTypes"
+          :key="chart.type"
+          :variant="selectedChartType === chart.type ? 'primary' : 'secondary'"
+          @click="selectChartType(chart.type)"
+        >
+          {{ chart.label }}
+        </TheButton>
+      </div>
+
+      <div class="chart-container">
+        <v-chart
+          v-if="chartOption"
+          class="chart"
+          :option="chartOption"
+          autoresize
+          style="height: 100%"
+          @init="onChartInit"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

@@ -47,11 +47,19 @@ function setTime(time: number | null | undefined): string {
 <template>
   <div class="workout-results__container">
     <div class="workout-results__wr">
+      <ul class="workout-results__sets-header">
+        <li>Level</li>
+        <li>Weight</li>
+        <li>Repeats</li>
+        <li>Time</li>
+      </ul>
       <ul class="workout-results">
         <li
           v-for="exercise in selectedWorkout?.exercises"
           :key="exercise.exerciseId"
           class="workout-results__exercise"
+          :class="{ active: selectedExerciseId === exercise.exerciseId }"
+          @click="handleExerciseClick(exercise.exerciseId)"
         >
           <div
             class="workout-results__exercise-name"
@@ -59,30 +67,16 @@ function setTime(time: number | null | undefined): string {
             @click="handleExerciseClick(exercise.exerciseId)"
           >
             {{ exercise.exerciseName }}
-            <TheButton
-              v-if="selectedExerciseId !== exercise.exerciseId"
-              variant="secondary"
-              icon-only
-              @click="handleExerciseClick(exercise.exerciseId)"
-            >
-              <TheIcon
-                icon-name="angle-right"
-                width="20"
-              />
-            </TheButton>
           </div>
           <div class="workout-results__sets">
-            <ul class="workout-results__sets-header">
-              <li>Weight</li>
-              <li>Repeats</li>
-              <li>Time</li>
-            </ul>
             <ul
               v-for="set in exerciseSets[exercise.exerciseId]"
               :key="set.id"
               class="workout-results__set"
-              :class="`difficulty-${set.difficulty}`"
             >
+              <li class="workout-results__set-difficulty">
+                <span :class="`difficulty-${set.difficulty}`" />
+              </li>
               <li>{{ set.weight }}</li>
               <li>{{ set.repeats }}</li>
               <li>{{ setTime(set.setTime) }}</li>

@@ -1,8 +1,13 @@
-.workout-results__charts {
+.workout-results__charts-wr{
   flex: 5;
+}
+
+.workout-results__charts {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  position: sticky;
+  top: 0;
 }
 
 .chart-controls {
@@ -13,9 +18,11 @@
 
 .chart-container {
   flex: 1;
-  /*max-height: 310px;*/
-  /*min-height: fit-content;*/
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+
+  .workout-results__charts & {
+    min-height: 250px;
+  }
 }
 
 .chart {
@@ -41,6 +48,7 @@
 .workout-progress__title {
   padding: 12px;
   font-size: 14px;
+  margin-bottom: 0;
   background-color: oklch(from var(--color-accent) l c h / 0.1);
 }
 
