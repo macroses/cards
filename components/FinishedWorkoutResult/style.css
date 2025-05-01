@@ -7,7 +7,7 @@
   font-weight: 500;
   margin-bottom: 4px;
   cursor: pointer;
-  padding-inline: 16px;
+  padding: 4px 16px;
   background-color: var(--table-dark-bg);
 
   &.active {
@@ -28,6 +28,7 @@
   justify-content: space-around;
   font-size: 13px;
   font-weight: 500;
+  margin-bottom: 12px;
 }
 
 

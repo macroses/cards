@@ -35,7 +35,15 @@ const activeWorkout = computed(() => {
   ) || null
 })
 
-const selectedWorkout = computed(() => workoutsForSelectedDate.value[0])
+const modalSelectedWorkoutId = ref<string | null>(null)
+
+const selectedWorkout = computed(() => {
+  if (modalSelectedWorkoutId.value) {
+    return workouts.value?.find(({ id }) => id === modalSelectedWorkoutId.value) || workoutsForSelectedDate.value[0]
+  }
+
+  return workoutsForSelectedDate.value[0]
+})
 
 function isWorkoutActiveForId(id: string): boolean {
   return activeWorkout.value?.id === id
@@ -88,11 +96,13 @@ async function handleDeleteWorkout(id: string) {
 const readWorkoutResults = useTemplateRef<typeof TheModal>('readWorkoutResults')
 const selectedExerciseId = ref<string | null>(null)
 
-function showResultModal() {
+function showResultModal(workoutId: string) {
   readWorkoutResults.value?.openModal()
+  modalSelectedWorkoutId.value = workoutId
 
-  if (selectedWorkout.value?.exercises.length) {
-    selectedExerciseId.value = selectedWorkout.value.exercises[0].exerciseId
+  const workout = workouts.value?.find(({ id }) => id === workoutId)
+  if (workout?.exercises.length) {
+    selectedExerciseId.value = workout.exercises[0].exerciseId
   }
 }
 

@@ -77,7 +77,7 @@ watchImmediate(() => props.selectedExerciseId, () => updateChart())
           class="chart"
           :option="chartOption"
           autoresize
-          style="height: 100%"
+          style="min-height: 250px"
           @init="onChartInit"
         />
       </div>

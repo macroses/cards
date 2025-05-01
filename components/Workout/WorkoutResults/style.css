@@ -51,10 +51,14 @@
   font-size: 14px;
   margin-bottom: 0;
   background-color: oklch(from var(--color-accent) l c h / 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .workout-progress__date {
   font-size: 14px;
+  font-weight: 400;
 }
 
 .workout-progress__metrics {

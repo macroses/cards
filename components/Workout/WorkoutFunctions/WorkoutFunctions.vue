@@ -16,7 +16,7 @@ const emit = defineEmits<{
   (event: 'deleteWorkout'): void
   (event: 'copyWorkout'): void
   (event: 'updateWorkout', workoutId: string): void
-  (event: 'openResults'): void
+  (event: 'openResults', workoutId: string): void
 }>()
 
 const localePath = useLocalePath()
@@ -112,7 +112,7 @@ onClickOutside(dropdownRef, () => {
       <li v-if="isWorkoutCompleted">
         <TheButton
           variant="secondary"
-          @click="$emit('openResults')"
+          @click="$emit('openResults', workoutId)"
         >
           Results
         </TheButton>

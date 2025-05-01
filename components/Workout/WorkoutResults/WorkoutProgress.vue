@@ -35,7 +35,7 @@ function formatTime(seconds: number): string {
     <h3 class="workout-progress__title">
       {{ $t('workout.progress_comparison') }}
       <span class="workout-progress__date">
-        ({{ dayjs(progress.previousWorkoutDate).format('DD.MM.YYYY') }})
+        {{ dayjs(progress.previousWorkoutDate).format('DD.MM.YYYY') }}
       </span>
     </h3>
 
