@@ -16,7 +16,7 @@ const { changeLanguage, initLanguage } = useChangeLanguage()
 const selectId = useId()
 
 const isChartsDisabled = useLocalStorage('charts-disabled', false)
-const isMounted = ref(false)
+const isMounted = shallowRef(false)
 
 async function toggleCharts() {
   await document.startViewTransition(() => {

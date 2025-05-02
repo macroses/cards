@@ -40,6 +40,7 @@ export function useUpdateSetTime() {
     }
 
     await updateSetField(workout, setId, 'setTimeAddedAt', dayjs().toISOString())
+
     return await updateSetField(workout, setId, 'setTime', elapsed)
   }
 

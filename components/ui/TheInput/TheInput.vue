@@ -13,11 +13,11 @@ const {
 
 const emit = defineEmits(['validation', 'blur', 'update:modelValue'])
 
-const input = ref<HTMLInputElement | null>(null)
+const input = useTemplateRef<HTMLInputElement | null>('input')
 
 const uniqueId = useId() as string
 const modelValue = defineModel<T>()
-const error = ref('')
+const error = shallowRef('')
 
 defineExpose({
   focus: () => {

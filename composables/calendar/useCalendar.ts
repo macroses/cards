@@ -20,7 +20,7 @@ export function useCalendar(props: {
   const SLIDE_RIGHT = 'slideMonthRight'
   const currentMonth = ref(props.month || new Date())
   const selectedDate = ref<Date | undefined | null>(props.modelValue)
-  const transitionName = ref<SLIDE_LEFT | SLIDE_RIGHT>(SLIDE_RIGHT)
+  const transitionName = shallowRef<SLIDE_LEFT | SLIDE_RIGHT>(SLIDE_RIGHT)
 
   dayjs.locale(props.locale)
 

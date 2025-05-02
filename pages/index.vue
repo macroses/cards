@@ -14,8 +14,8 @@ const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
 const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
 const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
 const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
-const isCopyMode = ref(false)
-const workoutToCopy = ref<string | null>(null)
+const isCopyMode = shallowRef(false)
+const workoutToCopy = shallowRef<string | null>(null)
 
 const localePath = useLocalePath()
 const { deleteWorkout } = useDeleteWorkout()
@@ -35,7 +35,7 @@ const activeWorkout = computed(() => {
   ) || null
 })
 
-const modalSelectedWorkoutId = ref<string | null>(null)
+const modalSelectedWorkoutId = shallowRef<string | null>(null)
 
 const selectedWorkout = computed(() => {
   if (modalSelectedWorkoutId.value) {
@@ -94,7 +94,7 @@ async function handleDeleteWorkout(id: string) {
 }
 
 const readWorkoutResults = useTemplateRef<typeof TheModal>('readWorkoutResults')
-const selectedExerciseId = ref<string | null>(null)
+const selectedExerciseId = shallowRef<string | null>(null)
 
 function showResultModal(workoutId: string) {
   readWorkoutResults.value?.openModal()

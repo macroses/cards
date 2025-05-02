@@ -14,8 +14,8 @@ export function useFetchWorkoutsByUserId() {
   const workouts = useState<CreateWorkoutResponse | null>(KEYS.GLOBAL_WORKOUTS, () => null)
   const { status } = useAuth()
   const { t } = useI18n()
-  const isLoading = ref(false)
-  const error = ref<string | null>(null)
+  const isLoading = shallowRef(false)
+  const error = shallowRef<string | null>(null)
 
   async function fetchWorkouts() {
     try {

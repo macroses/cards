@@ -17,32 +17,22 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
   const { toast } = useToastState()
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
   const route = useRoute()
-  const isLoading = ref(false)
+  const isLoading = shallowRef(false)
   const workoutId = route.query.edit as string
   const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
 
   function hasWorkoutChanged(newWorkout: UserWorkout): boolean {
-    if (!workoutId)
-      return true
-
     const originalWorkout = workoutsList.value.find(w => w.id === workoutId)
 
-    if (!originalWorkout)
-      return true
-
     if (
-      originalWorkout.title !== newWorkout.title
+      !workoutId
+      || !originalWorkout
+      || originalWorkout.title !== newWorkout.title
       || originalWorkout.color !== newWorkout.color
       || new Date(originalWorkout.workoutDate).getTime() !== new Date(newWorkout.workoutDate).getTime()
+      || originalWorkout.exercises.length !== newWorkout.exercises.length
+      || originalWorkout.sets.length !== newWorkout.sessions.length
     ) {
-      return true
-    }
-
-    if (originalWorkout.exercises.length !== newWorkout.exercises.length) {
-      return true
-    }
-
-    if (originalWorkout.sets.length !== newWorkout.sessions.length) {
       return true
     }
 

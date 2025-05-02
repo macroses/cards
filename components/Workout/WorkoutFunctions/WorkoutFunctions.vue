@@ -79,7 +79,7 @@ function handleCopyWorkout() {
   emit('copyWorkout')
 }
 
-const isDropdownOpen = ref(false)
+const isDropdownOpen = shallowRef(false)
 const dropdownRef = useTemplateRef<HTMLElement>('dropdownRef')
 
 async function toggleDropdown() {

@@ -6,9 +6,9 @@ export function useChartsCollection(props: ChartsCollectionProps, emit: {
   (e: 'chartRemoved', chartId: number): void
 }) {
   const collectedCharts = ref<CollectedChart[]>([])
-  const activeTabIndex = ref<number>(0)
-  const transitionName = ref<'slideChart' | 'slideChartRight'>('slideChartRight')
-  const transitionTimer = ref<number | null>(null)
+  const activeTabIndex = shallowRef<number>(0)
+  const transitionName = shallowRef<'slideChart' | 'slideChartRight'>('slideChartRight')
+  const transitionTimer = shallowRef<number | null>(null)
 
   function updateCollectedCharts() {
     collectedCharts.value = props.collectedChartIds

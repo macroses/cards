@@ -18,7 +18,7 @@ const emit = defineEmits<{
 }>()
 
 const modalRef = useTemplateRef<typeof TheModal>('modalRef')
-const selectedExerciseForModal = ref<ExerciseServerTemplate | null>(null)
+const selectedExerciseForModal = shallowRef<ExerciseServerTemplate | null>(null)
 
 const groupedExercises = computed<ExercisesGroup[]>(() => {
   const grouped = props.exercisesList.reduce((acc, exercise) => {
@@ -47,7 +47,7 @@ function isExerciseAlreadySelected(id: string) {
   return props.selectedExercises.some(selected => selected.id === id)
 }
 
-const activeGroupId = ref<string | null>(null)
+const activeGroupId = shallowRef<string | null>(null)
 
 function toggleGroup(groupId: string) {
   activeGroupId.value = activeGroupId.value === groupId ? null : groupId

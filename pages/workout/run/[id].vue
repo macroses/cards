@@ -18,10 +18,10 @@ const { addSet, deleteSet } = useManageSets()
 const isDescriptionVisible = shallowRef(true)
 const shakeCounter = shallowRef(0)
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
-const valueChanged = ref<string | null>(null)
+const valueChanged = shallowRef<string | null>(null)
 
 // 🏋 Main workout states
-const activeExerciseId = ref<string | null>(null)
+const activeExerciseId = shallowRef<string | null>(null)
 const exerciseSets = computed(() => getExerciseSets(workout.value))
 
 // Initialize active exercise
@@ -33,9 +33,9 @@ watch(() => workout.value, (newWorkout) => {
 }, { immediate: true })
 
 // Editing set states
-const editingSetId = ref<string | null>(null)
-const editingValue = ref<number | string>(0)
-const editingField = ref<UnionSetFields | null>(null)
+const editingSetId = shallowRef<string | null>(null)
+const editingValue = shallowRef<number | string>(0)
+const editingField = shallowRef<UnionSetFields | null>(null)
 
 function toggleExercise(exerciseId: string) {
   if (editingSetId.value || editingField.value) {

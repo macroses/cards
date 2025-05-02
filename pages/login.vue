@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Provider } from 'next-auth/providers/index'
-import { ref } from 'vue'
 import { PAGES } from '~/constants'
 
 definePageMeta({
@@ -14,11 +13,11 @@ definePageMeta({
 const { data: providers } = await useFetch<Provider[]>('/api/auth/providers')
 const { signIn } = useAuth()
 
-const isRegistration = ref(false)
-const email = ref('')
-const password = ref('')
-const error = ref('')
-const isValid = ref(false)
+const isRegistration = shallowRef(false)
+const email = shallowRef('')
+const password = shallowRef('')
+const error = shallowRef('')
+const isValid = shallowRef(false)
 
 async function handleSubmit() {
   if (!isValid.value) {

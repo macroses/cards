@@ -32,7 +32,7 @@ const emit = defineEmits<{
   getItems: [item: MultiSelectItem]
 }>()
 
-const isDropdownVisible = ref(false)
+const isDropdownVisible = shallowRef(false)
 const multiselectDropdown = useTemplateRef<HTMLDivElement>('multiselectDropdown')
 
 function isItemSelected(item: MultiSelectItem): boolean {

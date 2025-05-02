@@ -6,7 +6,7 @@ const props = defineProps<{
 }>()
 
 const dropdown = useTemplateRef<HTMLDivElement>('dropdown')
-const isOpen = ref(false)
+const isOpen = shallowRef(false)
 
 const modelValue = defineModel<T>()
 

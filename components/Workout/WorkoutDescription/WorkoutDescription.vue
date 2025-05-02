@@ -13,7 +13,7 @@ const emit = defineEmits<{
   (event: 'toggleCalendar'): void
 }>()
 
-const workoutTitle = ref('')
+const workoutTitle = shallowRef('')
 
 watchImmediate(() => props.title, (newTitle?: string) => {
   if (newTitle) {
@@ -21,7 +21,7 @@ watchImmediate(() => props.title, (newTitle?: string) => {
   }
 })
 
-const isWorkoutNameValid = ref(false)
+const isWorkoutNameValid = shallowRef(false)
 
 const workoutNameRules = [
   createValidationRule('required'),

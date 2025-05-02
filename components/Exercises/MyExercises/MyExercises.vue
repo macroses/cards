@@ -22,8 +22,8 @@ const {
   createExercise,
 } = useExerciseHandle()
 
-const confirmModalRef = ref<typeof TheModal | null>(null)
-const exerciseToDeleteId = ref('')
+const confirmModalRef = useTemplateRef<typeof TheModal>('confirmModalRef')
+const exerciseToDeleteId = shallowRef('')
 
 const createExerciseModalRef = useTemplateRef<InstanceType<typeof CreateExerciseModal>>('createExerciseModalRef')
 function handleOpenModal() {

@@ -23,6 +23,7 @@
 
   .workout-results__charts & {
     min-height: 250px;
+    padding-top: 8px;
   }
 }
 

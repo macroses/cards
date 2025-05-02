@@ -10,8 +10,8 @@ export function useRunWorkout() {
   const route = useRoute()
   const workoutId = route.params.id as string
   const workout = ref<CreateWorkoutResponse | null>(null)
-  const isLoading = ref(true)
-  const error = ref<string | null>(null)
+  const isLoading = shallowRef(true)
+  const error = shallowRef<string | null>(null)
 
   const { t } = useI18n()
 

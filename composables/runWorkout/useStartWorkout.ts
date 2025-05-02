@@ -10,7 +10,7 @@ import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 export function useStartWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
-  const isLoading = ref(false)
+  const isLoading = shallowRef(false)
   const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
 
   async function startWorkout(workoutId: string) {

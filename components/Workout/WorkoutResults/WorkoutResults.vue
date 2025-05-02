@@ -15,10 +15,10 @@ const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
 const { t } = useI18n()
 
 const chartOption = ref<MetricCharts[ChartType] | null>(null)
-const selectedChartType = ref<ChartType>('weight')
+const selectedChartType = shallowRef<ChartType>('weight')
 const chartInstance = ref<any>(null)
 
-const chartTypes = ref<Array<{ type: ChartType, label: string }>>([
+const chartTypes = readonly<Array<{ type: ChartType, label: string }>>([
   { type: 'weight', label: t('workout.weight') },
   { type: 'repeats', label: t('workout.repeats') },
   { type: 'time', label: t('workout.time') },

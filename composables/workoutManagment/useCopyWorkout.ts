@@ -10,7 +10,7 @@ export function useCopyWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
-  const isLoading = ref(false)
+  const isLoading = shallowRef(false)
 
   async function copyWorkout(workoutId: string, newDate: Date) {
     try {

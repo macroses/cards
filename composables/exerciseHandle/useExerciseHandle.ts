@@ -10,8 +10,8 @@ import { useCachedFetch } from '~/utils/useCachedFetch'
  */
 
 export function useExerciseHandle() {
-  const isLoading = ref(false)
-  const error = ref<string | null>(null)
+  const isLoading = shallowRef(false)
+  const error = shallowRef<string | null>(null)
   const { t } = useI18n()
   const { toast } = useToastState()
 

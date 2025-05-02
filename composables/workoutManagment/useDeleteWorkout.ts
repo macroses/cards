@@ -11,7 +11,7 @@ import { deleteCachedData } from '~/utils/cacheRunnedWorkout'
 export function useDeleteWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
-  const isLoading = ref(false)
+  const isLoading = shallowRef(false)
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
   const workouts = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
   const { stopTimer, checkActiveWorkout } = useWorkoutTimer()

@@ -13,7 +13,7 @@ const {
   hasCloseButton = true,
 } = defineProps<ModalProps>()
 
-const isOpen = ref(false)
+const isOpen = shallowRef(false)
 const modalRef = useTemplateRef<HTMLDivElement>('modalRef')
 const isMobile = useMediaQuery('(max-width: 768px)')
 

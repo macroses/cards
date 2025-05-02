@@ -61,7 +61,7 @@ const isWorkoutCompleted = computed(() => (date: Date) => {
   return workout?.completed
 })
 
-const touchStartX = ref(0)
+const touchStartX = shallowRef(0)
 
 function onTouchStart(event: TouchEvent) {
   touchStartX.value = event.touches[0].clientX

@@ -28,7 +28,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const volumeChartOption = ref<ECBasicOption | null>(null)
   const exerciseChartOption = ref<ECBasicOption | null>(null)
   const durationChartOption = ref<ECBasicOption | null>(null)
-  const selectedExercise = ref<string | null>(null)
+  const selectedExercise = shallowRef<string | null>(null)
   const popularExercises = ref<string[]>([])
   const exerciseData = ref<Record<string, ExerciseData[]>>({})
 

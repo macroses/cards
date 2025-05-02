@@ -9,7 +9,7 @@ export function useChangeLanguage() {
   const savedLanguage = useLocalStorage<Languages>(LANGUAGE_KEY, 'en')
 
   const changeLanguage = (lang: Languages) => {
-    setLocale(lang)
+    setLocale(lang).then()
     savedLanguage.value = lang
   }
 

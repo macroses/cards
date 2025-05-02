@@ -19,7 +19,7 @@ const idModel = defineModel<number>('id')
 const valueModel = defineModel<string>('value')
 
 const dropdownParent = ref<HTMLDivElement | null>(null)
-const isDropdownOpened = ref(false)
+const isDropdownOpened = shallowRef(false)
 const toggleDropdown = () => (isDropdownOpened.value = !isDropdownOpened.value)
 
 function activeValue(option: Option) {

@@ -12,8 +12,8 @@ const emit = defineEmits<{
 }>()
 
 const containerRef = useTemplateRef<HTMLDivElement>('containerRef')
-const defaultColor = ref(WORKOUT_COLORS[0].rgb)
-const isDropDownActive = ref(false)
+const defaultColor = shallowRef(WORKOUT_COLORS[0].rgb)
+const isDropDownActive = shallowRef(false)
 
 // Следим за изменением начального цвета
 watchImmediate(() => props.initialColor, (newColor?: string) => {
