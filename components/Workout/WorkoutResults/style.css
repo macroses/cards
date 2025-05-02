@@ -1,6 +1,11 @@
 .workout-results__charts-wr{
   flex: 5;
   position: relative;
+
+  @media (width <= 768px) {
+    position: relative;
+    width: 100%;
+  }
 }
 
 .workout-results__charts {
@@ -15,6 +20,11 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+
+  @media (width <= 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 .chart-container {
@@ -67,6 +77,10 @@
   grid-template-columns: repeat(4, 1fr);
   justify-content: space-between;
   padding-bottom: 8px;
+
+  @media (width <= 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .workout-progress__metric {

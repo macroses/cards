@@ -15,6 +15,8 @@ const emit = defineEmits<{
 dayjs.extend(duration)
 
 const { getExerciseSets } = useExerciseSets()
+const isMobile = useMediaQuery('(max-width: 768px)')
+const isChartsVisible = ref(false)
 
 const exerciseSets = computed(() => {
   if (!props.selectedWorkout) {
@@ -33,6 +35,14 @@ const exerciseSets = computed(() => {
 
 function handleExerciseClick(exerciseId: string) {
   emit('update:selectedExerciseId', exerciseId)
+
+  if (isMobile.value) {
+    isChartsVisible.value = true
+  }
+}
+
+function handleBackClick() {
+  isChartsVisible.value = false
 }
 
 function setTime(time: number | null | undefined): string {
@@ -45,7 +55,10 @@ function setTime(time: number | null | undefined): string {
 </script>
 
 <template>
-  <div class="workout-results__container">
+  <div
+    class="workout-results__container"
+    :class="{ 'mobile-charts-visible': isMobile && isChartsVisible }"
+  >
     <div class="workout-results__wr">
       <ul class="workout-results__sets-header">
         <li>Level</li>
@@ -86,11 +99,21 @@ function setTime(time: number | null | undefined): string {
       </ul>
     </div>
 
-    <WorkoutResults
-      v-if="selectedWorkout"
-      :workout="selectedWorkout"
-      :selected-exercise-id="selectedExerciseId"
-    />
+    <div class="workout-results__charts-container">
+      <button
+        v-if="isMobile"
+        class="workout-results__back-button"
+        @click="handleBackClick"
+      >
+        ← Back to exercises
+      </button>
+
+      <WorkoutResults
+        v-if="selectedWorkout"
+        :workout="selectedWorkout"
+        :selected-exercise-id="selectedExerciseId"
+      />
+    </div>
   </div>
 </template>
 
