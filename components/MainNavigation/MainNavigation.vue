@@ -4,7 +4,10 @@ const { timer, activeWorkout } = useWorkoutTimer()
 </script>
 
 <template>
-  <div class="main-navigation">
+  <div
+    class="main-navigation"
+    :class="{ 'main-navigation--active-workout': activeWorkout }"
+  >
     <TheButton
       v-if="activeWorkout"
       v-tooltip="{ content: 'Go to active workout', position: 'bottom' }"

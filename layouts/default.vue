@@ -57,7 +57,7 @@ main {
     padding-top: 8px;
   }
 
-  @media (width <= 525px) {
+  @media (width <= 768px) {
     padding-left: 0;
   }
 }

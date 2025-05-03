@@ -45,6 +45,8 @@
   border-radius: 12px;
   border: 1px solid var(--color-border);
   overflow: hidden;
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
 }
 
 .workout-progress__empty {
@@ -76,7 +78,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   justify-content: space-between;
-  padding-bottom: 8px;
 
   @media (width <= 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -84,14 +85,15 @@
 }
 
 .workout-progress__metric {
-  border-radius: 6px;
+  &:not(:last-child) {
+    border-right: 1px solid var(--color-border);
+  }
 }
 
 .metric__label {
   font-size: 14px;
   font-weight: 500;
   padding-block: 4px;
-  margin-bottom: 8px;
   text-align: center;
   background-color: var(--table-dark-bg);
 }
@@ -99,28 +101,57 @@
 .metric__values {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-left: 24px;
 }
 
 .metric__group {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  padding-bottom: 8px;
+
+  &:first-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (width <= 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-left: 0;
+  }
 }
 
 .metric__subtitle {
   font-size: 12px;
+  padding-block: 4px;
+  background-color: oklch(from var(--table-dark-bg) l c h / 0.5);
+  padding-left: 24px;
+
+  @media (width <= 768px) {
+    text-align: center;
+    width: 100%;
+    padding-left: 0;
+  }
 }
 
 .metric__current {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
+  padding-left: 24px;
+
+  @media (width <= 768px) {
+    padding-left: 0;
+  }
 }
 
 .metric__change {
   font-size: 14px;
   font-weight: 500;
+  padding-left: 24px;
+
+  @media (width <= 768px) {
+    padding-left: 0;
+  }
 }
 
 .metric__change--positive {

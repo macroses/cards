@@ -12,6 +12,11 @@
 
   @media (width <= 768px) {
     padding: 8px;
+    max-width: 100%;
+
+    &:has(.main-navigation--active-workout) {
+      padding: 53px 8px 8px;
+    }
   }
 }
 
@@ -34,6 +39,14 @@
 
   & .calendar {
     padding-bottom: 12px;
+  }
+
+  @media (width <= 768px) {
+    padding-bottom: 0;
+
+    & .calendar {
+      padding-bottom: 0;
+    }
   }
 }
 

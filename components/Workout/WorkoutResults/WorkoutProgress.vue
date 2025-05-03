@@ -92,7 +92,7 @@ function formatTime(seconds: number): string {
               {{ $t('workout.average') }}
             </div>
             <div class="metric__current">
-              {{ progress.repeats.current.toFixed(1) }}
+              {{ progress.repeats.current.toFixed(0) }}
             </div>
             <div
               class="metric__change"

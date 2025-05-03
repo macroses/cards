@@ -10,19 +10,17 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:selectedExerciseId', id: string): void
+  (e: 'update:isChartsVisible', value: boolean): void
 }>()
 
 dayjs.extend(duration)
 
 const { getExerciseSets } = useExerciseSets()
 const isMobile = useMediaQuery('(max-width: 768px)')
-const isChartsVisible = ref(false)
+const isChartsVisible = defineModel<boolean>('isChartsVisible', { default: false })
+const containerRef = useTemplateRef<HTMLDivElement>('containerRef')
 
 const exerciseSets = computed(() => {
-  if (!props.selectedWorkout) {
-    return {}
-  }
-
   const groupedSets = getExerciseSets(props.selectedWorkout)
   const result: Record<string, CreateWorkoutResponse['sets']> = {}
 
@@ -41,10 +39,6 @@ function handleExerciseClick(exerciseId: string) {
   }
 }
 
-function handleBackClick() {
-  isChartsVisible.value = false
-}
-
 function setTime(time: number | null | undefined): string {
   if (!time) {
     return ''
@@ -56,6 +50,7 @@ function setTime(time: number | null | undefined): string {
 
 <template>
   <div
+    ref="containerRef"
     class="workout-results__container"
     :class="{ 'mobile-charts-visible': isMobile && isChartsVisible }"
   >
@@ -100,14 +95,6 @@ function setTime(time: number | null | undefined): string {
     </div>
 
     <div class="workout-results__charts-container">
-      <button
-        v-if="isMobile"
-        class="workout-results__back-button"
-        @click="handleBackClick"
-      >
-        ← Back to exercises
-      </button>
-
       <WorkoutResults
         v-if="selectedWorkout"
         :workout="selectedWorkout"

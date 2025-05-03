@@ -18,7 +18,7 @@
     height: calc(100vh - 16px);
   }
 
-  @media (width <= 525px) {
+  @media (width <= 768px) {
     height: auto;
     width: 100%;
     flex-direction: row;
@@ -36,7 +36,7 @@
   gap: 8px;
   flex: 1;
 
-  @media (width <= 525px) {
+  @media (width <= 768px) {
     flex-direction: row;
   }
 }
@@ -70,7 +70,7 @@
   width: 100%;
   gap: 8px;
 
-  @media (width <= 525px) {
+  @media (width <= 768px) {
     flex-direction: row;
     width: auto;
   }

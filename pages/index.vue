@@ -95,6 +95,8 @@ async function handleDeleteWorkout(id: string) {
 
 const readWorkoutResults = useTemplateRef<typeof TheModal>('readWorkoutResults')
 const selectedExerciseId = shallowRef<string | null>(null)
+const isMobileChartsVisible = shallowRef(false)
+const isMobile = useMediaQuery('(max-width: 768px)')
 
 function showResultModal(workoutId: string) {
   readWorkoutResults.value?.openModal()
@@ -119,6 +121,10 @@ const isPageLoading = computed(() => {
     || isWorkoutsLoading.value
     || statsStatus.value
     || chartsStatus.value
+})
+
+watch(selectedExerciseId, () => {
+  document.querySelector('.modal')?.scrollTo({ top: 0, behavior: 'smooth' })
 })
 </script>
 
@@ -199,15 +205,29 @@ const isPageLoading = computed(() => {
       class="workout-results__modal"
     >
       <template #header>
-        <h3>
-          {{ selectedWorkout.title }}
-          <span>{{ dayjs(selectedWorkout.workoutDate).format('DD.MM.YYYY') }}</span>
-        </h3>
+        <div class="workout-results__header">
+          <TheButton
+            v-if="isMobile && isMobileChartsVisible"
+            icon-only
+            class="workout-results__back-button"
+            @click="isMobileChartsVisible = false"
+          >
+            <TheIcon
+              icon-name="angle-left"
+              width="20"
+            />
+          </TheButton>
+          <h3>
+            {{ selectedWorkout.title }}
+            <span>{{ dayjs(selectedWorkout.workoutDate).format('DD.MM.YYYY') }}</span>
+          </h3>
+        </div>
       </template>
       <template #content>
         <FinishedWorkoutResult
           v-if="selectedWorkout"
           v-model:selected-exercise-id="selectedExerciseId"
+          v-model:is-charts-visible="isMobileChartsVisible"
           :selected-workout="selectedWorkout"
         />
       </template>
@@ -233,5 +253,16 @@ const isPageLoading = computed(() => {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.workout-results__header {
+  position: relative;
+}
+
+.workout-results__back-button {
+  position: absolute;
+  right: 0;
+  top: -4px;
+  z-index: 10;
 }
 </style>
