@@ -26,7 +26,7 @@
     "no_time_warning": "No time in sets",
     "no_time_description": "There is no set with recorded time in the workout. The workout will be stopped and will not be saved.",
     "difficulty": "Difficulty",
-    "weight": "Weight (kg)",
+    "weight": "Weight",
     "repeats": "Repeats",
     "time": "Time",
     "volume": "Volume",
