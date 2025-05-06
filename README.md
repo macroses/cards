@@ -82,19 +82,3 @@ Run tests with:
 ```bash
 npm run test:ci
 ```
-
-## Project Structure
-
-- `/assets` - Static assets like CSS and images
-- `/components` - Vue components
-- `/composables` - Vue composables for shared logic
-- `/constants` - Application constants
-- `/directives` - Vue directives
-- `/i18n` - Internationalization files
-- `/layouts` - Page layouts
-- `/pages` - Application pages and routes
-- `/plugins` - Nuxt plugins
-- `/prisma` - Prisma schema and migrations
-- `/public` - Public static files
-- `/server` - API routes and server middleware
-- `/ts` - TypeScript interfaces and types

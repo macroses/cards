@@ -1,16 +1,16 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
-import { API, GLOBAL_WORKOUTS } from '~/constants'
+import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 /**
  * Composable for copying workouts.
- * Creates a new workout based on existing one with specified date.
+ * Creates a new workout based on an existing one with a specified date.
  */
 
 export function useCopyWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
-  const workouts = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
+  const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const isLoading = shallowRef(false)
 
   async function copyWorkout(workoutId: string, newDate: Date) {

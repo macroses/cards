@@ -1,7 +1,7 @@
 import type { LocationQuery } from '#vue-router'
 import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
 import { nanoid } from 'nanoid'
-import { GLOBAL_WORKOUTS } from '~/constants'
+import { KEYS } from '~/constants'
 
 /**
  * Composable for editing workouts.
@@ -15,7 +15,7 @@ type EditWorkoutReturn = Readonly<{
 
 export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
   const route = useRoute()
-  const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
+  const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
   const workoutEditId = ref<LocationQuery | null>(null)
   const { selectExercise } = useSelectExercise()
 

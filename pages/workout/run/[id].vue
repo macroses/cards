@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
+import type { UserTrainingSession } from '~/ts/interfaces'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
@@ -61,12 +62,12 @@ async function updateSetFieldValue(setId: string, field: UnionSetFields, value: 
   )
 }
 
-function startEditing(set: any, field: UnionSetFields) {
+function startEditing(set: UserTrainingSession, field: UnionSetFields) {
   editingSetId.value = set.id
   editingField.value = field
 
   if (field !== 'setTime') {
-    editingValue.value = set[field]
+    editingValue.value = set[field] ?? 0
     return
   }
 

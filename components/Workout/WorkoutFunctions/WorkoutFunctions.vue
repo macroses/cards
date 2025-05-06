@@ -2,7 +2,7 @@
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
-import { GLOBAL_WORKOUTS, PAGES } from '~/constants'
+import { KEYS, PAGES } from '~/constants'
 import { getCachedData, saveCacheData } from '~/utils/cacheRunnedWorkout'
 
 const {
@@ -25,7 +25,7 @@ const runWorkoutConfirm = useTemplateRef<typeof TheModal>('runWorkoutConfirm')
 const { startWorkout } = useStartWorkout()
 const { activeWorkout } = useWorkoutTimer()
 
-const workoutsList = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS)
+const workoutsList = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
 
 const showStartButton = computed(() => {
   if (isWorkoutCompleted) {
@@ -83,15 +83,7 @@ const isDropdownOpen = shallowRef(false)
 const dropdownRef = useTemplateRef<HTMLElement>('dropdownRef')
 
 async function toggleDropdown() {
-  if (!document.startViewTransition) {
-    isDropdownOpen.value = !isDropdownOpen.value
-
-    return
-  }
-
-  await document.startViewTransition(() => {
-    isDropdownOpen.value = !isDropdownOpen.value
-  }).finished
+  isDropdownOpen.value = !isDropdownOpen.value
 }
 
 onClickOutside(dropdownRef, () => {

@@ -1,5 +1,5 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
-import { API, GLOBAL_WORKOUTS } from '~/constants'
+import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import { deleteCachedData } from '~/utils/cacheRunnedWorkout'
 
@@ -12,7 +12,7 @@ export function useDeleteWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = shallowRef(false)
-  const workouts = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
+  const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const { stopTimer, checkActiveWorkout } = useWorkoutTimer()
 
   async function deleteWorkout(id: string) {

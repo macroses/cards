@@ -1,9 +1,13 @@
-import type { EditingState } from '~/ts/interfaces'
+import type { EditingState, UserTrainingSession } from '~/ts/interfaces'
 
 /**
  * Composable for managing the editing state of workout sets.
  * Handles input focus, refs, and editing interactions for weight and repeats fields.
  */
+
+interface Focusable {
+  focus: () => void
+}
 
 export function useEditingSetState() {
   const editingState = ref<EditingState>({
@@ -11,7 +15,7 @@ export function useEditingSetState() {
     field: null,
   })
 
-  const inputRefs = ref<Record<string, any>>({})
+  const inputRefs = ref<Record<string, Focusable>>({})
 
   function handleEdit(setId: string, field: 'weight' | 'repeats') {
     editingState.value = { setId, field }
@@ -29,7 +33,7 @@ export function useEditingSetState() {
     }
   }
 
-  function setInputRef(setId: string): (el: any) => void {
+  function setInputRef(setId: string): (el: Focusable) => void {
     return (el) => {
       if (el) {
         inputRefs.value[setId] = el
@@ -37,7 +41,11 @@ export function useEditingSetState() {
     }
   }
 
-  function handleInputChange(event: Event, set: any, field: 'weight' | 'repeats') {
+  function handleInputChange(
+    event: Event,
+    set: UserTrainingSession,
+    field: 'weight' | 'repeats',
+  ) {
     if (!(event.target as HTMLInputElement).value) {
       set[field] = 0
     }

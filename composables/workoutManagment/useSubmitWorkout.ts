@@ -4,35 +4,41 @@ import type {
   SubmitWorkoutReturn,
   UserWorkout,
 } from '~/ts/interfaces'
-import { API, GLOBAL_WORKOUTS, PAGES } from '~/constants'
+import { API, KEYS, PAGES } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 /**
  * Composable for retrieving last exercise sets.
- * Finds and returns sets from the most recent workout for given exercise.
+ * Finds and returns sets from the most recent workout for a given exercise.
  */
 
 export function useSubmitWorkout(): SubmitWorkoutReturn {
   const { t } = useI18n()
   const { toast } = useToastState()
-  const { fetchWorkouts } = useFetchWorkoutsByUserId()
-  const route = useRoute()
   const isLoading = shallowRef(false)
+
+  const { fetchWorkouts } = useFetchWorkoutsByUserId()
+  const workoutsList = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
+
+  const route = useRoute()
   const workoutId = route.query.edit as string
-  const workoutsList = useState<CreateWorkoutResponse[] | []>(GLOBAL_WORKOUTS)
 
   function hasWorkoutChanged(newWorkout: UserWorkout): boolean {
-    const originalWorkout = workoutsList.value.find(w => w.id === workoutId)
+    const originalWorkout = workoutsList.value.find(({ id }) => id === workoutId)
 
-    if (
-      !workoutId
-      || !originalWorkout
-      || originalWorkout.title !== newWorkout.title
-      || originalWorkout.color !== newWorkout.color
-      || new Date(originalWorkout.workoutDate).getTime() !== new Date(newWorkout.workoutDate).getTime()
-      || originalWorkout.exercises.length !== newWorkout.exercises.length
-      || originalWorkout.sets.length !== newWorkout.sessions.length
-    ) {
+    if (!workoutId || !originalWorkout) {
+      return true
+    }
+
+    const checks = [
+      originalWorkout.title !== newWorkout.title,
+      originalWorkout.color !== newWorkout.color,
+      new Date(originalWorkout.workoutDate).getTime() !== new Date(newWorkout.workoutDate).getTime(),
+      originalWorkout.exercises.length !== newWorkout.exercises.length,
+      originalWorkout.sets.length !== newWorkout.sessions.length,
+    ]
+
+    if (checks.some(check => check)) {
       return true
     }
 
@@ -43,6 +49,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
         && set.repeats === newSet.repeats
         && set.difficulty === newSet.difficulty,
       )
+
       return !originalSet
     })
 
@@ -56,6 +63,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
       if (workoutId) {
         if (!hasWorkoutChanged(workout)) {
           navigateTo(PAGES.HOME)
+
           return true
         }
 

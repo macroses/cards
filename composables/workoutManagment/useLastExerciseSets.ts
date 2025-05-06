@@ -1,5 +1,5 @@
 import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
-import { GLOBAL_WORKOUTS } from '~/constants'
+import { KEYS } from '~/constants'
 
 /**
  * Composable for managing last exercise sets.
@@ -7,7 +7,7 @@ import { GLOBAL_WORKOUTS } from '~/constants'
  */
 
 export function useLastExerciseSets() {
-  const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS)
+  const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const lastSets = ref<Record<string, UserTrainingSession[]>>({})
 
   function getLastSets(exerciseId: string, currentDate: Date): void {

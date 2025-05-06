@@ -4,14 +4,14 @@ import type { ChartsApiResponse, CreateWorkoutResponse, Statistics } from '~/ts/
 import { useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import { GLOBAL_DATE, GLOBAL_WORKOUTS, KEYS, PAGES } from '~/constants'
+import { GLOBAL_DATE, KEYS, PAGES } from '~/constants'
 
 dayjs.extend(duration)
 
 definePageMeta({ auth: true })
 
 const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
-const workouts = useState<CreateWorkoutResponse[] | null>(GLOBAL_WORKOUTS, () => null)
+const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
 const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
 const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 const isCopyMode = shallowRef(false)

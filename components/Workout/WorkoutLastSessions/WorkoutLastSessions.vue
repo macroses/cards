@@ -1,10 +1,5 @@
 <script setup lang="ts">
-interface WorkoutLastSessionProps {
-  exerciseId: string
-  activeExerciseId: string | null
-  workoutDate: Date
-  lastSets: Record<string, any>
-}
+import type { WorkoutLastSessionProps } from '~/ts/componentProps'
 
 defineProps<WorkoutLastSessionProps>()
 </script>

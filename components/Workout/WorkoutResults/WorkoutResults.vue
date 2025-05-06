@@ -3,20 +3,18 @@ import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interf
 import { watchImmediate } from '@vueuse/core'
 import { KEYS } from '~/constants'
 
-interface WorkoutResultsProps {
+const props = defineProps<{
   workout: CreateWorkoutResponse
   selectedExerciseId: string | null
-}
-
-const props = defineProps<WorkoutResultsProps>()
+}>()
 
 const { getExerciseData } = useWorkoutResults()
-const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
+const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
 const { t } = useI18n()
 
 const chartOption = ref<MetricCharts[ChartType] | null>(null)
 const selectedChartType = shallowRef<ChartType>('weight')
-const chartInstance = ref<any>(null)
+const chartInstance = ref<any | null>(null)
 
 const chartTypes = readonly<Array<{ type: ChartType, label: string }>>([
   { type: 'weight', label: t('workout.weight') },
