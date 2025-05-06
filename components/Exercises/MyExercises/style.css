@@ -28,6 +28,12 @@
   }
 }
 
+.my_exercises__list-item__name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .my_exercises__list-item-actions {
   display: flex;
 }

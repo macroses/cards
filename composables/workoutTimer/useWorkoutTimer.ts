@@ -42,7 +42,7 @@ export function useWorkoutTimer() {
   }
 
   function checkActiveWorkout(workouts: UnionWorkout) {
-    const startedWorkout = workouts.find(w => w.startedAt && !w.endedAt)
+    const startedWorkout = workouts.find(({ startedAt, endedAt }) => startedAt && !endedAt)
 
     if (startedWorkout?.startedAt && startedWorkout.id) {
       startTimer(new Date(startedWorkout.startedAt), startedWorkout.id)

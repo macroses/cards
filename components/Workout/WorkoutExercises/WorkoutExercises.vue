@@ -119,7 +119,7 @@ watch(() => props.selectedExercises, (exercises) => {
       >
         <div
           class="workout__exercises-item-name"
-          :style="{ viewTransitionName: `exercise-${exercise.id}` }"
+          :style="{ '--exercise-transition-name': `exercise-${exercise.id}` }"
           @click.stop="toggleExercise(exercise.id)"
         >
           <TheIcon

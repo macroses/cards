@@ -168,7 +168,6 @@ onClickOutside(exercisesListRef, async () => {
           v-if="!isMobile || isMobileListVisible"
           ref="exercisesListRef"
           class="muscles-list"
-          :style="{ viewTransitionName: 'exercises-list' }"
         >
           <button
             v-if="isMobile && isMobileListVisible"

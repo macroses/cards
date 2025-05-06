@@ -17,7 +17,7 @@ import { useWorkoutTimer } from '../workoutTimer/useWorkoutTimer'
 const CACHE_NAME = 'workout'
 
 export function useFinishWorkout() {
-  const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
+  const workoutsList = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
   const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 

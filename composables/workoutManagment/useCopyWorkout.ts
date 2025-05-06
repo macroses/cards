@@ -1,4 +1,5 @@
-import { API } from '~/constants'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import { API, GLOBAL_WORKOUTS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 /**
@@ -9,14 +10,14 @@ import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 export function useCopyWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
-  const { fetchWorkouts } = useFetchWorkoutsByUserId()
+  const workouts = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
   const isLoading = shallowRef(false)
 
   async function copyWorkout(workoutId: string, newDate: Date) {
     try {
       isLoading.value = true
 
-      await $fetch(API.COPY_WORKOUT, {
+      const copiedWorkout = await $fetch<CreateWorkoutResponse>(API.COPY_WORKOUT, {
         method: 'POST',
         body: {
           workoutId,
@@ -26,7 +27,9 @@ export function useCopyWorkout() {
 
       toast(t('toast.workout_copied'), ToastStatusesEnum.SUCCESS)
 
-      await fetchWorkouts()
+      if (workouts.value) {
+        workouts.value = [copiedWorkout, ...workouts.value]
+      }
 
       return true
     }

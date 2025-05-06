@@ -48,7 +48,7 @@ p {
   color: var(--color-text);
 }
 
-::view-transition-group(*) {
-  animation-duration: 0.4s;
-  animation-timing-function: ease-out;
-}
+/*::view-transition-group(*) {*/
+/*  animation-duration: 0.4s;*/
+/*  animation-timing-function: ease-out;*/
+/*}*/

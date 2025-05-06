@@ -12,7 +12,6 @@ export function useDeleteWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = shallowRef(false)
-  const { fetchWorkouts } = useFetchWorkoutsByUserId()
   const workouts = useState<CreateWorkoutResponse[]>(GLOBAL_WORKOUTS)
   const { stopTimer, checkActiveWorkout } = useWorkoutTimer()
 
@@ -28,20 +27,20 @@ export function useDeleteWorkout() {
       if (successDelete) {
         stopTimer()
         toast(t('toast.workout_deleted'), ToastStatusesEnum.SUCCESS)
-        await fetchWorkouts()
+
+        const indexToDelete = workouts.value.findIndex(workout => workout.id === id)
+        if (indexToDelete > -1) {
+          workouts.value.splice(indexToDelete, 1)
+        }
 
         checkActiveWorkout(workouts.value)
 
         await deleteCachedData('workout', id)
       }
-
-      return true
     }
     catch (error: unknown) {
       console.error('Error delete workout', error)
       toast(t('toast.workout_delete_error'), ToastStatusesEnum.ERROR)
-
-      return false
     }
     finally {
       isLoading.value = false

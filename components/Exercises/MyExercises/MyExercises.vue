@@ -78,7 +78,9 @@ async function confirmDelete(exerciseId: string) {
         :class="{ selected: isExerciseSelected(exercise.id) }"
         @click="selectExercise(exercise)"
       >
-        {{ exercise.name }}
+        <div class="my_exercises__list-item__name">
+          {{ exercise.name }}
+        </div>
         <div class="my_exercises__list-item-actions">
           <TheButton
             variant="transparent"

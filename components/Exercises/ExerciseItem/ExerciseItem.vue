@@ -14,7 +14,7 @@ const emit = defineEmits<{
   <li
     class="exercise-item"
     :class="{ added: isSelected }"
-    :style="{ viewTransitionName: isSelected ? '' : `exercise-${exercise.id}` }"
+    :style="{ '--exercise-transition-name': isSelected ? 0 : `exercise-${exercise.id}` }"
     @click="emit('select', exercise)"
   >
     <p>{{ exercise.name }}</p>
@@ -34,5 +34,11 @@ const emit = defineEmits<{
 .exercise-item {
   position: relative;
   contain: layout;
+}
+
+body:not(:has(.modal)) {
+  .exercise-item {
+    view-transition-name: var(--exercise-transition-name);
+  }
 }
 </style>
