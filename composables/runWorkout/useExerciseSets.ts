@@ -1,28 +1,41 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
+
+interface ExerciseSetGroup {
+  sets: UserTrainingSession[]
+  name: string
+}
 
 /**
  * Composable for grouping workout sets by exercise.
  * Groups sets by exercise ID and adds exercise name to each group.
  */
 export function useExerciseSets() {
+  function findExerciseName(exerciseId: string, exercises: CreateWorkoutResponse['exercises']): string {
+    return exercises.find(exercise => exercise.exerciseId === exerciseId)?.exerciseName || 'Unknown'
+  }
+
   function getExerciseSets(workout: CreateWorkoutResponse | null) {
     if (!workout) {
       return {}
     }
 
-    return workout.sets.reduce((acc, set) => {
-      const exerciseId = set.exerciseId
+    const { sets, exercises } = workout
+    const exerciseSetsMap: Record<string, ExerciseSetGroup> = {}
 
-      if (!acc[exerciseId]) {
-        acc[exerciseId] = {
+    for (const set of sets) {
+      const { exerciseId } = set
+
+      if (!exerciseSetsMap[exerciseId]) {
+        exerciseSetsMap[exerciseId] = {
           sets: [],
-          name: workout?.exercises.find(e => e.exerciseId === exerciseId)?.exerciseName || 'Unknown',
+          name: findExerciseName(exerciseId, exercises),
         }
       }
-      acc[exerciseId].sets.push(set)
 
-      return acc
-    }, {} as Record<string, { sets: CreateWorkoutResponse['sets'], name: string }>)
+      exerciseSetsMap[exerciseId].sets.push(set)
+    }
+
+    return exerciseSetsMap
   }
 
   return {

@@ -19,11 +19,11 @@ export interface CreateWorkoutResponse {
   completed: boolean
   startedAt?: Date | null
   endedAt?: Date | null
-  exercises: Array<{
+  exercises: {
     id: string
     exerciseName: string
     workoutId: string
     exerciseId: string
-  }>
+  }[]
   sets: UserTrainingSession[]
 }

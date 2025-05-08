@@ -13,6 +13,8 @@ export function usePersonalRecords() {
   const personalRecords = useState<Record<string, PersonalRecord[]>>(KEYS.PERSONAL_RECORDS_KEY, () => ({}))
   const newRecords = ref<NewRecord[]>([])
 
+  const createRecordKey = (exerciseId: string, type: RecordType | string): string => `${exerciseId}-${type}`
+
   /**
    * Проверяет один сет на наличие личных рекордов
    */
@@ -20,9 +22,9 @@ export function usePersonalRecords() {
     set: UserTrainingSession,
     exerciseName: string,
     workouts: CreateWorkoutResponse[] | null,
-    showToast: boolean = false,
+    showToast = false,
   ) {
-    if (!workouts || !workouts.length) {
+    if (!workouts?.length) {
       return false
     }
 
@@ -30,9 +32,9 @@ export function usePersonalRecords() {
     const volume = weight * repeats
 
     const previousSets = workouts
-      .filter(workout => workout.completed)
+      .filter(({ completed }) => completed)
       .flatMap(({ sets }) => {
-        return sets.filter(s => s.exerciseId === exerciseId)
+        return sets.filter(set => set.exerciseId === exerciseId)
       })
 
     const maxWeight = Math.max(0, ...previousSets.map(({ weight }) => weight || 0))
@@ -47,7 +49,10 @@ export function usePersonalRecords() {
       })
     }
 
-    const maxVolume = Math.max(0, ...previousSets.map(({ weight, repeats }) => (weight || 0) * (repeats || 0)))
+    const maxVolume = Math.max(0, ...previousSets.map(({ weight, repeats }) => {
+      return (weight || 0) * (repeats || 0)
+    }))
+
     if (volume > maxVolume && volume > 0) {
       addNewRecord({
         type: 'volume',
@@ -100,10 +105,8 @@ export function usePersonalRecords() {
   function addNewRecord(record: NewRecord) {
     const existingRecord = newRecords.value.find(({ type, exerciseId }) => type === record.type && exerciseId === record.exerciseId)
 
-    if (existingRecord) {
-      if (record.value > existingRecord.value) {
-        Object.assign(existingRecord, record)
-      }
+    if (existingRecord && record.value > existingRecord.value) {
+      Object.assign(existingRecord, record)
     }
     else {
       newRecords.value.push(record)
@@ -119,7 +122,7 @@ export function usePersonalRecords() {
   }
 
   function savePersonalRecord(record: PersonalRecord) {
-    const key = `${record.exerciseId}-${record.type}`
+    const key = createRecordKey(record.exerciseId, record.type)
 
     if (!personalRecords.value[key]) {
       personalRecords.value[key] = []
@@ -138,13 +141,10 @@ export function usePersonalRecords() {
   }
 
   function getBestRecord(exerciseId: string, type: RecordType): PersonalRecord | null {
-    const key = `${exerciseId}-${type}`
+    const key = createRecordKey(exerciseId, type)
+    const records = personalRecords.value[key]
 
-    if (!personalRecords.value[key] || personalRecords.value[key].length === 0) {
-      return null
-    }
-
-    return personalRecords.value[key][0]
+    return records?.length ? records[0] : null
   }
 
   function setRecordToastFunction(fn: RecordToastFunction) {

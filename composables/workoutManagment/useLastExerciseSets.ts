@@ -10,19 +10,44 @@ export function useLastExerciseSets() {
   const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const lastSets = ref<Record<string, UserTrainingSession[]>>({})
 
-  function getLastSets(exerciseId: string, currentDate: Date): void {
-    const lastWorkout = workouts.value
-      ?.filter(workout =>
-        workout.exercises.some(ex => ex.exerciseId === exerciseId)
-        && new Date(workout.workoutDate) < currentDate,
-      )
-      .sort((a, b) =>
-        new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime(),
-      )[0]
-
-    lastSets.value[exerciseId] = lastWorkout?.sets
+  function extractExerciseSets(
+    workout: CreateWorkoutResponse,
+    exerciseId: string,
+  ): UserTrainingSession[] {
+    return workout.sets
       ?.filter(set => set.exerciseId === exerciseId)
       ?.sort((a, b) => a.id.localeCompare(b.id)) ?? []
+  }
+
+  function findLastWorkoutWithExercise(
+    identifier: string,
+    currentDate: Date,
+  ) {
+    return workouts.value
+      .filter((workout) => {
+        const hasExercise = workout.exercises.some(({ exerciseId }) => exerciseId === identifier)
+        const isBeforeCurrentDate = new Date(workout.workoutDate) < currentDate
+
+        return hasExercise && isBeforeCurrentDate
+      })
+      .sort((a, b) => new Date(b.workoutDate).getTime() - new Date(a.workoutDate).getTime())[0]
+  }
+
+  function getLastSets(
+    exerciseId: string,
+    currentDate: Date,
+  ) {
+    if (!workouts.value?.length) {
+      lastSets.value[exerciseId] = []
+
+      return
+    }
+
+    const lastWorkout = findLastWorkoutWithExercise(exerciseId, currentDate)
+
+    lastSets.value[exerciseId] = lastWorkout
+      ? extractExerciseSets(lastWorkout, exerciseId)
+      : []
   }
 
   return {

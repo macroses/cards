@@ -9,76 +9,74 @@ import { saveCacheData } from '~/utils/cacheRunnedWorkout'
  */
 
 const MAX_SETS_COUNT = 50
+const CACHE_KEY = 'workout'
 
 export function useManageSets() {
-  async function addSet(
+  async function updateWorkoutAndCache(
     workout: CreateWorkoutResponse,
-    exerciseId: string,
-  ): Promise<boolean> {
+    newSets: UserTrainingSession[],
+  ) {
     try {
-      const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
-
-      if (exerciseSets.length >= MAX_SETS_COUNT) {
-        return false
-      }
-
-      const newSet: UserTrainingSession = {
-        id: nanoid(),
-        exerciseId,
-        weight: 0,
-        repeats: 0,
-        difficulty: DIFFICULT_LEVEL.WARM,
-        completed: false,
-        setTime: null,
-        setTimeAddedAt: null,
-      }
-
-      const updatedWorkout = {
-        ...workout,
-        sets: [...workout.sets, newSet],
-      }
-
-      await saveCacheData('workout', updatedWorkout)
+      const updatedWorkout = { ...workout, sets: newSets }
+      await saveCacheData(CACHE_KEY, updatedWorkout)
       workout.sets = updatedWorkout.sets
 
       return true
     }
     catch (error) {
-      console.error('Error adding set to cached workout:', error)
+      console.error('Error updating cached workout:', error)
       return false
     }
+  }
+
+  const createNewSet = (exerciseId: string): UserTrainingSession => ({
+    id: nanoid(),
+    exerciseId,
+    weight: 0,
+    repeats: 0,
+    difficulty: DIFFICULT_LEVEL.WARM,
+    completed: false,
+    setTime: null,
+    setTimeAddedAt: null,
+  })
+
+  function getExerciseSets(workout: CreateWorkoutResponse, exerciseId: string) {
+    return workout.sets.filter(set => set.exerciseId === exerciseId)
+  }
+
+  async function addSet(
+    workout: CreateWorkoutResponse,
+    exerciseId: string,
+  ) {
+    const exerciseSets = getExerciseSets(workout, exerciseId)
+
+    if (exerciseSets.length >= MAX_SETS_COUNT) {
+      return false
+    }
+
+    const newSet = createNewSet(exerciseId)
+    return updateWorkoutAndCache(workout, [...workout.sets, newSet])
   }
 
   async function deleteSet(
     workout: CreateWorkoutResponse,
     setId: string,
-  ): Promise<boolean> {
-    try {
-      const exerciseId = workout.sets.find(set => set.id === setId)?.exerciseId
-      if (!exerciseId) {
-        return false
-      }
+  ) {
+    const targetSet = workout.sets.find(({ id }) => id === setId)
 
-      const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
-
-      if (exerciseSets.length === 1) {
-        return false
-      }
-
-      const updatedWorkout = {
-        ...workout,
-        sets: workout.sets.filter(set => set.id !== setId),
-      }
-
-      await saveCacheData('workout', updatedWorkout)
-      workout.sets = updatedWorkout.sets
-
-      return true
-    }
-    catch (error) {
-      console.error('Error deleting set from cached workout:', error)
+    if (!targetSet) {
       return false
     }
+
+    const exerciseSets = getExerciseSets(workout, targetSet.exerciseId)
+
+    if (exerciseSets.length <= 1) {
+      return false
+    }
+
+    const updatedSets = workout.sets.filter(({ id }) => id !== setId)
+
+    return updateWorkoutAndCache(workout, updatedSets)
   }
 
   return {

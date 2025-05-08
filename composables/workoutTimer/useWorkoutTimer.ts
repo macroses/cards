@@ -14,15 +14,22 @@ dayjs.extend(duration)
  * Handles timer start/stop, tracks active workout time, and maintains timer state.
  */
 
-type UnionWorkout = UserWorkout[] | CreateWorkoutResponse[]
+type Workout = UserWorkout | CreateWorkoutResponse
+type WorkoutList = Workout[]
+
+interface ActiveWorkout {
+  startedAt: Date
+  id: string
+}
 
 export function useWorkoutTimer() {
   const timer = useState<string>(GLOBAL_WORKOUT_TIMER, () => INITIAL_TIME)
   const intervalId = ref<ReturnType<typeof setInterval> | null>(null)
-  const activeWorkout = useState<{ startedAt: Date, id: string } | null>(GLOBAL_ACTIVE_WORKOUT, () => null)
+  const activeWorkout = useState<ActiveWorkout | null>(GLOBAL_ACTIVE_WORKOUT, () => null)
 
-  function startTimer(startDate: Date, workoutId: string) {
+  function startTimer(startDate: Date, workoutId: string): void {
     activeWorkout.value = { startedAt: startDate, id: workoutId }
+    cleanup()
 
     intervalId.value = setInterval(() => {
       if (!activeWorkout.value) {
@@ -41,7 +48,7 @@ export function useWorkoutTimer() {
     timer.value = INITIAL_TIME
   }
 
-  function checkActiveWorkout(workouts: UnionWorkout) {
+  function checkActiveWorkout(workouts: WorkoutList) {
     const startedWorkout = workouts.find(({ startedAt, endedAt }) => startedAt && !endedAt)
 
     if (startedWorkout?.startedAt && startedWorkout.id) {
@@ -55,6 +62,8 @@ export function useWorkoutTimer() {
       intervalId.value = null
     }
   }
+
+  onBeforeUnmount(cleanup)
 
   return {
     timer,

@@ -23,27 +23,22 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
   const route = useRoute()
   const workoutId = route.query.edit as string
 
-  function hasWorkoutChanged(newWorkout: UserWorkout): boolean {
-    const originalWorkout = workoutsList.value.find(({ id }) => id === workoutId)
+  function hasBasicPropertiesChanged(
+    original: CreateWorkoutResponse,
+    current: UserWorkout,
+  ) {
+    return (
+      original.title !== current.title
+      || original.color !== current.color
+      || new Date(original.workoutDate).getTime() !== new Date(current.workoutDate).getTime()
+      || original.exercises.length !== current.exercises.length
+      || original.sets.length !== current.sessions.length
+    )
+  }
 
-    if (!workoutId || !originalWorkout) {
-      return true
-    }
-
-    const checks = [
-      originalWorkout.title !== newWorkout.title,
-      originalWorkout.color !== newWorkout.color,
-      new Date(originalWorkout.workoutDate).getTime() !== new Date(newWorkout.workoutDate).getTime(),
-      originalWorkout.exercises.length !== newWorkout.exercises.length,
-      originalWorkout.sets.length !== newWorkout.sessions.length,
-    ]
-
-    if (checks.some(check => check)) {
-      return true
-    }
-
-    const setsChanged = newWorkout.sessions.some((newSet) => {
-      const originalSet = originalWorkout.sets.find(set =>
+  function hasSetsChanged(original: CreateWorkoutResponse, current: UserWorkout): boolean {
+    return current.sessions.some((newSet) => {
+      const originalSet = original.sets.find(set =>
         set.exerciseId === newSet.exerciseId
         && set.weight === newSet.weight
         && set.repeats === newSet.repeats
@@ -52,46 +47,70 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
 
       return !originalSet
     })
-
-    return setsChanged
   }
 
-  async function submitWorkout(workout: UserWorkout) {
-    try {
-      isLoading.value = true
+  function hasWorkoutChanged(newWorkout: UserWorkout) {
+    const originalWorkout = workoutsList.value.find(({ id }) => id === workoutId)
 
-      if (workoutId) {
-        if (!hasWorkoutChanged(workout)) {
-          navigateTo(PAGES.HOME)
+    if (!workoutId || !originalWorkout || hasBasicPropertiesChanged(originalWorkout, newWorkout)) {
+      return true
+    }
 
-          return true
-        }
+    return hasSetsChanged(originalWorkout, newWorkout)
+  }
 
-        await $fetch<CreateWorkoutRequest>(API.UPDATE_WORKOUT, {
-          method: 'PUT',
-          body: {
-            ...workout,
-            id: workoutId,
-          },
-        })
-        toast(t('toast.workout_updated'), ToastStatusesEnum.SUCCESS)
-      }
-      else {
-        await $fetch<CreateWorkoutRequest>(API.CREATE_WORKOUT, {
-          method: 'POST',
-          body: workout,
-        })
-        toast(t('toast.workout_created'), ToastStatusesEnum.SUCCESS)
-      }
+  async function createWorkout(workout: UserWorkout) {
+    await $fetch<CreateWorkoutRequest>(API.CREATE_WORKOUT, {
+      method: 'POST',
+      body: workout,
+    })
 
+    toast(t('toast.workout_created'), ToastStatusesEnum.SUCCESS)
+
+    return true
+  }
+
+  async function updateWorkout(workout: UserWorkout) {
+    if (!hasWorkoutChanged(workout)) {
       navigateTo(PAGES.HOME)
-      await fetchWorkouts()
 
       return true
     }
-    catch (error: unknown) {
-      console.error('Error submit workout', error)
-      const errorMessage = workoutId ? t('error.workout_update_error') : t('error.workout_create_error')
+
+    await $fetch<CreateWorkoutRequest>(API.UPDATE_WORKOUT, {
+      method: 'PUT',
+      body: {
+        ...workout,
+        id: workoutId,
+      },
+    })
+
+    toast(t('toast.workout_updated'), ToastStatusesEnum.SUCCESS)
+    return true
+  }
+
+  async function submitWorkout(workout: UserWorkout): Promise<boolean> {
+    try {
+      isLoading.value = true
+
+      const success = workoutId
+        ? await updateWorkout(workout)
+        : await createWorkout(workout)
+
+      if (success) {
+        navigateTo(PAGES.HOME)
+        await fetchWorkouts()
+      }
+
+      return success
+    }
+    catch (error) {
+      console.error('Error submitting workout', error)
+
+      const errorMessage = workoutId
+        ? t('error.workout_update_error')
+        : t('error.workout_create_error')
+
       toast(errorMessage, ToastStatusesEnum.ERROR)
       return false
     }

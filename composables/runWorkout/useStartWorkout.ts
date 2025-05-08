@@ -3,15 +3,35 @@ import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
 /**
- * Composable for starting workout.
- * Updates workout in database, updates local state, and starts timer.
+ * Composable for starting a workout.
+ * Updates workout in a database, updates local state, and starts a timer.
  */
 
 export function useStartWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = shallowRef(false)
-  const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
+  const workoutsList = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
+
+  function updateWorkoutsList(workoutId: string, startedAt?: Date | null) {
+    if (!workoutsList.value) {
+      return
+    }
+
+    workoutsList.value = workoutsList.value.map(workout => workout.id === workoutId
+      ? { ...workout, startedAt }
+      : workout,
+    )
+  }
+
+  function initWorkoutTimer(workoutId: string, startedAt?: Date | null) {
+    if (!startedAt) {
+      return
+    }
+
+    const { startTimer } = useWorkoutTimer()
+    startTimer(startedAt, workoutId)
+  }
 
   async function startWorkout(workoutId: string) {
     try {
@@ -22,19 +42,8 @@ export function useStartWorkout() {
         body: { workoutId },
       })
 
-      if (workoutsList.value) {
-        workoutsList.value = workoutsList.value.map(workout =>
-          workout.id === workoutId
-            ? { ...workout, startedAt: updatedWorkout.startedAt }
-            : workout,
-        )
-      }
-
-      const { startTimer } = useWorkoutTimer()
-
-      if (updatedWorkout.startedAt) {
-        startTimer(new Date(updatedWorkout.startedAt), updatedWorkout.id)
-      }
+      updateWorkoutsList(workoutId, updatedWorkout.startedAt)
+      initWorkoutTimer(updatedWorkout.id, updatedWorkout.startedAt)
 
       return true
     }

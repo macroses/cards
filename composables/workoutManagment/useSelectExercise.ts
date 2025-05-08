@@ -15,8 +15,8 @@ export function useSelectExercise(): SelectExerciseReturn {
   async function selectExercise(
     exercise: UserWorkoutExercise,
     workout: UserWorkout,
-  ): Promise<void> {
-    const isExerciseExists = workout.exercises.some((ex: UserWorkoutExercise) => ex.id === exercise.id)
+  ) {
+    const isExerciseExists = workout.exercises.some(ex => ex.id === exercise.id)
 
     if (!isExerciseExists) {
       workout.exercises.push(exercise)

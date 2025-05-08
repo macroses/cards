@@ -28,12 +28,40 @@ export function useFinishWorkout() {
   const { checkPersonalRecords } = usePersonalRecords()
   const isLoading = shallowRef(false)
 
+  function extractSetData(set: UserTrainingSession) {
+    return ({
+      exerciseId: set.exerciseId,
+      weight: set.weight,
+      repeats: set.repeats,
+      difficulty: set.difficulty,
+      completed: set.completed,
+      setTime: set.setTime,
+      setTimeAddedAt: set.setTimeAddedAt,
+    })
+  }
+
+  function updateWorkoutsList(workoutId: string, updatedWorkout: CreateWorkoutResponse) {
+    if (!workoutsList.value) {
+      return
+    }
+
+    workoutsList.value = workoutsList.value.map(workout => workout.id === workoutId
+      ? { ...workout, endedAt: updatedWorkout.endedAt, completed: updatedWorkout.completed }
+      : workout,
+    )
+  }
+
+  function resetGlobalState() {
+    stopTimer()
+    globalStats.value = null
+    chartsState.value = null
+  }
+
   async function finishWorkout(workoutId: string) {
     try {
       isLoading.value = true
 
       const cachedWorkout = await getCachedData(CACHE_NAME, workoutId)
-
       if (!cachedWorkout) {
         throw new Error(t('error.workout_not_in_cache'))
       }
@@ -43,38 +71,14 @@ export function useFinishWorkout() {
         body: {
           workoutId,
           completed: true,
-          sets: cachedWorkout.sets.map((set: UserTrainingSession) => ({
-            exerciseId: set.exerciseId,
-            weight: set.weight,
-            repeats: set.repeats,
-            difficulty: set.difficulty,
-            completed: set.completed,
-            setTime: set.setTime,
-            setTimeAddedAt: set.setTimeAddedAt,
-          })),
+          sets: cachedWorkout.sets.map(extractSetData),
         },
       })
 
       await deleteCachedData(CACHE_NAME, workoutId)
+      updateWorkoutsList(workoutId, updatedWorkout)
+      resetGlobalState()
 
-      if (workoutsList.value) {
-        workoutsList.value = workoutsList.value.map(workout =>
-          workout.id === workoutId
-            ? {
-                ...workout,
-                endedAt: updatedWorkout.endedAt,
-                completed: updatedWorkout.completed,
-              }
-            : workout,
-        )
-      }
-
-      stopTimer()
-
-      globalStats.value = null
-      chartsState.value = null
-
-      // Проверяем личные рекорды после завершения тренировки
       if (updatedWorkout && workoutsList.value) {
         checkPersonalRecords(updatedWorkout, workoutsList.value)
       }
@@ -94,25 +98,27 @@ export function useFinishWorkout() {
   }
 
   async function resetNoTimeWorkout(runWorkoutId?: string) {
-    if (runWorkoutId) {
-      try {
-        await $fetch(API.RESET_WORKOUT, {
-          method: 'PUT',
-          body: {
-            workoutId: runWorkoutId,
-          },
-        })
+    if (!runWorkoutId) {
+      return
+    }
 
-        stopTimer()
-        navigateTo('/')
+    try {
+      await $fetch(API.RESET_WORKOUT, {
+        method: 'PUT',
+        body: {
+          workoutId: runWorkoutId,
+        },
+      })
 
-        await deleteCachedData(CACHE_NAME, runWorkoutId)
-        await fetchWorkouts()
-      }
-      catch (error) {
-        console.error('Error resetting workout:', error)
-        toast(t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
-      }
+      stopTimer()
+      navigateTo('/')
+
+      await deleteCachedData(CACHE_NAME, runWorkoutId)
+      await fetchWorkouts()
+    }
+    catch (error) {
+      console.error('Error resetting workout:', error)
+      toast(t('toast.workout_update_error'), ToastStatusesEnum.ERROR)
     }
   }
 

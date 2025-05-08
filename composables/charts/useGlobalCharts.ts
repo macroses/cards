@@ -103,20 +103,23 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const isLoading = computed(() => status.value === 'pending')
 
   // Общая функция для настройки осей
-  const getAxisConfig = (name: string) => ({
-    type: 'value',
-    name,
-    splitLine: {
-      show: true,
-      lineStyle: {
-        type: 'dashed',
-        color: 'rgba(0,0,0,0.01)',
+  function getAxisConfig(name: string) {
+    return ({
+      type: 'value',
+      name,
+      splitLine: {
+        show: true,
+        lineStyle: {
+          type: 'dashed',
+          color: 'rgba(0,0,0,0.01)',
+        },
       },
-    },
-  })
+    })
+  }
 
   function updateVolumeChart(data: ChartData[]) {
     volumeChartOption.value = {
+      animation: false,
       grid: {
         top: 40,
         right: 20,
@@ -192,6 +195,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
 
   function updateExerciseChart(data: ExerciseData[]) {
     exerciseChartOption.value = {
+      animation: false,
       grid: {
         right: 30,
         left: 0,
@@ -256,6 +260,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
 
   function updateDurationChart(data: DurationData[]) {
     durationChartOption.value = {
+      animation: false,
       grid: {
         bottom: 20,
         right: 30,

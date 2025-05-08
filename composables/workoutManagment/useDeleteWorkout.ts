@@ -15,27 +15,24 @@ export function useDeleteWorkout() {
   const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const { stopTimer, checkActiveWorkout } = useWorkoutTimer()
 
-  async function deleteWorkout(id: string) {
+  async function deleteWorkout(workoutId: string) {
     try {
       isLoading.value = true
 
       const successDelete = await $fetch<boolean>(API.DELETE_WORKOUT, {
         method: 'DELETE',
-        body: { id },
+        body: { id: workoutId },
       })
 
       if (successDelete) {
         stopTimer()
         toast(t('toast.workout_deleted'), ToastStatusesEnum.SUCCESS)
 
-        const indexToDelete = workouts.value.findIndex(workout => workout.id === id)
-        if (indexToDelete > -1) {
-          workouts.value.splice(indexToDelete, 1)
-        }
+        workouts.value = workouts.value.filter(({ id }) => id !== workoutId)
 
         checkActiveWorkout(workouts.value)
 
-        await deleteCachedData('workout', id)
+        await deleteCachedData('workout', workoutId)
       }
     }
     catch (error: unknown) {

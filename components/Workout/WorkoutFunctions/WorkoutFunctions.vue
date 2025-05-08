@@ -59,10 +59,8 @@ async function handleStartWorkout() {
   const workout = workoutsList.value?.find(({ id }: CreateWorkoutResponse) => id === workoutId)
 
   if (workout) {
-    // Сначала проверим, нет ли уже сохраненных данных в кэше
     const cachedWorkout = await getCachedData('workout', workoutId)
     if (!cachedWorkout) {
-      // Сохраняем в кэш только если там еще нет данных
       await saveCacheData('workout', workout)
     }
 
@@ -135,7 +133,6 @@ onClickOutside(dropdownRef, () => {
 
           <ul
             v-if="isDropdownOpen"
-            v-auto-animate="{ duration: 100 }"
             class="date-menu__dropdown-menu"
           >
             <li>

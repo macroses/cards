@@ -15,7 +15,7 @@ type EditWorkoutReturn = Readonly<{
 
 export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
   const route = useRoute()
-  const workoutsList = useState<CreateWorkoutResponse[] | []>(KEYS.GLOBAL_WORKOUTS)
+  const workoutsList = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const workoutEditId = ref<LocationQuery | null>(null)
   const { selectExercise } = useSelectExercise()
 
@@ -27,19 +27,20 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
     return workoutsList.value?.find((workout: CreateWorkoutResponse) => workout.id === workoutEditId.value?.edit)
   })
 
-  watch(editableWorkout, (foundWorkout) => {
-    if (!foundWorkout)
+  watch(editableWorkout, async (foundWorkout) => {
+    if (!foundWorkout) {
       return
+    }
 
     workout.title = foundWorkout.title
     workout.color = foundWorkout.color
     workout.workoutDate = new Date(foundWorkout.workoutDate)
 
-    foundWorkout.exercises.forEach(async (exercise) => {
-      await selectExercise({
+    foundWorkout.exercises.forEach((exercise) => {
+      selectExercise({
         id: exercise.exerciseId,
         name: exercise.exerciseName || '',
-      }, workout)
+      }, workout).then()
     })
 
     foundWorkout.sets.forEach((set) => {

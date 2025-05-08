@@ -7,7 +7,7 @@ import {
 
 /**
  * Composable for fetching user's workouts.
- * Retrieves workout list from API and manages loading state.
+ * Retrieves a workout list from API and manages loading state.
  */
 
 export function useFetchWorkoutsByUserId() {
@@ -18,9 +18,9 @@ export function useFetchWorkoutsByUserId() {
   const error = shallowRef<string | null>(null)
 
   async function fetchWorkouts() {
-    try {
-      isLoading.value = true
+    isLoading.value = true
 
+    try {
       if (status.value !== AUTHENTICATED) {
         return
       }

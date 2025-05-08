@@ -28,7 +28,7 @@ export function useExerciseHandle() {
     },
   })
 
-  const createExercise = async (exercise: Omit<ExerciseServerTemplate, 'id'>) => {
+  async function createExercise(exercise: Omit<ExerciseServerTemplate, 'id'>) {
     try {
       isLoading.value = true
       error.value = null
@@ -53,7 +53,7 @@ export function useExerciseHandle() {
     }
   }
 
-  const deleteExercise = async (id: string) => {
+  async function deleteExercise(id: string) {
     try {
       isLoading.value = true
       error.value = null

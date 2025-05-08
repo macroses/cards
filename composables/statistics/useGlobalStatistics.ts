@@ -9,8 +9,6 @@ const CACHE_TIME = 1000 * 60 * 5
  */
 export function useGlobalStatistics() {
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS, () => null)
-  const isInitialFetch = ref(!globalStats.value)
-
   const {
     data: statistics,
     error,
@@ -24,20 +22,11 @@ export function useGlobalStatistics() {
     cacheTime: CACHE_TIME,
   })
 
-  watch(statistics, (newStats) => {
-    if (newStats) {
-      globalStats.value = newStats
-    }
-  })
+  watch(statistics, newStats => newStats && (globalStats.value = newStats))
 
   const isLoading = computed(() => status.value === 'pending')
 
-  onMounted(async () => {
-    if (isInitialFetch.value) {
-      await refresh()
-      isInitialFetch.value = false
-    }
-  })
+  onMounted(() => !globalStats.value && refresh())
 
   return {
     statistics: computed(() => globalStats.value || statistics.value),

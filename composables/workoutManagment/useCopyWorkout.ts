@@ -14,9 +14,9 @@ export function useCopyWorkout() {
   const isLoading = shallowRef(false)
 
   async function copyWorkout(workoutId: string, newDate: Date) {
-    try {
-      isLoading.value = true
+    isLoading.value = true
 
+    try {
       const copiedWorkout = await $fetch<CreateWorkoutResponse>(API.COPY_WORKOUT, {
         method: 'POST',
         body: {
@@ -25,11 +25,8 @@ export function useCopyWorkout() {
         },
       })
 
+      workouts.value?.unshift(copiedWorkout)
       toast(t('toast.workout_copied'), ToastStatusesEnum.SUCCESS)
-
-      if (workouts.value) {
-        workouts.value = [copiedWorkout, ...workouts.value]
-      }
 
       return true
     }
