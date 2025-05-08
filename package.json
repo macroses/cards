@@ -33,7 +33,7 @@
     "dayjs-nuxt": "^2.1.11",
     "maska": "^3.1.1",
     "motion-v": "^0.13.0",
-    "nuxt": "^3.17.2",
+    "nuxt": "^3.16.2",
     "nuxt-echarts": "^0.2.4",
     "nuxt-time": "^1.0.2",
     "vue": "latest",
