@@ -1,6 +1,10 @@
 import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
 import type { NewRecord, PersonalRecord, RecordType } from '~/ts/types/personalRecords.types'
-import { KEYS } from '~/constants'
+import {
+  KEYS,
+  RECORDS,
+  TOAST_DURATIONS,
+} from '~/constants'
 
 type RecordToastFunction = (records: NewRecord[], options?: { ms?: number }) => void
 
@@ -41,7 +45,7 @@ export function usePersonalRecords() {
 
     if (weight > maxWeight && weight > 0) {
       addNewRecord({
-        type: 'weight',
+        type: RECORDS.WEIGHT,
         value: weight,
         exerciseId,
         exerciseName,
@@ -55,11 +59,11 @@ export function usePersonalRecords() {
 
     if (volume > maxVolume && volume > 0) {
       addNewRecord({
-        type: 'volume',
-        value: volume / 1000,
+        type: RECORDS.VOLUME,
+        value: volume / RECORDS.VOLUME_TO_TONS,
         exerciseId,
         exerciseName,
-        previousValue: maxVolume / 1000,
+        previousValue: maxVolume / RECORDS.VOLUME_TO_TONS,
       })
     }
 
@@ -95,7 +99,7 @@ export function usePersonalRecords() {
 
     // Если есть новые рекорды, показываем уведомление
     if (newRecords.value.length > 0) {
-      recordToastFunction.value([...newRecords.value], { ms: 60000 })
+      recordToastFunction.value([...newRecords.value], { ms: TOAST_DURATIONS.RECORD_NOTIFICATION })
       return true
     }
 
@@ -131,8 +135,8 @@ export function usePersonalRecords() {
     personalRecords.value[key].push(record)
     personalRecords.value[key].sort((a, b) => b.value - a.value)
 
-    if (personalRecords.value[key].length > 10) {
-      personalRecords.value[key] = personalRecords.value[key].slice(0, 10)
+    if (personalRecords.value[key].length > RECORDS.MAX_RECORDS_PER_TYPE) {
+      personalRecords.value[key] = personalRecords.value[key].slice(0, RECORDS.MAX_RECORDS_PER_TYPE)
     }
   }
 

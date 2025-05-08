@@ -1,5 +1,6 @@
 import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
 import { nanoid } from 'nanoid'
+import { DEFAULT_SET_VALUES, WORKOUT_CACHE_KEYS, WORKOUT_LIMITS } from '~/constants'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 import { saveCacheData } from '~/utils/cacheRunnedWorkout'
 
@@ -8,9 +9,6 @@ import { saveCacheData } from '~/utils/cacheRunnedWorkout'
  * Provides functions for adding and deleting sets with caching.
  */
 
-const MAX_SETS_COUNT = 50
-const CACHE_KEY = 'workout'
-
 export function useManageSets() {
   async function updateWorkoutAndCache(
     workout: CreateWorkoutResponse,
@@ -18,7 +16,7 @@ export function useManageSets() {
   ) {
     try {
       const updatedWorkout = { ...workout, sets: newSets }
-      await saveCacheData(CACHE_KEY, updatedWorkout)
+      await saveCacheData(WORKOUT_CACHE_KEYS.WORKOUT, updatedWorkout)
       workout.sets = updatedWorkout.sets
 
       return true
@@ -32,8 +30,8 @@ export function useManageSets() {
   const createNewSet = (exerciseId: string): UserTrainingSession => ({
     id: nanoid(),
     exerciseId,
-    weight: 0,
-    repeats: 0,
+    weight: DEFAULT_SET_VALUES.WEIGHT,
+    repeats: DEFAULT_SET_VALUES.REPEATS,
     difficulty: DIFFICULT_LEVEL.WARM,
     completed: false,
     setTime: null,
@@ -50,7 +48,7 @@ export function useManageSets() {
   ) {
     const exerciseSets = getExerciseSets(workout, exerciseId)
 
-    if (exerciseSets.length >= MAX_SETS_COUNT) {
+    if (exerciseSets.length >= WORKOUT_LIMITS.MAX_SETS_COUNT) {
       return false
     }
 

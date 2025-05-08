@@ -24,3 +24,16 @@ export const WORKOUT_COLORS: WorkoutColor[] = [
 ] as const
 
 export const MAX_LENGTH_NUMBER = 3
+
+export const WORKOUT_LIMITS = {
+  MAX_SETS_COUNT: 50,
+}
+
+export const WORKOUT_CACHE_KEYS = {
+  WORKOUT: 'workout',
+}
+
+export const DEFAULT_SET_VALUES = {
+  WEIGHT: 0,
+  REPEATS: 0,
+}

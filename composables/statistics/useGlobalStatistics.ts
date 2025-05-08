@@ -1,7 +1,5 @@
 import type { Statistics } from '~/ts/interfaces'
-import { API, KEYS } from '~/constants'
-
-const CACHE_TIME = 1000 * 60 * 5
+import { API, CACHE_TIMES, KEYS } from '~/constants'
 
 /**
  * Composable for managing global workout statistics.
@@ -19,7 +17,7 @@ export function useGlobalStatistics() {
     key: KEYS.GLOBAL_STATISTICS,
     transform: payload => payload as Statistics,
     initialData: globalStats.value,
-    cacheTime: CACHE_TIME,
+    cacheTime: CACHE_TIMES.STATISTICS,
   })
 
   watch(statistics, newStats => newStats && (globalStats.value = newStats))
