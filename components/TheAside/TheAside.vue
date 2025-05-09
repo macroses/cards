@@ -21,6 +21,7 @@ const isMounted = shallowRef(false)
 async function toggleCharts() {
   await document.startViewTransition(() => {
     isChartsDisabled.value = !isChartsDisabled.value
+    document.body.classList.toggle('charts-disabled')
   }).finished
 }
 
@@ -37,6 +38,10 @@ const isControlChartsVisible = computed(() => {
 onMounted(() => {
   isMounted.value = true
   initLanguage()
+
+  if (isChartsDisabled.value) {
+    document.body.classList.add('charts-disabled')
+  }
 })
 </script>
 

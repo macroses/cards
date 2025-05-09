@@ -101,16 +101,19 @@ async function onChartRemoved(chartId: number) {
 
         <template v-if="chart.type === 'exercise'">
           <div class="exercise-chart-container">
-            <div class="exercise-list">
-              <TheButton
+            <ul class="exercise-list">
+              <li
                 v-for="exerciseId in popularExercises"
                 :key="exerciseId"
-                :variant="selectedExercise === exerciseId ? 'primary' : 'secondary'"
-                @click.stop="selectedExercise = exerciseId"
               >
-                {{ getExerciseName(exerciseId) }}
-              </TheButton>
-            </div>
+                <TheButton
+                  :variant="selectedExercise === exerciseId ? 'primary' : 'secondary'"
+                  @click.stop="selectedExercise = exerciseId"
+                >
+                  {{ getExerciseName(exerciseId) }}
+                </TheButton>
+              </li>
+            </ul>
             <v-chart
               v-if="chart.option"
               class="chart"

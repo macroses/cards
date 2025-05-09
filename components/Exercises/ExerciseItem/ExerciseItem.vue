@@ -37,7 +37,7 @@ const emit = defineEmits<{
 }
 
 body:not(:has(.modal)) {
-  .exercise-item {
+  & .exercise-item {
     view-transition-name: var(--exercise-transition-name);
   }
 }

@@ -48,6 +48,30 @@ p {
   color: var(--color-text);
 }
 
+body:has(.modal) {
+  overflow: hidden;
+}
+
+body:has(.home-page__container).charts-disabled {
+  overflow: hidden;
+
+  @media (width <= 768px) {
+    & main {
+      height: calc(100dvh - 80px);
+    }
+
+    & .container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    & .home-page__container {
+      width: 100%;
+    }
+  }
+}
+
 /*::view-transition-group(*) {*/
 /*  animation-duration: 0.4s;*/
 /*  animation-timing-function: ease-out;*/
