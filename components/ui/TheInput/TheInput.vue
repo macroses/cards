@@ -9,6 +9,11 @@ const {
   autocomplete = 'off',
   max,
   validateRules = [],
+  label,
+  ariaLabel,
+  ariaDescribedby,
+  ariaRequired = false,
+  ariaInvalid,
 } = defineProps<InputTextProps>()
 
 const emit = defineEmits(['validation', 'blur', 'update:modelValue'])
@@ -68,36 +73,49 @@ watch(modelValue, () => validate())
 </script>
 
 <template>
-  <label class="input-wrapper">
-    <input
-      :id="uniqueId"
-      ref="input"
-      v-model="modelValue"
-      :placeholder="placeholder"
-      class="input"
-      :type
-      :inputmode
-      :autocomplete
-      :class="{ 'input--error': error }"
-      @input="handleInput"
-      @blur="onBlur"
-      @focus="onFocus"
-    >
-    <button
-      v-if="modelValue && !noClear"
-      class="close-button"
-      type="button"
-      @mousedown.prevent="handleClear"
-    >
-      <TheIcon
-        icon-name="xmark"
-        width="16"
-      />
-    </button>
-    <span v-if="error" class="input__error-message">
-      {{ error }}
-    </span>
-  </label>
+  <div class="input-container">
+    <label v-if="label" :for="uniqueId" class="input-label">{{ label }}</label>
+    <div class="input-wrapper">
+      <input
+        :id="uniqueId"
+        ref="input"
+        v-model="modelValue"
+        :placeholder="placeholder"
+        class="input"
+        :type
+        :inputmode
+        :autocomplete
+        :class="{ 'input--error': error }"
+        :aria-label="ariaLabel || label"
+        :aria-describedby="error ? `${uniqueId}-error` : ariaDescribedby"
+        :aria-required="ariaRequired"
+        :aria-invalid="error ? true : ariaInvalid"
+        @input="handleInput"
+        @blur="onBlur"
+        @focus="onFocus"
+      >
+      <button
+        v-if="modelValue && !noClear"
+        class="close-button"
+        type="button"
+        aria-label="Clear input"
+        @mousedown.prevent="handleClear"
+      >
+        <TheIcon
+          icon-name="xmark"
+          width="16"
+        />
+      </button>
+      <span
+        v-if="error"
+        :id="`${uniqueId}-error`"
+        class="input__error-message"
+        role="alert"
+      >
+        {{ error }}
+      </span>
+    </div>
+  </div>
 </template>
 
 <style src="./style.css" />

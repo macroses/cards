@@ -62,7 +62,9 @@ async function handleSubmit() {
         v-model="email"
         type="email"
         placeholder="Email"
-        autocomplete="on"
+        autocomplete="email"
+        label="Email"
+        :aria-required="true"
         :validate-rules="[
           createValidationRule('required'),
           createValidationRule('email'),
@@ -74,6 +76,9 @@ async function handleSubmit() {
         v-model="password"
         type="password"
         placeholder="Пароль"
+        autocomplete="current-password"
+        label="Пароль"
+        :aria-required="true"
         :validate-rules="[
           createValidationRule('required'),
           createValidationRule('minLength', 6),
@@ -81,7 +86,7 @@ async function handleSubmit() {
         @validation="isValid = $event"
       />
 
-      <p v-if="error" class="error">
+      <p v-if="error" class="error" role="alert" aria-live="assertive">
         {{ error }}
       </p>
 

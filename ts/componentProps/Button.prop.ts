@@ -16,4 +16,8 @@ export interface ButtonProps {
   variant?: ButtonVariant
   iconOnly?: boolean
   linkPath?: string
+  ariaLabel?: string
+  ariaPressed?: boolean
+  ariaExpanded?: boolean
+  ariaControls?: string
 }

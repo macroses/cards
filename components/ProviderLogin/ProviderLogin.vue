@@ -8,6 +8,7 @@ const { signIn } = useAuth()
 <template>
   <TheButton
     variant="outline"
+    :aria-label="`Sign in with ${providerName}`"
     @click="signIn(providerName?.toLocaleLowerCase())"
   >
     {{ providerName }}

@@ -52,7 +52,11 @@ onMounted(() => {
     x="0px"
     y="0px"
     viewBox="0 0 3000 3000"
+    role="img"
+    aria-labelledby="bodyTitle bodyDesc"
   >
+    <title id="bodyTitle">Human Body Diagram</title>
+    <desc id="bodyDesc">Interactive diagram of human body showing different muscle groups and body parts</desc>
     <path
       id="path14144"
       class="st0"
@@ -1723,4 +1727,3 @@ svg {
   fill: #ffe55b !important;
 }
 </style>
-

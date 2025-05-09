@@ -11,6 +11,11 @@ export default interface InputTextProps {
     number?: boolean
   }
   validateRules?: Array<(value: string) => ValidationResult>
+  label?: string
+  ariaLabel?: string
+  ariaDescribedby?: string
+  ariaRequired?: boolean
+  ariaInvalid?: boolean
 }
 
 interface ValidationResult {
