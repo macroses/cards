@@ -2,18 +2,10 @@
 import type { UserWorkout } from '~/ts/interfaces'
 import { KEYS } from '@/constants'
 
-const { fetchWorkouts } = useFetchWorkoutsByUserId()
+const { fetchWorkouts, isChartControlVisible } = useFetchWorkoutsByUserId()
 const { checkActiveWorkout } = useWorkoutTimer()
 const { status } = useAuth()
 const workouts = useState<UserWorkout[]>(KEYS.GLOBAL_WORKOUTS)
-
-const isChartControlVisible: ComputedRef<boolean> = computed((): boolean => {
-  if (!workouts.value) {
-    return false
-  }
-
-  return workouts.value.filter(workout => workout.completed).length >= 5
-})
 
 watch(status, async () => {
   await fetchWorkouts()

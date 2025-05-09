@@ -9,7 +9,6 @@ const {
 } = useGlobalCharts()
 
 onMounted(() => {
-  // Проверяем только валидацию чартов, не делаем дополнительный запрос
   validateCollectedCharts()
 })
 
@@ -47,16 +46,14 @@ async function addChartToCollection(chartId: number) {
 async function onChartRemoved(chartId: number) {
   const index = collectedChartIds.value.indexOf(chartId)
 
-  if (index > 0) {
-    if (!document.startViewTransition) {
-      collectedChartIds.value.splice(index, 1)
-      return
-    }
-
-    await document.startViewTransition(() => {
-      collectedChartIds.value.splice(index, 1)
-    }).finished
+  if (index !== -1 || !document.startViewTransition) {
+    collectedChartIds.value.splice(index, 1)
+    return
   }
+
+  await document.startViewTransition(() => {
+    collectedChartIds.value.splice(index, 1)
+  }).finished
 }
 </script>
 

@@ -1,4 +1,4 @@
-import type { Statistics } from '~/ts/interfaces'
+import type { CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
 import { API, CACHE_TIMES, KEYS } from '~/constants'
 
 /**
@@ -7,10 +7,11 @@ import { API, CACHE_TIMES, KEYS } from '~/constants'
  */
 export function useGlobalStatistics() {
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS, () => null)
+  const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
+
   const {
     data: statistics,
     error,
-    status,
     refresh,
   } = useCachedFetch<unknown, Statistics>({
     url: API.GLOBAL_STATISTICS,
@@ -18,17 +19,18 @@ export function useGlobalStatistics() {
     transform: payload => payload as Statistics,
     initialData: globalStats.value,
     cacheTime: CACHE_TIMES.STATISTICS,
+    immediate: false,
   })
 
-  watch(statistics, newStats => newStats && (globalStats.value = newStats))
-
-  const isLoading = computed(() => status.value === 'pending')
-
-  onMounted(() => !globalStats.value && refresh())
+  watch(statistics, (newStats) => {
+    if (newStats) {
+      globalStats.value = newStats
+    }
+  })
+  watch(() => workouts.value?.length, () => refresh())
 
   return {
     statistics: computed(() => globalStats.value || statistics.value),
-    isLoading,
     error,
     refresh,
   }

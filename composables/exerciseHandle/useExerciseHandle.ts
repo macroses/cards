@@ -1,7 +1,6 @@
 import type { ExerciseServerTemplate } from '~/ts/interfaces'
 import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
-import { useCachedFetch } from '~/utils/useCachedFetch'
 
 /*
  * Composable for exercise handle
@@ -15,10 +14,8 @@ export function useExerciseHandle() {
   const { t } = useI18n()
   const { toast } = useToastState()
 
-  const { data: exercises, refresh: refreshExercises } = useCachedFetch<unknown, ExerciseServerTemplate[]>({
-    url: API.GET_USER_EXERCISES,
+  const { data: exercises, refresh: refreshExercises } = useLazyFetch<ExerciseServerTemplate[]>(API.GET_USER_EXERCISES, {
     key: KEYS.USER_EXERCISES,
-    initialData: [],
     transform: (payload) => {
       if (!Array.isArray(payload)) {
         return []

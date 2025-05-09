@@ -89,7 +89,6 @@ async function handleDeleteWorkout(id: string) {
   globalStats.value = null
   chartsState.value = null
 
-  await refreshStats()
   await refreshCharts()
 }
 
@@ -113,16 +112,23 @@ useHead({
 })
 
 const { isLoading: isWorkoutsLoading } = useFetchWorkoutsByUserId()
-const { isLoading: statsStatus } = useGlobalStatistics()
 
 const isPageLoading = computed(() => {
-  return !workouts.value
-    || isWorkoutsLoading.value
-    || statsStatus.value
+  return !workouts.value || isWorkoutsLoading.value
 })
 
 watch(selectedExerciseId, () => {
   document.querySelector('.modal')?.scrollTo({ top: 0, behavior: 'smooth' })
+})
+
+onMounted(async () => {
+  if (!workouts.value) {
+    return
+  }
+
+  if (workouts.value.length >= 5 && !globalStats.value) {
+    await refreshStats()
+  }
 })
 </script>
 

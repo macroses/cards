@@ -11,7 +11,7 @@ import {
  */
 
 export function useFetchWorkoutsByUserId() {
-  const workouts = useState<CreateWorkoutResponse | null>(KEYS.GLOBAL_WORKOUTS, () => null)
+  const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
   const { status } = useAuth()
   const { t } = useI18n()
   const isLoading = shallowRef(false)
@@ -25,7 +25,7 @@ export function useFetchWorkoutsByUserId() {
         return
       }
 
-      workouts.value = await $fetch<CreateWorkoutResponse>(API.WORKOUTS_LIST)
+      workouts.value = await $fetch<CreateWorkoutResponse[]>(API.WORKOUTS_LIST)
     }
     catch (err: unknown) {
       console.error(err)
@@ -37,10 +37,19 @@ export function useFetchWorkoutsByUserId() {
     }
   }
 
+  const isChartControlVisible = computed(() => {
+    if (!workouts.value) {
+      return false
+    }
+
+    return workouts.value.filter(workout => workout.completed).length >= 5
+  })
+
   return {
     workouts,
     isLoading,
     error,
     fetchWorkouts,
+    isChartControlVisible,
   }
 }
