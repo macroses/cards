@@ -6,7 +6,6 @@ const {
   selectedExercise,
   popularExercises,
   getExerciseName,
-  isLoading,
 } = useGlobalCharts()
 
 onMounted(() => {
@@ -69,7 +68,6 @@ async function onChartRemoved(chartId: number) {
       :popular-exercises="popularExercises"
       :get-exercise-name="getExerciseName"
       :collected-chart-ids="collectedChartIds"
-      :is-loading="isLoading"
       @chart-removed="onChartRemoved"
     />
 

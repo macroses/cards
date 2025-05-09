@@ -114,13 +114,11 @@ useHead({
 
 const { isLoading: isWorkoutsLoading } = useFetchWorkoutsByUserId()
 const { isLoading: statsStatus } = useGlobalStatistics()
-const { isLoading: chartsStatus } = useGlobalCharts()
 
 const isPageLoading = computed(() => {
   return !workouts.value
     || isWorkoutsLoading.value
     || statsStatus.value
-    || chartsStatus.value
 })
 
 watch(selectedExerciseId, () => {

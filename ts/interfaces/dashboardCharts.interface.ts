@@ -19,7 +19,6 @@ export interface ChartsCollectionProps {
   popularExercises: string[]
   getExerciseName: (exerciseId: string) => string
   collectedChartIds: number[]
-  isLoading: boolean
 }
 
 // Значения по умолчанию для пропсов

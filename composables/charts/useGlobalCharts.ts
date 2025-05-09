@@ -69,7 +69,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
     }
   }
 
-  const { data: chartsData, status, refresh } = useCachedFetch<unknown, ChartsApiResponse>({
+  const { data: chartsData, refresh } = useCachedFetch<unknown, ChartsApiResponse>({
     url: API.GET_CHARTS_DATA,
     key: KEYS.CHARTS_DATA,
     transform: payload => payload as ChartsApiResponse,
@@ -99,8 +99,6 @@ export function useGlobalCharts(): GlobalChartsReturn {
       }
     }
   })
-
-  const isLoading = computed(() => status.value === 'pending')
 
   // Общая функция для настройки осей
   function getAxisConfig(name: string) {
@@ -350,7 +348,6 @@ export function useGlobalCharts(): GlobalChartsReturn {
     selectedExercise,
     popularExercises,
     getExerciseName,
-    isLoading,
     refresh,
   }
 }

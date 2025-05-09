@@ -58,6 +58,5 @@ export interface GlobalChartsReturn {
   selectedExercise: Ref<string | null>
   popularExercises: Ref<string[]>
   getExerciseName: (exerciseId: string) => string
-  isLoading: Ref<boolean>
   refresh: () => Promise<void>
 }
