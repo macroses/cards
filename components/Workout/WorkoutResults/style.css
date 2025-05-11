@@ -52,10 +52,11 @@
   overflow: hidden;
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+  height: 255px;
 }
 
 .workout-progress__empty {
-  height: 200px;
+  height: 255px;
   display: flex;
   justify-content: center;
   align-items: center;

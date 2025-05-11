@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interfaces'
-import { watchImmediate } from '@vueuse/core'
 import { KEYS } from '~/constants'
 
 const props = defineProps<{
@@ -9,6 +8,7 @@ const props = defineProps<{
 }>()
 
 const { getExerciseData } = useWorkoutResults()
+const { getProgressData } = useWorkoutResults()
 const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
 const { t } = useI18n()
 
@@ -45,20 +45,26 @@ function onChartInit(chart: any) {
   chartInstance.value = chart
 }
 
-watchImmediate(() => props.selectedExerciseId, () => updateChart())
+watch(() => props.selectedExerciseId, () => updateChart(), { immediate: true })
+
+const progress = computed(() => {
+  if (!props.selectedExerciseId || !props.workout || !workouts.value) {
+    return null
+  }
+
+  return getProgressData(props.workout, props.selectedExerciseId, workouts.value)
+})
 </script>
 
 <template>
   <div class="workout-results__charts-wr">
     <div class="workout-results__charts">
-      <WorkoutProgress
-        v-if="workouts"
-        :workout="workout"
-        :workouts="workouts"
-        :selected-exercise-id="selectedExerciseId"
-      />
+      <WorkoutProgress :progress />
 
-      <div class="chart-controls">
+      <div
+        v-if="progress"
+        class="chart-controls"
+      >
         <TheButton
           v-for="chart in chartTypes"
           :key="chart.type"
@@ -69,7 +75,10 @@ watchImmediate(() => props.selectedExerciseId, () => updateChart())
         </TheButton>
       </div>
 
-      <div class="chart-container">
+      <div
+        v-if="progress"
+        class="chart-container"
+      >
         <v-chart
           v-if="chartOption"
           class="chart"

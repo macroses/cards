@@ -1,23 +1,8 @@
 <script setup lang="ts">
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { ProgressData } from '~/ts/interfaces'
 import dayjs from 'dayjs'
 
-interface WorkoutProgressProps {
-  workout: CreateWorkoutResponse
-  workouts: CreateWorkoutResponse[]
-  selectedExerciseId: string | null
-}
-
-const props = defineProps<WorkoutProgressProps>()
-const { getProgressData } = useWorkoutResults()
-
-const progress = computed(() => {
-  if (!props.selectedExerciseId || !props.workout || !props.workouts) {
-    return null
-  }
-
-  return getProgressData(props.workout, props.selectedExerciseId, props.workouts)
-})
+defineProps<{ progress: ProgressData | null }>()
 
 function formatChange(value: number): string {
   const sign = value > 0 ? '+' : ''

@@ -3,7 +3,6 @@ import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts
 import ExercisesList from '@/components/Exercises/ExerrcisesList/ExercisesList.vue'
 import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
 import TheLoader from '~/components/ui/TheLoader/TheLoader.vue'
-import { useSelectExercise } from '~/composables/workoutManagment/useSelectExercise'
 import { WORKOUT_COLORS } from '~/constants'
 
 definePageMeta({

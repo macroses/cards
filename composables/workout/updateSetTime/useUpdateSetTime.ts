@@ -1,7 +1,7 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import { useUpdateCachedWorkout } from '../runWorkout/useUpdateCachedWorkout'
+import { useUpdateCachedWorkout } from '../runWorkout/useUpdateCachedWorkout/useUpdateCachedWorkout'
 import { useWorkoutTimer } from '../workoutTimer/useWorkoutTimer'
 
 dayjs.extend(duration)
