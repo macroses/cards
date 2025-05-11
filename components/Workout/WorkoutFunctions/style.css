@@ -8,7 +8,7 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 12px;
-  padding: 6px 0;
+  padding: 6px 0 6px 12px;
   position: relative;
   transition: filter var(--base-transition);
 
@@ -23,7 +23,7 @@
 
 .date-menu__completed {
   padding-inline: 8px;
-  margin-inline: -8px;
+  margin-right: -8px;
 }
 
 .date-menu__event-name {

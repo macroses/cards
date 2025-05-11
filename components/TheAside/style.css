@@ -26,7 +26,12 @@
     bottom: 4px;
     width: calc(100% - 16px);
     left: 8px;
+    view-transition-name: aside-nav;
   }
+}
+
+::view-transition-group(aside-nav) {
+  z-index: 1;
 }
 
 .aside-nav__list {

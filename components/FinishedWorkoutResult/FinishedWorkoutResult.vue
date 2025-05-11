@@ -17,8 +17,8 @@ dayjs.extend(duration)
 
 const { getExerciseSets } = useExerciseSets()
 const isMobile = useMediaQuery('(max-width: 768px)')
-const isChartsVisible = defineModel<boolean>('isChartsVisible', { default: false })
 const containerRef = useTemplateRef<HTMLDivElement>('containerRef')
+const chartsContainerRef = useTemplateRef<HTMLDivElement>('chartsContainerRef')
 
 const exerciseSets = computed(() => {
   const groupedSets = getExerciseSets(props.selectedWorkout)
@@ -35,7 +35,14 @@ function handleExerciseClick(exerciseId: string) {
   emit('update:selectedExerciseId', exerciseId)
 
   if (isMobile.value) {
-    isChartsVisible.value = true
+    nextTick(() => {
+      if (chartsContainerRef.value) {
+        chartsContainerRef.value.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
+      }
+    })
   }
 }
 
@@ -52,7 +59,6 @@ function setTime(time: number | null | undefined): string {
   <div
     ref="containerRef"
     class="workout-results__container"
-    :class="{ 'mobile-charts-visible': isMobile && isChartsVisible }"
   >
     <div class="workout-results__wr">
       <ul class="workout-results__sets-header">
@@ -72,7 +78,6 @@ function setTime(time: number | null | undefined): string {
           <div
             class="workout-results__exercise-name"
             :class="{ active: selectedExerciseId === exercise.exerciseId }"
-            @click="handleExerciseClick(exercise.exerciseId)"
           >
             {{ exercise.exerciseName }}
           </div>
@@ -94,7 +99,10 @@ function setTime(time: number | null | undefined): string {
       </ul>
     </div>
 
-    <div class="workout-results__charts-container">
+    <div
+      ref="chartsContainerRef"
+      class="workout-results__charts-container"
+    >
       <WorkoutResults
         v-if="selectedWorkout"
         :workout="selectedWorkout"

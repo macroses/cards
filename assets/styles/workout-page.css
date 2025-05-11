@@ -89,6 +89,12 @@
   }
 }
 
+.workout__description {
+  & .button {
+    min-width: fit-content;
+  }
+}
+
 .workout-form__sets--difficulty {
   width: 60px;
   padding: 2px 8px;

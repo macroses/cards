@@ -13,6 +13,10 @@ const {
   hasCloseButton = true,
 } = defineProps<ModalProps>()
 
+const emit = defineEmits<{
+  (event: 'close'): void
+}>()
+
 const isOpen = shallowRef(false)
 const modalRef = useTemplateRef<HTMLDivElement>('modalRef')
 const isMobile = useMediaQuery('(max-width: 768px)')
@@ -25,6 +29,7 @@ function openModal() {
 function closeModal() {
   isOpen.value = false
   document.body.style.overflow = ''
+  emit('close')
 }
 
 function handleBackdropClick(event: MouseEvent) {

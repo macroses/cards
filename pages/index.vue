@@ -117,10 +117,6 @@ const isPageLoading = computed(() => {
   return !workouts.value || isWorkoutsLoading.value
 })
 
-watch(selectedExerciseId, () => {
-  document.querySelector('.modal')?.scrollTo({ top: 0, behavior: 'smooth' })
-})
-
 onMounted(async () => {
   if (!workouts.value) {
     return

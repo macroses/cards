@@ -60,12 +60,6 @@ body:has(.home-page__container).charts-disabled {
       height: calc(100dvh - 80px);
     }
 
-    & .container {
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
-
     & .home-page__container {
       width: 100%;
     }

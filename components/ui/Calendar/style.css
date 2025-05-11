@@ -42,7 +42,7 @@
   }
 
   @media (width <= 768px) {
-    padding-bottom: 0;
+    padding-bottom: 8px;
 
     & .calendar {
       padding-bottom: 0;
