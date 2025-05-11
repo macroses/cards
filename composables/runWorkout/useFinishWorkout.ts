@@ -7,7 +7,6 @@ import type {
 import { API, KEYS, PAGES } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 import { deleteCachedData, getCachedData } from '~/utils/cacheRunnedWorkout'
-import { useWorkoutTimer } from '../workoutTimer/useWorkoutTimer'
 
 /**
  * Composable for handling workout completion.
