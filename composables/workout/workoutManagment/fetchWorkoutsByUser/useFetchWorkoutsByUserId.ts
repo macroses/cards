@@ -7,7 +7,7 @@ import {
 
 /**
  * Composable for fetching user's workouts.
- * Retrieves a workout list from API and manages loading state.
+ * Retrieves a workout list from API and manages to load state.
  */
 
 export function useFetchWorkoutsByUserId() {
