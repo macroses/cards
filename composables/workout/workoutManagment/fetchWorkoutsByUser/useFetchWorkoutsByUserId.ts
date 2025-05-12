@@ -1,7 +1,6 @@
 import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import {
   API,
-  AUTHENTICATED,
   KEYS,
 } from '~/constants'
 
@@ -12,7 +11,6 @@ import {
 
 export function useFetchWorkoutsByUserId() {
   const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
-  const { status } = useAuth()
   const { t } = useI18n()
   const isLoading = shallowRef(false)
   const error = shallowRef<string | null>(null)
@@ -21,10 +19,6 @@ export function useFetchWorkoutsByUserId() {
     isLoading.value = true
 
     try {
-      if (status.value !== AUTHENTICATED) {
-        return
-      }
-
       workouts.value = await $fetch<CreateWorkoutResponse[]>(API.WORKOUTS_LIST)
     }
     catch (err: unknown) {

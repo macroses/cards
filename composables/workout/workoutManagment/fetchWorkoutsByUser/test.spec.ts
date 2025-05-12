@@ -204,14 +204,4 @@ describe('useFetchWorkoutsByUserId', () => {
     expect(workouts.value).toBeNull()
     expect(isLoading.value).toBe(false)
   })
-
-  it('не загружает тренировки если пользователь не аутентифицирован', async () => {
-    authStatus = 'unauthenticated'
-
-    const { fetchWorkouts, workouts } = useFetchWorkoutsByUserId()
-    await fetchWorkouts()
-
-    expect(mockFetch).not.toHaveBeenCalled()
-    expect(workouts.value).toBeNull()
-  })
 })
