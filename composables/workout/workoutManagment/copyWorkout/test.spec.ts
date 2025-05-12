@@ -87,7 +87,7 @@ describe('useCopyWorkout', () => {
     vi.restoreAllMocks()
   })
 
-  it('should initialize with isLoading set to false', () => {
+  it('должен инициализироваться с isLoading равным false', () => {
     const { isLoading } = useCopyWorkout()
     expect(isLoading.value).toBe(false)
   })

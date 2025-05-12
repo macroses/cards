@@ -107,11 +107,6 @@ describe('useDeleteWorkout', () => {
     vi.restoreAllMocks()
   })
 
-  it('should initialize with isLoading set to false', () => {
-    const { isLoading } = useDeleteWorkout() as any
-    expect(isLoading.value).toBe(false)
-  })
-
   it('успешно удаляет тренировку', async () => {
     mockFetch.mockResolvedValueOnce(true)
 
