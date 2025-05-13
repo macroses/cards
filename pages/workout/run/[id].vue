@@ -10,7 +10,6 @@ import { WORKOUT_DIFFICULTY } from '~/constants'
 const { workout, isLoading, error } = useRunWorkout()
 const { updateSetField } = useUpdateCachedWorkout()
 const { updateSetTime } = useUpdateSetTime()
-const { timer } = useWorkoutTimer()
 const { finishWorkout, isLoading: isFinishing, resetNoTimeWorkout } = useFinishWorkout()
 const { getExerciseSets } = useExerciseSets()
 const { addSet, deleteSet } = useManageSets()
@@ -188,23 +187,11 @@ useHead({
         class="workout-content"
         @submit.prevent
       >
-        <div
-          class="workout-description"
-          :class="{ hidden: !isDescriptionVisible }"
-        >
-          <h2 class="workout-header">
-            {{ workout.title }}
-          </h2>
-          <div>{{ dayjs(workout.workoutDate).format('DD.MM.YYYY') }}</div>
-
-          <TheButton
-            variant="success"
-            inert
-            class="workout-description__odometer"
-          >
-            <OdometerTimer :time="timer" />
-          </TheButton>
-        </div>
+        <RunningWorkoutHeader
+          :title="workout.title"
+          :workout-date="dayjs(workout.workoutDate).format('DD.MM.YYYY')"
+          :is-description-visible="isDescriptionVisible"
+        />
 
         <div class="workout-content__exercises">
           <ul
