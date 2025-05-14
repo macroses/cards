@@ -7,7 +7,7 @@ const DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 const timeGroups = computed(() => {
   const parts = props.time.split(':')
-  // Если часы "00", возвращаем только минуты и секунды
+  // If time is '00', so return only minutes and seconds
   return (parts[0] === '00' ? parts.slice(1) : parts).map(part => part.split(''))
 })
 

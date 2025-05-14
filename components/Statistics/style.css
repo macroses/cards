@@ -4,6 +4,7 @@
   background-color: var(--color-white);
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  container: statistic / inline-size;
 
   @media (width <= 1023px) {
     height: 100%;
@@ -31,6 +32,12 @@
   border-bottom: 1px solid oklch(from var(--color-accent) l c h / 0.1);
   padding: 12px 0;
   margin-bottom: 4px;
+
+  &:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
 }
 
 .statistic-item__label {
@@ -61,5 +68,17 @@
     font-size: 8px;
     padding: 0 2px;
     border-radius: 2px;
+  }
+}
+
+.global-statistics__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  gap: 0 32px;
+}
+
+@container statistic (width <= 768px) {
+  .global-statistics__grid {
+    grid-template-columns: 1fr;
   }
 }

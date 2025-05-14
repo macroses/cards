@@ -76,10 +76,10 @@
 .workout-content__item {
   border: 1px solid transparent;
 
-  &:has(.active) {
-    border-color: oklch(from var(--color-accent) l c h / 0.2);
-    border-radius: 12px;
-  }
+  /*&:has(.active) {*/
+  /*  border-color: oklch(from var(--color-accent) l c h / 0.2);*/
+  /*  border-radius: 12px;*/
+  /*}*/
 }
 
 .set-row {

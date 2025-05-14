@@ -8,7 +8,6 @@ defineProps<IconProps>()
   <svg
     viewBox="0 0 24 24"
     :width="`${width}px`"
-    style="fill: currentColor"
   >
     <use :xlink:href="`/icons/light.svg#${iconName}`" />
   </svg>
@@ -17,5 +16,6 @@ defineProps<IconProps>()
 <style>
 svg {
   height: auto;
+  fill: currentColor
 }
 </style>

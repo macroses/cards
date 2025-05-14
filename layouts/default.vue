@@ -14,6 +14,12 @@ watch(status, async () => {
 </script>
 
 <template>
+  <div class="layout-gradient">
+    <div />
+    <div />
+    <div />
+    <div />
+  </div>
   <TheAside :is-charts-control-visible="isChartControlVisible" />
   <main>
     <div class="container">
@@ -47,6 +53,46 @@ main {
 
   @media (width <= 768px) {
     padding-left: 0;
+  }
+}
+
+.layout-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  filter: blur(50px);
+  background-color: #3a8bf7;
+  opacity: 0.5;
+
+  & div {
+    position: absolute;
+
+    &:first-child {
+      width: 80%;
+      aspect-ratio: 1;
+      left: -30%;
+      top: -30%;
+      border-radius: 50%;
+      background-color: #ebbf54;
+    }
+
+    &:nth-child(3) {
+      width: 50%;
+      aspect-ratio: 1;
+      left: 0;
+      bottom: -50%;
+      border-radius: 50%;
+      background-color: #ec70e8;
+    }
+
+    &:nth-child(4) {
+      width: 50%;
+      aspect-ratio: 1;
+      right: 0;
+      bottom: -30%;
+      border-radius: 50%;
+      background-color: #62c3ed;
+    }
   }
 }
 </style>

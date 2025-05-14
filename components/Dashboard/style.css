@@ -64,9 +64,11 @@
   width: 100%;
   flex-wrap: nowrap;
   touch-action: pan-x;
+  padding-right: 12px;
+  scrollbar-width: none;
 
   & .button {
-    min-width: 100%;
+    min-width: fit-content;
     font-size: 12px;
     height: 30px;
     min-height: 30px;

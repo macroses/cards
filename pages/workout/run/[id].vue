@@ -4,7 +4,6 @@ import type { UserTrainingSession } from '~/ts/interfaces'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
-import NoTimeMarkedReset from '~/components/NoTimeMarkedReset/NoTimeMarkedReset.vue'
 import { WORKOUT_DIFFICULTY } from '~/constants'
 
 const { workout, isLoading, error } = useRunWorkout()
@@ -15,7 +14,6 @@ const { getExerciseSets } = useExerciseSets()
 const { addSet, deleteSet } = useManageSets()
 
 // 👀 UI components and states
-const isDescriptionVisible = shallowRef(true)
 const shakeCounter = shallowRef(0)
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
 const valueChanged = shallowRef<string | null>(null)
@@ -190,7 +188,6 @@ useHead({
         <RunningWorkoutHeader
           :title="workout.title"
           :workout-date="dayjs(workout.workoutDate).format('DD.MM.YYYY')"
-          :is-description-visible="isDescriptionVisible"
         />
 
         <div class="workout-content__exercises">
@@ -237,39 +234,7 @@ useHead({
                   v-auto-animate="{ duration: 100 }"
                   class="sets-table__content"
                 >
-                  <ul>
-                    <li class="set-header">
-                      <div class="set-header__cell">
-                        <TheIcon
-                          icon-name="chart-simple"
-                          width="12"
-                        />
-                        Level
-                      </div>
-                      <div class="set-header__cell">
-                        <TheIcon
-                          icon-name="weight-hanging"
-                          width="12"
-                        />
-                        Weight
-                      </div>
-                      <div class="set-header__cell">
-                        <TheIcon
-                          icon-name="repeat"
-                          width="12"
-                        />
-                        Repeats
-                      </div>
-                      <div class="set-header__cell">
-                        <TheIcon
-                          icon-name="clock"
-                          width="12"
-                        />
-                        Time
-                      </div>
-                      <div class="set-header__cell" />
-                    </li>
-                  </ul>
+                  <RunningWorkoutTableHead />
                   <div
                     v-for="set in exercise.sets"
                     :key="set.id"

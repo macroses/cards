@@ -2,17 +2,13 @@
 defineProps<{
   title: string
   workoutDate: string
-  isDescriptionVisible: boolean
 }>()
 
 const { timer } = useWorkoutTimer()
 </script>
 
 <template>
-  <div
-    class="workout-description"
-    :class="{ hidden: !isDescriptionVisible }"
-  >
+  <div class="workout-description">
     <h2 class="workout-header">
       {{ title }}
     </h2>
