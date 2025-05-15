@@ -122,7 +122,7 @@ export function useWorkoutDifference() {
       return 0
     }
 
-    return validSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0) / validSets.length
+    return validSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0)
   }
 
   function calculateAverageRepeats(sets: WorkoutSet[]): number {
@@ -132,7 +132,7 @@ export function useWorkoutDifference() {
       return 0
     }
 
-    return sets.reduce((sum, set) => sum + set.repeats, 0) / validSets.length
+    return validSets.reduce((sum, set) => sum + set.repeats, 0)
   }
 
   function createMetrics(): Pick<Metrics, 'weight' | 'repeats'> {
@@ -171,7 +171,7 @@ export function useWorkoutDifference() {
     const repeatsPlanned: number[] = []
     const repeatsActual: number[] = []
 
-    // Рассчитываем средние значения для каждого упражнения
+    // Рассчитываем суммарные значения для каждого упражнения
     exerciseIds.forEach((exerciseId) => {
       const actualSets = exerciseSets[exerciseId] || []
       const plannedSets = originalExerciseSets[exerciseId] || []
@@ -189,7 +189,6 @@ export function useWorkoutDifference() {
 
     const metrics = createMetrics()
 
-    // Создаём и возвращаем данные для графиков
     return {
       weight: createChartConfig(
         xAxisData,
