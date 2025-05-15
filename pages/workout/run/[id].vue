@@ -324,7 +324,6 @@ useHead({
                       <TheButton
                         v-if="!set.setTimeAddedAt"
                         variant="secondary"
-                        icon-only
                         class="mark-set-time"
                         @click="handleSetTimeUpdate(set.id)"
                       >
@@ -338,6 +337,7 @@ useHead({
                       <TheButton
                         variant="transparent"
                         icon-only
+                        class="delete-set__button"
                         :class="{ disabled: exercise.sets.length === 1 }"
                         @click="handleDeleteSet(set.id)"
                       >

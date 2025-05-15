@@ -8,8 +8,10 @@ const { status } = useAuth()
 const workouts = useState<UserWorkout[]>(KEYS.GLOBAL_WORKOUTS)
 
 watch(status, async () => {
-  await fetchWorkouts()
-  checkActiveWorkout(workouts.value)
+  if (status.value === 'authenticated') {
+    await fetchWorkouts()
+    checkActiveWorkout(workouts.value)
+  }
 }, { immediate: true })
 </script>
 

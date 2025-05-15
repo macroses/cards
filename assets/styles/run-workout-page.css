@@ -1,5 +1,9 @@
 .run-template__wrap {
   display: flex;
+
+  @media (width <= 768px) {
+    flex-direction: column;
+  }
 }
 
 .workout-content {
@@ -66,6 +70,7 @@
   &.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    background-color: var(--table-dark-bg);
   }
 
   & .button {
@@ -75,11 +80,6 @@
 
 .workout-content__item {
   border: 1px solid transparent;
-
-  /*&:has(.active) {*/
-  /*  border-color: oklch(from var(--color-accent) l c h / 0.2);*/
-  /*  border-radius: 12px;*/
-  /*}*/
 }
 
 .set-row {
@@ -102,7 +102,6 @@
   grid-template-columns: 60px 1fr 1fr 70px 36px;
   align-items: center;
   padding: 8px;
-  background-color: var(--table-dark-bg);
   gap: 8px;
 }
 
@@ -125,6 +124,14 @@
 
   &:not(:first-child, :has(.mark-set-time), :has(.input-wrapper), :last-child) {
     border: 1px solid var(--color-border);
+  }
+
+  & .mark-set-time {
+    min-width: 100%;
+  }
+
+  & .delete-set__button:hover {
+    color: var(--color-error);
   }
 }
 
