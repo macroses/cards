@@ -14,6 +14,7 @@ import { deleteCachedData, getCachedData } from '~/utils/cacheRunnedWorkout'
  */
 
 const CACHE_NAME = 'workout'
+const ORIGINAL_CACHE_NAME = 'workout-original'
 
 export function useFinishWorkout() {
   const workoutsList = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
@@ -75,6 +76,8 @@ export function useFinishWorkout() {
       })
 
       await deleteCachedData(CACHE_NAME, workoutId)
+      await deleteCachedData(ORIGINAL_CACHE_NAME, workoutId)
+
       updateWorkoutsList(workoutId, updatedWorkout)
       resetGlobalState()
 
@@ -113,6 +116,8 @@ export function useFinishWorkout() {
       navigateTo('/')
 
       await deleteCachedData(CACHE_NAME, runWorkoutId)
+      await deleteCachedData(ORIGINAL_CACHE_NAME, runWorkoutId)
+
       await fetchWorkouts()
     }
     catch (error) {

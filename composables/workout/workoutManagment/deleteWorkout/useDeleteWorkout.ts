@@ -8,6 +8,9 @@ import { deleteCachedData } from '~/utils/cacheRunnedWorkout'
  * Handles workout deletion, updates local state, and clears cache.
  */
 
+const CACHE_NAME = 'workout'
+const ORIGINAL_CACHE_NAME = 'workout-original'
+
 export function useDeleteWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
@@ -32,7 +35,8 @@ export function useDeleteWorkout() {
 
         checkActiveWorkout(workouts.value)
 
-        await deleteCachedData('workout', workoutId)
+        await deleteCachedData(CACHE_NAME, workoutId)
+        await deleteCachedData(ORIGINAL_CACHE_NAME, workoutId)
       }
     }
     catch (error: unknown) {

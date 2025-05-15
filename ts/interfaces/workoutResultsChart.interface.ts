@@ -11,16 +11,17 @@ export type Metrics = Record<'weight' | 'repeats' | 'time' | 'volume', Metric>
 export type ProgressMetrics = Record<'weight' | 'repeats' | 'time' | 'volume', MetricFn>
 
 export interface WorkoutChartData {
+  grid?: {
+    top: number
+    bottom: number
+    left: number
+    right: number
+    containLabel: boolean
+  }
   xAxis: { type: 'category', data: string[] }
   yAxis: { type: 'value', name: string }
-  series: Array<{
-    name: string
-    data: number[]
-    type: 'line'
-    smooth: true
-    lineStyle: { width: number } | { type: 'dashed', width: number }
-  }>
-  tooltip: { trigger: 'axis' }
+  series: unknown[]
+  tooltip: unknown
   legend: { show: boolean }
 }
 

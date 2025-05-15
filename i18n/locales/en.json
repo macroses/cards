@@ -39,7 +39,12 @@
     "previous_workout": "Previous workout",
     "no_data": "No data from previous workout",
     "set": "Set",
-    "select_date_to_copy": "Select date to copy"
+    "select_date_to_copy": "Select date to copy",
+    "planned": "Planned",
+    "actual": "Actual",
+    "difference_chart": "Planned vs Actual Comparison",
+    "difference": "Difference",
+    "no_difference_data": "No comparison data available"
   },
 
   "prediction": {

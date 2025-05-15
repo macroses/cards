@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
 import { WORKOUT_DIFFICULTY } from '~/constants'
 
-const { workout, isLoading, error } = useRunWorkout()
+const { workout, originalWorkout, isLoading, error } = useRunWorkout()
 const { updateSetField } = useUpdateCachedWorkout()
 const { updateSetTime } = useUpdateSetTime()
 const { finishWorkout, isLoading: isFinishing, resetNoTimeWorkout } = useFinishWorkout()
@@ -361,7 +361,13 @@ useHead({
           </TheButton>
         </div>
       </form>
-      <div class="run-template__charts" />
+      <div class="run-template__charts">
+        <WorkoutDifferenceChart
+          v-if="workout && originalWorkout"
+          :workout="workout"
+          :original-workout="originalWorkout"
+        />
+      </div>
     </div>
 
     <div

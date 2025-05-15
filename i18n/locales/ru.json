@@ -39,7 +39,12 @@
     "previous_workout": "Предыдущая тренировка",
     "no_data": "Нет данных о предыдущей тренировке",
     "set": "Сет",
-    "select_date_to_copy": "Выберите дату для копирования"
+    "select_date_to_copy": "Выберите дату для копирования",
+    "planned": "Запланировано",
+    "actual": "Фактически",
+    "difference_chart": "Сравнение плана и факта",
+    "difference": "Разница",
+    "no_difference_data": "Нет данных для сравнения"
   },
 
   "prediction": {
