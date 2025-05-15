@@ -79,45 +79,4 @@ watch(() => [props.workout, props.originalWorkout], () => {
   </div>
 </template>
 
-<style scoped>
-.workout-difference-charts {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: var(--color-white);
-  border-radius: 8px;
-}
-
-.workout-difference-title {
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.chart-controls {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.chart-container {
-  width: 100%;
-  min-height: 250px;
-  background-color: var(--color-white);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.chart {
-  width: 100%;
-  height: 100%;
-}
-
-.no-data {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 250px;
-  color: var(--color-white);
-}
-</style>
+<style scoped src="./style.css" />

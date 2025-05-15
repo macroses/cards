@@ -115,24 +115,25 @@ export function useWorkoutDifference() {
     }, {} as Record<string, string>)
   }
 
-  function calculateAverageWeight(sets: WorkoutSet[]): number {
+  function calculateSetMetric(
+    sets: WorkoutSet[],
+    valueSelector: (set: WorkoutSet) => number,
+  ): number {
     const validSets = sets.filter(set => set.weight > 0 && set.repeats > 0)
 
     if (validSets.length === 0) {
       return 0
     }
 
-    return validSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0)
+    return validSets.reduce((sum, set) => sum + valueSelector(set), 0)
   }
 
-  function calculateAverageRepeats(sets: WorkoutSet[]): number {
-    const validSets = sets.filter(set => set.repeats > 0 && set.weight > 0)
+  function sumWeightedRepeats(sets: WorkoutSet[]): number {
+    return calculateSetMetric(sets, set => set.weight * set.repeats)
+  }
 
-    if (!validSets.length) {
-      return 0
-    }
-
-    return validSets.reduce((sum, set) => sum + set.repeats, 0)
+  function sumRepeats(sets: WorkoutSet[]): number {
+    return calculateSetMetric(sets, set => set.repeats)
   }
 
   function createMetrics(): Pick<Metrics, 'weight' | 'repeats'> {
@@ -180,10 +181,10 @@ export function useWorkoutDifference() {
       const hasValidPlannedSets = plannedSets.some(set => set.weight > 0 && set.repeats > 0)
 
       if (hasValidActualSets || hasValidPlannedSets) {
-        weightPlanned.push(calculateAverageWeight(plannedSets))
-        weightActual.push(calculateAverageWeight(actualSets))
-        repeatsPlanned.push(calculateAverageRepeats(plannedSets))
-        repeatsActual.push(calculateAverageRepeats(actualSets))
+        weightPlanned.push(sumWeightedRepeats(plannedSets))
+        weightActual.push(sumWeightedRepeats(actualSets))
+        repeatsPlanned.push(sumRepeats(plannedSets))
+        repeatsActual.push(sumRepeats(actualSets))
       }
     })
 
