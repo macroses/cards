@@ -123,5 +123,29 @@
     "avg_duration": "Средняя продолжительность тренировки",
     "avg_set_time": "Среднее время подхода",
     "completed_workouts": "Завершенных тренировок"
+  },
+
+  "pages": {
+    "home": "Главная",
+    "create_workout": "Создать тренировку",
+    "workout": "Тренировка",
+    "workout_not_found": "Тренировка не найдена"
+  },
+
+  "exercises": {
+    "all_exercises": "Все упражнения",
+    "my_exercises": "Мои упражнения",
+    "exercises": "Упражнения",
+    "add_set": "Добавить подход"
+  },
+
+  "inputs": {
+    "weight": "Вес",
+    "repeats": "Повторения",
+    "time_format": "00м:00с"
+  },
+
+  "actions": {
+    "save": "Сохранить"
   }
 }

@@ -17,6 +17,8 @@ const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 const isCopyMode = shallowRef(false)
 const workoutToCopy = shallowRef<string | null>(null)
 
+const { t } = useI18n()
+
 const localePath = useLocalePath()
 const { deleteWorkout } = useDeleteWorkout()
 const { copyWorkout } = useCopyWorkout()
@@ -108,7 +110,7 @@ function showResultModal(workoutId: string) {
 }
 
 useHead({
-  title: 'Home',
+  title: computed(() => t('pages.home')),
 })
 
 const { isLoading: isWorkoutsLoading } = useFetchWorkoutsByUserId()

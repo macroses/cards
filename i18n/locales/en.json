@@ -122,5 +122,29 @@
     "avg_duration": "Average duration",
     "avg_set_time": "Set average time",
     "completed_workouts": "Completed workouts"
+  },
+
+  "pages": {
+    "home": "Home",
+    "create_workout": "Create workout",
+    "workout": "Workout",
+    "workout_not_found": "Workout not found"
+  },
+
+  "exercises": {
+    "all_exercises": "All exercises",
+    "my_exercises": "My exercises",
+    "exercises": "Exercises",
+    "add_set": "Add set"
+  },
+
+  "inputs": {
+    "weight": "Weight",
+    "repeats": "Repeats",
+    "time_format": "00m:00s"
+  },
+
+  "actions": {
+    "save": "Save"
   }
 }

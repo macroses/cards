@@ -6,6 +6,8 @@ import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
 import { WORKOUT_DIFFICULTY } from '~/constants'
 
+const { t } = useI18n()
+
 const { workout, originalWorkout, isLoading, error } = useRunWorkout()
 const { updateSetField } = useUpdateCachedWorkout()
 const { updateSetTime } = useUpdateSetTime()
@@ -166,7 +168,7 @@ async function handleResetNoTimeWorkout() {
 }
 
 useHead({
-  title: computed(() => workout.value?.title || 'Тренировка'),
+  title: computed(() => workout.value?.title || t('pages.workout')),
 })
 </script>
 
@@ -212,7 +214,7 @@ useHead({
                 {{ exercise.name }}
                 <TheButton
                   v-if="activeExerciseId === exerciseId"
-                  v-tooltip="'Добавить подход'"
+                  v-tooltip="$t('exercises.add_set')"
                   variant="transparent"
                   type="button"
                   icon-only
@@ -265,7 +267,7 @@ useHead({
                         v-model.number="editingValue"
                         v-focus
                         type="number"
-                        placeholder="Вес"
+                        :placeholder="$t('inputs.weight')"
                         inputmode="decimal"
                         class="edit-input"
                         @blur="saveEdit"
@@ -286,7 +288,7 @@ useHead({
                         v-model.number="editingValue"
                         v-focus
                         type="number"
-                        placeholder="Повторения"
+                        :placeholder="$t('inputs.repeats')"
                         inputmode="numeric"
                         class="edit-input"
                         @blur="saveEdit"
@@ -308,7 +310,7 @@ useHead({
                         v-maska="'##:##'"
                         no-clear
                         type="text"
-                        placeholder="00m:00s"
+                        :placeholder="$t('inputs.time_format')"
                         inputmode="numeric"
                         class="edit-input"
                         @blur="saveEdit"
@@ -357,7 +359,7 @@ useHead({
             :loading="isFinishing"
             @click="handleSaveWorkout"
           >
-            Сохранить
+            {{ $t('actions.save') }}
           </TheButton>
         </div>
       </form>
@@ -374,7 +376,7 @@ useHead({
       v-else
       class="no-data"
     >
-      Тренировка не найдена
+      {{ $t('pages.workout_not_found') }}
     </div>
 
     <NoTimeMarkedReset

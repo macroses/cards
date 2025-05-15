@@ -12,6 +12,8 @@ definePageMeta({
   ],
 })
 
+const { t } = useI18n()
+
 const {
   isCalendarVisible,
   toggleCalendar,
@@ -121,7 +123,7 @@ onMounted(async () => {
 })
 
 useHead({
-  title: computed(() => 'Create workout'),
+  title: computed(() => t('pages.create_workout')),
 })
 
 onClickOutside(exercisesListRef, async () => {
@@ -185,13 +187,13 @@ onClickOutside(exercisesListRef, async () => {
               :variant="isExercisesList ? 'primary' : 'secondary'"
               @click="isExercisesList = true"
             >
-              All exercises
+              {{ $t('exercises.all_exercises') }}
             </TheButton>
             <TheButton
               :variant="isExercisesList ? 'secondary' : 'primary'"
               @click="isExercisesList = false"
             >
-              My exercises
+              {{ $t('exercises.my_exercises') }}
             </TheButton>
           </div>
           <TheLoader v-if="status !== 'success'" />
@@ -210,7 +212,7 @@ onClickOutside(exercisesListRef, async () => {
           :style="{ viewTransitionName: 'exercises-list' }"
           @click="toggleMobileList"
         >
-          Exercises
+          {{ $t('exercises.exercises') }}
           <TheIcon
             icon-name="angle-down"
             width="14"
