@@ -36,108 +36,107 @@ export function useWorkoutDifference() {
         type: 'value',
         name: yAxisName,
       },
-      series: [
-        {
-          name: t('workout.planned'),
-          data: plannedData,
-          type: 'bar',
-          barGap: 0,
-        },
-        {
-          name: t('workout.actual'),
-          data: actualData,
-          type: 'bar',
-        },
-      ],
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-        },
-        formatter(params: Array<{ name: string, seriesName: string, value: number }>) {
-          const plannedValue = params[0].value
-          const actualValue = params[1].value
-          const difference = actualValue - plannedValue
-          const percentChange = plannedValue === 0
-            ? (actualValue > 0 ? 100 : 0)
-            : Number(((actualValue - plannedValue) / plannedValue * 100).toFixed(1))
-
-          return `${params[0].name}<br/>
-                 ${params[0].seriesName}: ${plannedValue}<br/>
-                 ${params[1].seriesName}: ${actualValue}<br/>
-                 ${t('workout.difference')}: ${difference > 0 ? '+' : ''}${difference} (${percentChange > 0 ? '+' : ''}${percentChange}%)`
-        },
-      },
+      series: createChartSeries(plannedData, actualData),
+      tooltip: createChartTooltip(),
       legend: {
         show: true,
       },
     } as const)
   }
 
-  function getWorkoutDifferenceData(
-    workout: CreateWorkoutResponse,
-    originalWorkout: CreateWorkoutResponse,
-  ): Pick<MetricCharts, 'weight' | 'repeats'> {
-    const exerciseSets: Record<string, WorkoutSet[]> = {}
-    const originalExerciseSets: Record<string, WorkoutSet[]> = {}
+  function createChartSeries(
+    plannedData: number[],
+    actualData: number[],
+  ) {
+    return [
+      {
+        name: t('workout.planned'),
+        data: plannedData,
+        type: 'bar',
+        barGap: 0,
+      },
+      {
+        name: t('workout.actual'),
+        data: actualData,
+        type: 'bar',
+      },
+    ]
+  }
 
-    workout.sets.forEach((set) => {
-      if (!exerciseSets[set.exerciseId]) {
-        exerciseSets[set.exerciseId] = []
+  function createChartTooltip() {
+    return {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+      },
+      formatter: formatTooltip,
+    }
+  }
+
+  function formatTooltip(params: Array<{ name: string, seriesName: string, value: number }>) {
+    const plannedValue = params[0].value
+    const actualValue = params[1].value
+    const difference = actualValue - plannedValue
+    const percentChange = calculatePercentChange(plannedValue, actualValue)
+
+    return `${params[0].name}<br/>
+            ${params[0].seriesName}: ${plannedValue}<br/>
+            ${params[1].seriesName}: ${actualValue}<br/>
+            ${t('workout.difference')}: ${formatDifference(difference, percentChange)}`
+  }
+
+  function calculatePercentChange(planned: number, actual: number): number {
+    if (planned === 0) {
+      return actual > 0 ? 100 : 0
+    }
+    return Number(((actual - planned) / planned * 100).toFixed(1))
+  }
+
+  function formatDifference(difference: number, percentChange: number): string {
+    const diffPrefix = difference > 0 ? '+' : ''
+    const percentPrefix = percentChange > 0 ? '+' : ''
+    return `${diffPrefix}${difference} (${percentPrefix}${percentChange}%)`
+  }
+
+  function groupSetsByExercise(workoutSets: WorkoutSet[]): Record<string, WorkoutSet[]> {
+    return workoutSets.reduce((result, set) => {
+      if (!result[set.exerciseId]) {
+        result[set.exerciseId] = []
       }
-      exerciseSets[set.exerciseId].push(set)
-    })
+      result[set.exerciseId].push(set)
+      return result
+    }, {} as Record<string, WorkoutSet[]>)
+  }
 
-    originalWorkout.sets.forEach((set) => {
-      if (!originalExerciseSets[set.exerciseId]) {
-        originalExerciseSets[set.exerciseId] = []
-      }
-      originalExerciseSets[set.exerciseId].push(set)
-    })
+  function createExerciseNameMap(workout: CreateWorkoutResponse): Record<string, string> {
+    return workout.exercises.reduce((result, exercise) => {
+      result[exercise.exerciseId] = exercise.exerciseName
+      return result
+    }, {} as Record<string, string>)
+  }
 
-    // Find exercise names
-    const exerciseNames: Record<string, string> = {}
-    workout.exercises.forEach((exercise) => {
-      exerciseNames[exercise.exerciseId] = exercise.exerciseName
-    })
+  function calculateAverageWeight(sets: WorkoutSet[]): number {
+    const validSets = sets.filter(set => set.weight > 0 && set.repeats > 0)
 
-    // Create x-axis data with exercise names
-    const xAxisData = Object.keys(exerciseNames).map(id => exerciseNames[id])
+    if (validSets.length === 0) {
+      return 0
+    }
 
-    // Calculate average values for each exercise
-    const weightPlanned: number[] = []
-    const weightActual: number[] = []
-    const repeatsPlanned: number[] = []
-    const repeatsActual: number[] = []
+    return validSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0) / validSets.length
+  }
 
-    Object.keys(exerciseNames).forEach((exerciseId) => {
-      const actualSets = exerciseSets[exerciseId] || []
-      const plannedSets = originalExerciseSets[exerciseId] || []
+  function calculateAverageRepeats(sets: WorkoutSet[]): number {
+    const validSets = sets.filter(set => set.repeats > 0 && set.weight > 0)
 
-      // Calculate average weight
-      const avgWeightPlanned = plannedSets.length > 0
-        ? plannedSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0) / plannedSets.length
-        : 0
-      const avgWeightActual = actualSets.length > 0
-        ? actualSets.reduce((sum, set) => sum + (set.weight * set.repeats), 0) / actualSets.length
-        : 0
+    if (!validSets.length) {
+      return 0
+    }
 
-      weightPlanned.push(avgWeightPlanned)
-      weightActual.push(avgWeightActual)
+    return sets.reduce((sum, set) => sum + set.repeats, 0) / validSets.length
+  }
 
-      // Calculate average repeats
-      const avgRepeatsPlanned = plannedSets.length > 0
-        ? plannedSets.reduce((sum, set) => sum + set.repeats, 0) / plannedSets.length
-        : 0
-      const avgRepeatsActual = actualSets.length > 0
-        ? actualSets.reduce((sum, set) => sum + set.repeats, 0) / actualSets.length
-        : 0
-
-      repeatsPlanned.push(avgRepeatsPlanned)
-      repeatsActual.push(avgRepeatsActual)
-    })
-
-    const metrics: Pick<Metrics, 'weight' | 'repeats'> = {
+  function createMetrics(): Pick<Metrics, 'weight' | 'repeats'> {
+    return {
       weight: {
         name: t('workout.weight'),
         current: set => set.weight,
@@ -149,7 +148,48 @@ export function useWorkoutDifference() {
         previous: set => set.repeats,
       },
     }
+  }
 
+  function getWorkoutDifferenceData(
+    workout: CreateWorkoutResponse,
+    originalWorkout: CreateWorkoutResponse,
+  ): Pick<MetricCharts, 'weight' | 'repeats'> {
+    // Группируем наборы упражнений
+    const exerciseSets = groupSetsByExercise(workout.sets)
+    const originalExerciseSets = groupSetsByExercise(originalWorkout.sets)
+
+    // Получаем имена упражнений
+    const exerciseNames = createExerciseNameMap(workout)
+    const exerciseIds = Object.keys(exerciseNames)
+
+    // Данные для оси X (имена упражнений)
+    const xAxisData = exerciseIds.map(id => exerciseNames[id])
+
+    // Массивы для хранения данных графиков
+    const weightPlanned: number[] = []
+    const weightActual: number[] = []
+    const repeatsPlanned: number[] = []
+    const repeatsActual: number[] = []
+
+    // Рассчитываем средние значения для каждого упражнения
+    exerciseIds.forEach((exerciseId) => {
+      const actualSets = exerciseSets[exerciseId] || []
+      const plannedSets = originalExerciseSets[exerciseId] || []
+
+      const hasValidActualSets = actualSets.some(set => set.weight > 0 && set.repeats > 0)
+      const hasValidPlannedSets = plannedSets.some(set => set.weight > 0 && set.repeats > 0)
+
+      if (hasValidActualSets || hasValidPlannedSets) {
+        weightPlanned.push(calculateAverageWeight(plannedSets))
+        weightActual.push(calculateAverageWeight(actualSets))
+        repeatsPlanned.push(calculateAverageRepeats(plannedSets))
+        repeatsActual.push(calculateAverageRepeats(actualSets))
+      }
+    })
+
+    const metrics = createMetrics()
+
+    // Создаём и возвращаем данные для графиков
     return {
       weight: createChartConfig(
         xAxisData,
