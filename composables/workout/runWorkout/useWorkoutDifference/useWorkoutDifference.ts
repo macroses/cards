@@ -23,9 +23,9 @@ export function useWorkoutDifference() {
     return ({
       grid: {
         top: 50,
-        right: 20,
+        right: 0,
         bottom: 10,
-        left: 16,
+        left: 10,
         containLabel: true,
       },
       xAxis: {
@@ -103,7 +103,9 @@ export function useWorkoutDifference() {
       if (!result[set.exerciseId]) {
         result[set.exerciseId] = []
       }
+
       result[set.exerciseId].push(set)
+
       return result
     }, {} as Record<string, WorkoutSet[]>)
   }
@@ -111,6 +113,7 @@ export function useWorkoutDifference() {
   function createExerciseNameMap(workout: CreateWorkoutResponse): Record<string, string> {
     return workout.exercises.reduce((result, exercise) => {
       result[exercise.exerciseId] = exercise.exerciseName
+
       return result
     }, {} as Record<string, string>)
   }
@@ -129,7 +132,7 @@ export function useWorkoutDifference() {
   }
 
   function sumWeightedRepeats(sets: WorkoutSet[]): number {
-    return calculateSetMetric(sets, set => set.weight * set.repeats)
+    return calculateSetMetric(sets, set => (set.weight * set.repeats) / 1000)
   }
 
   function sumRepeats(sets: WorkoutSet[]): number {
@@ -139,7 +142,7 @@ export function useWorkoutDifference() {
   function createMetrics(): Pick<Metrics, 'weight' | 'repeats'> {
     return {
       weight: {
-        name: t('workout.weight'),
+        name: `${t('workout.weight')} (T)`,
         current: set => set.weight,
         previous: set => set.weight,
       },
@@ -155,24 +158,19 @@ export function useWorkoutDifference() {
     workout: CreateWorkoutResponse,
     originalWorkout: CreateWorkoutResponse,
   ): Pick<MetricCharts, 'weight' | 'repeats'> {
-    // Группируем наборы упражнений
     const exerciseSets = groupSetsByExercise(workout.sets)
     const originalExerciseSets = groupSetsByExercise(originalWorkout.sets)
 
-    // Получаем имена упражнений
     const exerciseNames = createExerciseNameMap(workout)
     const exerciseIds = Object.keys(exerciseNames)
 
-    // Данные для оси X (имена упражнений)
     const xAxisData = exerciseIds.map(id => exerciseNames[id])
 
-    // Массивы для хранения данных графиков
     const weightPlanned: number[] = []
     const weightActual: number[] = []
     const repeatsPlanned: number[] = []
     const repeatsActual: number[] = []
 
-    // Рассчитываем суммарные значения для каждого упражнения
     exerciseIds.forEach((exerciseId) => {
       const actualSets = exerciseSets[exerciseId] || []
       const plannedSets = originalExerciseSets[exerciseId] || []
