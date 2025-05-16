@@ -128,6 +128,13 @@ onMounted(async () => {
     await refreshStats()
   }
 })
+
+function setDateByChart(date: string) {
+  const [day, month, year] = date.split('.')
+  const formattedDate = `${year}-${month}-${day}`
+
+  selectedDate.value = dayjs(formattedDate).toDate()
+}
 </script>
 
 <template>
@@ -171,7 +178,7 @@ onMounted(async () => {
       class="dashboard__charts"
       style="view-transition-name: dashboard-charts"
     >
-      <DashboardCharts />
+      <DashboardCharts @chart-date="setDateByChart" />
     </div>
 
     <div

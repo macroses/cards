@@ -35,8 +35,10 @@ export function useDeleteWorkout() {
 
         checkActiveWorkout(workouts.value)
 
-        await deleteCachedData(CACHE_NAME, workoutId)
-        await deleteCachedData(ORIGINAL_CACHE_NAME, workoutId)
+        await Promise.all([
+          deleteCachedData(CACHE_NAME, workoutId),
+          deleteCachedData(ORIGINAL_CACHE_NAME, workoutId),
+        ])
       }
     }
     catch (error: unknown) {

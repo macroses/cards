@@ -19,7 +19,7 @@ export function useCalendar(props: {
   const SLIDE_LEFT = 'slideMonth'
   const SLIDE_RIGHT = 'slideMonthRight'
   const currentMonth = ref(props.month || new Date())
-  const selectedDate = ref<Date | undefined | null>(props.modelValue)
+  const selectedDate = ref<Date | null>(props.modelValue)
   const transitionName = shallowRef<SLIDE_LEFT | SLIDE_RIGHT>(SLIDE_RIGHT)
 
   dayjs.locale(props.locale)
@@ -105,6 +105,18 @@ export function useCalendar(props: {
     transitionName.value = SLIDE_RIGHT
     currentMonth.value = new Date()
   }
+
+  // ловим изменение выбранного дня в любом месте
+  watch(selectedDate, (newDate) => {
+    if (newDate) {
+      const newMonth = dayjs(newDate).startOf('month').toDate()
+
+      if (!dayjs(currentMonth.value).isSame(newMonth, 'month')) {
+        transitionName.value = dayjs(newMonth).isAfter(currentMonth.value) ? SLIDE_RIGHT : SLIDE_LEFT
+        currentMonth.value = newMonth
+      }
+    }
+  })
 
   return {
     currentMonth,

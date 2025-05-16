@@ -4,9 +4,14 @@ import type { ChartsCollectionProps } from '~/ts/interfaces'
 const props = defineProps<ChartsCollectionProps>()
 
 const emit = defineEmits<{
-  'update:selectedExercise': [exerciseId: string]
-  'chartRemoved': [chartId: number]
+  (event: 'update:selectedExercise', exerciseId: string): void
+  (event: 'chartRemoved', chartId: number): void
+  (event: 'chartDate', chartDate: string): void
 }>()
+
+// const emit = defineEmits<{
+//   (event: 'chartDate', chartDate: string): void
+// }>()
 
 const {
   collectedCharts,
@@ -16,6 +21,10 @@ const {
   selectTab,
   handleExerciseSelect,
 } = useChartsCollection(props, emit)
+
+function handleChartClick(chartDate: string) {
+  emit('chartDate', chartDate)
+}
 </script>
 
 <template>
@@ -73,6 +82,7 @@ const {
                 class="chart"
                 :option="collectedCharts[activeTabIndex].option || undefined"
                 autoresize
+                @click="handleChartClick($event.name)"
               />
               <div v-else class="chart-placeholder">
                 <p>Данные графика недоступны</p>
@@ -85,6 +95,7 @@ const {
             class="chart"
             :option="collectedCharts[activeTabIndex].option || undefined"
             autoresize
+            @click="handleChartClick($event.name)"
           />
           <div v-else class="chart-placeholder">
             <p>Данные графика недоступны</p>

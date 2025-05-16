@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import ChartsCollection from '../ChartsCollection/ChartsCollection.vue'
 
+const emit = defineEmits<{
+  (event: 'chartDate', chartDate: string): void
+}>()
+
 const {
   charts,
   selectedExercise,
@@ -55,6 +59,10 @@ async function onChartRemoved(chartId: number) {
     collectedChartIds.value.splice(index, 1)
   }).finished
 }
+
+function handleChartClick(chartDate: string) {
+  emit('chartDate', chartDate)
+}
 </script>
 
 <template>
@@ -66,6 +74,7 @@ async function onChartRemoved(chartId: number) {
       :get-exercise-name="getExerciseName"
       :collected-chart-ids="collectedChartIds"
       @chart-removed="onChartRemoved"
+      @chart-date="handleChartClick"
     />
 
     <div
@@ -119,6 +128,7 @@ async function onChartRemoved(chartId: number) {
               class="chart"
               :option="chart.option"
               autoresize
+              @click="handleChartClick($event.name)"
             />
           </div>
         </template>
@@ -128,6 +138,7 @@ async function onChartRemoved(chartId: number) {
           class="chart"
           :option="chart.option"
           autoresize
+          @click="handleChartClick($event.name)"
         />
       </div>
     </div>
