@@ -14,11 +14,12 @@ import type {
 export function useWorkoutDifference() {
   const { t } = useI18n()
 
-  function createChartConfig(
+  function createChartConfigWithOpacity(
     xAxisData: string[],
     yAxisName: string,
     plannedData: number[],
     actualData: number[],
+    itemOpacity: number[],
   ): WorkoutChartData {
     return ({
       grid: {
@@ -36,7 +37,7 @@ export function useWorkoutDifference() {
         type: 'value',
         name: yAxisName,
       },
-      series: createChartSeries(plannedData, actualData),
+      series: createChartSeriesWithOpacity(plannedData, actualData, itemOpacity),
       tooltip: createChartTooltip(),
       legend: {
         show: true,
@@ -44,21 +45,29 @@ export function useWorkoutDifference() {
     } as const)
   }
 
-  function createChartSeries(
+  function createChartSeriesWithOpacity(
     plannedData: number[],
     actualData: number[],
+    itemOpacity: number[],
   ) {
     return [
       {
         name: t('workout.planned'),
-        data: plannedData,
+        data: plannedData.map((value, index) => ({
+          value,
+          itemStyle: { opacity: itemOpacity[index] },
+        })),
         type: 'bar',
-        barGap: 0,
+        barGap: '10%',
       },
       {
         name: t('workout.actual'),
-        data: actualData,
+        data: actualData.map((value, index) => ({
+          value,
+          itemStyle: { opacity: itemOpacity[index] },
+        })),
         type: 'bar',
+        barGap: '10%',
       },
     ]
   }
@@ -79,7 +88,7 @@ export function useWorkoutDifference() {
     const difference = actualValue - plannedValue
     const percentChange = calculatePercentChange(plannedValue, actualValue)
 
-    return `${params[0].name}<br/>
+    return `<b>${params[0].name}</b><br/>
             ${params[0].seriesName}: ${plannedValue}<br/>
             ${params[1].seriesName}: ${actualValue}<br/>
             ${t('workout.difference')}: ${formatDifference(difference, percentChange)}`
@@ -89,6 +98,7 @@ export function useWorkoutDifference() {
     if (planned === 0) {
       return actual > 0 ? 100 : 0
     }
+
     return Number(((actual - planned) / planned * 100).toFixed(1))
   }
 
@@ -157,6 +167,7 @@ export function useWorkoutDifference() {
   function getWorkoutDifferenceData(
     workout: CreateWorkoutResponse,
     originalWorkout: CreateWorkoutResponse,
+    activeExerciseId: string | null = null,
   ): Pick<MetricCharts, 'weight' | 'repeats'> {
     const exerciseSets = groupSetsByExercise(workout.sets)
     const originalExerciseSets = groupSetsByExercise(originalWorkout.sets)
@@ -164,12 +175,14 @@ export function useWorkoutDifference() {
     const exerciseNames = createExerciseNameMap(workout)
     const exerciseIds = Object.keys(exerciseNames)
 
-    const xAxisData = exerciseIds.map(id => exerciseNames[id])
-
-    const weightPlanned: number[] = []
-    const weightActual: number[] = []
-    const repeatsPlanned: number[] = []
-    const repeatsActual: number[] = []
+    const chartData = {
+      xAxisData: exerciseIds.map(id => exerciseNames[id]),
+      weightPlanned: [] as number[],
+      weightActual: [] as number[],
+      repeatsPlanned: [] as number[],
+      repeatsActual: [] as number[],
+      itemOpacity: [] as number[],
+    }
 
     exerciseIds.forEach((exerciseId) => {
       const actualSets = exerciseSets[exerciseId] || []
@@ -179,27 +192,30 @@ export function useWorkoutDifference() {
       const hasValidPlannedSets = plannedSets.some(set => set.weight > 0 && set.repeats > 0)
 
       if (hasValidActualSets || hasValidPlannedSets) {
-        weightPlanned.push(sumWeightedRepeats(plannedSets))
-        weightActual.push(sumWeightedRepeats(actualSets))
-        repeatsPlanned.push(sumRepeats(plannedSets))
-        repeatsActual.push(sumRepeats(actualSets))
+        chartData.weightPlanned.push(sumWeightedRepeats(plannedSets))
+        chartData.weightActual.push(sumWeightedRepeats(actualSets))
+        chartData.repeatsPlanned.push(sumRepeats(plannedSets))
+        chartData.repeatsActual.push(sumRepeats(actualSets))
+        chartData.itemOpacity.push(exerciseId === activeExerciseId ? 1 : 0.3)
       }
     })
 
     const metrics = createMetrics()
 
     return {
-      weight: createChartConfig(
-        xAxisData,
+      weight: createChartConfigWithOpacity(
+        chartData.xAxisData,
         metrics.weight.name,
-        weightPlanned,
-        weightActual,
+        chartData.weightPlanned,
+        chartData.weightActual,
+        chartData.itemOpacity,
       ),
-      repeats: createChartConfig(
-        xAxisData,
+      repeats: createChartConfigWithOpacity(
+        chartData.xAxisData,
         metrics.repeats.name,
-        repeatsPlanned,
-        repeatsActual,
+        chartData.repeatsPlanned,
+        chartData.repeatsActual,
+        chartData.itemOpacity,
       ),
     }
   }

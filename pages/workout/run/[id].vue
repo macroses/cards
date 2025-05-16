@@ -140,6 +140,15 @@ async function handleAddSet(exerciseId: string) {
   shakeCounter.value++
 }
 
+// Check if all sets in an exercise have time marked
+function allSetTimesMarked(sets: UserTrainingSession[]): boolean {
+  if (!sets || sets.length === 0) {
+    return false
+  }
+
+  return sets.every(({ setTimeAddedAt }) => setTimeAddedAt)
+}
+
 // Finish workout
 function checkSetsHaveTime(): boolean {
   if (!workout.value) {
@@ -204,7 +213,10 @@ useHead({
             >
               <div
                 class="workout-content__item-title"
-                :class="{ active: activeExerciseId === exerciseId }"
+                :class="{
+                  'active': activeExerciseId === exerciseId,
+                  'all-times-marked': allSetTimesMarked(exercise.sets),
+                }"
                 @click.prevent="toggleExercise(exerciseId)"
               >
                 <TheIcon
@@ -368,6 +380,7 @@ useHead({
           v-if="workout && originalWorkout"
           :workout="workout"
           :original-workout="originalWorkout"
+          :active-exercise-id="activeExerciseId"
         />
       </div>
     </div>

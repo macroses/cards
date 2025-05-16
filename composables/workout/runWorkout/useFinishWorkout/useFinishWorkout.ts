@@ -40,7 +40,10 @@ export function useFinishWorkout() {
     })
   }
 
-  function updateWorkoutsList(workoutId: string, updatedWorkout: CreateWorkoutResponse) {
+  function updateWorkoutsList(
+    workoutId: string,
+    updatedWorkout: CreateWorkoutResponse,
+  ): void {
     if (!workoutsList.value) {
       return
     }
@@ -57,7 +60,7 @@ export function useFinishWorkout() {
     chartsState.value = null
   }
 
-  async function finishWorkout(workoutId: string) {
+  async function finishWorkout(workoutId: string): Promise<CreateWorkoutResponse | null> {
     try {
       isLoading.value = true
 
@@ -88,6 +91,8 @@ export function useFinishWorkout() {
       }
 
       toast(t('toast.workout_completed'), ToastStatusesEnum.SUCCESS)
+
+      await fetchWorkouts()
       await navigateTo(PAGES.HOME)
 
       return updatedWorkout

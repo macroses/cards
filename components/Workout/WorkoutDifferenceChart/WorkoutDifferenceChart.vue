@@ -4,6 +4,7 @@ import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interf
 const props = defineProps<{
   workout: CreateWorkoutResponse
   originalWorkout: CreateWorkoutResponse
+  activeExerciseId: string | null
 }>()
 
 const { getWorkoutDifferenceData } = useWorkoutDifference()
@@ -19,7 +20,7 @@ const chartTypes = readonly<Array<{ type: 'weight' | 'repeats', label: string }>
 ])
 
 function updateChart() {
-  const data = getWorkoutDifferenceData(props.workout, props.originalWorkout)
+  const data = getWorkoutDifferenceData(props.workout, props.originalWorkout, props.activeExerciseId)
   chartOption.value = data[selectedChartType.value]
 
   nextTick()
@@ -38,7 +39,11 @@ function onChartInit(chart: any) {
   chartInstance.value = chart
 }
 
-watch(() => [props.workout, props.originalWorkout], () => {
+watch(() => [
+  props.workout,
+  props.originalWorkout,
+  props.activeExerciseId,
+], () => {
   updateChart()
 }, {
   immediate: true,

@@ -81,6 +81,11 @@
   }
 }
 
+.workout-content__item-title.all-times-marked {
+  background-color: #4CAF50;
+  color: white;
+}
+
 .workout-content__item {
   border: 1px solid transparent;
 }
