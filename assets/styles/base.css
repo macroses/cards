@@ -66,6 +66,33 @@ body:has(.home-page__container).charts-disabled {
   }
 }
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: 16px;
+
+  @media (width <= 1023px) {
+    padding-inline: 8px;
+  }
+
+  @media (width <= 525px) {
+    margin-bottom: 45px;
+  }
+}
+
+main {
+  padding-top: 16px;
+  padding-left: 58px;
+
+  @media (width <= 1023px) {
+    padding-top: 8px;
+  }
+
+  @media (width <= 768px) {
+    padding-left: 0;
+  }
+}
+
 /*::view-transition-group(*) {*/
 /*  animation-duration: 0.4s;*/
 /*  animation-timing-function: ease-out;*/
