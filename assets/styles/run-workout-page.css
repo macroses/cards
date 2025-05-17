@@ -94,7 +94,6 @@
   display: grid;
   grid-template-columns: 60px 1fr 1fr 70px 36px;
   gap: 8px;
-  padding: 0 8px;
   align-items: center;
 }
 
@@ -109,7 +108,7 @@
   display: grid;
   grid-template-columns: 60px 1fr 1fr 70px 36px;
   align-items: center;
-  padding: 8px;
+  padding-block: 8px 0;
   gap: 8px;
 }
 
