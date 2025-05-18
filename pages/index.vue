@@ -8,8 +8,6 @@ import { GLOBAL_DATE, KEYS, PAGES } from '~/constants'
 
 dayjs.extend(duration)
 
-definePageMeta({ auth: true })
-
 const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
 const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
 const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)

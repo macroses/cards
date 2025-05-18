@@ -6,10 +6,8 @@ import TheLoader from '~/components/ui/TheLoader/TheLoader.vue'
 import { WORKOUT_COLORS } from '~/constants'
 
 definePageMeta({
-  middleware: [
-    'workout-access',
-    'sidebase-auth',
-  ],
+  middleware: ['workout-access'],
+  auth: true,
 })
 
 const { t } = useI18n()
