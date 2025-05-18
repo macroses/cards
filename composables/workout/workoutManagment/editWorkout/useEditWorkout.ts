@@ -24,7 +24,7 @@ export function useEditWorkout(workout: UserWorkout): EditWorkoutReturn {
       return null
     }
 
-    return workoutsList.value?.find((workout: CreateWorkoutResponse) => workout.id === workoutEditId.value?.edit)
+    return workoutsList.value?.find(({ id }) => id === workoutEditId.value?.edit)
   })
 
   watch(editableWorkout, async (foundWorkout) => {

@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { useUpdateCachedWorkout } from '../runWorkout/useUpdateCachedWorkout/useUpdateCachedWorkout'
@@ -15,20 +15,20 @@ export function useUpdateSetTime() {
   const { activeWorkout } = useWorkoutTimer()
   const { updateSetField } = useUpdateCachedWorkout()
 
-  function findLastMarkedSet(workout: CreateWorkoutResponse) {
-    return workout.sets
+  function findLastMarkedSet(workoutSets: UserTrainingSession[]) {
+    return workoutSets
       .filter(set => set.setTimeAddedAt !== null)
       .sort((a, b) => {
         return dayjs(b.setTimeAddedAt).unix() - dayjs(a.setTimeAddedAt).unix()
       })[0] || null
   }
 
-  async function updateSetTime(workout: CreateWorkoutResponse, setId: string): Promise<boolean> {
+  async function updateSetTime(workout: CreateWorkoutResponse, setId: string): Promise<void> {
     if (!activeWorkout.value?.startedAt) {
-      return false
+      return
     }
 
-    const lastMarkedSet = findLastMarkedSet(workout)
+    const lastMarkedSet = findLastMarkedSet(workout.sets)
 
     let elapsed: number
 

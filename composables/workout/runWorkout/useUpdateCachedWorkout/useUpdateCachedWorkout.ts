@@ -13,7 +13,7 @@ export function useUpdateCachedWorkout() {
     setId: string,
     field: UnionSetFields,
     value: number | string,
-  ): Promise<boolean> {
+  ) {
     try {
       const updatedWorkout = {
         ...workout,
@@ -27,12 +27,9 @@ export function useUpdateCachedWorkout() {
       await saveCacheData('workout', updatedWorkout)
 
       workout.sets = updatedWorkout.sets
-
-      return true
     }
     catch (error) {
       console.error('Error updating cached workout:', error)
-      return false
     }
   }
 

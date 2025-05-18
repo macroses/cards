@@ -9,10 +9,6 @@ const emit = defineEmits<{
   (event: 'chartDate', chartDate: string): void
 }>()
 
-// const emit = defineEmits<{
-//   (event: 'chartDate', chartDate: string): void
-// }>()
-
 const {
   collectedCharts,
   activeTabIndex,

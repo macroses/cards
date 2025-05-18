@@ -38,15 +38,15 @@ export function useManageSets() {
     setTimeAddedAt: null,
   })
 
-  function getExerciseSets(workout: CreateWorkoutResponse, exerciseId: string) {
-    return workout.sets.filter(set => set.exerciseId === exerciseId)
+  function getExerciseSets(workoutSets: UserTrainingSession[], exerciseId: string) {
+    return workoutSets.filter(set => set.exerciseId === exerciseId)
   }
 
   async function addSet(
     workout: CreateWorkoutResponse,
     exerciseId: string,
   ) {
-    const exerciseSets = getExerciseSets(workout, exerciseId)
+    const exerciseSets = getExerciseSets(workout.sets, exerciseId)
 
     if (exerciseSets.length >= WORKOUT_LIMITS.MAX_SETS_COUNT) {
       return false
@@ -66,7 +66,7 @@ export function useManageSets() {
       return false
     }
 
-    const exerciseSets = getExerciseSets(workout, targetSet.exerciseId)
+    const exerciseSets = getExerciseSets(workout.sets, targetSet.exerciseId)
 
     if (exerciseSets.length <= 1) {
       return false
