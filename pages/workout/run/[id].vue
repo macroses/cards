@@ -16,7 +16,6 @@ const { getExerciseSets } = useExerciseSets()
 const { addSet, deleteSet } = useManageSets()
 
 // 👀 UI components and states
-const shakeCounter = shallowRef(0)
 const noTimeModal = useTemplateRef<typeof TheModal>('noTimeModal')
 const valueChanged = shallowRef<string | null>(null)
 
@@ -95,9 +94,11 @@ async function saveEdit() {
 }
 
 function handleKeyDown(event: KeyboardEvent) {
-  if (event.key === 'Enter') {
-    saveEdit()
+  if (event.key !== 'Enter') {
+    return
   }
+
+  saveEdit()
 }
 
 function isInputVisible(setId: string, field: UnionSetFields) {
@@ -128,47 +129,33 @@ async function handleDeleteSet(setId: string) {
   }
 
   await deleteSet(workout.value, setId)
-  shakeCounter.value++
 }
 
 async function handleAddSet(exerciseId: string) {
-  if (!workout.value) {
-    return
-  }
-
-  await addSet(workout.value, exerciseId)
-  shakeCounter.value++
+  await addSet(workout.value!, exerciseId)
 }
 
 // Check if all sets in an exercise have time marked
 function allSetTimesMarked(sets: UserTrainingSession[]): boolean {
-  if (!sets || sets.length === 0) {
+  if (!sets.length) {
     return false
   }
 
-  return sets.every(({ setTimeAddedAt }) => setTimeAddedAt)
+  return Boolean(sets.every(({ setTimeAddedAt }) => setTimeAddedAt))
 }
 
 // Finish workout
 function checkSetsHaveTime(): boolean {
-  if (!workout.value) {
-    return false
-  }
-
-  return workout.value.sets.some(set => (set.setTime ?? 0) > 0)
+  return Boolean(workout.value?.sets.some(set => (set.setTime ?? 0) > 0)) ?? false
 }
 
 async function handleSaveWorkout() {
-  if (!workout.value) {
-    return
-  }
-
   if (!checkSetsHaveTime()) {
     noTimeModal.value?.openModal()
     return
   }
 
-  await finishWorkout(workout.value.id)
+  await finishWorkout(workout.value?.id ?? '')
 }
 
 async function handleResetNoTimeWorkout() {

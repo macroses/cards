@@ -120,7 +120,7 @@ export function useFinishWorkout() {
       })
 
       stopTimer()
-      navigateTo('/')
+      await navigateTo('/')
 
       await Promise.all([
         deleteCachedData(CACHE_NAME, runWorkoutId),

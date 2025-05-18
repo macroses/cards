@@ -44,7 +44,7 @@ async function handleSubmit() {
       error.value = result.error
     }
     else {
-      navigateTo(PAGES.HOME)
+      await navigateTo(PAGES.HOME)
     }
   }
   catch (err: any) {

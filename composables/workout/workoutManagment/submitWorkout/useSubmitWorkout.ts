@@ -72,7 +72,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
 
   async function updateWorkout(workout: UserWorkout) {
     if (!hasWorkoutChanged(workout)) {
-      navigateTo(PAGES.HOME)
+      await navigateTo(PAGES.HOME)
 
       return true
     }
@@ -98,7 +98,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
         : await createWorkout(workout)
 
       if (success) {
-        navigateTo(PAGES.HOME)
+        await navigateTo(PAGES.HOME)
         await fetchWorkouts()
       }
 

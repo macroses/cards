@@ -57,8 +57,8 @@ const isStatisticVisible = computed(() => {
   return workoutsLength && !isChartsVisible.value
 })
 
-function toEditPage(id: string): void {
-  navigateTo(localePath(`${PAGES.WORKOUT}/?edit=${id}`))
+async function toEditPage(id: string) {
+  await navigateTo(localePath(`${PAGES.WORKOUT}/?edit=${id}`))
 }
 
 async function handleCopyWorkout(): Promise<void> {
