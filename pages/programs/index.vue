@@ -3,5 +3,7 @@
 </script>
 
 <template>
-  <p>programs</p>
+  <div class="programs">
+    <ProgramsList />
+  </div>
 </template>
