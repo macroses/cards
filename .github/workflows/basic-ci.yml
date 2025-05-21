@@ -1,4 +1,4 @@
-name: Базовое тестирование
+name: Basic tests
 
 on:
   push:
@@ -8,26 +8,26 @@ on:
 
 jobs:
   test:
-    name: Тесты и проверка типов
+    name: Unit tests and typecheck
     runs-on: ubuntu-latest
     steps:
-      - name: Получение кода
+      - name: Get code
         uses: actions/checkout@v4
 
-      - name: Установка Node.js
+      - name: install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'npm'
 
-      - name: Установка зависимостей
+      - name: Install dependencies
         run: npm ci
 
-      - name: Генерация Prisma клиента
+      - name: Generate Prisma client
         run: npm run prisma:migrate:generate
 
-      - name: Запуск тестов
+      - name: Start unit tests
         run: npm run test:ci
 
-      - name: Проверка типов
+      - name: Check project types
         run: npm run typecheck:ci
