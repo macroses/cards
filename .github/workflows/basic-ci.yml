@@ -1,0 +1,33 @@
+name: Базовое тестирование
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  test:
+    name: Тесты и проверка типов
+    runs-on: ubuntu-latest
+    steps:
+      - name: Получение кода
+        uses: actions/checkout@v4
+
+      - name: Установка Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Установка зависимостей
+        run: npm ci
+
+      - name: Генерация Prisma клиента
+        run: npm run prisma:migrate:generate
+
+      - name: Запуск тестов
+        run: npm run test:ci
+
+      - name: Проверка типов
+        run: npm run typecheck:ci
