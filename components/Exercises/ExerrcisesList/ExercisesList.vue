@@ -29,7 +29,9 @@ const groupedExercises = computed<ExercisesGroup[]>(() => {
         exercises: [],
       }
     }
+
     acc[primary].exercises.push(exercise)
+
     return acc
   }, {} as Record<string, ExercisesGroup>)
 

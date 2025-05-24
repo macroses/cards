@@ -99,7 +99,7 @@ async function confirmDelete(exerciseId: string) {
       + Добавить
     </TheButton>
 
-    <CreateExerciseModal
+    <LazyCreateExerciseModal
       ref="createExerciseModalRef"
       :exercises-list="exercisesList"
       @submit="handleCreateExercise"

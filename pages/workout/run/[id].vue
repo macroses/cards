@@ -379,7 +379,7 @@ useHead({
       {{ $t('pages.workout_not_found') }}
     </div>
 
-    <NoTimeMarkedReset
+    <LazyNoTimeMarkedReset
       ref="noTimeModal"
       @reset-no-time-workout="handleResetNoTimeWorkout"
     />

@@ -27,10 +27,8 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Хешируем пароль
     const hashedPassword = await argon2.hash(password)
 
-    // Создаем пользователя
     const user = await prisma.user.create({
       data: {
         email,

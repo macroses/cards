@@ -1,0 +1,27 @@
+.input-dropdown {
+  position: relative;
+}
+
+.dropdown-item--selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--color-white);
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 2;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
+}

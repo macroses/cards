@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const { data: session } = await useFetch('/api/auth/session')
 
   if (!session.value) {
-    return await navigateTo(PAGES.LOGIN)
+    return navigateTo(PAGES.LOGIN)
   }
 
   try {

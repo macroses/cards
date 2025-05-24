@@ -60,6 +60,7 @@ async function handleStartWorkout() {
 
   if (workout) {
     const cachedWorkout = await getCachedData('workout', workoutId)
+
     if (!cachedWorkout) {
       await saveCacheData('workout', workout)
     }

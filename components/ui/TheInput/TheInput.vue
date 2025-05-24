@@ -16,7 +16,7 @@ const {
   ariaInvalid,
 } = defineProps<InputTextProps>()
 
-const emit = defineEmits(['validation', 'blur', 'update:modelValue'])
+const emit = defineEmits(['validation', 'blur', 'update:modelValue', 'focus'])
 
 const input = useTemplateRef<HTMLInputElement | null>('input')
 
@@ -67,6 +67,7 @@ function handleInput(event: Event) {
 
 function onFocus() {
   input.value?.select()
+  emit('focus')
 }
 
 watch(modelValue, () => validate())
@@ -74,7 +75,13 @@ watch(modelValue, () => validate())
 
 <template>
   <div class="input-container">
-    <label v-if="label" :for="uniqueId" class="input-label">{{ label }}</label>
+    <label
+      v-if="label"
+      :for="uniqueId"
+      class="input-label"
+    >
+      {{ label }}
+    </label>
     <div class="input-wrapper">
       <input
         :id="uniqueId"

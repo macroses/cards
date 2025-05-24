@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
         name: body.name,
         muscleId: body.muscleId,
         primary: body.primary,
-        secondary: body.secondary.join(','), // Convert array to comma-separated string
+        secondary: body.secondary.join(','), // Convert an array to a comma-separated string
         category: body.category,
         equipment: body.equipment,
         force: body.force,

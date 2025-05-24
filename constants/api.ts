@@ -15,19 +15,24 @@ const UPDATE_WORKOUT = '/api/workout/update'
 const WORKOUTS_LIST = '/api/workout/workoutsListByUserId'
 const COPY_WORKOUT = '/api/workout/workoutCopy'
 
+const AUTH_SESSION = '/api/auth/session'
+const CHECK_ACCESS = '/api/workout/checkAccess'
+
 export const API: Record<string, string> = {
+  AUTH_SESSION,
+  CHECK_ACCESS,
+  COPY_WORKOUT,
   CREATE_USER_EXERCISE,
-  GET_USER_EXERCISES,
+  CREATE_WORKOUT,
   DELETE_USER_EXERCISE,
+  DELETE_WORKOUT,
   EXERCISES_LIST,
   FINISH_WORKOUT,
-  WORKOUTS_LIST,
-  START_WORKOUT,
-  RESET_WORKOUT,
   GET_CHARTS_DATA,
-  DELETE_WORKOUT,
+  GET_USER_EXERCISES,
   GLOBAL_STATISTICS,
-  CREATE_WORKOUT,
+  RESET_WORKOUT,
+  START_WORKOUT,
   UPDATE_WORKOUT,
-  COPY_WORKOUT,
+  WORKOUTS_LIST,
 } as const
