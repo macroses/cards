@@ -79,12 +79,13 @@ watch(searchResults, () => selectedIndex.value = -1)
       v-model="modelValue"
       :placeholder
       inputmode="search"
+      :class="{ 'empty-list': !searchResults?.length && modelValue }"
       @focus="isSearchInFocus = true"
       @blur="handleBlur"
       @keydown="handleKeydown"
     />
     <ul
-      v-if="isSearchInFocus && searchResults"
+      v-if="isSearchInFocus && searchResults?.length"
       ref="resultList"
       class="dropdown-list"
     >
