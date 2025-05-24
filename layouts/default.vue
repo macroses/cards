@@ -4,15 +4,14 @@ import { KEYS } from '@/constants'
 
 const { fetchWorkouts, isChartControlVisible } = useFetchWorkoutsByUserId()
 const { checkActiveWorkout } = useWorkoutTimer()
-const { status } = useAuth()
+const { fetchExercises } = useExerciseHandle()
 const workouts = useState<UserWorkout[]>(KEYS.GLOBAL_WORKOUTS)
 
-watch(status, async () => {
-  if (status.value === 'authenticated') {
-    await fetchWorkouts()
-    checkActiveWorkout(workouts.value)
-  }
-}, { immediate: true })
+onMounted(async () => {
+  await fetchWorkouts()
+  await fetchExercises()
+  checkActiveWorkout(workouts.value)
+})
 </script>
 
 <template>

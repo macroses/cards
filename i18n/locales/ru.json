@@ -148,7 +148,7 @@
   "actions": {
     "save": "Сохранить"
   },
-  
+
   "api": {
     "email_required": "Email и пароль обязательны",
     "user_already_exists": "Пользователь уже существует",

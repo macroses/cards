@@ -5,8 +5,6 @@ const EXERCISES_LIST = '/api/exercises/exercises'
 
 const FINISH_WORKOUT = '/api/finish-workout/finishWorkout'
 const START_WORKOUT = '/api/start-workout/startWorkout'
-const GET_CHARTS_DATA = '/api/statistics/getChartsData'
-const GLOBAL_STATISTICS = '/api/statistics/getGlobalStatistics'
 
 const RESET_WORKOUT = '/api/workout/resetWorkout'
 const DELETE_WORKOUT = '/api/workout/workoutDelete'
@@ -28,9 +26,7 @@ export const API: Record<string, string> = {
   DELETE_WORKOUT,
   EXERCISES_LIST,
   FINISH_WORKOUT,
-  GET_CHARTS_DATA,
   GET_USER_EXERCISES,
-  GLOBAL_STATISTICS,
   RESET_WORKOUT,
   START_WORKOUT,
   UPDATE_WORKOUT,

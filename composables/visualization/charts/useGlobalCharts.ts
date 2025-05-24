@@ -2,18 +2,17 @@ import type { ECBasicOption } from 'echarts/types/dist/shared'
 import type {
   ChartData,
   ChartsApiResponse,
+  CreateWorkoutResponse,
   DurationData,
   ExerciseData,
   ExerciseServerTemplate,
   GlobalChartsReturn,
 } from '~/ts/interfaces'
-import { API, KEYS } from '~/constants'
+import { KEYS } from '~/constants'
 
 /*
- * Composable for global charts
- * - fetch charts data from server
- * - process charts data
- * - update charts
+ * Composable для глобальных графиков
+ * - обработка данных для графиков
  */
 
 export function useGlobalCharts(): GlobalChartsReturn {
@@ -21,9 +20,10 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const dayjs = useDayjs()
   const { exercisesList } = useFetchExercisesList()
   const { exercises: userExercisesList } = useExerciseHandle()
+  const { calculateChartsData } = useChartsCalculations()
 
+  const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS, () => [])
   const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA, () => null)
-  const isInitialFetch = ref(!chartsState.value)
 
   const volumeChartOption = ref<ECBasicOption | null>(null)
   const exerciseChartOption = ref<ECBasicOption | null>(null)
@@ -33,6 +33,9 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const exerciseData = ref<Record<string, ExerciseData[]>>({})
 
   function processChartsData(data: ChartsApiResponse) {
+    if (!data)
+      return
+
     const volumeDataWithDates = data.volumeData.map(item => ({
       volume: Number(item.volume),
       intensity: Number(item.intensity),
@@ -69,36 +72,35 @@ export function useGlobalCharts(): GlobalChartsReturn {
     }
   }
 
-  const { data: chartsData, refresh } = useFetch<unknown, ChartsApiResponse>(API.GET_CHARTS_DATA, {
-    key: KEYS.CHARTS_DATA,
-    dedupe: 'cancel',
-    default: () => chartsState.value,
-  })
-
-  watch(chartsData, (newData: any) => {
-    if (!newData) {
+  async function refresh() {
+    if (!workouts.value || workouts.value.length === 0) {
+      chartsState.value = null
       return
     }
 
-    chartsState.value = newData
-    processChartsData(newData)
-  })
+    try {
+      const calculatedData = calculateChartsData(workouts.value)
+      chartsState.value = calculatedData
+      processChartsData(calculatedData)
+    }
+    catch (error) {
+      console.error('Ошибка при обработке данных для графиков:', error)
+    }
+  }
 
+  // При монтировании компонента обрабатываем данные или вызываем обновление
   onMounted(async () => {
     if (chartsState.value) {
       processChartsData(chartsState.value)
     }
-
-    else if (isInitialFetch.value) {
-      try {
-        await refresh()
-        isInitialFetch.value = false
-      }
-      catch (error) {
-        console.error('Failed to fetch charts data:', error)
-      }
+    else {
+      await refresh()
     }
   })
+
+  watch(() => workouts.value, async () => {
+    await refresh()
+  }, { deep: true })
 
   // Общая функция для настройки осей
   function getAxisConfig(name: string) {
@@ -116,6 +118,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
   }
 
   function updateVolumeChart(data: ChartData[]) {
+    if (!data.length) {
+      volumeChartOption.value = null
+      return
+    }
+
     volumeChartOption.value = {
       animation: false,
       grid: {
@@ -152,7 +159,6 @@ export function useGlobalCharts(): GlobalChartsReturn {
             padding: [0, 0, 0, 30],
             fontWeight: 600,
             color: 'var(--color-text)',
-
           },
           position: 'right',
           splitLine: { show: false },
@@ -192,6 +198,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
   }
 
   function updateExerciseChart(data: ExerciseData[]) {
+    if (!data || !data.length) {
+      exerciseChartOption.value = null
+      return
+    }
+
     exerciseChartOption.value = {
       animation: false,
       grid: {
@@ -257,6 +268,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
   }
 
   function updateDurationChart(data: DurationData[]) {
+    if (!data.length) {
+      durationChartOption.value = null
+      return
+    }
+
     durationChartOption.value = {
       animation: false,
       grid: {

@@ -9,16 +9,35 @@ import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
  */
 
 export function useExerciseHandle() {
+  const exercisesState = useState<ExerciseServerTemplate[] | null>(KEYS.USER_EXERCISES, () => null)
   const isLoading = shallowRef(false)
   const error = shallowRef<string | null>(null)
   const { t } = useI18n()
   const { toast } = useToastState()
 
-  const { data: exercises, refresh: refreshExercises } = useFetch<ExerciseServerTemplate[]>(API.GET_USER_EXERCISES, {
-    key: KEYS.USER_EXERCISES,
-    dedupe: 'cancel',
-    immediate: false,
-  })
+  async function fetchExercises() {
+    if (exercisesState.value !== null && !isLoading.value) {
+      return exercisesState.value
+    }
+
+    try {
+      isLoading.value = true
+      error.value = null
+
+      const data = await $fetch<ExerciseServerTemplate[]>(API.GET_USER_EXERCISES)
+      exercisesState.value = data
+
+      return data
+    }
+    catch (e) {
+      error.value = t('error.exercises_fetch')
+      console.error(e)
+      return null
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
 
   async function createExercise(exercise: Omit<ExerciseServerTemplate, 'id'>) {
     try {
@@ -30,8 +49,8 @@ export function useExerciseHandle() {
         body: exercise,
       })
 
-      if (exercises.value) {
-        exercises.value.push(response)
+      if (exercisesState.value) {
+        exercisesState.value.push(response)
       }
 
       return response
@@ -55,7 +74,7 @@ export function useExerciseHandle() {
         body: { id },
       })
 
-      await refreshExercises()
+      await fetchExercises()
     }
     catch (e: any) {
       error.value = e.message
@@ -67,9 +86,10 @@ export function useExerciseHandle() {
   }
 
   return {
-    exercises,
+    exercises: exercisesState,
     isLoading,
     error,
+    fetchExercises,
     createExercise,
     deleteExercise,
   }

@@ -21,32 +21,25 @@ export interface DurationData {
   workoutsCount: number
 }
 
-interface ApiChartData {
-  date: string
+export interface VolumeDataItem {
+  date: Date | string
   volume: number
   intensity: number
   workoutsCount: number
 }
 
-interface ApiExerciseData {
-  date: string
-  maxWeight: number
-  avgWeight: number
-  setsCount: number
-}
-
-interface ApiDurationData {
-  date: string
+export interface DurationDataItem {
+  date: Date | string
   duration: number
   avgSetTime: number
   workoutsCount: number
 }
 
 export interface ChartsApiResponse {
-  volumeData: ApiChartData[]
-  durationData: ApiDurationData[]
-  exerciseData: Record<number, ApiExerciseData[]>
-  popularExercises: number[]
+  volumeData: VolumeDataItem[]
+  durationData: DurationDataItem[]
+  popularExercises: string[]
+  exerciseData: Record<string, ExerciseData[]>
 }
 
 export interface GlobalChartsReturn {

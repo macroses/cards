@@ -147,7 +147,7 @@
   "actions": {
     "save": "Save"
   },
-  
+
   "api": {
     "email_required": "Email is required",
     "user_already_exists": "User already exists",

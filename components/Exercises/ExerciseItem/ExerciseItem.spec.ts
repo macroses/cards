@@ -1,6 +1,6 @@
-import exerciseItemMock from '@/mocks/exerciseItemMock.json'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
+import exerciseItemMock from '@/mocks/exerciseItemMock.json'
 import ExerciseItem from './ExerciseItem.vue'
 
 describe('тестирует ExerciseItem', () => {
