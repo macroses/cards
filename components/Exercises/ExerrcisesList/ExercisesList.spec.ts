@@ -1,7 +1,7 @@
-import exercisesListMock from '@/mocks/exercisesListMock.json'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
+import exercisesListMock from '@/mocks/exercisesListMock.json'
 import ExercisesList from './ExercisesList.vue'
 
 vi.mock('@/composables/exercisesList/useFetchExercisesList', () => ({

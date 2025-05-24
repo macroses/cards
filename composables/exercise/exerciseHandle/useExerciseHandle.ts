@@ -14,15 +14,10 @@ export function useExerciseHandle() {
   const { t } = useI18n()
   const { toast } = useToastState()
 
-  const { data: exercises, refresh: refreshExercises } = useLazyFetch<ExerciseServerTemplate[]>(API.GET_USER_EXERCISES, {
+  const { data: exercises, refresh: refreshExercises } = useFetch<ExerciseServerTemplate[]>(API.GET_USER_EXERCISES, {
     key: KEYS.USER_EXERCISES,
-    transform: (payload) => {
-      if (!Array.isArray(payload)) {
-        return []
-      }
-
-      return payload as ExerciseServerTemplate[]
-    },
+    dedupe: 'cancel',
+    immediate: false,
   })
 
   async function createExercise(exercise: Omit<ExerciseServerTemplate, 'id'>) {

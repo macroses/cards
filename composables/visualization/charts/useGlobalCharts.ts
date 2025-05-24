@@ -69,17 +69,17 @@ export function useGlobalCharts(): GlobalChartsReturn {
     }
   }
 
-  const { data: chartsData, refresh } = useCachedFetch<unknown, ChartsApiResponse>({
-    url: API.GET_CHARTS_DATA,
+  const { data: chartsData, refresh } = useFetch<unknown, ChartsApiResponse>(API.GET_CHARTS_DATA, {
     key: KEYS.CHARTS_DATA,
-    transform: payload => payload as ChartsApiResponse,
-    initialData: chartsState.value,
-    cacheTime: 1000 * 60 * 5,
+    dedupe: 'cancel',
+    default: () => chartsState.value,
   })
 
-  watch(chartsData, (newData) => {
-    if (!newData)
+  watch(chartsData, (newData: any) => {
+    if (!newData) {
       return
+    }
+
     chartsState.value = newData
     processChartsData(newData)
   })

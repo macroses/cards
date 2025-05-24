@@ -142,7 +142,7 @@ function setDateByChart(date: string) {
     class="home-page__container"
   >
     <div class="home-page__calendar">
-      <div
+      <ContainerUI
         v-auto-animate="{ duration: 100 }"
         class="calendar-wrap"
       >
@@ -168,7 +168,7 @@ function setDateByChart(date: string) {
           @copy-workout="handleCopyWorkout"
           @open-results="showResultModal"
         />
-      </div>
+      </ContainerUI>
     </div>
 
     <div

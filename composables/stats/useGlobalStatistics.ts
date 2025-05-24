@@ -1,5 +1,5 @@
 import type { CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
-import { API, CACHE_TIMES, KEYS } from '~/constants'
+import { API, KEYS } from '~/constants'
 
 /**
  * Composable for managing global workout statistics.
@@ -9,20 +9,12 @@ export function useGlobalStatistics() {
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS, () => null)
   const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
 
-  const {
-    data: statistics,
-    error,
-    refresh,
-  } = useCachedFetch<unknown, Statistics>({
-    url: API.GLOBAL_STATISTICS,
+  const { data: statistics, error, refresh } = useFetch<Statistics>(API.GLOBAL_STATISTICS, {
     key: KEYS.GLOBAL_STATISTICS,
-    transform: payload => payload as Statistics,
-    initialData: globalStats.value,
-    cacheTime: CACHE_TIMES.STATISTICS,
-    immediate: false,
+    dedupe: 'defer',
   })
 
-  watch(statistics, (newStats) => {
+  watch(statistics, (newStats: any) => {
     if (newStats) {
       globalStats.value = newStats
     }

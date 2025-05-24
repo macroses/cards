@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="global-statistics">
+  <ContainerUI class="global-statistics">
     <h3 class="global-statistics__title">
       {{ $t('statistics.global_title') }}
     </h3>
@@ -92,7 +92,7 @@ defineProps<{
         </div>
       </li>
     </ul>
-  </div>
+  </ContainerUI>
 </template>
 
 <style scoped src="./style.css" />

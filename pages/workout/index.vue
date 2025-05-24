@@ -2,7 +2,6 @@
 import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
 import ExercisesList from '@/components/Exercises/ExerrcisesList/ExercisesList.vue'
 import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
-import TheLoader from '~/components/ui/TheLoader/TheLoader.vue'
 import { WORKOUT_COLORS } from '~/constants'
 
 definePageMeta({
@@ -34,7 +33,7 @@ const workout = reactive<UserWorkout>({
 const { editableWorkout, initEditMode } = useEditWorkout(workout)
 const { selectExercise } = useSelectExercise()
 const { getLastSets } = useLastExerciseSets()
-const { exercisesList, status } = useFetchExercisesList()
+const { exercisesList } = useFetchExercisesList()
 
 const isExercisesList = shallowRef(true)
 const exercisesListRef = useTemplateRef<HTMLDivElement>('exercisesListRef')
@@ -194,10 +193,8 @@ onClickOutside(exercisesListRef, async () => {
               {{ $t('exercises.my_exercises') }}
             </TheButton>
           </div>
-          <TheLoader v-if="status !== 'success'" />
           <Component
             :is="chosenExercisesList"
-            v-else
             :selected-exercises="workout.exercises"
             :exercises-list="exercisesList"
             @remove-exercise="handleRemoveExercise"
