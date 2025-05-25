@@ -8,8 +8,6 @@ definePageMeta({
 })
 
 const { exercisesList } = useFetchExercisesList()
-
-// коллекция упражнений для программы, выбранная пользователем
 const programExercisesCollection = ref<ExerciseServerTemplate[]>([])
 
 function handleSelectExercise(exercise: ExerciseServerTemplate) {
@@ -34,16 +32,14 @@ function handleRemoveExercise(exerciseId: string) {
           placeholder="Выбор убражнений"
           @select-item="handleSelectExercise"
         />
-
+        <ProgramMainSettings />
         <ProgramExercisesList
           :exercises="programExercisesCollection"
           @remove-exercise="handleRemoveExercise"
         />
-
-        <ProgramMainSettings />
       </div>
       <div class="program__settings-chart">
-        <v-chart />
+        <!--        <v-chart /> -->
       </div>
     </div>
   </div>

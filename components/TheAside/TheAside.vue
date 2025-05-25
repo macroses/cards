@@ -120,6 +120,13 @@ onMounted(() => {
               height="20px"
             />
           </option>
+          <option @click="changeLanguage('fr')">
+            <NuxtImg
+              src="/icons/ru.svg"
+              width="20"
+              height="20px"
+            />
+          </option>
         </select>
       </li>
       <li>

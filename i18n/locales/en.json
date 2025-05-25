@@ -152,5 +152,15 @@
     "email_required": "Email is required",
     "user_already_exists": "User already exists",
     "error_registration": "Error during registration"
+  },
+  
+  "program_settings": {
+    "search_exercises": "Search exercises",
+    "weeks_counter": "Number of weeks",
+    "start_pm": "Start PM",
+    "increase_per_week": "Increase in load per week, %",
+    "deload_week_number": "Deload week number",
+    "deload_week_level": "Reducing the load during the deloading week, %",
+    "training_frequency": "Frequency of training per week"
   }
 }

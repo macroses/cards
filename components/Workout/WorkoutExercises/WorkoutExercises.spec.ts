@@ -19,6 +19,11 @@ const i18nOptions: I18nOptions = {
         add_exercise: 'Add exercise',
       },
     },
+    fr: {
+      workout: {
+        add_exercise: 'Ajouter un exercice',
+      },
+    },
   },
 }
 

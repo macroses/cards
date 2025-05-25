@@ -19,6 +19,11 @@ const i18nOptions: I18nOptions = {
         dropdown_color: 'Select color',
       },
     },
+    fr: {
+      workout: {
+        dropdown_color: 'Choisir une couleur',
+      },
+    },
   },
 }
 

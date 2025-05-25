@@ -153,5 +153,15 @@
     "email_required": "Email и пароль обязательны",
     "user_already_exists": "Пользователь уже существует",
     "error_registration": "Ошибка в процессе регистрации"
+  },
+  
+  "program_settings": {
+    "search_exercises": "Поиск упражнений",
+    "weeks_counter": "Количество недель",
+    "start_pm": "Стартовый ПМ",
+    "increase_per_week": "Прирост нагрузки в неделю, %",
+    "deload_week_number": "Номер разгрузочной недели",
+    "deload_week_level": "Снижение нагрузки в разгрузочную неделю, %",
+    "training_frequency": "Частота тренировок в неделю"
   }
 }

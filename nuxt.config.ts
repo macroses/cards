@@ -37,6 +37,7 @@ export default defineNuxtConfig({
     'nuxt-echarts',
     'motion-v/nuxt',
     '@vite-pwa/nuxt',
+    '@nuxt/content',
   ],
 
   auth: {
@@ -62,7 +63,7 @@ export default defineNuxtConfig({
   i18n: {
     vueI18n: './i18n.config.ts',
     defaultLocale: 'en',
-    locales: ['en', 'ru'],
+    locales: ['en', 'ru', 'fr'],
     strategy: 'prefix',
     bundle: {
       optimizeTranslationDirective: false,

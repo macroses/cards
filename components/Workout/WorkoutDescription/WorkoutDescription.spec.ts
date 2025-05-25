@@ -28,6 +28,16 @@ const i18nOptions: I18nOptions = {
         maxLength: 'Maximum {n} characters',
       },
     },
+    fr: {
+      workout: {
+        change_date: 'Changer la date',
+        dropdown_color: 'Choisir une couleur',
+      },
+      validation: {
+        required: 'Requis',
+        maxLength: 'Maximum {n} caractères',
+      },
+    },
   },
 }
 

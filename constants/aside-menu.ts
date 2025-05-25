@@ -22,4 +22,11 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     variant: 'ghost',
     ariaLabel: 'Body parameters',
   },
+  {
+    tooltip: 'Documentation',
+    path: '/documentation',
+    icon: 'books',
+    variant: 'ghost',
+    ariaLabel: 'Documentation',
+  },
 ] as const
