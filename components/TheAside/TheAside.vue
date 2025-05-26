@@ -122,7 +122,7 @@ onMounted(() => {
           </option>
           <option @click="changeLanguage('fr')">
             <NuxtImg
-              src="/icons/ru.svg"
+              src="/icons/fr.svg"
               width="20"
               height="20px"
             />

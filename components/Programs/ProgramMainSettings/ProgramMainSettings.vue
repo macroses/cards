@@ -1,53 +1,79 @@
 <script setup lang="ts">
-interface MainSettingsFields {
-  weeksCounter: number
-  startPMPercent: number
-  pmpIncreasePercent: number
-  weekNumber: number
-  weekPMPercentDecrease: number
-  weekTrainingFrequency: number
-}
+import type { MainSettingsFields } from '~/ts/interfaces'
+import { MAIN_SETTINGS_FIELDS } from '~/constants'
 
-const { t } = useI18n()
+const emit = defineEmits(['update:settings'])
 
 const mainSettingsFields = reactive<MainSettingsFields>({
-  weeksCounter: 4,
+  weeksCounter: 12,
   startPMPercent: 65,
   pmpIncreasePercent: 1.5,
   weekNumber: 4,
-  weekPMPercentDecrease: 30,
+  weekPMPercentDecrease: 10,
   weekTrainingFrequency: 3,
 })
 
-interface Field {
-  key: keyof MainSettingsFields
-  label: string
+const validationRules = {
+  weeksCounter: [
+    createValidationRule('required'),
+    createValidationRule('numbersOnly'),
+    createValidationRule('minValue', 4),
+    createValidationRule('maxValue', 12),
+  ],
+  startPMPercent: [
+    createValidationRule('required'),
+    createValidationRule('numbersOnly'),
+    createValidationRule('minValue', 40),
+    createValidationRule('maxValue', 100),
+  ],
+  pmpIncreasePercent: [
+    createValidationRule('required'),
+    createValidationRule('minValue', 0),
+    createValidationRule('maxValue', 100),
+  ],
+  weekNumber: [
+    createValidationRule('required'),
+    createValidationRule('numbersOnly'),
+    createValidationRule('minValue', 1),
+    createValidationRule('maxValue', 12),
+  ],
+  weekPMPercentDecrease: [
+    createValidationRule('required'),
+    createValidationRule('minValue', 0),
+    createValidationRule('maxValue', 100),
+  ],
+  weekTrainingFrequency: [
+    createValidationRule('required'),
+    createValidationRule('numbersOnly'),
+    createValidationRule('minValue', 1),
+    createValidationRule('maxValue', 7),
+  ],
 }
 
-const fields: Field[] = [
-  { key: 'weeksCounter', label: t('program_settings.weeks_counter') },
-  { key: 'startPMPercent', label: t('program_settings.start_pm') },
-  { key: 'pmpIncreasePercent', label: t('program_settings.increase_per_week') },
-  { key: 'weekNumber', label: t('program_settings.deload_week_number') },
-  { key: 'weekPMPercentDecrease', label: t('program_settings.deload_week_level') },
-  { key: 'weekTrainingFrequency', label: t('program_settings.training_frequency') },
-]
+watch(mainSettingsFields, () => {
+  emit('update:settings', getSettings())
+}, { deep: true })
+
+function getSettings(): MainSettingsFields {
+  return { ...mainSettingsFields }
+}
+
+defineExpose({ getSettings })
 </script>
 
 <template>
   <div class="program__main-settings">
     <dl class="program__main-settings__list">
       <div
-        v-for="field in fields"
+        v-for="field in MAIN_SETTINGS_FIELDS"
         :key="field.key"
         class="program__main-settings__item"
       >
-        <dt>{{ field.label }}</dt>
+        <dt>{{ $t(field.label) }}</dt>
         <dd>
           <TheInput
             v-model.number="mainSettingsFields[field.key]"
-            placeholder=""
-            value
+            :validate-rules="validationRules[field.key]"
           />
         </dd>
       </div>

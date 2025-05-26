@@ -24,6 +24,16 @@ export function useValidationRules() {
       message: t('validation.minLength', { minLength }),
     }),
 
+    minValue: (value: string, min: number) => ({
+      isValid: Number(value) >= min,
+      message: 'Слишком маленькое значение',
+    }),
+
+    maxValue: (value: string, max: number) => ({
+      isValid: Number(value) <= max,
+      message: 'Слишком большое значение',
+    }),
+
     numbersOnly: (value: string) => ({
       isValid: /^\d+$/.test(value),
       message: t('validation.numbersOnly'),

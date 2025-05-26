@@ -4,7 +4,7 @@ export default interface InputTextProps {
   type?: string
   noClear?: boolean
   inputmode?: InputMode
-  placeholder: string
+  placeholder?: string
   max?: number
   autocomplete?: string
   modelModifiers?: {

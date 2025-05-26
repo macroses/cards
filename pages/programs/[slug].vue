@@ -39,8 +39,22 @@ function handleRemoveExercise(exerciseId: string) {
         />
       </div>
       <div class="program__settings-chart">
-        <!--        <v-chart /> -->
+        <!--        <v-chart -->
+        <!--          v-if="chartOption" -->
+        <!--          class="program-chart" -->
+        <!--          :option="chartOption" -->
+        <!--          autoresize -->
+        <!--          style="min-height: 300px" -->
+        <!--        /> -->
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.program-chart {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+</style>
