@@ -1,11 +1,11 @@
 import type { ECBasicOption } from 'echarts/types/dist/shared'
+import type { ExerciseTemplate } from '~/ts'
 import type {
   ChartData,
   ChartsApiResponse,
   CreateWorkoutResponse,
   DurationData,
   ExerciseData,
-  ExerciseServerTemplate,
   GlobalChartsReturn,
 } from '~/ts/interfaces'
 import { KEYS } from '~/constants'
@@ -325,8 +325,8 @@ export function useGlobalCharts(): GlobalChartsReturn {
       return `Exercise ${exerciseId}`
     }
 
-    const defaultExercise = exercisesList.value.find((e: ExerciseServerTemplate) => e.id === exerciseId)
-    const userExercise = userExercisesList.value?.find((e: ExerciseServerTemplate) => e.id === exerciseId)
+    const defaultExercise = exercisesList.value.find((e: ExerciseTemplate) => e.id === exerciseId)
+    const userExercise = userExercisesList.value?.find((e: ExerciseTemplate) => e.id === exerciseId)
 
     return defaultExercise?.name || userExercise?.name || `Exercise ${exerciseId}`
   }

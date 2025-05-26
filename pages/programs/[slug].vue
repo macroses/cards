@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
 
 definePageMeta({
   validate(to) {
@@ -10,9 +10,9 @@ definePageMeta({
 const { exercisesList } = useFetchExercisesList()
 
 // коллекция упражнений для программы, выбранная пользователем
-const programExercisesCollection = ref<ExerciseServerTemplate[]>([])
+const programExercisesCollection = ref<ExerciseTemplate[]>([])
 
-function handleSelectExercise(exercise: ExerciseServerTemplate) {
+function handleSelectExercise(exercise: ExerciseTemplate) {
   // add validating for added
 
   programExercisesCollection.value.push(exercise)

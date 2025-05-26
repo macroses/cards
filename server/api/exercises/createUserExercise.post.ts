@@ -1,4 +1,4 @@
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
 import { getServerSession } from '#auth'
 
 const MAX_NAME_LENGTH = 50
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const body = await readBody<Omit<ExerciseServerTemplate, 'id'>>(event)
+    const body = await readBody<Omit<ExerciseTemplate, 'id'>>(event)
 
     if (!body.name?.trim()) {
       throw createError({

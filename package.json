@@ -35,7 +35,8 @@
     "nuxt": "^3.17.3",
     "nuxt-echarts": "^0.3.1",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "zod": "^3.25.28"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.10.0",

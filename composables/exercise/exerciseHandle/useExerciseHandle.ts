@@ -1,4 +1,4 @@
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
 import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
@@ -9,7 +9,7 @@ import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
  */
 
 export function useExerciseHandle() {
-  const exercisesState = useState<ExerciseServerTemplate[] | null>(KEYS.USER_EXERCISES, () => null)
+  const exercisesState = useState<ExerciseTemplate[] | null>(KEYS.USER_EXERCISES, () => null)
   const isLoading = shallowRef(false)
   const error = shallowRef<string | null>(null)
   const { t } = useI18n()
@@ -24,7 +24,7 @@ export function useExerciseHandle() {
       isLoading.value = true
       error.value = null
 
-      const data = await $fetch<ExerciseServerTemplate[]>(API.GET_USER_EXERCISES)
+      const data = await $fetch<ExerciseTemplate[]>(API.GET_USER_EXERCISES)
       exercisesState.value = data
 
       return data
@@ -39,12 +39,12 @@ export function useExerciseHandle() {
     }
   }
 
-  async function createExercise(exercise: Omit<ExerciseServerTemplate, 'id'>) {
+  async function createExercise(exercise: Omit<ExerciseTemplate, 'id'>) {
     try {
       isLoading.value = true
       error.value = null
 
-      const response = await $fetch<ExerciseServerTemplate>(API.CREATE_USER_EXERCISE, {
+      const response = await $fetch<ExerciseTemplate>(API.CREATE_USER_EXERCISE, {
         method: 'POST',
         body: exercise,
       })

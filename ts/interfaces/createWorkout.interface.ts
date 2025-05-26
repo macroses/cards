@@ -1,5 +1,6 @@
 import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
 
+// done
 export interface CreateWorkoutRequest {
   title: string
   color: string
@@ -8,6 +9,7 @@ export interface CreateWorkoutRequest {
   sessions: UserTrainingSession[]
 }
 
+// done
 export interface CreateWorkoutResponse {
   id: string
   userId: string

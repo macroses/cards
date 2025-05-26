@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
+import type { UserWorkoutExercise } from '~/ts/interfaces'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 
 interface ExercisesGroup {
   primary: string
-  exercises: ExerciseServerTemplate[]
+  exercises: ExerciseTemplate[]
 }
 
 const props = defineProps<{
   selectedExercises: UserWorkoutExercise[]
-  exercisesList: ExerciseServerTemplate[]
+  exercisesList: ExerciseTemplate[]
 }>()
 
 const emit = defineEmits<{
@@ -18,7 +19,7 @@ const emit = defineEmits<{
 }>()
 
 const modalRef = useTemplateRef<typeof TheModal>('modalRef')
-const selectedExerciseForModal = shallowRef<ExerciseServerTemplate | null>(null)
+const selectedExerciseForModal = shallowRef<ExerciseTemplate | null>(null)
 
 const groupedExercises = computed<ExercisesGroup[]>(() => {
   const grouped = props.exercisesList.reduce((acc, exercise) => {
@@ -38,7 +39,7 @@ const groupedExercises = computed<ExercisesGroup[]>(() => {
   return Object.values(grouped)
 })
 
-function selectExercise(exercise: ExerciseServerTemplate) {
+function selectExercise(exercise: ExerciseTemplate) {
   emit('selectExercise', {
     id: exercise.id,
     name: exercise.name,
@@ -55,7 +56,7 @@ function toggleGroup(groupId: string) {
   activeGroupId.value = activeGroupId.value === groupId ? null : groupId
 }
 
-function openModal(exercise: ExerciseServerTemplate) {
+function openModal(exercise: ExerciseTemplate) {
   selectedExerciseForModal.value = exercise
   modalRef.value?.openModal()
 }

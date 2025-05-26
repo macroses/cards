@@ -1,9 +1,9 @@
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
 
 export interface ExercisesListProps {
-  selectedExercises: ExerciseServerTemplate[]
+  selectedExercises: ExerciseTemplate[]
   emit: (
     event: 'selectExercise',
-    exercise: ExerciseServerTemplate
+    exercise: ExerciseTemplate
   ) => void
 }

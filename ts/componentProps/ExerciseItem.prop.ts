@@ -1,6 +1,6 @@
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
 
 export interface ExerciseItemProps {
-  exercise: ExerciseServerTemplate
+  exercise: ExerciseTemplate
   isSelected: boolean
 }

@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import type CreateExerciseModal from './CreateExerciseModal/CreateExerciseModal.vue'
-import type { ExerciseServerTemplate, UserWorkoutExercise } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
+import type { UserWorkoutExercise } from '~/ts/interfaces'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 
 const props = defineProps<{
-  exercisesList: ExerciseServerTemplate[]
+  exercisesList: ExerciseTemplate[]
   selectedExercises: UserWorkoutExercise[]
 }>()
 
 const emit = defineEmits<{
   selectExercise: [exercise: UserWorkoutExercise]
-  openModal: [exercise: ExerciseServerTemplate]
+  openModal: [exercise: ExerciseTemplate]
   removeExercise: [exerciseId: string]
 }>()
 
@@ -30,11 +31,11 @@ function handleOpenModal() {
   createExerciseModalRef.value?.openModal()
 }
 
-async function handleCreateExercise(exercise: Omit<ExerciseServerTemplate, 'id'>) {
+async function handleCreateExercise(exercise: Omit<ExerciseTemplate, 'id'>) {
   await createExercise(exercise)
 }
 
-function selectExercise(exercise: ExerciseServerTemplate) {
+function selectExercise(exercise: ExerciseTemplate) {
   emit('selectExercise', {
     id: exercise.id,
     name: exercise.name,

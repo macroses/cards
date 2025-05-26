@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
 import {
   EXERCISE_CATEGORY,
   EXERCISE_EQUIPMENT,
@@ -9,11 +9,11 @@ import {
 } from '~/constants'
 
 const props = defineProps<{
-  exercisesList: ExerciseServerTemplate[]
+  exercisesList: ExerciseTemplate[]
 }>()
 
 const emit = defineEmits<{
-  submit: [exercise: Omit<ExerciseServerTemplate, 'id'>]
+  submit: [exercise: Omit<ExerciseTemplate, 'id'>]
 }>()
 
 const modalRef = useTemplateRef<typeof TheModal>('modalRef')
@@ -27,7 +27,7 @@ const muscles = computed(() => {
   }))
 })
 
-const userExercise = reactive<Omit<ExerciseServerTemplate, 'id'>>({
+const userExercise = reactive<Omit<ExerciseTemplate, 'id'>>({
   name: '',
   muscleId: muscles.value[0].id,
   primary: muscles.value[0].value,

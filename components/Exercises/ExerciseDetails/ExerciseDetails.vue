@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ExerciseServerTemplate } from '~/ts/interfaces'
+import type { ExerciseTemplate } from '~/ts'
 
 defineProps<{
-  exercise: ExerciseServerTemplate | null
+  exercise: ExerciseTemplate | null
 }>()
 </script>
 
