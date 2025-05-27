@@ -1,0 +1,167 @@
+{
+  "signOut": "Se déconnecter",
+  "signOutConfirm": "Voulez-vous vraiment vous déconnecter ?",
+  "welcome_home": "Bon retour",
+  "back": "Retour",
+  "yourFolders": "Vos dossiers",
+  "create": "Créer",
+
+  "validation": {
+    "required": "Champ obligatoire",
+    "maxLength": "Longueur maximale de {n} caractères",
+    "minLength": "Minimum {minLength} caractères",
+    "numbersOnly": "Chiffres uniquement",
+    "email": "Format incorrect"
+  },
+
+  "workout": {
+    "save_workout": "Enregistrer l'entraînement",
+    "create_workout": "Créer",
+    "dropdown_color": "Couleur",
+    "previous_results": "Résultats précédents",
+    "total_tonnage": "Tonnage total",
+    "change_date": "Changer la date",
+    "copy_workout": "Copier l'entraînement",
+    "add_exercise": "Ajouter un exercice",
+    "no_time_warning": "Aucun temps dans les séries",
+    "no_time_description": "Aucune série n’a de temps enregistré. L’entraînement sera arrêté et non sauvegardé.",
+    "difficulty": "Difficulté",
+    "weight": "Poids",
+    "repeats": "Répétitions",
+    "time": "Temps",
+    "volume": "Tonnage",
+    "progress_comparison": "Par rapport à l'entraînement précédent",
+    "no_previous_workout": "Aucune donnée sur l'entraînement précédent",
+    "average": "Moyenne",
+    "maximum": "Maximum",
+    "results": "Résultats de l'entraînement",
+    "current_workout": "Entraînement en cours",
+    "previous_workout": "Entraînement précédent",
+    "no_data": "Aucune donnée sur l'entraînement précédent",
+    "set": "Série",
+    "select_date_to_copy": "Sélectionnez une date à copier",
+    "planned": "Prévu",
+    "actual": "Réalisé",
+    "difference_chart": "Comparaison prévu/réalisé",
+    "difference": "Différence",
+    "no_difference_data": "Aucune donnée pour comparaison"
+  },
+
+  "prediction": {
+    "info": "Fin estimée dans {time}"
+  },
+
+  "toast": {
+    "enter_workout_name": "Entrez un nom d'entraînement",
+    "add_exercise": "Ajoutez au moins un exercice",
+    "workout_created": "Entraînement enregistré",
+    "workout_deleted": "Entraînement supprimé",
+    "workout_delete_error": "Erreur lors de la suppression de l'entraînement",
+    "workout_date_changed": "Date de l'entraînement modifiée",
+    "workout_date_change_error": "Impossible de modifier la date",
+    "workout_copied": "Entraînement copié",
+    "workout_copy_error": "Erreur lors de la copie de l'entraînement",
+    "workout_updated": "Entraînement mis à jour",
+    "workout_ended": "Entraînement terminé",
+    "workout_completed": "Entraînement terminé",
+    "set_update_error": "Erreur lors de la mise à jour de la série",
+    "set_create_error": "Erreur lors de la création de la série",
+    "sets_update_error": "Erreur lors de la mise à jour des séries"
+  },
+
+  "error": {
+    "workouts_load_error": "Erreur lors du chargement des entraînements",
+    "workout_date_change_error": "Erreur lors de la modification de la date de l'entraînement",
+    "workout_create_error": "Erreur lors de la création de l'entraînement",
+    "workout_update_error": "Erreur lors de la mise à jour de l'entraînement",
+    "exercise_create": "Erreur lors de la création de l'exercice",
+    "workout_start": "Erreur au démarrage de l'entraînement :",
+    "workout_finish": "Erreur à la fin de l'entraînement :",
+    "workout_not_in_cache": "Entraînement introuvable dans le cache"
+  },
+
+  "main_navigation": {
+    "program": "Programme",
+    "body_parameters": "Paramètres corporels",
+    "copy_workout": "Copier l'entraînement",
+    "edit_workout": "Modifier l'entraînement",
+    "delete_workout": "Supprimer l'entraînement"
+  },
+
+  "charts": {
+    "original": "Prévu",
+    "current": "Actuel",
+    "total_tonnage": "Poids total (kg)"
+  },
+
+  "common": {
+    "ok": "OK"
+  },
+
+  "dashboard": {
+    "volumeAndIntensity": "Volume et intensité",
+    "volume": "Volume (tonnes)",
+    "intensity": "Intensité",
+    "intensityDescription": "L'intensité est le rapport entre le volume et la durée",
+    "exerciseProgress": "Progrès des exercices",
+    "maxWeight": "Poids maximum",
+    "avgWeight": "Poids moyen",
+    "setsCount": "Nombre de séries",
+    "duration": "Durée",
+    "durationAndSetTime": "Durée des entraînements",
+    "avgSetTime": "Temps moyen par série",
+    "time": "Temps",
+    "weight": "Poids",
+    "sets": "Séries",
+    "workoutsCount": "Nombre d'entraînements"
+  },
+
+  "statistics": {
+    "global_title": "Statistiques",
+    "total_tonnage": "Tonnage total",
+    "max_tonnage": "Tonnage max. par entraînement",
+    "avg_duration": "Durée moyenne d'entraînement",
+    "avg_set_time": "Temps moyen par série",
+    "completed_workouts": "Entraînements complétés"
+  },
+
+  "pages": {
+    "home": "Accueil",
+    "create_workout": "Créer un entraînement",
+    "workout": "Entraînement",
+    "workout_not_found": "Entraînement introuvable"
+  },
+
+  "exercises": {
+    "all_exercises": "Tous les exercices",
+    "my_exercises": "Mes exercices",
+    "exercises": "Exercices",
+    "add_set": "Ajouter une série"
+  },
+
+  "inputs": {
+    "weight": "Poids",
+    "repeats": "Répétitions",
+    "time_format": "00m:00s"
+  },
+
+  "actions": {
+    "save": "Enregistrer"
+  },
+
+  "api": {
+    "email_required": "Email et mot de passe requis",
+    "user_already_exists": "L'utilisateur existe déjà",
+    "error_registration": "Erreur lors de l'enregistrement"
+  },
+
+  "program_settings": {
+    "search_exercises": "Rechercher des exercices",
+    "weeks_counter": "Nombre de semaines",
+    "start_pm": "1RM de départ",
+    "increase_per_week": "Augmentation par semaine (%)",
+    "deload_week_number": "Semaine de décharge",
+    "deload_week_level": "Réduction de charge pendant la semaine de décharge (%)",
+    "training_frequency": "Fréquence d'entraînement par semaine"
+  }
+}

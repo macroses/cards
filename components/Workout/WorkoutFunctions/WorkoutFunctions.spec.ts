@@ -22,6 +22,13 @@ const i18nOptions: I18nOptions = {
         delete_workout: 'Delete workout',
       },
     },
+    fr: {
+      main_navigation: {
+        copy_workout: 'Copier la course',
+        edit_workout: 'Modifier la course',
+        delete_workout: 'Supprimer la course',
+      },
+    },
   },
 }
 

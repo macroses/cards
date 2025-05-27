@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   css: ['~/assets/styles/main.css'],
 
   modules: [
+    '@nuxt/content',
     '@nuxtjs/i18n',
     '@nuxt/eslint',
     '@nuxt/image',
@@ -62,7 +63,7 @@ export default defineNuxtConfig({
   i18n: {
     vueI18n: './i18n.config.ts',
     defaultLocale: 'en',
-    locales: ['en', 'ru'],
+    locales: ['en', 'ru', 'fr'],
     strategy: 'prefix',
     bundle: {
       optimizeTranslationDirective: false,

@@ -13,14 +13,16 @@ const { exercisesList } = useFetchExercisesList()
 const programExercisesCollection = ref<ExerciseTemplate[]>([])
 
 function handleSelectExercise(exercise: ExerciseTemplate) {
-  // add validating for added
+  if (programExercisesCollection.value.some(({ id }) => id === exercise.id)) {
+    return
+  }
 
   programExercisesCollection.value.push(exercise)
 }
 
-// function handleRemoveExercise(exerciseId: string) {
-//   programExercisesCollection.value = programExercisesCollection.value.filter(exercise => exercise.id !== exerciseId)
-// }
+function handleRemoveExercise(exerciseId: string) {
+  programExercisesCollection.value = programExercisesCollection.value.filter(({ id }) => id !== exerciseId)
+}
 </script>
 
 <template>
@@ -32,22 +34,21 @@ function handleSelectExercise(exercise: ExerciseTemplate) {
           placeholder="Выбор убражнений"
           @select-item="handleSelectExercise"
         />
-
-        <div class="program__settings-exercises">
-          <ul class="program__settings-exercise-list">
-            <li
-              v-for="exercise in programExercisesCollection"
-              :key="exercise.id"
-              class="program__settings-exercise-item"
-            >
-              <div class="program__settings-exercise-name">
-                {{ exercise.name }}
-              </div>
-            </li>
-          </ul>
-        </div>
+        <ProgramMainSettings />
+        <ProgramExercisesList
+          :exercises="programExercisesCollection"
+          @remove-exercise="handleRemoveExercise"
+        />
       </div>
       <div class="program__settings-chart" />
     </div>
   </div>
 </template>
+
+<style scoped>
+.program-chart {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+</style>

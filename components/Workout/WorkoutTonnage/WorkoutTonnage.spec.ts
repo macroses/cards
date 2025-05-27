@@ -20,6 +20,11 @@ const i18nOptions: I18nOptions = {
         total_tonnage: 'Total tonnage',
       },
     },
+    fr: {
+      workout: {
+        total_tonnage: 'Tonnage total',
+      },
+    },
   },
 }
 

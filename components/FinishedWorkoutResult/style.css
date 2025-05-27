@@ -148,9 +148,12 @@
   cursor: pointer;
   transition: background-color var(--base-transition);
   overflow: hidden;
+  opacity: 0.5;
+  transition: opacity var(--base-transition);
 
   &.active {
     border-color: oklch(from var(--color-accent) l c h / 0.5);
+    opacity: 1;
   }
 }
 

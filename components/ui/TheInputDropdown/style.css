@@ -6,6 +6,12 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.empty-list {
+  & .input:focus {
+    border-color: red;
+  }
+}
+
 .dropdown-list {
   position: absolute;
   top: calc(100% + 8px);
