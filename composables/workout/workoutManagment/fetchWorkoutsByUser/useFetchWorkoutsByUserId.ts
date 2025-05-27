@@ -1,8 +1,10 @@
 import type { WorkoutResponse } from '~/ts'
+import { ZodError } from 'zod'
 import {
   API,
   KEYS,
 } from '~/constants'
+import { workoutResponseSchema } from '~/ts'
 
 /**
  * Composable for fetching user's workouts.
@@ -19,10 +21,17 @@ export function useFetchWorkoutsByUserId() {
     isLoading.value = true
 
     try {
-      workouts.value = await $fetch<WorkoutResponse[]>(API.WORKOUTS_LIST)
+      const response = await $fetch(API.WORKOUTS_LIST)
+
+      const validatedData = workoutResponseSchema.array().parse(response)
+
+      workouts.value = validatedData
     }
     catch (err: unknown) {
-      console.error(err)
+      if (err instanceof ZodError) {
+        console.error('Данные не соответствуют схеме:', err)
+      }
+
       error.value = t('error.workouts_load_error')
       workouts.value = null
     }

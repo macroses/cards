@@ -38,17 +38,19 @@ export type WorkoutRequest = z.infer<typeof workoutRequestSchema>
 /*
   Workout response from a server
  */
+const dateStringToDate = z.string().transform(str => new Date(str))
+
 export const workoutResponseSchema = z.object({
   id: z.string(),
   userId: z.string(),
   title: z.string(),
   color: z.string(),
-  workoutDate: z.date(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  workoutDate: dateStringToDate,
+  createdAt: dateStringToDate,
+  updatedAt: dateStringToDate,
   completed: z.boolean(),
-  startedAt: z.date().nullable().optional(),
-  endedAt: z.date().nullable().optional(),
+  startedAt: dateStringToDate.nullable().optional(),
+  endedAt: dateStringToDate.nullable().optional(),
   exercises: z.array(z.object({
     id: z.string(),
     exerciseName: z.string(),
