@@ -1,9 +1,8 @@
 import type { ECBasicOption } from 'echarts/types/dist/shared'
-import type { ExerciseTemplate } from '~/ts'
+import type { ExerciseTemplate, WorkoutResponse } from '~/ts'
 import type {
   ChartData,
   ChartsApiResponse,
-  CreateWorkoutResponse,
   DurationData,
   ExerciseData,
   GlobalChartsReturn,
@@ -22,7 +21,7 @@ export function useGlobalCharts(): GlobalChartsReturn {
   const { exercises: userExercisesList } = useExerciseHandle()
   const { calculateChartsData } = useChartsCalculations()
 
-  const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS, () => [])
+  const workouts = useState<WorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS, () => [])
   const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA, () => null)
 
   const volumeChartOption = ref<ECBasicOption | null>(null)

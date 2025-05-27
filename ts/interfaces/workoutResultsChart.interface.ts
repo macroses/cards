@@ -1,6 +1,6 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 
-export type WorkoutSet = CreateWorkoutResponse['sets'][0]
+export type WorkoutSet = WorkoutResponse['sets'][0]
 export type MetricFn = (set: WorkoutSet) => number
 export interface Metric {
   name: string

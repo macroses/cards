@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 
 const props = defineProps<{
-  selectedWorkout: CreateWorkoutResponse | null
+  selectedWorkout: WorkoutResponse | null
   selectedExerciseId: string | null
 }>()
 
@@ -22,7 +22,7 @@ const chartsContainerRef = useTemplateRef<HTMLDivElement>('chartsContainerRef')
 
 const exerciseSets = computed(() => {
   const groupedSets = getExerciseSets(props.selectedWorkout)
-  const result: Record<string, CreateWorkoutResponse['sets']> = {}
+  const result: Record<string, WorkoutResponse['sets']> = {}
 
   for (const [exerciseId, data] of Object.entries(groupedSets)) {
     result[exerciseId] = data.sets

@@ -1,5 +1,4 @@
-import type { TrainingSession } from '~/ts'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { TrainingSession, WorkoutResponse } from '~/ts'
 
 interface ExerciseSetGroup {
   sets: TrainingSession[]
@@ -11,11 +10,11 @@ interface ExerciseSetGroup {
  * Groups sets by exercise ID and adds exercise name to each group.
  */
 export function useExerciseSets() {
-  function findExerciseName(exerciseId: string, exercises: CreateWorkoutResponse['exercises']): string {
+  function findExerciseName(exerciseId: string, exercises: WorkoutResponse['exercises']): string {
     return exercises.find(exercise => exercise.exerciseId === exerciseId)?.exerciseName || 'Unknown'
   }
 
-  function getExerciseSets(workout: CreateWorkoutResponse | null) {
+  function getExerciseSets(workout: WorkoutResponse | null) {
     if (!workout) {
       return {}
     }

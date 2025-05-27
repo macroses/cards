@@ -1,9 +1,5 @@
-import type { WorkoutRequest } from '~/ts'
-import type {
-  CreateWorkoutResponse,
-  SubmitWorkoutReturn,
-  UserWorkout,
-} from '~/ts/interfaces'
+import type { UserWorkout, WorkoutRequest, WorkoutResponse } from '~/ts'
+import type { SubmitWorkoutReturn } from '~/ts/interfaces'
 import { API, KEYS, PAGES } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
@@ -18,13 +14,13 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
   const isLoading = shallowRef(false)
 
   const { fetchWorkouts } = useFetchWorkoutsByUserId()
-  const workoutsList = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
+  const workoutsList = useState<WorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
 
   const route = useRoute()
   const workoutId = route.query.edit as string
 
   function hasBasicPropertiesChanged(
-    original: CreateWorkoutResponse,
+    original: WorkoutResponse,
     current: UserWorkout,
   ) {
     return (
@@ -36,7 +32,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
     )
   }
 
-  function hasSetsChanged(original: CreateWorkoutResponse, current: UserWorkout): boolean {
+  function hasSetsChanged(original: WorkoutResponse, current: UserWorkout): boolean {
     return current.sessions.some((newSet) => {
       const originalSet = original.sets.find(set =>
         set.exerciseId === newSet.exerciseId

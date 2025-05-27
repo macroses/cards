@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import { saveCacheData } from '~/utils/cacheRunnedWorkout'
 
@@ -9,7 +9,7 @@ import { saveCacheData } from '~/utils/cacheRunnedWorkout'
 
 export function useUpdateCachedWorkout() {
   async function updateSetField(
-    workout: CreateWorkoutResponse,
+    workout: WorkoutResponse,
     setId: string,
     field: UnionSetFields,
     value: number | string,

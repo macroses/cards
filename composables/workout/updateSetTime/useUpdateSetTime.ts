@@ -1,5 +1,4 @@
-import type { TrainingSession } from '~/ts'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { TrainingSession, WorkoutResponse } from '~/ts'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { useUpdateCachedWorkout } from '../runWorkout/useUpdateCachedWorkout/useUpdateCachedWorkout'
@@ -24,7 +23,7 @@ export function useUpdateSetTime() {
       })[0] || null
   }
 
-  async function updateSetTime(workout: CreateWorkoutResponse, setId: string): Promise<void> {
+  async function updateSetTime(workout: WorkoutResponse, setId: string): Promise<void> {
     if (!activeWorkout.value?.startedAt) {
       return
     }

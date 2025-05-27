@@ -1,5 +1,4 @@
-import type { WorkoutExercise } from '~/ts'
-import type { UserWorkout } from '~/ts/interfaces'
+import type { UserWorkout, WorkoutExercise } from '~/ts'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useSelectExercise } from './useSelectExercise'
 

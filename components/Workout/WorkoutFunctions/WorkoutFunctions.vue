@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { WorkoutResponse } from '~/ts'
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { KEYS, PAGES } from '~/constants'
 import { getCachedData, saveCacheData } from '~/utils/cacheRunnedWorkout'
@@ -25,7 +25,7 @@ const runWorkoutConfirm = useTemplateRef<typeof TheModal>('runWorkoutConfirm')
 const { startWorkout } = useStartWorkout()
 const { activeWorkout } = useWorkoutTimer()
 
-const workoutsList = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
+const workoutsList = useState<WorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
 
 const showStartButton = computed(() => {
   if (isWorkoutCompleted) {
@@ -37,7 +37,7 @@ const showStartButton = computed(() => {
 
 async function openRunWorkoutConfirm() {
   if (isWorkoutActive) {
-    const workout = workoutsList.value?.find(({ id }: CreateWorkoutResponse) => id === workoutId)
+    const workout = workoutsList.value?.find(({ id }: WorkoutResponse) => id === workoutId)
 
     if (workout) {
       const cachedWorkout = await getCachedData('workout', workoutId)
@@ -56,7 +56,7 @@ async function openRunWorkoutConfirm() {
 
 async function handleStartWorkout() {
   await startWorkout(workoutId)
-  const workout = workoutsList.value?.find(({ id }: CreateWorkoutResponse) => id === workoutId)
+  const workout = workoutsList.value?.find(({ id }: WorkoutResponse) => id === workoutId)
 
   if (workout) {
     const cachedWorkout = await getCachedData('workout', workoutId)

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { TrainingSession, WorkoutExercise } from '~/ts'
-import type { UserWorkout } from '~/ts/interfaces'
+import type { TrainingSession, UserWorkout, WorkoutExercise } from '~/ts'
 import ExercisesList from '@/components/Exercises/ExerrcisesList/ExercisesList.vue'
 import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
 import { WORKOUT_COLORS } from '~/constants'

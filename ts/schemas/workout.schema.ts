@@ -49,7 +49,12 @@ export const workoutResponseSchema = z.object({
   completed: z.boolean(),
   startedAt: z.date().nullable().optional(),
   endedAt: z.date().nullable().optional(),
-  exercises: z.array(workoutExerciseSchema),
+  exercises: z.array(z.object({
+    id: z.string(),
+    exerciseName: z.string(),
+    workoutId: z.string(),
+    exerciseId: z.string(),
+  })),
   sets: z.array(trainingSessionSchema),
 })
 
@@ -59,15 +64,15 @@ export type WorkoutResponse = z.infer<typeof workoutResponseSchema>
  UserWorkout
  */
 export const userWorkoutSchema = z.object({
+  id: z.string().optional(),
+  startedAt: z.date().nullable(),
+  endedAt: z.date().nullable(),
   title: z.string(),
   color: z.string(),
   exercises: z.array(workoutExerciseSchema),
   sessions: z.array(trainingSessionSchema),
   workoutDate: z.date(),
   completed: z.boolean(),
-  id: z.string().optional(),
-  startedAt: z.date().nullable(),
-  endedAt: z.date().nullable(),
 })
 
 export type UserWorkout = z.infer<typeof userWorkoutSchema>

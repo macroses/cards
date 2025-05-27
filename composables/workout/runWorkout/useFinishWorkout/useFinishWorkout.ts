@@ -1,7 +1,6 @@
-import type { TrainingSession } from '~/ts'
+import type { TrainingSession, WorkoutResponse } from '~/ts'
 import type {
   ChartsApiResponse,
-  CreateWorkoutResponse,
   Statistics,
 } from '~/ts/interfaces'
 import { API, KEYS, PAGES } from '~/constants'
@@ -17,7 +16,7 @@ const CACHE_NAME = 'workout'
 const ORIGINAL_CACHE_NAME = 'workout-original'
 
 export function useFinishWorkout() {
-  const workoutsList = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
+  const workoutsList = useState<WorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
   const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 
@@ -42,7 +41,7 @@ export function useFinishWorkout() {
 
   function updateWorkoutsList(
     workoutId: string,
-    updatedWorkout: CreateWorkoutResponse,
+    updatedWorkout: WorkoutResponse,
   ): void {
     if (!workoutsList.value) {
       return
@@ -60,7 +59,7 @@ export function useFinishWorkout() {
     chartsState.value = null
   }
 
-  async function finishWorkout(workoutId: string): Promise<CreateWorkoutResponse | null> {
+  async function finishWorkout(workoutId: string): Promise<WorkoutResponse | null> {
     try {
       isLoading.value = true
 
@@ -69,7 +68,7 @@ export function useFinishWorkout() {
         throw new Error(t('error.workout_not_in_cache'))
       }
 
-      const updatedWorkout = await $fetch<CreateWorkoutResponse>(API.FINISH_WORKOUT, {
+      const updatedWorkout = await $fetch<WorkoutResponse>(API.FINISH_WORKOUT, {
         method: 'PUT',
         body: {
           workoutId,

@@ -1,5 +1,5 @@
+import type { WorkoutResponse } from '~/ts'
 import type {
-  CreateWorkoutResponse,
   MetricCharts,
   Metrics,
   WorkoutChartData,
@@ -120,7 +120,7 @@ export function useWorkoutDifference() {
     }, {} as Record<string, WorkoutSet[]>)
   }
 
-  function createExerciseNameMap(workout: CreateWorkoutResponse): Record<string, string> {
+  function createExerciseNameMap(workout: WorkoutResponse): Record<string, string> {
     return workout.exercises.reduce((result, exercise) => {
       result[exercise.exerciseId] = exercise.exerciseName
 
@@ -165,8 +165,8 @@ export function useWorkoutDifference() {
   }
 
   function getWorkoutDifferenceData(
-    workout: CreateWorkoutResponse,
-    originalWorkout: CreateWorkoutResponse,
+    workout: WorkoutResponse,
+    originalWorkout: WorkoutResponse,
     activeExerciseId: string | null = null,
   ): Pick<MetricCharts, 'weight' | 'repeats'> {
     const exerciseSets = groupSetsByExercise(workout.sets)

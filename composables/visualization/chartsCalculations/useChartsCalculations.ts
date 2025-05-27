@@ -1,4 +1,5 @@
-import type { CreateWorkoutResponse, ExerciseData } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
+import type { ExerciseData } from '~/ts/interfaces'
 
 interface GroupedWorkout {
   workoutDate: Date
@@ -12,7 +13,7 @@ export function useChartsCalculations() {
    * Группирует тренировки по дате
    * Сложность: O(n), где n - количество тренировок
    */
-  function groupWorkoutsByDate(workouts: CreateWorkoutResponse[]): GroupedWorkout[] {
+  function groupWorkoutsByDate(workouts: WorkoutResponse[]): GroupedWorkout[] {
     if (!workouts || workouts.length === 0) {
       return []
     }
@@ -161,7 +162,7 @@ export function useChartsCalculations() {
   /**
    * Основная функция для расчета всех данных графиков
    */
-  function calculateChartsData(workouts: CreateWorkoutResponse[]) {
+  function calculateChartsData(workouts: WorkoutResponse[]) {
     if (!workouts || workouts.length === 0) {
       return {
         volumeData: [],

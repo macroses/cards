@@ -1,4 +1,5 @@
-import type { CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
+import type { Statistics } from '~/ts/interfaces'
 import { KEYS } from '~/constants'
 
 const SECOND = 1000
@@ -9,9 +10,9 @@ const MINUTE = 60
  */
 export function useGlobalStatistics() {
   const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS, () => null)
-  const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
+  const workouts = useState<WorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS)
 
-  function calculateMaxTonnage(completedWorkouts: CreateWorkoutResponse[]): number {
+  function calculateMaxTonnage(completedWorkouts: WorkoutResponse[]): number {
     if (completedWorkouts.length === 0) {
       return 0
     }
@@ -31,7 +32,7 @@ export function useGlobalStatistics() {
     return maxTonnage
   }
 
-  function calculateTotalTonnage(completedWorkouts: CreateWorkoutResponse[]): number {
+  function calculateTotalTonnage(completedWorkouts: WorkoutResponse[]): number {
     if (completedWorkouts.length === 0) {
       return 0
     }
@@ -47,7 +48,7 @@ export function useGlobalStatistics() {
     return totalTonnage
   }
 
-  function calculateAvgWorkoutDuration(completedWorkouts: CreateWorkoutResponse[]): number {
+  function calculateAvgWorkoutDuration(completedWorkouts: WorkoutResponse[]): number {
     let totalDuration = 0
     let workoutsWithTimeCount = 0
 
@@ -61,7 +62,7 @@ export function useGlobalStatistics() {
     return workoutsWithTimeCount ? totalDuration / workoutsWithTimeCount : 0
   }
 
-  function calculateAvgSetTime(completedWorkouts: CreateWorkoutResponse[]): number {
+  function calculateAvgSetTime(completedWorkouts: WorkoutResponse[]): number {
     let totalSetTime = 0
     let totalSets = 0
 

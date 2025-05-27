@@ -1,5 +1,4 @@
-import type { TrainingSession } from '~/ts'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { TrainingSession, WorkoutResponse } from '~/ts'
 import { KEYS } from '~/constants'
 
 /**
@@ -8,11 +7,11 @@ import { KEYS } from '~/constants'
  */
 
 export function useLastExerciseSets() {
-  const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
+  const workouts = useState<WorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
   const lastSets = ref<Record<string, TrainingSession[]>>({})
 
   function extractExerciseSets(
-    workout: CreateWorkoutResponse,
+    workout: WorkoutResponse,
     exerciseId: string,
   ): TrainingSession[] {
     return workout.sets

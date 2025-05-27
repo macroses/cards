@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { API } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
@@ -17,7 +17,7 @@ vi.mock('~/utils/cacheRunnedWorkout', () => ({
 describe('useDeleteWorkout', () => {
   const mockWorkoutId = 'workout-123'
   const mockWorkoutsState = {
-    value: [] as CreateWorkoutResponse[],
+    value: [] as WorkoutResponse[],
   }
 
   const mockToast = vi.fn()

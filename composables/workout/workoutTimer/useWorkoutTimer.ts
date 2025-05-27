@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
+import type { UserWorkout, WorkoutResponse } from '~/ts'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import {
@@ -14,7 +14,7 @@ dayjs.extend(duration)
  * Handles timer start/stop, tracks active workout time, and maintains timer state.
  */
 
-type Workout = UserWorkout | CreateWorkoutResponse
+type Workout = UserWorkout | WorkoutResponse
 type WorkoutList = Workout[]
 
 interface ActiveWorkout {

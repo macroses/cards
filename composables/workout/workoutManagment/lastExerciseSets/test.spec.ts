@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { KEYS } from '~/constants'
 import { useLastExerciseSets } from './useLastExerciseSets'
@@ -21,7 +21,7 @@ describe('useLastExerciseSets', () => {
   const mockExerciseId = 'exercise-123'
   const mockCurrentDate = new Date('2023-02-01')
 
-  const mockWorkout1: CreateWorkoutResponse = {
+  const mockWorkout1: WorkoutResponse = {
     id: 'workout-1',
     title: 'Workout 1',
     userId: 'user-123',
@@ -69,7 +69,7 @@ describe('useLastExerciseSets', () => {
     ],
   }
 
-  const mockWorkout2: CreateWorkoutResponse = {
+  const mockWorkout2: WorkoutResponse = {
     id: 'workout-2',
     title: 'Workout 2',
     userId: 'user-123',
@@ -99,7 +99,7 @@ describe('useLastExerciseSets', () => {
     ],
   }
 
-  const mockWorkout3: CreateWorkoutResponse = {
+  const mockWorkout3: WorkoutResponse = {
     id: 'workout-3',
     title: 'Workout 3',
     userId: 'user-123',

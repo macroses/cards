@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
-import type { ChartsApiResponse, CreateWorkoutResponse, Statistics } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
+import type { ChartsApiResponse, Statistics } from '~/ts/interfaces'
 import { useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
@@ -9,7 +10,7 @@ import { GLOBAL_DATE, KEYS, PAGES } from '~/constants'
 dayjs.extend(duration)
 
 const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
-const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
+const workouts = useState<WorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
 const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
 const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 const isCopyMode = shallowRef(false)
@@ -24,13 +25,13 @@ const { refresh: refreshStats, statistics } = useGlobalStatistics()
 const { refresh: refreshCharts } = useGlobalCharts()
 
 const workoutsForSelectedDate = computed(() => {
-  return workouts.value?.filter((workout: CreateWorkoutResponse) => {
+  return workouts.value?.filter((workout: WorkoutResponse) => {
     return dayjs(workout.workoutDate).isSame(selectedDate.value, 'day')
   }) || []
 })
 
 const activeWorkout = computed(() => {
-  return workouts.value?.find((workout: CreateWorkoutResponse) =>
+  return workouts.value?.find((workout: WorkoutResponse) =>
     workout.startedAt && !workout.endedAt,
   ) || null
 })
@@ -117,13 +118,13 @@ const isPageLoading = computed(() => {
   return !workouts.value || isWorkoutsLoading.value
 })
 
-onMounted(async () => {
+onMounted(() => {
   if (!workouts.value) {
     return
   }
 
   if (workouts.value.length >= 5 && !globalStats.value) {
-    await refreshStats()
+    refreshStats()
   }
 })
 

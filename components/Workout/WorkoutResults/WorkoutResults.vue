@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
+import type { ChartType, MetricCharts } from '~/ts/interfaces'
 import { KEYS } from '~/constants'
 
 const props = defineProps<{
-  workout: CreateWorkoutResponse
+  workout: WorkoutResponse
   selectedExerciseId: string | null
 }>()
 
 const { getExerciseData } = useWorkoutResults()
 const { getProgressData } = useWorkoutResults()
-const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
+const workouts = useState<WorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
 const { t } = useI18n()
 
 const chartOption = ref<MetricCharts[ChartType] | null>(null)

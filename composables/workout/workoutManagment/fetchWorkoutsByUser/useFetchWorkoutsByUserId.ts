@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import {
   API,
   KEYS,
@@ -10,7 +10,7 @@ import {
  */
 
 export function useFetchWorkoutsByUserId() {
-  const workouts = useState<CreateWorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
+  const workouts = useState<WorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
   const { t } = useI18n()
   const isLoading = shallowRef(false)
   const error = shallowRef<string | null>(null)
@@ -19,7 +19,7 @@ export function useFetchWorkoutsByUserId() {
     isLoading.value = true
 
     try {
-      workouts.value = await $fetch<CreateWorkoutResponse[]>(API.WORKOUTS_LIST)
+      workouts.value = await $fetch<WorkoutResponse[]>(API.WORKOUTS_LIST)
     }
     catch (err: unknown) {
       console.error(err)

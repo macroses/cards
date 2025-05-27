@@ -1,8 +1,8 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 
 export interface RunWorkoutReturn {
-  runWorkout: ComputedRef<CreateWorkoutResponse | null | undefined>
-  originalWorkout: Ref<CreateWorkoutResponse | null>
+  runWorkout: ComputedRef<WorkoutResponse | null | undefined>
+  originalWorkout: Ref<WorkoutResponse | null>
   initRunMode: () => Promise<void>
   isLoading: Ref<boolean>
 }

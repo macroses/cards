@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { API, AUTHENTICATED } from '~/constants'
 import { useFetchWorkoutsByUserId } from './useFetchWorkoutsByUserId'
@@ -14,7 +14,7 @@ vi.mock('./useFetchWorkoutsByUserId', () => ({
 }))
 
 describe('useFetchWorkoutsByUserId', () => {
-  const mockWorkouts: CreateWorkoutResponse[] = [
+  const mockWorkouts: WorkoutResponse[] = [
     {
       id: 'workout-123',
       title: 'Тренировка 1',

@@ -1,5 +1,4 @@
-import type { TrainingSession } from '~/ts'
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { TrainingSession, WorkoutResponse } from '~/ts'
 import type { NewRecord, PersonalRecord, RecordType } from '~/ts/types/personalRecords.types'
 import {
   KEYS,
@@ -26,7 +25,7 @@ export function usePersonalRecords() {
   function checkPersonalRecord(
     set: TrainingSession,
     exerciseName: string,
-    workouts: CreateWorkoutResponse[] | null,
+    workouts: WorkoutResponse[] | null,
     showToast = false,
   ) {
     if (!workouts?.length) {
@@ -82,8 +81,8 @@ export function usePersonalRecords() {
    * Проверяет всю тренировку на наличие личных рекордов
    */
   function checkPersonalRecords(
-    workout: CreateWorkoutResponse,
-    allWorkouts: CreateWorkoutResponse[],
+    workout: WorkoutResponse,
+    allWorkouts: WorkoutResponse[],
   ) {
     if (!workout || !allWorkouts.length) {
       return false

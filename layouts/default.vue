@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UserWorkout } from '~/ts/interfaces'
+import type { UserWorkout } from '~/ts'
 import { KEYS } from '@/constants'
 
 const { fetchWorkouts, isChartControlVisible } = useFetchWorkoutsByUserId()

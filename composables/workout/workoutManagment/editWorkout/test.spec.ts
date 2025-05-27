@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
+import type { UserWorkout, WorkoutResponse } from '~/ts'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useEditWorkout } from './useEditWorkout'
 
@@ -26,7 +26,7 @@ describe('useEditWorkout', () => {
     completed: false,
   }
 
-  const mockFoundWorkout: CreateWorkoutResponse = {
+  const mockFoundWorkout: WorkoutResponse = {
     id: mockWorkoutId,
     title: 'Test Workout',
     userId: 'user-123',
@@ -101,7 +101,7 @@ describe('useEditWorkout', () => {
           return null
         }
 
-        return mockWorkoutsList.value?.find((w: CreateWorkoutResponse) => w.id === workoutEditId.value?.edit)
+        return mockWorkoutsList.value?.find((w: WorkoutResponse) => w.id === workoutEditId.value?.edit)
       })
 
       mockWatch(editableWorkout, async (foundWorkout: any) => {
@@ -133,7 +133,7 @@ describe('useEditWorkout', () => {
       async function initEditMode() {
         workoutEditId.value = mockRoute.query
 
-        const foundWorkout = mockWorkoutsList.value?.find((w: CreateWorkoutResponse) => w.id === mockRoute.query.edit)
+        const foundWorkout = mockWorkoutsList.value?.find((w: WorkoutResponse) => w.id === mockRoute.query.edit)
         editableWorkout.value = foundWorkout || null
 
         if (editableWorkout.value) {

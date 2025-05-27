@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { ChartType, CreateWorkoutResponse, MetricCharts } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
+import type { ChartType, MetricCharts } from '~/ts/interfaces'
 
 const props = defineProps<{
-  workout: CreateWorkoutResponse
-  originalWorkout: CreateWorkoutResponse
+  workout: WorkoutResponse
+  originalWorkout: WorkoutResponse
   activeExerciseId: string | null
 }>()
 

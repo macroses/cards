@@ -1,8 +1,5 @@
-import type { WorkoutExercise } from '~/ts'
-import type {
-  SelectExerciseReturn,
-  UserWorkout,
-} from '~/ts/interfaces'
+import type { UserWorkout, WorkoutExercise } from '~/ts'
+import type { SelectExerciseReturn } from '~/ts/interfaces'
 
 /**
  * Composable for selecting exercises for workouts.

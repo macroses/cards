@@ -1,5 +1,5 @@
+import type { WorkoutResponse } from '~/ts'
 import type {
-  CreateWorkoutResponse,
   MetricCharts,
   MetricFn,
   Metrics,
@@ -17,10 +17,10 @@ export function useWorkoutResults() {
   const { t } = useI18n()
 
   function findPreviousWorkout(
-    currentWorkout: CreateWorkoutResponse,
+    currentWorkout: WorkoutResponse,
     exerciseId: string,
-    workouts: CreateWorkoutResponse[],
-  ): CreateWorkoutResponse {
+    workouts: WorkoutResponse[],
+  ): WorkoutResponse {
     return workouts
       .filter(workout => workout.id !== currentWorkout.id
         && workout.completed
@@ -83,9 +83,9 @@ export function useWorkoutResults() {
   }
 
   function getExerciseData(
-    workout: CreateWorkoutResponse,
+    workout: WorkoutResponse,
     exerciseId: string,
-    workouts: CreateWorkoutResponse[],
+    workouts: WorkoutResponse[],
   ): MetricCharts {
     const exerciseSets = workout.sets.filter(set => set.exerciseId === exerciseId)
     const previousWorkout = findPreviousWorkout(workout, exerciseId, workouts)
@@ -142,9 +142,9 @@ export function useWorkoutResults() {
   }
 
   function getProgressData(
-    currentWorkout: CreateWorkoutResponse,
+    currentWorkout: WorkoutResponse,
     exerciseId: string,
-    workouts: CreateWorkoutResponse[],
+    workouts: WorkoutResponse[],
   ): ProgressData | null {
     const previousWorkout = findPreviousWorkout(currentWorkout, exerciseId, workouts)
 

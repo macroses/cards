@@ -1,9 +1,9 @@
-import type { CreateWorkoutResponse, UserWorkout } from '~/ts/interfaces'
+import type { UserWorkout, WorkoutResponse } from '~/ts'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { INITIAL_TIME } from '~/constants'
 import { useWorkoutTimer } from './useWorkoutTimer'
 
-type Workout = UserWorkout | CreateWorkoutResponse
+type Workout = UserWorkout | WorkoutResponse
 type WorkoutList = Workout[]
 
 vi.mock('#app', () => ({

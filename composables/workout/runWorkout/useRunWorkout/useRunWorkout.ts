@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import { getCachedData } from '~/utils/cacheRunnedWorkout'
 
 /**
@@ -10,15 +10,15 @@ const CACHE_KEY = 'workout'
 const ORIGINAL_CACHE_KEY = 'workout-original'
 
 interface CachedWorkout {
-  current: CreateWorkoutResponse | null
-  original: CreateWorkoutResponse | null
+  current: WorkoutResponse | null
+  original: WorkoutResponse | null
 }
 
 export function useRunWorkout() {
   const route = useRoute()
   const workoutId = computed(() => route.params.id as string)
-  const workout = ref<CreateWorkoutResponse | null>(null)
-  const originalWorkout = ref<CreateWorkoutResponse | null>(null)
+  const workout = ref<WorkoutResponse | null>(null)
+  const originalWorkout = ref<WorkoutResponse | null>(null)
   const isLoading = shallowRef(true)
   const error = shallowRef<string | null>(null)
   const { t } = useI18n()

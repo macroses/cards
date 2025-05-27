@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import { API, KEYS } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
 
@@ -11,7 +11,7 @@ export function useStartWorkout() {
   const { t } = useI18n()
   const { toast } = useToastState()
   const isLoading = shallowRef(false)
-  const workoutsList = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
+  const workoutsList = useState<WorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
 
   function updateWorkoutsList(workoutId: string, startedAt?: Date | null) {
     if (!workoutsList.value) {
@@ -37,7 +37,7 @@ export function useStartWorkout() {
     try {
       isLoading.value = true
 
-      const updatedWorkout = await $fetch<CreateWorkoutResponse>(API.START_WORKOUT, {
+      const updatedWorkout = await $fetch<WorkoutResponse>(API.START_WORKOUT, {
         method: 'PUT',
         body: { workoutId },
       })

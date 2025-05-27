@@ -1,4 +1,4 @@
-import type { CreateWorkoutResponse } from '~/ts/interfaces'
+import type { WorkoutResponse } from '~/ts'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { API } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
@@ -14,7 +14,7 @@ vi.mock('./useCopyWorkout', () => ({
 describe('useCopyWorkout', () => {
   const mockWorkoutId = 'workout-123'
   const mockNewDate = new Date('2023-01-01')
-  const mockCopiedWorkout: CreateWorkoutResponse = {
+  const mockCopiedWorkout: WorkoutResponse = {
     id: 'copied-workout-123',
     title: 'Copied Workout',
     userId: 'user-123',
@@ -28,7 +28,7 @@ describe('useCopyWorkout', () => {
   }
 
   const mockWorkoutsState = {
-    value: [] as CreateWorkoutResponse[],
+    value: [] as WorkoutResponse[],
   }
 
   const mockToast = vi.fn()
@@ -136,7 +136,7 @@ describe('useCopyWorkout', () => {
   it('добавляет скопированную тренировку в общий стейт тренировок', async () => {
     mockFetch.mockResolvedValueOnce(mockCopiedWorkout)
 
-    const existingWorkouts: CreateWorkoutResponse[] = [
+    const existingWorkouts: WorkoutResponse[] = [
       {
         id: 'existing-workout-123',
         title: 'Existing Workout',
