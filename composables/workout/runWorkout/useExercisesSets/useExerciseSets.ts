@@ -1,7 +1,8 @@
-import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
+import type { TrainingSession } from '~/ts'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 
 interface ExerciseSetGroup {
-  sets: UserTrainingSession[]
+  sets: TrainingSession[]
   name: string
 }
 

@@ -1,4 +1,4 @@
-import type { UserTrainingSession } from '~/ts/interfaces'
+import type { TrainingSession } from '~/ts'
 import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
@@ -55,7 +55,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Валидация данных сетов
-    const validSets = sets.map((set: UserTrainingSession) => ({
+    const validSets = sets.map((set: TrainingSession) => ({
       workoutId,
       exerciseId: set.exerciseId,
       weight: Number(set.weight) || 0,

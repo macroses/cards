@@ -1,8 +1,8 @@
+import type { TrainingSession } from '~/ts'
 import type {
   ChartsApiResponse,
   CreateWorkoutResponse,
   Statistics,
-  UserTrainingSession,
 } from '~/ts/interfaces'
 import { API, KEYS, PAGES } from '~/constants'
 import { ToastStatusesEnum } from '~/ts/enums/toastStatuses.enum'
@@ -28,7 +28,7 @@ export function useFinishWorkout() {
   const { checkPersonalRecords } = usePersonalRecords()
   const isLoading = shallowRef(false)
 
-  function extractSetData(set: UserTrainingSession) {
+  function extractSetData(set: TrainingSession) {
     return ({
       exerciseId: set.exerciseId,
       weight: set.weight,

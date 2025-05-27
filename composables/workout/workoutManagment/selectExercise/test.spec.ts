@@ -1,4 +1,5 @@
-import type { UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
+import type { WorkoutExercise } from '~/ts'
+import type { UserWorkout } from '~/ts/interfaces'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useSelectExercise } from './useSelectExercise'
 
@@ -14,7 +15,7 @@ vi.mock('../lastExerciseSets/useLastExerciseSets', () => {
 })
 
 describe('useSelectExercise', () => {
-  const mockExercise: UserWorkoutExercise = {
+  const mockExercise: WorkoutExercise = {
     id: 'exercise-123',
     name: 'Bench Press',
   }

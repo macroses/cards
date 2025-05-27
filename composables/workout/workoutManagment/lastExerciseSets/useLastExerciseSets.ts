@@ -1,4 +1,5 @@
-import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
+import type { TrainingSession } from '~/ts'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import { KEYS } from '~/constants'
 
 /**
@@ -8,12 +9,12 @@ import { KEYS } from '~/constants'
 
 export function useLastExerciseSets() {
   const workouts = useState<CreateWorkoutResponse[]>(KEYS.GLOBAL_WORKOUTS)
-  const lastSets = ref<Record<string, UserTrainingSession[]>>({})
+  const lastSets = ref<Record<string, TrainingSession[]>>({})
 
   function extractExerciseSets(
     workout: CreateWorkoutResponse,
     exerciseId: string,
-  ): UserTrainingSession[] {
+  ): TrainingSession[] {
     return workout.sets
       ?.filter(set => set.exerciseId === exerciseId)
       ?.sort((a, b) => a.id.localeCompare(b.id)) ?? []

@@ -1,8 +1,9 @@
-import type { UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
+import type { WorkoutExercise } from '~/ts'
+import type { UserWorkout } from '~/ts/interfaces'
 
 export interface SelectExerciseReturn {
   selectExercise: (
-    exercise: UserWorkoutExercise,
+    exercise: WorkoutExercise,
     workout: UserWorkout
   ) => Promise<void>
 }

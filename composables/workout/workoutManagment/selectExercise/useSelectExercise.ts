@@ -1,7 +1,7 @@
+import type { WorkoutExercise } from '~/ts'
 import type {
   SelectExerciseReturn,
   UserWorkout,
-  UserWorkoutExercise,
 } from '~/ts/interfaces'
 
 /**
@@ -13,7 +13,7 @@ export function useSelectExercise(): SelectExerciseReturn {
   const { getLastSets } = useLastExerciseSets()
 
   async function selectExercise(
-    exercise: UserWorkoutExercise,
+    exercise: WorkoutExercise,
     workout: UserWorkout,
   ) {
     const isExerciseExists = workout.exercises.some(ex => ex.id === exercise.id)

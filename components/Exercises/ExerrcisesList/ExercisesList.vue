@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { ExerciseTemplate } from '~/ts'
-import type { UserWorkoutExercise } from '~/ts/interfaces'
+import type { ExerciseTemplate, WorkoutExercise } from '~/ts'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 
 interface ExercisesGroup {
@@ -9,12 +8,12 @@ interface ExercisesGroup {
 }
 
 const props = defineProps<{
-  selectedExercises: UserWorkoutExercise[]
+  selectedExercises: WorkoutExercise[]
   exercisesList: ExerciseTemplate[]
 }>()
 
 const emit = defineEmits<{
-  selectExercise: [exercise: UserWorkoutExercise]
+  selectExercise: [exercise: WorkoutExercise]
   removeExercise: [exerciseId: string]
 }>()
 

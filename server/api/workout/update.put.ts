@@ -1,4 +1,4 @@
-import type { CreateWorkoutRequest } from '~/ts/interfaces'
+import type { WorkoutRequest } from '~/ts'
 import { getServerSession } from '#auth'
 import { PrismaClient } from '@prisma/client'
 
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const body = await readBody<CreateWorkoutRequest & { id: string }>(event)
+    const body = await readBody<WorkoutRequest & { id: string }>(event)
 
     // Удаляем все сразу
     const workout = await prisma.$transaction(async (tx) => {

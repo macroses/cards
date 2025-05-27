@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import type CreateExerciseModal from './CreateExerciseModal/CreateExerciseModal.vue'
-import type { ExerciseTemplate } from '~/ts'
-import type { UserWorkoutExercise } from '~/ts/interfaces'
+import type { ExerciseTemplate, WorkoutExercise } from '~/ts'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 
 const props = defineProps<{
   exercisesList: ExerciseTemplate[]
-  selectedExercises: UserWorkoutExercise[]
+  selectedExercises: WorkoutExercise[]
 }>()
 
 const emit = defineEmits<{
-  selectExercise: [exercise: UserWorkoutExercise]
+  selectExercise: [exercise: WorkoutExercise]
   openModal: [exercise: ExerciseTemplate]
   removeExercise: [exerciseId: string]
 }>()

@@ -1,25 +1,25 @@
 <script setup lang="ts">
 import type {
-  UserTrainingSession,
-  UserWorkoutExercise,
-} from '~/ts/interfaces'
+  TrainingSession,
+  WorkoutExercise,
+} from '~/ts'
 import { nanoid } from 'nanoid'
 import { MAX_LENGTH_NUMBER } from '~/constants'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
 const props = defineProps<{
-  selectedExercises: UserWorkoutExercise[]
-  sessions: UserTrainingSession[]
+  selectedExercises: WorkoutExercise[]
+  sessions: TrainingSession[]
   workoutDate: Date
 }>()
 
 const emit = defineEmits<{
   (event: 'removeExercise', id: string): void
-  (event: 'addSet', exerciseForm: UserTrainingSession): void
+  (event: 'addSet', exerciseForm: TrainingSession): void
   (event: 'removeSet', setId: string): void
 }>()
 
-const exerciseForm = reactive<Partial<UserTrainingSession>>({
+const exerciseForm = reactive<Partial<TrainingSession>>({
   weight: 0,
   repeats: 0,
   difficulty: DIFFICULT_LEVEL.WARM,
@@ -69,11 +69,11 @@ function appendSession(exerciseId: string) {
     difficulty: exerciseForm.difficulty,
     completed: false,
     setTime: null,
-  } as UserTrainingSession)
+  } as TrainingSession)
 }
 
 function getExerciseSessions(exerciseId: string) {
-  return props.sessions.filter((session: UserTrainingSession) => session.exerciseId === exerciseId)
+  return props.sessions.filter((session: TrainingSession) => session.exerciseId === exerciseId)
 }
 
 function isLastWorkoutResultsVisible(exerciseId: string) {

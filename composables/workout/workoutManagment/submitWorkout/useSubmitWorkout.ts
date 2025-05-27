@@ -1,5 +1,5 @@
+import type { WorkoutRequest } from '~/ts'
 import type {
-  CreateWorkoutRequest,
   CreateWorkoutResponse,
   SubmitWorkoutReturn,
   UserWorkout,
@@ -60,7 +60,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
   }
 
   async function createWorkout(workout: UserWorkout) {
-    await $fetch<CreateWorkoutRequest>(API.CREATE_WORKOUT, {
+    await $fetch<WorkoutRequest>(API.CREATE_WORKOUT, {
       method: 'POST',
       body: workout,
     })
@@ -77,7 +77,7 @@ export function useSubmitWorkout(): SubmitWorkoutReturn {
       return true
     }
 
-    await $fetch<CreateWorkoutRequest>(API.UPDATE_WORKOUT, {
+    await $fetch<WorkoutRequest>(API.UPDATE_WORKOUT, {
       method: 'PUT',
       body: {
         ...workout,

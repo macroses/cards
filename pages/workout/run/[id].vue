@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
-import type { UserTrainingSession } from '~/ts/interfaces'
+import type { TrainingSession } from '~/ts'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
@@ -60,7 +60,7 @@ async function updateSetFieldValue(setId: string, field: UnionSetFields, value: 
   )
 }
 
-function startEditing(set: UserTrainingSession, field: UnionSetFields) {
+function startEditing(set: TrainingSession, field: UnionSetFields) {
   editingSetId.value = set.id
   editingField.value = field
 
@@ -136,7 +136,7 @@ async function handleAddSet(exerciseId: string) {
 }
 
 // Check if all sets in an exercise have time marked
-function allSetTimesMarked(sets: UserTrainingSession[]): boolean {
+function allSetTimesMarked(sets: TrainingSession[]): boolean {
   if (!sets.length) {
     return false
   }

@@ -1,9 +1,6 @@
 import { z } from 'zod'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
-/*
-  Workout set created by a user
- */
 export const trainingSessionSchema = z.object({
   id: z.string(),
   exerciseId: z.string(),

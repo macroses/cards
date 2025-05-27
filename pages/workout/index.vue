@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { UserTrainingSession, UserWorkout, UserWorkoutExercise } from '~/ts/interfaces'
+import type { TrainingSession, WorkoutExercise } from '~/ts'
+import type { UserWorkout } from '~/ts/interfaces'
 import ExercisesList from '@/components/Exercises/ExerrcisesList/ExercisesList.vue'
 import MyExercises from '@/components/Exercises/MyExercises/MyExercises.vue'
 import { WORKOUT_COLORS } from '~/constants'
@@ -38,7 +39,7 @@ const { exercisesList } = useFetchExercisesList()
 const isExercisesList = shallowRef(true)
 const exercisesListRef = useTemplateRef<HTMLDivElement>('exercisesListRef')
 
-async function handleSelectExercise(exercise: UserWorkoutExercise): Promise<void> {
+async function handleSelectExercise(exercise: WorkoutExercise): Promise<void> {
   if (!document.startViewTransition) {
     await selectExercise(exercise, workout)
     return
@@ -53,12 +54,12 @@ async function handleSelectExercise(exercise: UserWorkoutExercise): Promise<void
 }
 
 function handleRemoveExercise(exerciseId: string): void {
-  workout.exercises = workout.exercises.filter((exercise: UserWorkoutExercise) => exercise.id !== exerciseId)
-  workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.exerciseId !== exerciseId)
+  workout.exercises = workout.exercises.filter((exercise: WorkoutExercise) => exercise.id !== exerciseId)
+  workout.sessions = workout.sessions.filter((session: TrainingSession) => session.exerciseId !== exerciseId)
 }
 
-function handleAddSet(set: UserTrainingSession) {
-  const sessionSet: UserTrainingSession = {
+function handleAddSet(set: TrainingSession) {
+  const sessionSet: TrainingSession = {
     ...set,
     setTime: set.setTime ? Number(set.setTime) : null,
     setTimeAddedAt: null,
@@ -68,7 +69,7 @@ function handleAddSet(set: UserTrainingSession) {
 }
 
 function handleRemoveSet(setId: string) {
-  workout.sessions = workout.sessions.filter((session: UserTrainingSession) => session.id !== setId)
+  workout.sessions = workout.sessions.filter((session: TrainingSession) => session.id !== setId)
 }
 
 const isMobileListVisible = shallowRef(false)

@@ -1,13 +1,4 @@
-import type { UserTrainingSession, UserWorkoutExercise } from '~/ts/interfaces'
-
-// done
-export interface CreateWorkoutRequest {
-  title: string
-  color: string
-  workoutDate: Date
-  exercises: UserWorkoutExercise[]
-  sessions: UserTrainingSession[]
-}
+import type { TrainingSession } from '~/ts'
 
 // done
 export interface CreateWorkoutResponse {
@@ -27,5 +18,5 @@ export interface CreateWorkoutResponse {
     workoutId: string
     exerciseId: string
   }[]
-  sets: UserTrainingSession[]
+  sets: TrainingSession[]
 }

@@ -1,4 +1,5 @@
-import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
+import type { TrainingSession } from '~/ts'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import type { NewRecord, PersonalRecord, RecordType } from '~/ts/types/personalRecords.types'
 import {
   KEYS,
@@ -23,7 +24,7 @@ export function usePersonalRecords() {
    * Проверяет один сет на наличие личных рекордов
    */
   function checkPersonalRecord(
-    set: UserTrainingSession,
+    set: TrainingSession,
     exerciseName: string,
     workouts: CreateWorkoutResponse[] | null,
     showToast = false,

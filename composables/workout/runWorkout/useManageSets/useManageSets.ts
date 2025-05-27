@@ -1,4 +1,5 @@
-import type { CreateWorkoutResponse, UserTrainingSession } from '~/ts/interfaces'
+import type { TrainingSession } from '~/ts'
+import type { CreateWorkoutResponse } from '~/ts/interfaces'
 import { nanoid } from 'nanoid'
 import { DEFAULT_SET_VALUES, WORKOUT_CACHE_KEYS, WORKOUT_LIMITS } from '~/constants'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
@@ -12,7 +13,7 @@ import { saveCacheData } from '~/utils/cacheRunnedWorkout'
 export function useManageSets() {
   async function updateWorkoutAndCache(
     workout: CreateWorkoutResponse,
-    newSets: UserTrainingSession[],
+    newSets: TrainingSession[],
   ) {
     try {
       const updatedWorkout = { ...workout, sets: newSets }
@@ -27,7 +28,7 @@ export function useManageSets() {
     }
   }
 
-  const createNewSet = (exerciseId: string): UserTrainingSession => ({
+  const createNewSet = (exerciseId: string): TrainingSession => ({
     id: nanoid(),
     exerciseId,
     weight: DEFAULT_SET_VALUES.WEIGHT,
@@ -38,7 +39,7 @@ export function useManageSets() {
     setTimeAddedAt: null,
   })
 
-  function getExerciseSets(workoutSets: UserTrainingSession[], exerciseId: string) {
+  function getExerciseSets(workoutSets: TrainingSession[], exerciseId: string) {
     return workoutSets.filter(set => set.exerciseId === exerciseId)
   }
 

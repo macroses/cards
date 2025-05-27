@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { UserTrainingSession } from '~/ts/interfaces'
+import type { TrainingSession } from '~/ts'
 
 const props = defineProps<{
-  sessions: UserTrainingSession[]
+  sessions: TrainingSession[]
   selectedExercisesLength: number
 }>()
 
