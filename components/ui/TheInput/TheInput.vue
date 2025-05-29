@@ -5,15 +5,13 @@ const {
   type = 'text',
   inputmode = 'text',
   placeholder = '',
-  noClear = false,
   autocomplete = 'off',
   max,
-  validateRules = [],
   label,
   ariaLabel,
-  ariaDescribedby,
   ariaRequired = false,
   ariaInvalid,
+  errorMessage = '',
 } = defineProps<InputTextProps>()
 
 const emit = defineEmits(['validation', 'blur', 'update:modelValue', 'focus'])
@@ -22,7 +20,6 @@ const input = useTemplateRef<HTMLInputElement | null>('input')
 
 const uniqueId = useId()
 const modelValue = defineModel<T>()
-const error = shallowRef('')
 
 defineExpose({
   focus: () => {
@@ -30,31 +27,6 @@ defineExpose({
     input.value?.select()
   },
 })
-
-function validate() {
-  for (const rule of validateRules) {
-    const result = rule(modelValue.value?.toString() || '')
-
-    if (!result.isValid) {
-      error.value = result.message
-      emit('validation', false)
-      return
-    }
-  }
-
-  error.value = ''
-  emit('validation', true)
-}
-
-function onBlur() {
-  emit('blur')
-  validate()
-}
-
-function handleClear(event: Event) {
-  event.preventDefault()
-  modelValue.value = null as T
-}
 
 function handleInput(event: Event) {
   const input = event.target as HTMLInputElement
@@ -69,12 +41,13 @@ function onFocus() {
   input.value?.select()
   emit('focus')
 }
-
-watch(modelValue, () => validate())
 </script>
 
 <template>
-  <div class="input-container">
+  <div
+    v-auto-animate="{ duration: 100 }"
+    class="input-container"
+  >
     <label
       v-if="label"
       :for="uniqueId"
@@ -89,38 +62,23 @@ watch(modelValue, () => validate())
         v-model="modelValue"
         :placeholder="placeholder"
         class="input"
-        :type
-        :inputmode
-        :autocomplete
-        :class="{ 'input--error': error }"
+        :class="{ 'input-error': errorMessage }"
+        :type="type"
+        :inputmode="inputmode"
+        :autocomplete="autocomplete"
         :aria-label="ariaLabel || label"
-        :aria-describedby="error ? `${uniqueId}-error` : ariaDescribedby"
         :aria-required="ariaRequired"
-        :aria-invalid="error ? true : ariaInvalid"
+        :aria-invalid="!!errorMessage || ariaInvalid"
         @input="handleInput"
-        @blur="onBlur"
+        @blur="$emit('blur')"
         @focus="onFocus"
       >
-      <button
-        v-if="modelValue && !noClear"
-        class="close-button"
-        type="button"
-        aria-label="Clear input"
-        @mousedown.prevent="handleClear"
-      >
-        <TheIcon
-          icon-name="xmark"
-          width="16"
-        />
-      </button>
-      <span
-        v-if="error"
-        :id="`${uniqueId}-error`"
-        class="input__error-message"
-        role="alert"
-      >
-        {{ error }}
-      </span>
+    </div>
+    <div
+      v-if="errorMessage"
+      class="input__error-message"
+    >
+      {{ errorMessage }}
     </div>
   </div>
 </template>

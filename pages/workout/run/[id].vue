@@ -307,7 +307,6 @@ useHead({
                         v-model="editingValue"
                         v-focus
                         v-maska="'##:##'"
-                        no-clear
                         type="text"
                         :placeholder="$t('inputs.time_format')"
                         inputmode="numeric"

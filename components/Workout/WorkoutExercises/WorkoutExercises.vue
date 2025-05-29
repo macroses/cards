@@ -179,7 +179,6 @@ watch(() => props.selectedExercises, (exercises) => {
                 type="number"
                 :max="MAX_LENGTH_NUMBER"
                 inputmode="numeric"
-                no-clear
               />
               <TheInput
                 v-model.number="exerciseForm.repeats"
@@ -187,7 +186,6 @@ watch(() => props.selectedExercises, (exercises) => {
                 type="number"
                 :max="MAX_LENGTH_NUMBER"
                 inputmode="numeric"
-                no-clear
               />
               <TheButton
                 type="submit"

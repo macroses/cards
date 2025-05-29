@@ -1,61 +1,46 @@
 <script setup lang="ts">
 import type { MainSettingsFields } from '~/ts/interfaces'
 import { MAIN_SETTINGS_FIELDS } from '~/constants'
+import { mainSettingsSchema } from '~/ts/interfaces'
 
 const emit = defineEmits(['update:settings'])
 
-const mainSettingsFields = reactive<MainSettingsFields>({
-  weeksCounter: 12,
-  startPMPercent: 65,
-  pmpIncreasePercent: 1.5,
-  weekNumber: 4,
-  weekPMPercentDecrease: 10,
-  weekTrainingFrequency: 3,
+const { values, setFieldValue, errors, meta } = useForm({
+  validationSchema: toTypedSchema(mainSettingsSchema),
+  initialValues: {
+    weeksCounter: 12,
+    startPMPercent: 65,
+    pmpIncreasePercent: 1.5,
+    weekNumber: 4,
+    weekPMPercentDecrease: 10,
+    weekTrainingFrequency: 3,
+  },
 })
 
-const validationRules = {
-  weeksCounter: [
-    createValidationRule('required'),
-    createValidationRule('numbersOnly'),
-    createValidationRule('minValue', 4),
-    createValidationRule('maxValue', 12),
-  ],
-  startPMPercent: [
-    createValidationRule('required'),
-    createValidationRule('numbersOnly'),
-    createValidationRule('minValue', 40),
-    createValidationRule('maxValue', 100),
-  ],
-  pmpIncreasePercent: [
-    createValidationRule('required'),
-    createValidationRule('minValue', 0),
-    createValidationRule('maxValue', 100),
-  ],
-  weekNumber: [
-    createValidationRule('required'),
-    createValidationRule('numbersOnly'),
-    createValidationRule('minValue', 1),
-    createValidationRule('maxValue', 12),
-  ],
-  weekPMPercentDecrease: [
-    createValidationRule('required'),
-    createValidationRule('minValue', 0),
-    createValidationRule('maxValue', 100),
-  ],
-  weekTrainingFrequency: [
-    createValidationRule('required'),
-    createValidationRule('numbersOnly'),
-    createValidationRule('minValue', 1),
-    createValidationRule('maxValue', 7),
-  ],
-}
+const formState = computed(() => ({
+  values,
+  isValid: meta.value.valid,
+}))
 
-watch(mainSettingsFields, () => {
-  emit('update:settings', getSettings())
-}, { deep: true })
+watch(formState, ({ isValid }) => {
+  if (isValid) {
+    emit('update:settings', getSettings())
+  }
+})
 
 function getSettings(): MainSettingsFields {
-  return { ...mainSettingsFields }
+  return {
+    weeksCounter: Number(values.weeksCounter),
+    startPMPercent: Number(values.startPMPercent),
+    pmpIncreasePercent: Number(values.pmpIncreasePercent),
+    weekNumber: Number(values.weekNumber),
+    weekPMPercentDecrease: Number(values.weekPMPercentDecrease),
+    weekTrainingFrequency: Number(values.weekTrainingFrequency),
+  }
+}
+
+function handleInputChange(field: keyof MainSettingsFields, value: number) {
+  setFieldValue(field, value)
 }
 
 defineExpose({ getSettings })
@@ -72,9 +57,14 @@ defineExpose({ getSettings })
         <dt>{{ $t(field.label) }}</dt>
         <dd>
           <TheInput
-            v-model.number="mainSettingsFields[field.key]"
-            :validate-rules="validationRules[field.key]"
+            :name="field.key"
+            :model-value="values[field.key]"
+            @keydown="onlyNumbers"
+            @input="handleInputChange(field.key, Number($event.target.value))"
           />
+          <p v-if="errors[field.key]" class="error-message">
+            {{ errors[field.key] }}
+          </p>
         </dd>
       </div>
     </dl>

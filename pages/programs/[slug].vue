@@ -23,6 +23,10 @@ function handleSelectExercise(exercise: ExerciseTemplate) {
 function handleRemoveExercise(exerciseId: string) {
   programExercisesCollection.value = programExercisesCollection.value.filter(({ id }) => id !== exerciseId)
 }
+
+function getSettings() {
+
+}
 </script>
 
 <template>
@@ -34,7 +38,9 @@ function handleRemoveExercise(exerciseId: string) {
           placeholder="Выбор убражнений"
           @select-item="handleSelectExercise"
         />
-        <ProgramMainSettings />
+        <ProgramMainSettings
+          @update:settings="getSettings"
+        />
         <ProgramExercisesList
           :exercises="programExercisesCollection"
           @remove-exercise="handleRemoveExercise"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Provider } from 'next-auth/providers/index'
-import { PAGES } from '~/constants'
+import { loginSchema, registrationSchema } from '@/validation/schemas/common.schema'
 
 definePageMeta({
   layout: 'empty',
@@ -11,88 +11,70 @@ definePageMeta({
 })
 
 const { data: providers } = await useFetch<Provider[]>('/api/auth/providers')
-const { signIn } = useAuth()
+const { onSubmit, status, authError } = useAuthSubmit()
 
 const isRegistration = shallowRef(false)
-const email = shallowRef('')
-const password = shallowRef('')
-const error = shallowRef('')
-const isValid = shallowRef(false)
 
-async function handleSubmit() {
-  if (!isValid.value) {
-    return
-  }
+const validationSchema = computed(() =>
+  toTypedSchema(isRegistration.value ? registrationSchema : loginSchema),
+)
 
-  try {
-    if (isRegistration.value) {
-      // Регистрация
-      await $fetch('/api/auth/register', {
-        method: 'POST',
-        body: { email: email.value, password: password.value },
-      })
-    }
+const { errors, defineField, handleSubmit, meta } = useForm({ validationSchema })
 
-    // Вход
-    const result = await signIn('credentials', {
-      email: email.value,
-      password: password.value,
-      redirect: false, // Изменено на false для ручной обработки
-    })
+const [email] = defineField('email')
+const [password] = defineField('password')
+const [confirmPassword] = defineField('confirmPassword')
 
-    if (result?.error) {
-      error.value = result.error
-    }
-    else {
-      await navigateTo(PAGES.HOME)
-    }
-  }
-  catch (err: any) {
-    error.value = err.message || 'Произошла ошибка'
-  }
-}
+const submitForm = handleSubmit(async (values) => {
+  await onSubmit(
+    meta.value.valid,
+    isRegistration.value,
+    values.email,
+    values.password,
+  )
+})
 </script>
 
 <template>
   <div class="auth">
-    <form class="auth-form" @submit.prevent="handleSubmit">
+    <form
+      class="auth-form"
+      @submit.prevent="submitForm"
+    >
       <h2>{{ isRegistration ? 'Регистрация' : 'Вход' }}</h2>
 
       <TheInput
         v-model="email"
         type="email"
+        name="email"
         placeholder="Email"
-        autocomplete="email"
-        label="Email"
-        :aria-required="true"
-        :validate-rules="[
-          createValidationRule('required'),
-          createValidationRule('email'),
-        ]"
-        @validation="isValid = $event"
+        :error-message="errors.email"
       />
 
       <TheInput
         v-model="password"
+        name="password"
         type="password"
-        placeholder="Пароль"
-        autocomplete="current-password"
-        label="Пароль"
-        :aria-required="true"
-        :validate-rules="[
-          createValidationRule('required'),
-          createValidationRule('minLength', 6),
-        ]"
-        @validation="isValid = $event"
+        placeholder="Password"
+        :error-message="errors.password"
       />
 
-      <p v-if="error" class="error" role="alert" aria-live="assertive">
-        {{ error }}
-      </p>
+      <TheInput
+        v-if="isRegistration"
+        v-model="confirmPassword"
+        name="confirmPassword"
+        type="password"
+        placeholder="Подтвердите пароль"
+        :error-message="errors.confirmPassword"
+      />
+
+      <div v-if="authError" class="error">
+        {{ authError }}
+      </div>
 
       <TheButton
         type="submit"
-        :disabled="!isValid"
+        :disabled="!meta.valid || status === 'loading'"
       >
         {{ isRegistration ? 'Зарегистрироваться' : 'Войти' }}
       </TheButton>
