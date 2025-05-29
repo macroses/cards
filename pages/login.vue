@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Provider } from 'next-auth/providers/index'
-import { loginSchema, registrationSchema } from '@/validation/schemas/common.schema'
+import { validationSchemas } from '@/validation/schemas/common.schema'
 
 definePageMeta({
   layout: 'empty',
@@ -12,6 +12,8 @@ definePageMeta({
 
 const { data: providers } = await useFetch<Provider[]>('/api/auth/providers')
 const { onSubmit, status, authError } = useAuthSubmit()
+const { t } = useI18n()
+const { loginSchema, registrationSchema } = validationSchemas(t)
 
 const isRegistration = shallowRef(false)
 

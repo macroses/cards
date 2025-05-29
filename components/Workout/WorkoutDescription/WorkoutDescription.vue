@@ -18,7 +18,7 @@ const { defineField, errors, values, meta } = useForm({
   validationSchema: toTypedSchema(z.object({
     workoutTitle: z.string()
       .max(50, 'Максимум 50 символов')
-      .min(2, 'Минимум 3 символа'),
+      .min(3, 'Минимум 3 символа'),
   })),
 })
 

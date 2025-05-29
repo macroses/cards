@@ -3,7 +3,7 @@ import type {
   TrainingSession,
 } from '~/ts'
 import { nanoid } from 'nanoid'
-import { createExerciseSetSchema } from '@/validation/schemas/common.schema'
+import { validationSchemas } from '@/validation/schemas/common.schema'
 import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
 const props = defineProps<{
@@ -16,14 +16,19 @@ const emit = defineEmits<{
   (event: 'removeSet', setId: string): void
 }>()
 
-const { defineField, errors, values } = useForm({
+const { t } = useI18n()
+const { createExerciseSetSchema } = validationSchemas(t)
+
+const { defineField, errors, values, meta } = useForm({
   validationSchema: toTypedSchema(createExerciseSetSchema),
 })
 
 const [weight] = defineField('weight')
 const [repeats] = defineField('repeats')
 
-const isAppendSessionDisable = computed(() => values.weight && values.repeats)
+const isAppendSessionDisable = computed(() => {
+  return values.weight && values.repeats && meta.value.valid
+})
 
 function appendSession() {
   if (!isAppendSessionDisable.value) {

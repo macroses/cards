@@ -5,13 +5,24 @@
   "back": "Retour",
   "yourFolders": "Vos dossiers",
   "create": "Créer",
-
+  
   "validation": {
-    "required": "Champ obligatoire",
-    "maxLength": "Longueur maximale de {n} caractères",
-    "minLength": "Minimum {minLength} caractères",
-    "numbersOnly": "Chiffres uniquement",
-    "email": "Format incorrect"
+    "email": {
+      "required": "Veuillez saisir votre adresse e-mail",
+      "invalid": "Format d'e-mail invalide"
+    },
+    "password": {
+      "min_length": "Le mot de passe doit contenir au moins 6 caractères",
+      "confirm_mismatch": "Les mots de passe ne correspondent pas"
+    },
+    "weight": {
+      "min": "Minimum 1 kg",
+      "max": "Maximum 999 kg"
+    },
+    "repeats": {
+      "min": "Minimum 1 répétition",
+      "max": "Maximum 999 répétitions"
+    }
   },
 
   "workout": {

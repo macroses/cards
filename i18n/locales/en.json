@@ -5,13 +5,24 @@
   "back": "Back",
   "yourFolders": "Your folders",
   "create": "Create",
-
+  
   "validation": {
-    "required": "Required",
-    "maxLength": "Maximum {maxLength} characters",
-    "minLength": "Minimum {minLength} characters",
-    "numbersOnly": "Only numbers",
-    "email": "Incorrect email format"
+    "email": {
+      "required": "Please enter your email",
+      "invalid": "Invalid email format"
+    },
+    "password": {
+      "min_length": "Password must be at least 6 characters",
+      "confirm_mismatch": "Passwords do not match"
+    },
+    "weight": {
+      "min": "Minimum is 1 kg",
+      "max": "Maximum is 999 kg"
+    },
+    "repeats": {
+      "min": "Minimum is 1 rep",
+      "max": "Maximum is 999 reps"
+    }
   },
 
   "workout": {

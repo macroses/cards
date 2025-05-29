@@ -1,17 +1,21 @@
 // validation/rules/common.rules.ts
 import { z } from 'zod'
 
-export const emailRule = z.string()
-  .min(1, { message: 'Email обязателен для заполнения' })
-  .email({ message: 'Введите корректный email адрес' })
+export function validationRules(t: (key: string) => string) {
+  return {
+    emailRule: z.string()
+      .min(1, { message: t('validation.email.required') })
+      .email({ message: t('validation.email.invalid') }),
 
-export const passwordRule = z.string()
-  .min(6, { message: 'Пароль должен содержать минимум 6 символов' })
+    passwordRule: z.string()
+      .min(6, { message: t('validation.password.min_length') }),
 
-export const weightRule = z.coerce.number()
-  .min(1, { message: 'Минимум 1кг' })
-  .max(999, { message: 'Максимум 999кг' })
+    weightRule: z.coerce.number()
+      .min(1, { message: t('validation.weight.min') })
+      .max(999, { message: t('validation.weight.max') }),
 
-export const repeatsRule = z.coerce.number()
-  .min(1, { message: 'Минимум 1 повтор' })
-  .max(999, { message: 'Максимум 999 повторов' })
+    repeatsRule: z.coerce.number()
+      .min(1, { message: t('validation.repeats.min') })
+      .max(999, { message: t('validation.repeats.max') }),
+  }
+}

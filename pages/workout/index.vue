@@ -36,6 +36,7 @@ const { getLastSets } = useLastExerciseSets()
 const { exercisesList } = useFetchExercisesList()
 
 const isExercisesList = shallowRef(true)
+const isTitleValid = shallowRef(false)
 const exercisesListRef = useTemplateRef<HTMLDivElement>('exercisesListRef')
 
 async function handleSelectExercise(exercise: WorkoutExercise): Promise<void> {
@@ -86,7 +87,7 @@ async function toggleMobileList() {
 }
 
 const isWorkoutValid = computed(() => {
-  if (!workout.exercises.length) {
+  if (!workout.exercises.length || !isTitleValid.value) {
     return
   }
 
@@ -138,7 +139,7 @@ onClickOutside(exercisesListRef, async () => {
         @workout-title="workout.title = $event"
         @workout-color="workout.color = $event"
         @toggle-calendar="toggleCalendar"
-        @is-title-valid="(e) => console.log(e)"
+        @is-title-valid="isTitleValid = $event"
       />
       <Calendar
         v-if="isCalendarVisible"

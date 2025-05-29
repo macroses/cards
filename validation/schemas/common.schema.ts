@@ -1,21 +1,27 @@
 import { z } from 'zod'
-import { emailRule, passwordRule, repeatsRule, weightRule } from '../rules/common.rules'
+import { validationRules } from '../rules/common.rules'
 
-export const loginSchema = z.object({
-  email: emailRule,
-  password: passwordRule,
-})
+export function validationSchemas(t: (key: string) => string) {
+  const rules = validationRules(t)
 
-export const registrationSchema = z.object({
-  email: emailRule,
-  password: passwordRule,
-  confirmPassword: passwordRule,
-}).refine(data => data.password === data.confirmPassword, {
-  message: 'Пароли не совпадают',
-  path: ['confirmPassword'],
-})
+  return {
+    loginSchema: z.object({
+      email: rules.emailRule,
+      password: rules.passwordRule,
+    }),
 
-export const createExerciseSetSchema = z.object({
-  weight: weightRule,
-  repeats: repeatsRule,
-})
+    registrationSchema: z.object({
+      email: rules.emailRule,
+      password: rules.passwordRule,
+      confirmPassword: rules.passwordRule,
+    }).refine(data => data.password === data.confirmPassword, {
+      message: t('validation.password.confirm_mismatch'),
+      path: ['confirmPassword'],
+    }),
+
+    createExerciseSetSchema: z.object({
+      weight: rules.weightRule,
+      repeats: rules.repeatsRule,
+    }),
+  }
+}
