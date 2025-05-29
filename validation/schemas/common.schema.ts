@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { emailRule, passwordRule } from '../rules/common.rules'
+import { emailRule, passwordRule, repeatsRule, weightRule } from '../rules/common.rules'
 
 export const loginSchema = z.object({
   email: emailRule,
@@ -13,4 +13,9 @@ export const registrationSchema = z.object({
 }).refine(data => data.password === data.confirmPassword, {
   message: 'Пароли не совпадают',
   path: ['confirmPassword'],
+})
+
+export const createExerciseSetSchema = z.object({
+  weight: weightRule,
+  repeats: repeatsRule,
 })

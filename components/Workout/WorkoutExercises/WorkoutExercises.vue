@@ -3,9 +3,6 @@ import type {
   TrainingSession,
   WorkoutExercise,
 } from '~/ts'
-import { nanoid } from 'nanoid'
-import { MAX_LENGTH_NUMBER } from '~/constants'
-import { DIFFICULT_LEVEL } from '~/ts/enums/workoutColors.enum'
 
 const props = defineProps<{
   selectedExercises: WorkoutExercise[]
@@ -19,12 +16,6 @@ const emit = defineEmits<{
   (event: 'removeSet', setId: string): void
 }>()
 
-const exerciseForm = reactive<Partial<TrainingSession>>({
-  weight: 0,
-  repeats: 0,
-  difficulty: DIFFICULT_LEVEL.WARM,
-})
-
 const activeExerciseId = shallowRef<string | null>(null)
 const showLastSessions = shallowRef<string | null>(null)
 const lastSessionsRef = useTemplateRef<HTMLDivElement>('lastSessionsRef')
@@ -37,10 +28,7 @@ const hasPreviousSets = computed(() => {
   }
 })
 
-const isAppendSessionDisable = computed(() => !exerciseForm.weight || !exerciseForm.repeats)
-
 function toggleExercise(exerciseId: string) {
-  resetExerciseForm()
   activeExerciseId.value = activeExerciseId.value === exerciseId ? null : exerciseId
 }
 
@@ -48,32 +36,6 @@ function handleDeleteExercise(exerciseId: string) {
   emit('removeExercise', exerciseId)
   activeExerciseId.value = null
   showLastSessions.value = null
-}
-
-function resetExerciseForm() {
-  exerciseForm.weight = 0
-  exerciseForm.repeats = 0
-  exerciseForm.difficulty = DIFFICULT_LEVEL.WARM
-}
-
-function appendSession(exerciseId: string) {
-  if (!exerciseForm.weight || !exerciseForm.repeats) {
-    return
-  }
-
-  emit('addSet', {
-    id: nanoid(),
-    exerciseId,
-    weight: exerciseForm.weight,
-    repeats: exerciseForm.repeats,
-    difficulty: exerciseForm.difficulty,
-    completed: false,
-    setTime: null,
-  } as TrainingSession)
-}
-
-function getExerciseSessions(exerciseId: string) {
-  return props.sessions.filter((session: TrainingSession) => session.exerciseId === exerciseId)
 }
 
 function isLastWorkoutResultsVisible(exerciseId: string) {
@@ -166,73 +128,12 @@ watch(() => props.selectedExercises, (exercises) => {
           class="last-sessions-wrapper"
         />
 
-        <div class="exercise-form__wr">
-          <form
-            v-auto-animate="{ duration: 100 }"
-            class="exercise-form"
-            @submit.prevent="appendSession(exercise.id)"
-          >
-            <div class="exercise-form__main">
-              <TheInput
-                v-model.number="exerciseForm.weight"
-                placeholder="Вес"
-                type="number"
-                :max="MAX_LENGTH_NUMBER"
-                inputmode="numeric"
-              />
-              <TheInput
-                v-model.number="exerciseForm.repeats"
-                placeholder="Повторения"
-                type="number"
-                :max="MAX_LENGTH_NUMBER"
-                inputmode="numeric"
-              />
-              <TheButton
-                type="submit"
-                :disabled="isAppendSessionDisable"
-              >
-                Добавить
-              </TheButton>
-            </div>
-            <ul
-              v-if="getExerciseSessions(exercise.id).length"
-              v-auto-animate="{ duration: 100 }"
-              class="workout-form__sets"
-            >
-              <li class="workout-form__sets-header">
-                <div class="workout-form__sets-header--weight">
-                  Вес
-                </div>
-                <div class="workout-form__sets-header--repeats">
-                  Repeats
-                </div>
-                <div class="workout-form__sets-header--delete" />
-              </li>
-              <li
-                v-for="set in getExerciseSessions(exercise.id)"
-                :key="set.id"
-                class="workout-form__sets-item"
-              >
-                <div class="workout-form__sets--weight">
-                  {{ set.weight }}
-                </div>
-                <div class="workout-form__sets--repeats">
-                  {{ set.repeats }}
-                </div>
-                <TheButton
-                  variant="transparent"
-                  icon-only
-                  @click="emit('removeSet', set.id)"
-                >
-                  <TheIcon
-                    icon-name="xmark"
-                    width="16"
-                  />
-                </TheButton>
-              </li>
-            </ul>
-          </form>
-        </div>
+        <ExerciseForm
+          :exercise-id="exercise.id"
+          :sessions="sessions"
+          @add-set="emit('addSet', $event)"
+          @remove-set="emit('removeSet', $event)"
+        />
       </li>
     </ul>
     <p
