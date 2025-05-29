@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watchImmediate } from '@vueuse/core'
+import { z } from 'zod'
 
 const props = defineProps<{
   selectedDate: Date
@@ -11,33 +11,36 @@ const emit = defineEmits<{
   (event: 'workoutTitle', title: string): void
   (event: 'workoutColor', color: string): void
   (event: 'toggleCalendar'): void
+  (event: 'isTitleValid', isValid: boolean): void
 }>()
 
-const workoutTitle = shallowRef('')
+const { defineField, errors, values, meta } = useForm({
+  validationSchema: toTypedSchema(z.object({
+    workoutTitle: z.string()
+      .max(50, 'Максимум 50 символов')
+      .min(2, 'Минимум 3 символа'),
+  })),
+})
 
-watchImmediate(() => props.title, (newTitle?: string) => {
+const [workoutTitle] = defineField('workoutTitle')
+
+watch(() => props.title, (newTitle?: string) => {
   if (newTitle) {
     workoutTitle.value = newTitle
   }
-})
-
-const isWorkoutNameValid = shallowRef(false)
-
-const workoutNameRules = [
-  createValidationRule('required'),
-  createValidationRule('maxLength', 50),
-]
+}, { immediate: true })
 
 function changeWorkoutTitle(): void {
-  emit('workoutTitle', workoutTitle.value)
+  emit('workoutTitle', values.workoutTitle || '')
 }
 
 function changeWorkoutColor(color: string): void {
   emit('workoutColor', color)
 }
 
-watch(workoutTitle, (newValue: string) => {
-  emit('workoutTitle', newValue || '')
+watch(workoutTitle, () => {
+  emit('workoutTitle', values.workoutTitle || '')
+  emit('isTitleValid', meta.value.valid)
 })
 </script>
 
@@ -47,10 +50,8 @@ watch(workoutTitle, (newValue: string) => {
       <TheInput
         v-model="workoutTitle"
         placeholder="Workout name"
-        :validate-rules="workoutNameRules"
-        :max="50"
         close-button
-        @validation="isWorkoutNameValid = $event"
+        :error-message="errors.workoutTitle"
         @input="changeWorkoutTitle"
       />
       <TheDropdpownColor

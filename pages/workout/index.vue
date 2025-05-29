@@ -138,6 +138,7 @@ onClickOutside(exercisesListRef, async () => {
         @workout-title="workout.title = $event"
         @workout-color="workout.color = $event"
         @toggle-calendar="toggleCalendar"
+        @is-title-valid="(e) => console.log(e)"
       />
       <Calendar
         v-if="isCalendarVisible"

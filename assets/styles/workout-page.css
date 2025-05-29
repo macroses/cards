@@ -81,10 +81,10 @@
 
 .workout__name {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
 
-  & .input-wrapper {
+  & .input-container {
     flex: 1;
   }
 }
