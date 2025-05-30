@@ -153,7 +153,7 @@
   "inputs": {
     "weight": "Вес",
     "repeats": "Повторения",
-    "time_format": "00м:00с"
+    "time_format": "мм:сс"
   },
 
   "actions": {

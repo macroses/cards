@@ -152,7 +152,7 @@
   "inputs": {
     "weight": "Weight",
     "repeats": "Repeats",
-    "time_format": "00m:00s"
+    "time_format": "mm:ss"
   },
 
   "actions": {

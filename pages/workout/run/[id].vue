@@ -263,7 +263,7 @@ useHead({
                     <div class="set-cell">
                       <TheInput
                         v-if="isInputVisible(set.id, 'weight')"
-                        v-model.number="editingValue"
+                        v-model="editingValue"
                         v-focus
                         type="number"
                         :placeholder="$t('inputs.weight')"
@@ -284,7 +284,7 @@ useHead({
                     <div class="set-cell">
                       <TheInput
                         v-if="isInputVisible(set.id, 'repeats')"
-                        v-model.number="editingValue"
+                        v-model="editingValue"
                         v-focus
                         type="number"
                         :placeholder="$t('inputs.repeats')"
