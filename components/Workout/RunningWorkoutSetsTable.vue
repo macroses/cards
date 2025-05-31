@@ -3,7 +3,6 @@ import type { TrainingSession } from '~/ts'
 import type { UnionSetFields } from '~/ts/types/setFields.types'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
-// import { validationSchemas } from '@/validation/schemas/common.schema'
 import { WORKOUT_DIFFICULTY } from '~/constants'
 
 defineProps<{
@@ -24,16 +23,6 @@ const emit = defineEmits<{
   ]
   updateSetTime: [setId: string]
 }>()
-
-// const { t } = useI18n()
-// const { createExerciseSetSchema } = validationSchemas(t)
-//
-// const { defineField, errors, values, meta } = useForm({
-//   validationSchema: toTypedSchema(createExerciseSetSchema),
-// })
-//
-// const [weight] = defineField('weight')
-// const [repeats] = defineField('repeats')
 
 const editingSetId = shallowRef<string | null>(null)
 const editingValue = shallowRef<number | string>(0)
@@ -72,6 +61,8 @@ async function saveEdit() {
 }
 
 function handleKeyDown(event: KeyboardEvent) {
+  onlyNumbers(event)
+
   if (event.key !== 'Enter') {
     return
   }
@@ -133,6 +124,7 @@ function handleDifficultyChange(setId: string, value: number | undefined) {
             v-model="editingValue"
             v-focus
             type="number"
+            :max="3"
             :placeholder="$t('inputs.weight')"
             inputmode="decimal"
             class="edit-input"
@@ -154,6 +146,7 @@ function handleDifficultyChange(setId: string, value: number | undefined) {
             v-model="editingValue"
             v-focus
             type="number"
+            :max="3"
             :placeholder="$t('inputs.repeats')"
             inputmode="numeric"
             class="edit-input"

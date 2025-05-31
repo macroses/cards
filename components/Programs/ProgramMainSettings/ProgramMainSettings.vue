@@ -59,12 +59,10 @@ defineExpose({ getSettings })
           <TheInput
             :name="field.key"
             :model-value="values[field.key]"
+            :error-message="errors[field.key]"
             @keydown="onlyNumbers"
             @input="handleInputChange(field.key, Number($event.target.value))"
           />
-          <p v-if="errors[field.key]" class="error-message">
-            {{ errors[field.key] }}
-          </p>
         </dd>
       </div>
     </dl>

@@ -33,13 +33,11 @@ function getSettings() {
   <div class="program">
     <div class="program__settings">
       <div class="program__settings-form">
+        <ProgramMainSettings @update:settings="getSettings" />
         <TheInputDropdown
           :items="exercisesList"
           placeholder="Выбор убражнений"
           @select-item="handleSelectExercise"
-        />
-        <ProgramMainSettings
-          @update:settings="getSettings"
         />
         <ProgramExercisesList
           :exercises="programExercisesCollection"
