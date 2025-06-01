@@ -11,6 +11,13 @@
   box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
   background: var(--color-white);
   padding: 8px;
+  z-index: 2;
+
+  @media (width <= 768px) {
+    bottom: calc(100% + 16px);
+    left: auto;
+    right: -8px;
+  }
 }
 
 .profile-popup__item {

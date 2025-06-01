@@ -91,6 +91,11 @@
 
 .toggle-charts {
   margin-bottom: 8px;
+
+  @media (width <= 768px) {
+    margin-bottom: 0;
+    margin-right: 8px;
+  }
 }
 
 .logout-button {

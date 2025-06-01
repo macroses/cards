@@ -24,7 +24,14 @@ async function toggleCharts() {
 }
 
 function getVariant(path: string) {
-  return route.path === localePath(path) ? 'secondary' : 'ghost'
+  const currentPath = route.path
+  const targetPath = localePath(path)
+
+  if (targetPath === localePath('/')) {
+    return currentPath === targetPath ? 'secondary' : 'ghost'
+  }
+
+  return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`) ? 'secondary' : 'ghost'
 }
 
 const isControlChartsVisible = computed(() => {
@@ -74,7 +81,7 @@ onMounted(() => {
 
     <div
       v-if="isControlChartsVisible"
-      class="aside-nav__bottom-item toggle-charts"
+      class="toggle-charts"
     >
       <TheButton
         v-tooltip="{

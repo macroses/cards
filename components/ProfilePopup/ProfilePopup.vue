@@ -10,27 +10,27 @@ const { signOut } = useAuth()
 const isProfilePopupVisible = shallowRef(false)
 const profilePopup = useTemplateRef<HTMLDivElement>('profilePopup')
 
-async function toggleProfilePopup() {
-  await document.startViewTransition(() => {
+function toggleProfilePopup() {
+  document.startViewTransition(() => {
     isProfilePopupVisible.value = !isProfilePopupVisible.value
-  }).finished
+  })
 }
 
-onClickOutside(profilePopup, async () => {
-  await document.startViewTransition(() => {
+onClickOutside(profilePopup, () => {
+  document.startViewTransition(() => {
     isProfilePopupVisible.value = false
-  }).finished
+  })
 })
 </script>
 
 <template>
   <div
+    ref="profilePopup"
     class="profile"
     role="complementary"
     aria-label="User profile"
   >
     <TheButton
-      ref="profilePopup"
       class="profile-button"
       variant="secondary"
       :style="!isProfilePopupVisible ? 'view-transition-name: profile-morph' : ''"
@@ -80,9 +80,7 @@ onClickOutside(profilePopup, async () => {
         </li>
       </ul>
 
-      <TheModal
-        ref="logoutConfirmModal"
-      >
+      <TheModal ref="logoutConfirmModal">
         <template #content>
           <div class="logout-modal__content">
             <TheIcon
