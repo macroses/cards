@@ -50,7 +50,6 @@
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
     box-shadow: 0 10px 20px -10px var(--color-accent);
-    transform: translateY(-3px);
   }
 
   .button--danger:hover {

@@ -76,11 +76,6 @@ const isMobileListVisible = shallowRef(false)
 const isMobile = useMediaQuery('(max-width: 768px)')
 
 async function toggleMobileList() {
-  if (!document.startViewTransition) {
-    isMobileListVisible.value = !isMobileListVisible.value
-    return
-  }
-
   await document.startViewTransition(() => {
     isMobileListVisible.value = !isMobileListVisible.value
   }).finished

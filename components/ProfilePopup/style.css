@@ -1,0 +1,24 @@
+.profile {
+  position: relative;
+}
+
+.profile-popup {
+  position: absolute;
+  left: calc(100% + 16px);
+  bottom: -8px;
+  border-radius: 20px;
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+  background: var(--color-white);
+  padding: 8px;
+}
+
+.profile-popup__item {
+  display: flex;
+}
+
+.profile-popup__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

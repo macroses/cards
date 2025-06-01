@@ -2,7 +2,7 @@ import { useLocalStorage } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { LANGUAGE_KEY } from '~/constants'
 
-type Languages = 'en' | 'ru' | 'fr'
+export type Languages = 'en' | 'ru' | 'fr'
 
 export function useChangeLanguage() {
   const { locale, setLocale } = useI18n()

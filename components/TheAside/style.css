@@ -89,9 +89,20 @@
   width: 100%;
 }
 
+.toggle-charts {
+  margin-bottom: 8px;
+}
+
 .logout-button {
   background-color: oklch(from var(--color-error) l c h / 0.2);
   color: var(--color-error);
+  min-width: 100%;
+
+  & .button__content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 
 select {
