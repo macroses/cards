@@ -4,13 +4,20 @@ import type { ExerciseTemplate } from '~/ts'
 defineProps<{
   exercises: ExerciseTemplate[]
 }>()
+
 defineEmits<{
   (e: 'removeExercise', id: string): void
 }>()
+
+const { errors, defineField } = useForm()
+
+const [maxPM] = defineField('maxPM')
 </script>
 
 <template>
   <div class="program__settings-exercises">
+    <slot />
+
     <ul class="program__settings-exercise-list">
       <li
         v-for="exercise in exercises"
@@ -20,6 +27,12 @@ defineEmits<{
         <div class="program__settings-exercise-name">
           {{ exercise.name }}
         </div>
+
+        <TheInput
+          v-model="maxPM"
+          :error-message="errors.maxPM"
+        />
+
         <TheButton
           variant="transparent"
           icon-only

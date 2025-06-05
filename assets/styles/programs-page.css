@@ -1,14 +1,16 @@
 .program__settings {
   display: flex;
-  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
-  background-color: var(--color-white);
-  padding: 16px;
-  border-radius: 20px;
-  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
 }
 
 .program__settings-form {
   flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (width <= 1024px) {
+    gap: 8px;
+  }
 }
 
 .program__settings-chart {

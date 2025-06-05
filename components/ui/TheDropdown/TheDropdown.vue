@@ -23,9 +23,7 @@ onClickOutside(dropdown, () => {
   isOpen.value = false
 })
 
-defineExpose({
-  selectValue,
-})
+defineExpose({ selectValue })
 </script>
 
 <template>

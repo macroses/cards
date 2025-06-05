@@ -1,0 +1,13 @@
+<svg width="280" height="131" viewBox="0 0 280 131" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect id="week-1" width="70" height="130" fill="#D9D9D9" fill-opacity="0.15"/>
+<rect id="week-4" x="210" width="70" height="130" fill="#D9D9D9" fill-opacity="0.15"/>
+<rect id="week-3" x="140" width="70" height="130" fill="#D9D9D9" fill-opacity="0.15"/>
+<rect id="week-2" x="70" width="70" height="130" fill="#D9D9D9" fill-opacity="0.15"/>
+<line x1="69.5" y1="131" x2="69.5" y2="1" stroke="#D6D6D6" stroke-dasharray="2 2"/>
+<line x1="209.5" y1="131" x2="209.5" y2="1" stroke="#D6D6D6" stroke-dasharray="2 2"/>
+<line x1="139.5" y1="131" x2="139.5" y2="1" stroke="#D6D6D6" stroke-dasharray="2 2"/>
+<path d="M0 130.5H280" stroke="#EAEAEA"/>
+<path id="skill" d="M0.5 119.5C171.5 119.5 177.5 -39.5 249 32" stroke="#AA066E" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="3 3"/>
+<path id="intensity" d="M0.75 108.983C164 111 166.5 -61.5 246 51.5" stroke="#FF4000" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="8 2"/>
+<path id="volume" d="M1 7.99998C1 7.99998 51.5 11.5 95 35.5C138.5 59.5 191.5 123 265.5 127.5" stroke="#0A47FD" stroke-opacity="0.5" stroke-width="2"/>
+</svg>

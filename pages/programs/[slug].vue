@@ -34,17 +34,17 @@ function getSettings() {
     <div class="program__settings">
       <div class="program__settings-form">
         <ProgramMainSettings @update:settings="getSettings" />
-        <TheInputDropdown
-          :items="exercisesList"
-          placeholder="Выбор убражнений"
-          @select-item="handleSelectExercise"
-        />
         <ProgramExercisesList
           :exercises="programExercisesCollection"
           @remove-exercise="handleRemoveExercise"
-        />
+        >
+          <TheInputDropdown
+            :items="exercisesList"
+            placeholder="Выбор убражнений"
+            @select-item="handleSelectExercise"
+          />
+        </ProgramExercisesList>
       </div>
-      <div class="program__settings-chart" />
     </div>
   </div>
 </template>
