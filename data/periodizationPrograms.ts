@@ -1,30 +1,33 @@
+import ProgramTypeBlock from '@/components/Programs/ProgramTypeSvg/ProgramTypeBlock.vue'
+import ProgramTypeLinear from '@/components/Programs/ProgramTypeSvg/ProgramTypeLinear.vue'
+
 export const periodizationPrograms = [
   {
     title: 'Линейная',
     path: '/programs/linear',
-    image: 'https://cdn.otpbooks.com/2018/10/06140743/Models-of-periodization-Chart-1.png',
+    component: ProgramTypeLinear,
     theses: [
       'Увеличение интенсивности при одновременном снижении объёма',
       'Простая и предсказуемая структура, подходящая для начинающих',
       'Подходит для подготовки к соревнованиям с фиксированной датой',
-      'Может привести к плато в прогрессе из-за отсутствия разнообразия',
+      'Возможно плато из-за отсутствия разнообразия',
     ],
   },
   {
     title: 'Волновая',
     path: '/programs/undulating',
-    image: 'https://cdn.otpbooks.com/2018/10/06140740/Models-of-periodization-Chart-4.png',
+    component: ProgramTypeBlock,
     theses: [
-      'Частые изменения интенсивности и объёма тренировок (ежедневно или еженедельно)',
-      'Позволяет одновременно развивать несколько физических качеств.',
-      'Помогает избежать плато и поддерживать высокий уровень мотивации',
-      'Требует внимательного мониторинга, чтобы избежать переутомления',
+      'Частые изменения интенсивности и объёма тренировок',
+      'Развитие нескольких физических качеств.',
+      'Больше прогресса и мотивации',
+      'Возможно переутомления',
     ],
   },
   {
     title: 'Блочная',
     path: '/programs/block',
-    image: 'https://cdn.otpbooks.com/2018/10/06140741/Models-of-periodization-Chart-2-e1540163497759.png',
+    component: ProgramTypeBlock,
     theses: [
       'Разделение тренировочного процесса на специализированные блоки (например, гипертрофия, сила, мощность)',
       'Каждый блок фокусируется на развитии определённого качества',

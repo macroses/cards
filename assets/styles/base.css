@@ -93,7 +93,6 @@ main {
   }
 }
 
-/*::view-transition-group(*) {*/
-/*  animation-duration: 0.4s;*/
-/*  animation-timing-function: ease-out;*/
-/*}*/
+::view-transition-group(*) {
+  z-index: 1;
+}
