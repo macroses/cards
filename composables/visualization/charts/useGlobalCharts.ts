@@ -345,11 +345,11 @@ export function useGlobalCharts(): GlobalChartsReturn {
       option: exerciseChartOption.value,
       type: 'exercise',
     },
-    {
-      title: 'dashboard.durationAndSetTime',
-      option: durationChartOption.value,
-      type: 'default',
-    },
+    // {
+    //   title: 'dashboard.durationAndSetTime',
+    //   option: durationChartOption.value,
+    //   type: 'default',
+    // },
   ])
 
   watch(() => selectedExercise.value, (newValue: string | null) => {

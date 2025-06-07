@@ -16,11 +16,11 @@ const { initLanguage } = useChangeLanguage()
 const isChartsDisabled = useLocalStorage('charts-disabled', false)
 const isMounted = ref(false)
 
-async function toggleCharts() {
-  await document.startViewTransition(() => {
+function toggleCharts() {
+  document.startViewTransition(() => {
     isChartsDisabled.value = !isChartsDisabled.value
     document.body.classList.toggle('charts-disabled')
-  }).finished
+  })
 }
 
 function getVariant(path: string) {

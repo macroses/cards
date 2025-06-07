@@ -75,10 +75,10 @@ function handleRemoveSet(setId: string) {
 const isMobileListVisible = shallowRef(false)
 const isMobile = useMediaQuery('(max-width: 768px)')
 
-async function toggleMobileList() {
-  await document.startViewTransition(() => {
+function toggleMobileList() {
+  document.startViewTransition(() => {
     isMobileListVisible.value = !isMobileListVisible.value
-  }).finished
+  })
 }
 
 const isWorkoutValid = computed(() => {

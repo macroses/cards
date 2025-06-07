@@ -110,13 +110,16 @@
   font-weight: 500;
 }
 
-/**/
+.current-month {
+  /*width: 36px;*/
+}
 
+/**/
 .slideMonth-enter-active,
 .slideMonth-leave-active {
   transition:
-    opacity 0.1s ,
-    transform 0.1s ;
+    opacity 0.3s ,
+    transform 0.3s ;
 }
 
 .slideMonth-enter-from {
@@ -133,8 +136,8 @@
 .slideMonthRight-enter-active,
 .slideMonthRight-leave-active {
   transition:
-    opacity 0.1s,
-    transform 0.1s ;
+    opacity 0.3s,
+    transform 0.3s ;
 }
 
 .slideMonthRight-enter-from {

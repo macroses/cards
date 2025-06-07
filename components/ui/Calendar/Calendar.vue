@@ -86,7 +86,7 @@ function onTouchEnd(event: TouchEvent) {
 
 <template>
   <div
-    v-auto-animate="{ duration: 100 }"
+    v-auto-animate="{ duration: 300 }"
     class="calendar"
     :class="{
       'copy-mode': copyMode,
@@ -118,19 +118,22 @@ function onTouchEnd(event: TouchEvent) {
           aria-label="previous month"
         />
       </TheButton>
-      <TheButton
-        v-if="!isCurrentMonth"
-        variant="ghost"
-        icon-only
-        :disabled="isCurrentMonth"
-        @click="nowMonth"
-      >
-        <TheIcon
-          icon-name="arrow-rotate-left"
-          width="18"
-          aria-label="current month"
-        />
-      </TheButton>
+      <div v-auto-animate="{ duration: 300 }" class="current-month">
+        <TheButton
+          v-if="!isCurrentMonth"
+          variant="ghost"
+          icon-only
+          class="button--current-month"
+          :disabled="isCurrentMonth"
+          @click="nowMonth"
+        >
+          <TheIcon
+            icon-name="arrow-rotate-left"
+            width="18"
+            aria-label="current month"
+          />
+        </TheButton>
+      </div>
 
       <Transition
         mode="out-in"

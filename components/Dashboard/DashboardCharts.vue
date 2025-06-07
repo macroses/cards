@@ -36,18 +36,18 @@ const availableCharts = computed(() => {
   return charts.value.filter((_, index) => !collectedChartIds.value.includes(index))
 })
 
-async function addChartToCollection(chartId: number) {
+function addChartToCollection(chartId: number) {
   if (!document.startViewTransition) {
     collectedChartIds.value.push(chartId)
     return
   }
 
-  await document.startViewTransition(() => {
+  document.startViewTransition(() => {
     collectedChartIds.value.push(chartId)
-  }).finished
+  })
 }
 
-async function onChartRemoved(chartId: number) {
+function onChartRemoved(chartId: number) {
   const index = collectedChartIds.value.indexOf(chartId)
 
   if (index !== -1 || !document.startViewTransition) {
@@ -55,9 +55,9 @@ async function onChartRemoved(chartId: number) {
     return
   }
 
-  await document.startViewTransition(() => {
+  document.startViewTransition(() => {
     collectedChartIds.value.splice(index, 1)
-  }).finished
+  })
 }
 
 function handleChartClick(chartDate: string) {
