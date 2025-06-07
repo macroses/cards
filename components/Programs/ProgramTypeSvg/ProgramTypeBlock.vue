@@ -1,25 +1,59 @@
+<script setup lang="ts">
+const animationKey = ref(0)
+let timer: NodeJS.Timeout
+
+function resetAnimation() {
+  const animationDuration = 8000
+
+  if (timer) {
+    clearInterval(timer)
+  }
+
+  timer = setInterval(() => {
+    animationKey.value++
+  }, animationDuration)
+}
+
+onMounted(() => {
+  resetAnimation()
+})
+</script>
+
 <template>
-  <svg class="programs-list__item-svg" width="281" height="131" viewBox="0 0 281 131" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    :key="animationKey"
+    class="programs-list__item-svg animation-container" width="281" height="131"
+    viewBox="0 0 281 131"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <rect width="281" height="131" fill="#D9D9D9" fill-opacity="0.15" />
 
-    <rect id="accumulation-1" y="29" width="15.4348" height="102" fill="#BFD5DA" />
-    <rect id="accumulation-2" x="18.5217" y="29" width="15.4348" height="102" fill="#BFD5DA" />
-    <rect id="accumulation-3" x="37.0435" y="29" width="15.4348" height="102" fill="#BFD5DA" />
-    <rect id="accumulation-4" x="55.5652" y="29" width="15.4348" height="102" fill="#BFD5DA" />
+    <!-- Accumulation -->
+    <rect x="0" y="29" width="15.4348" height="102" class="bar bar--accumulation" style="--index: 0" fill="#BFD5DA" />
+    <rect x="18.5217" y="29" width="15.4348" height="102" class="bar bar--accumulation" style="--index: 1" fill="#BFD5DA" />
+    <rect x="37.0435" y="29" width="15.4348" height="102" class="bar bar--accumulation" style="--index: 2" fill="#BFD5DA" />
+    <rect x="55.5652" y="29" width="15.4348" height="102" class="bar bar--accumulation" style="--index: 3" fill="#BFD5DA" />
 
-    <rect id="realization-1" x="190" y="80" width="15" height="51" fill="#E89395" />
-    <rect id="realization-2" x="210" y="80" width="15" height="51" fill="#E89395" />
-    <rect id="realization-3" x="230" y="80" width="15" height="51" fill="#E89395" />
-    <rect id="realization-4" x="250" y="80" width="15" height="51" fill="#E89395" />
+    <!-- Transition Week 1 -->
+    <rect x="75.5" y="8.5" width="13" height="122" class="bar bar--transition1" fill="#D9D9D9" stroke="#CECECE" />
 
-    <rect id="transformation-1" x="93" y="53" width="15" height="78" fill="#BFA0B5" />
-    <rect id="transformation-2" x="112" y="53" width="15" height="78" fill="#BFA0B5" />
-    <rect id="transformation-3" x="132" y="53" width="15" height="78" fill="#BFA0B5" />
-    <rect id="transformation-4" x="152" y="53" width="15" height="78" fill="#BFA0B5" />
+    <!-- Transformation -->
+    <rect x="93" y="53" width="15" height="78" class="bar bar--transformation" style="--index: 0" fill="#BFA0B5" />
+    <rect x="112" y="53" width="15" height="78" class="bar bar--transformation" style="--index: 1" fill="#BFA0B5" />
+    <rect x="132" y="53" width="15" height="78" class="bar bar--transformation" style="--index: 2" fill="#BFA0B5" />
+    <rect x="152" y="53" width="15" height="78" class="bar bar--transformation" style="--index: 3" fill="#BFA0B5" />
 
-    <rect id="transition-week-1" x="75.5" y="8.5" width="13" height="122" fill="#D9D9D9" stroke="#CECECE" />
-    <rect id="transition-week-3" x="268" y="8" width="13" height="123" fill="#D9D9D9" />
-    <rect id="transition-week-2" x="172" y="8" width="14" height="123" fill="#D9D9D9" />
+    <!-- Transition Week 2 -->
+    <rect x="172" y="8" width="14" height="123" class="bar bar--transition2" fill="#D9D9D9" />
+
+    <!-- Realization -->
+    <rect x="190" y="80" width="15" height="51" class="bar bar--realization" style="--index: 0" fill="#E89395" />
+    <rect x="210" y="80" width="15" height="51" class="bar bar--realization" style="--index: 1" fill="#E89395" />
+    <rect x="230" y="80" width="15" height="51" class="bar bar--realization" style="--index: 2" fill="#E89395" />
+    <rect x="250" y="80" width="15" height="51" class="bar bar--realization" style="--index: 3" fill="#E89395" />
+
+    <!-- Transition Week 3 -->
+    <rect x="268" y="8" width="13" height="123" class="bar bar--transition3" fill="#D9D9D9" />
   </svg>
 </template>
 
@@ -27,5 +61,83 @@
 .programs-list__item-svg {
   width: 100%;
   height: auto;
+}
+
+.animation-container {
+  animation: reset-animation 7.5s linear infinite;
+}
+
+.bar {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: forwards;
+}
+
+.bar--accumulation {
+  animation-name: grow-wave;
+  animation-duration: 0.7s;
+  animation-delay: calc(0s + var(--index) * 0.2s);
+}
+
+.bar--transition1 {
+  animation: grow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s forwards;
+}
+
+.bar--transformation {
+  animation-name: grow-wave;
+  animation-duration: 0.7s;
+  animation-delay: calc(1.7s + var(--index) * 0.2s);
+}
+
+.bar--transition2 {
+  animation: grow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 3s forwards;
+}
+
+.bar--realization {
+  animation-name: grow-wave;
+  animation-duration: 0.7s;
+  animation-delay: calc(3.4s + var(--index) * 0.2s);
+}
+
+.bar--transition3 {
+  animation: grow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 4.7s forwards;
+}
+
+@keyframes grow {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes grow-wave {
+  0% {
+    transform: scaleY(0) translateX(-2px);
+    opacity: 0;
+  }
+  60% {
+    transform: scaleY(1.05) translateX(1px);
+    opacity: 1;
+  }
+  80% {
+    transform: scaleY(0.97) translateX(0);
+  }
+  100% {
+    transform: scaleY(1) translateX(0);
+  }
+}
+
+@keyframes reset-animation {
+  0%, 99.9% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.999;
+  }
 }
 </style>
