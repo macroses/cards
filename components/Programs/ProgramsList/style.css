@@ -1,6 +1,6 @@
 .programs-list {
   display: flex;
-  gap: 16px;
+  gap: 32px;
 
   @media (width <= 1024px) {
     gap: 8px;
@@ -14,6 +14,11 @@
 .programs-list__item {
   flex: 1;
   min-width: 0;
+  border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
+  box-shadow: oklch(from var(--color-accent) l c h / 0.1) -4px 9px 25px -6px;
+  background-color: #fff;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .programs-list__item-title {
@@ -47,12 +52,16 @@
 }
 
 .programs-list__item-svg-wrap {
-  border: 1px solid oklch(from var(--color-accent) l c h / 0.5);
-  border-radius: 12px;
+  border-bottom: 1px solid var(--color-border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 8px;
   position: relative;
-  margin-bottom: 32px;
+}
+
+.programs-list__item-content {
+  background-color: var(--color-white);
+  padding: 16px;
+  border-radius: 12px;
 }

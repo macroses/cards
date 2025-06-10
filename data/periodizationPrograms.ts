@@ -1,5 +1,6 @@
 import ProgramTypeBlock from '@/components/Programs/ProgramTypeSvg/ProgramTypeBlock.vue'
 import ProgramTypeLinear from '@/components/Programs/ProgramTypeSvg/ProgramTypeLinear.vue'
+import ProgramTypeUndulating from '@/components/Programs/ProgramTypeSvg/ProgramTypeUndulating.vue'
 
 export const periodizationPrograms = [
   {
@@ -16,7 +17,7 @@ export const periodizationPrograms = [
   {
     title: 'Волновая',
     path: '/programs/undulating',
-    component: ProgramTypeBlock,
+    component: ProgramTypeUndulating,
     theses: [
       'Частые изменения интенсивности и объёма тренировок',
       'Развитие нескольких физических качеств.',

@@ -22,38 +22,38 @@ onMounted(() => {
 <template>
   <svg
     :key="animationKey"
-    class="programs-list__item-svg animation-container" width="281" height="131"
-    viewBox="0 0 281 131"
+    class="programs-list__item-svg animation-container" width="281" height="250"
+    viewBox="0 0 281 250"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="281" height="131" fill="#D9D9D9" fill-opacity="0.15" />
+    <rect width="281" height="250" fill="#D9D9D9" fill-opacity="0.15" />
 
     <!-- Accumulation -->
-    <rect x="0" y="29" width="15.4348" height="102" class="bar bar--accumulation" style="--index: 0" fill="#BFD5DA" />
-    <rect x="18.5217" y="29" width="15.4348" height="102" class="bar bar--accumulation" style="--index: 1" fill="#BFD5DA" />
-    <rect x="37.0435" y="29" width="15.4348" height="102" class="bar bar--accumulation" style="--index: 2" fill="#BFD5DA" />
-    <rect x="55.5652" y="29" width="15.4348" height="102" class="bar bar--accumulation" style="--index: 3" fill="#BFD5DA" />
+    <rect x="0" y="55" width="15.4348" height="195" class="bar bar--accumulation" style="--index: 0" fill="#BFD5DA" />
+    <rect x="18.5217" y="55" width="15.4348" height="195" class="bar bar--accumulation" style="--index: 1" fill="#BFD5DA" />
+    <rect x="37.0435" y="55" width="15.4348" height="195" class="bar bar--accumulation" style="--index: 2" fill="#BFD5DA" />
+    <rect x="55.5652" y="55" width="15.4348" height="195" class="bar bar--accumulation" style="--index: 3" fill="#BFD5DA" />
 
     <!-- Transition Week 1 -->
-    <rect x="75.5" y="8.5" width="13" height="122" class="bar bar--transition1" fill="#D9D9D9" stroke="#CECECE" />
+    <rect x="75.5" y="16" width="13" height="234" class="bar bar--transition1" fill="#D9D9D9" stroke="#CECECE" />
 
     <!-- Transformation -->
-    <rect x="93" y="53" width="15" height="78" class="bar bar--transformation" style="--index: 0" fill="#BFA0B5" />
-    <rect x="112" y="53" width="15" height="78" class="bar bar--transformation" style="--index: 1" fill="#BFA0B5" />
-    <rect x="132" y="53" width="15" height="78" class="bar bar--transformation" style="--index: 2" fill="#BFA0B5" />
-    <rect x="152" y="53" width="15" height="78" class="bar bar--transformation" style="--index: 3" fill="#BFA0B5" />
+    <rect x="93" y="101" width="15" height="149" class="bar bar--transformation" style="--index: 0" fill="#BFA0B5" />
+    <rect x="112" y="101" width="15" height="149" class="bar bar--transformation" style="--index: 1" fill="#BFA0B5" />
+    <rect x="132" y="101" width="15" height="149" class="bar bar--transformation" style="--index: 2" fill="#BFA0B5" />
+    <rect x="152" y="101" width="15" height="149" class="bar bar--transformation" style="--index: 3" fill="#BFA0B5" />
 
     <!-- Transition Week 2 -->
-    <rect x="172" y="8" width="14" height="123" class="bar bar--transition2" fill="#D9D9D9" />
+    <rect x="172" y="16" width="14" height="234" class="bar bar--transition2" fill="#D9D9D9" />
 
     <!-- Realization -->
-    <rect x="190" y="80" width="15" height="51" class="bar bar--realization" style="--index: 0" fill="#E89395" />
-    <rect x="210" y="80" width="15" height="51" class="bar bar--realization" style="--index: 1" fill="#E89395" />
-    <rect x="230" y="80" width="15" height="51" class="bar bar--realization" style="--index: 2" fill="#E89395" />
-    <rect x="250" y="80" width="15" height="51" class="bar bar--realization" style="--index: 3" fill="#E89395" />
+    <rect x="190" y="152" width="15" height="98" class="bar bar--realization" style="--index: 0" fill="#E89395" />
+    <rect x="210" y="152" width="15" height="98" class="bar bar--realization" style="--index: 1" fill="#E89395" />
+    <rect x="230" y="152" width="15" height="98" class="bar bar--realization" style="--index: 2" fill="#E89395" />
+    <rect x="250" y="152" width="15" height="98" class="bar bar--realization" style="--index: 3" fill="#E89395" />
 
     <!-- Transition Week 3 -->
-    <rect x="268" y="8" width="13" height="123" class="bar bar--transition3" fill="#D9D9D9" />
+    <rect x="268" y="16" width="13" height="234" class="bar bar--transition3" fill="#D9D9D9" />
   </svg>
 </template>
 

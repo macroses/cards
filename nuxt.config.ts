@@ -5,6 +5,10 @@ export default defineNuxtConfig({
 
   css: ['~/assets/styles/main.css'],
 
+  experimental: {
+    viewTransition: true,
+  },
+
   modules: [
     '@nuxt/content',
     '@nuxtjs/i18n',
