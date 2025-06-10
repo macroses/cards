@@ -34,8 +34,6 @@
   flex-direction: column;
   gap: 12px;
 
-  view-transition-name: none;
-
   border: 1px solid oklch(from var(--color-accent) l c h / 0.2);
   padding: 12px;
   border-radius: 20px;
@@ -47,7 +45,6 @@
   }
 
   @media (width <= 768px) {
-    view-transition-name: exercises-list;
     position: fixed;
     bottom: 64px;
     width: calc(100% - 16px);

@@ -40,17 +40,7 @@ const isTitleValid = shallowRef(false)
 const exercisesListRef = useTemplateRef<HTMLDivElement>('exercisesListRef')
 
 async function handleSelectExercise(exercise: WorkoutExercise): Promise<void> {
-  if (!document.startViewTransition) {
-    await selectExercise(exercise, workout)
-    return
-  }
-
-  const transition = document.startViewTransition(async () => {
-    await nextTick()
-    await selectExercise(exercise, workout)
-  })
-
-  await transition.finished
+  await selectExercise(exercise, workout)
 }
 
 function handleRemoveExercise(exerciseId: string): void {
@@ -76,9 +66,7 @@ const isMobileListVisible = shallowRef(false)
 const isMobile = useMediaQuery('(max-width: 768px)')
 
 function toggleMobileList() {
-  document.startViewTransition(() => {
-    isMobileListVisible.value = !isMobileListVisible.value
-  })
+  isMobileListVisible.value = !isMobileListVisible.value
 }
 
 const isWorkoutValid = computed(() => {
@@ -201,7 +189,6 @@ onClickOutside(exercisesListRef, async () => {
         <TheButton
           v-if="isMobile && !isMobileListVisible"
           class="show-exercises-list"
-          :style="{ viewTransitionName: 'exercises-list' }"
           @click="toggleMobileList"
         >
           {{ $t('exercises.exercises') }}

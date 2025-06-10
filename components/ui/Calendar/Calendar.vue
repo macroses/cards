@@ -118,22 +118,20 @@ function onTouchEnd(event: TouchEvent) {
           aria-label="previous month"
         />
       </TheButton>
-      <div v-auto-animate="{ duration: 300 }" class="current-month">
-        <TheButton
-          v-if="!isCurrentMonth"
-          variant="ghost"
-          icon-only
-          class="button--current-month"
-          :disabled="isCurrentMonth"
-          @click="nowMonth"
-        >
-          <TheIcon
-            icon-name="arrow-rotate-left"
-            width="18"
-            aria-label="current month"
-          />
-        </TheButton>
-      </div>
+      <TheButton
+        v-if="!isCurrentMonth"
+        variant="ghost"
+        icon-only
+        class="button--current-month"
+        :disabled="isCurrentMonth"
+        @click="nowMonth"
+      >
+        <TheIcon
+          icon-name="arrow-rotate-left"
+          width="18"
+          aria-label="current month"
+        />
+      </TheButton>
 
       <Transition
         mode="out-in"

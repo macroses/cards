@@ -35,10 +35,4 @@ const emit = defineEmits<{
   position: relative;
   contain: layout;
 }
-
-body:not(:has(.modal)) {
-  & .exercise-item {
-    view-transition-name: var(--exercise-transition-name);
-  }
-}
 </style>

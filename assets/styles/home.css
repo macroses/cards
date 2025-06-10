@@ -34,7 +34,6 @@
   flex-direction: column;
   gap: 16px;
   grid-area: calendar;
-  view-transition-name: calendar-block;
 
   @media (width <= 1023px) {
     max-width: 100%;

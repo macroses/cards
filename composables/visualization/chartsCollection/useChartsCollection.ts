@@ -46,19 +46,7 @@ export function useChartsCollection(props: ChartsCollectionProps, emit: {
       transitionTimer.value = null
     }
 
-    try {
-      await document.startViewTransition(async () => {
-        // delay for Safari
-        await new Promise((resolve) => {
-          transitionTimer.value = setTimeout(resolve, 0) as unknown as number
-        })
-        emit('chartRemoved', chartId)
-      }).finished
-    }
-    catch (error) {
-      console.error('View transition error:', error)
-      emit('chartRemoved', chartId)
-    }
+    emit('chartRemoved', chartId)
   }
 
   function selectTab(index: number): void {

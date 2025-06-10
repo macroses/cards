@@ -37,27 +37,15 @@ const availableCharts = computed(() => {
 })
 
 function addChartToCollection(chartId: number) {
-  if (!document.startViewTransition) {
-    collectedChartIds.value.push(chartId)
-    return
-  }
-
-  document.startViewTransition(() => {
-    collectedChartIds.value.push(chartId)
-  })
+  collectedChartIds.value.push(chartId)
 }
 
 function onChartRemoved(chartId: number) {
   const index = collectedChartIds.value.indexOf(chartId)
 
-  if (index !== -1 || !document.startViewTransition) {
+  if (index !== -1) {
     collectedChartIds.value.splice(index, 1)
-    return
   }
-
-  document.startViewTransition(() => {
-    collectedChartIds.value.splice(index, 1)
-  })
 }
 
 function handleChartClick(chartDate: string) {

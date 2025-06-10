@@ -17,10 +17,8 @@ const isChartsDisabled = useLocalStorage('charts-disabled', false)
 const isMounted = ref(false)
 
 function toggleCharts() {
-  document.startViewTransition(() => {
-    isChartsDisabled.value = !isChartsDisabled.value
-    document.body.classList.toggle('charts-disabled')
-  })
+  isChartsDisabled.value = !isChartsDisabled.value
+  document.body.classList.toggle('charts-disabled')
 }
 
 function getVariant(path: string) {

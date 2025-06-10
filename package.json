@@ -34,7 +34,7 @@
     "better-sqlite3": "^11.10.0",
     "dayjs-nuxt": "^2.1.11",
     "maska": "^3.1.1",
-    "motion-v": "^1.0.2",
+    "motion-v": "^1.2.1",
     "nuxt": "^3.17.3",
     "nuxt-echarts": "^0.3.1",
     "vue": "latest",

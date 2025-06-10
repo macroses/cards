@@ -11,16 +11,10 @@ const isProfilePopupVisible = shallowRef(false)
 const profilePopup = useTemplateRef<HTMLDivElement>('profilePopup')
 
 function toggleProfilePopup() {
-  document.startViewTransition(() => {
-    isProfilePopupVisible.value = !isProfilePopupVisible.value
-  })
+  isProfilePopupVisible.value = !isProfilePopupVisible.value
 }
 
-onClickOutside(profilePopup, () => {
-  document.startViewTransition(() => {
-    isProfilePopupVisible.value = false
-  })
-})
+onClickOutside(profilePopup, () => isProfilePopupVisible.value = false)
 </script>
 
 <template>
@@ -33,7 +27,6 @@ onClickOutside(profilePopup, () => {
     <TheButton
       class="profile-button"
       variant="secondary"
-      :style="!isProfilePopupVisible ? 'view-transition-name: profile-morph' : ''"
       icon-only
       @click="toggleProfilePopup"
     >
@@ -46,7 +39,6 @@ onClickOutside(profilePopup, () => {
     <div
       v-if="isProfilePopupVisible"
       class="profile-popup"
-      style="view-transition-name: profile-morph"
     >
       <ul class="profile-popup__list">
         <li class="profile-popup__item">

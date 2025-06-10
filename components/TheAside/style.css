@@ -27,7 +27,6 @@
     bottom: 4px;
     width: calc(100% - 16px);
     left: 8px;
-    view-transition-name: aside-nav;
   }
 }
 
@@ -35,10 +34,6 @@ body:has(.modal) .aside-nav {
   @media (width <= 768px) {
     transform: translateY(150px);
   }
-}
-
-::view-transition-group(aside-nav) {
-  z-index: 1;
 }
 
 .aside-nav__list {

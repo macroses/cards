@@ -92,7 +92,3 @@ main {
     padding-left: 0;
   }
 }
-
-::view-transition-group(*) {
-  z-index: 1;
-}

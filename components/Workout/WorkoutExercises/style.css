@@ -54,11 +54,3 @@
   position: relative;
   contain: layout;
 }
-
-body:not(:has(.modal)) {
-  --exercise-transition-name: 0;
-
-  & .workout__exercises-item-name {
-    view-transition-name: var(--exercise-transition-name);
-  }
-}

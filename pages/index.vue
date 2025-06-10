@@ -175,7 +175,6 @@ function setDateByChart(date: string) {
     <div
       v-if="isStatisticVisible"
       class="dashboard__charts"
-      style="view-transition-name: dashboard-charts"
     >
       <DashboardCharts @chart-date="setDateByChart" />
     </div>
@@ -183,7 +182,6 @@ function setDateByChart(date: string) {
     <div
       v-if="isStatisticVisible"
       class="global-statistics__wr"
-      style="view-transition-name: global-statistics"
     >
       <GlobalStatistics :statistics />
     </div>
