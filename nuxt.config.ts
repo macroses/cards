@@ -3,6 +3,10 @@ import { process } from 'std-env'
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
+
   css: ['~/assets/styles/main.css'],
 
   modules: [

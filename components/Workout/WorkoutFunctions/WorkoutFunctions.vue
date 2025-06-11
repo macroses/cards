@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { WorkoutResponse } from '~/ts'
 import type { WorkoutFunctionsProps } from '~/ts/componentProps'
+import { Motion } from 'motion-v'
 import TheModal from '~/components/ui/TheModal/TheModal.vue'
 import { KEYS, PAGES } from '~/constants'
 import { getCachedData, saveCacheData } from '~/utils/cacheRunnedWorkout'
@@ -85,6 +86,28 @@ async function toggleDropdown() {
   isDropdownOpen.value = !isDropdownOpen.value
 }
 
+const animateConfig = computed(() => {
+  return {
+    animate: {
+      scale: isDropdownOpen.value ? 1 : 0,
+      y: isDropdownOpen.value ? 0 : 10,
+    },
+    transition: {
+      duration: 0.25,
+      scale: {
+        type: 'spring',
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+    exit: {
+      transition: {
+        duration: 0.25,
+      },
+    },
+  }
+})
+
 onClickOutside(dropdownRef, () => {
   isDropdownOpen.value = false
 })
@@ -132,38 +155,41 @@ onClickOutside(dropdownRef, () => {
             />
           </TheButton>
 
-          <ul
-            v-if="isDropdownOpen"
-            class="date-menu__dropdown-menu"
+          <Motion
+            :animate="animateConfig.animate"
+            :transition="animateConfig.transition"
+            :exit="animateConfig.exit"
           >
-            <li>
-              <button
-                class="date-menu__dropdown-item date-menu__dropdown-item--copy"
-                @click.stop="handleCopyWorkout"
-              >
-                <TheIcon icon-name="copy" width="18" />
-                {{ $t('main_navigation.copy_workout') }}
-              </button>
-            </li>
-            <li v-if="!isWorkoutCompleted && !isWorkoutActive">
-              <button
-                class="date-menu__dropdown-item date-menu__dropdown-item--update"
-                @click="emit('updateWorkout', workoutId)"
-              >
-                <TheIcon icon-name="pen-to-square" width="18" />
-                {{ $t('main_navigation.edit_workout') }}
-              </button>
-            </li>
-            <li>
-              <button
-                class="date-menu__dropdown-item date-menu__dropdown-item--delete"
-                @click.stop="emit('deleteWorkout')"
-              >
-                <TheIcon icon-name="trash-can" width="18" />
-                {{ $t('main_navigation.delete_workout') }}
-              </button>
-            </li>
-          </ul>
+            <ul class="date-menu__dropdown-menu">
+              <li>
+                <button
+                  class="date-menu__dropdown-item date-menu__dropdown-item--copy"
+                  @click.stop="handleCopyWorkout"
+                >
+                  <TheIcon icon-name="copy" width="18" />
+                  {{ $t('main_navigation.copy_workout') }}
+                </button>
+              </li>
+              <li v-if="!isWorkoutCompleted && !isWorkoutActive">
+                <button
+                  class="date-menu__dropdown-item date-menu__dropdown-item--update"
+                  @click="emit('updateWorkout', workoutId)"
+                >
+                  <TheIcon icon-name="pen-to-square" width="18" />
+                  {{ $t('main_navigation.edit_workout') }}
+                </button>
+              </li>
+              <li>
+                <button
+                  class="date-menu__dropdown-item date-menu__dropdown-item--delete"
+                  @click.stop="emit('deleteWorkout')"
+                >
+                  <TheIcon icon-name="trash-can" width="18" />
+                  {{ $t('main_navigation.delete_workout') }}
+                </button>
+              </li>
+            </ul>
+          </Motion>
         </div>
       </li>
     </ul>

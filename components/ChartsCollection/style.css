@@ -98,7 +98,7 @@
   border: none;
   cursor: pointer;
   color: var(--color-accent);
-  transition: all 0.2s ease;
+  transition: all var(--base-transition);
   border-bottom: 2px solid transparent;
 }
 
@@ -132,7 +132,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--base-transition);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -177,7 +177,9 @@
 body:has(.copy-mode) .chart-container,
 body:has(.copy-mode) .global-statistics,
 body:has(.copy-mode) .header,
-body:has(.copy-mode) .main-navigation {
+body:has(.copy-mode) .main-navigation,
+body:has(.copy-mode) .aside-nav,
+body:has(.copy-mode) .dashboard-charts__list {
   filter: blur(10px);
   pointer-events: none;
 }
