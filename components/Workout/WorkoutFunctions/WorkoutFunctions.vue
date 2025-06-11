@@ -89,8 +89,8 @@ async function toggleDropdown() {
 const animateConfig = computed(() => {
   return {
     animate: {
+      opacity: isDropdownOpen.value ? 1 : 0,
       scale: isDropdownOpen.value ? 1 : 0,
-      y: isDropdownOpen.value ? 0 : 10,
     },
     transition: {
       duration: 0.25,
