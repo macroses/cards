@@ -15,6 +15,29 @@ function toggleProfilePopup() {
   isProfilePopupVisible.value = !isProfilePopupVisible.value
 }
 
+const animateConfig = computed(() => {
+  return {
+    initial: {
+      opacity: 0,
+      scale: 0,
+      y: 10,
+    },
+    animate: {
+      opacity: isProfilePopupVisible.value ? 1 : 0,
+      scale: isProfilePopupVisible.value ? 1 : 0,
+      y: isProfilePopupVisible.value ? 0 : 10,
+    },
+    transition: {
+      duration: 0.2,
+      scale: {
+        type: 'spring',
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+  }
+})
+
 onClickOutside(profilePopup, () => isProfilePopupVisible.value = false)
 </script>
 
@@ -38,19 +61,9 @@ onClickOutside(profilePopup, () => isProfilePopupVisible.value = false)
     </TheButton>
 
     <Motion
-      :animate="{
-        opacity: isProfilePopupVisible ? 1 : 0,
-        scale: isProfilePopupVisible ? 1 : 0,
-        y: isProfilePopupVisible ? 0 : -10,
-      }"
-      :transition="{
-        duration: 0.2,
-        scale: {
-          type: 'spring',
-          stiffness: 300,
-          damping: 20,
-        },
-      }"
+      :initial="animateConfig.initial"
+      :animate="animateConfig.animate"
+      :transition="animateConfig.transition"
     >
       <div class="profile-popup">
         <ul class="profile-popup__list">

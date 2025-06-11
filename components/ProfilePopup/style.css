@@ -14,7 +14,7 @@
   z-index: 2;
 
   @media (width <= 768px) {
-    bottom: calc(100% + 16px);
+    bottom: 47px;
     left: auto;
     right: -8px;
   }
