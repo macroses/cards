@@ -69,13 +69,13 @@ watch(() => props.selectedExercises, (exercises) => {
     />
     <ul
       v-if="selectedExercises.length"
-      v-auto-animate="{ duration: 300 }"
+      v-auto-animate="{ duration: 250 }"
       class="workout__exercises"
     >
       <li
         v-for="exercise in selectedExercises"
         :key="exercise.id"
-        v-auto-animate="{ duration: 300 }"
+        v-auto-animate="{ duration: 250 }"
         class="workout__exercises-item"
         :class="{ active: activeExerciseId === exercise.id }"
       >

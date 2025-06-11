@@ -54,7 +54,7 @@ function getExerciseSessions() {
 <template>
   <div class="exercise-form__wr">
     <form
-      v-auto-animate="{ duration: 300 }"
+      v-auto-animate="{ duration: 250 }"
       class="exercise-form"
       @submit.prevent="appendSession"
     >
@@ -84,7 +84,7 @@ function getExerciseSessions() {
       </div>
       <ul
         v-if="getExerciseSessions().length"
-        v-auto-animate="{ duration: 300 }"
+        v-auto-animate="{ duration: 250 }"
         class="workout-form__sets"
       >
         <li class="workout-form__sets-header">

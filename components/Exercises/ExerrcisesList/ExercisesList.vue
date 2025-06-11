@@ -79,7 +79,7 @@ function isExerciseSelected(exerciseId: string) {
     <li
       v-for="group in groupedExercises"
       :key="group.primary"
-      v-auto-animate="{ duration: 300 }"
+      v-auto-animate="{ duration: 250 }"
       class="muscle-item"
       :class="{ active: activeGroupId === group.primary }"
     >

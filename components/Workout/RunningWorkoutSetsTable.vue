@@ -90,7 +90,7 @@ function handleDifficultyChange(setId: string, value: number | undefined) {
     :class="{ active: activeExerciseId === exerciseId }"
   >
     <div
-      v-auto-animate="{ duration: 300 }"
+      v-auto-animate="{ duration: 250 }"
       class="sets-table__content"
     >
       <RunningWorkoutTableHead />

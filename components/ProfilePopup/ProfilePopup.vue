@@ -41,19 +41,15 @@ onClickOutside(profilePopup, () => isProfilePopupVisible.value = false)
       :animate="{
         opacity: isProfilePopupVisible ? 1 : 0,
         scale: isProfilePopupVisible ? 1 : 0,
-        y: isProfilePopupVisible ? 0 : 10,
+        y: isProfilePopupVisible ? 0 : -10,
       }"
       :transition="{
         duration: 0.2,
-        ease: [0.25, 0.1, 0.25, 1],
         scale: {
           type: 'spring',
           stiffness: 300,
           damping: 20,
         },
-      }"
-      :style="{
-        transformOrigin: 'top center',
       }"
     >
       <div class="profile-popup">

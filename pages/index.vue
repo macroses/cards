@@ -144,7 +144,7 @@ function setDateByChart(date: string) {
   >
     <div class="home-page__calendar">
       <ContainerUI
-        v-auto-animate="{ duration: 300 }"
+        v-auto-animate="{ duration: 250 }"
         class="calendar-wrap"
       >
         <Calendar

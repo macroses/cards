@@ -73,9 +73,6 @@ function handleChartClick(chartDate: string) {
         v-for="chart in availableCharts"
         :key="chart.title"
         class="chart-container available clickable"
-        :style="{
-          '--chart-transition-name': `chart-${charts.indexOf(chart)}`,
-        }"
       >
         <div class="chart-container__header">
           <h3 class="chart-container__title">

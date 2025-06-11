@@ -37,7 +37,6 @@ function handleChartClick(chartDate: string) {
           'button--secondary': activeTabIndex !== index,
           'button': collectedCharts.length > 1,
         }"
-        :style="{ '--chart-transition-name': `chart-${chart.id}` }"
         @click="selectTab(index)"
       >
         {{ $t(chart.title) }}

@@ -135,7 +135,7 @@ useHead({
             class="workout-content__card"
           >
             <li
-              v-auto-animate="{ duration: 300 }"
+              v-auto-animate="{ duration: 250 }"
               class="workout-content__item"
             >
               <div
