@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { Languages } from '~/composables/ui/setLanguage/useChangeLanguage'
+import { Motion } from 'motion-v'
 
 const logoutConfirmModal = useTemplateRef<typeof TheModal>('logoutConfirmModal')
 
@@ -36,70 +37,87 @@ onClickOutside(profilePopup, () => isProfilePopupVisible.value = false)
       />
     </TheButton>
 
-    <div
-      v-if="isProfilePopupVisible"
-      class="profile-popup"
+    <Motion
+      :animate="{
+        opacity: isProfilePopupVisible ? 1 : 0,
+        scale: isProfilePopupVisible ? 1 : 0,
+        y: isProfilePopupVisible ? 0 : 10,
+      }"
+      :transition="{
+        duration: 0.2,
+        ease: [0.25, 0.1, 0.25, 1],
+        scale: {
+          type: 'spring',
+          stiffness: 300,
+          damping: 20,
+        },
+      }"
+      :style="{
+        transformOrigin: 'top center',
+      }"
     >
-      <ul class="profile-popup__list">
-        <li class="profile-popup__item">
-          <TheButton
-            v-for="lang in ['en', 'ru', 'fr']"
-            :key="lang"
-            icon-only
-            :variant="locale === lang ? 'secondary' : 'transparent'"
-            @click="changeLanguage(lang as Languages)"
-          >
-            <NuxtImg
-              :src="`/icons/${lang}.svg`"
-              width="20"
-              height="20px"
-            />
-          </TheButton>
-        </li>
-        <li>
-          <TheButton
-            v-tooltip="{ content: 'Logout', position: 'right' }"
-            variant="danger"
-            class="logout-button"
-            @click="logoutConfirmModal?.openModal()"
-          >
-            <TheIcon
-              icon-name="right-from-bracket"
-              width="20"
-            />
-            Logout
-          </TheButton>
-        </li>
-      </ul>
-
-      <TheModal ref="logoutConfirmModal">
-        <template #content>
-          <div class="logout-modal__content">
-            <TheIcon
-              icon-name="light-emergency-on"
-              width="32"
-            />
-            <p>Точно хотите выйти?</p>
-          </div>
-        </template>
-        <template #footer>
-          <div class="logout-modal__footer">
+      <div class="profile-popup">
+        <ul class="profile-popup__list">
+          <li class="profile-popup__item">
             <TheButton
-              variant="secondary"
-              @click="logoutConfirmModal?.closeModal()"
+              v-for="lang in ['en', 'ru', 'fr']"
+              :key="lang"
+              icon-only
+              :variant="locale === lang ? 'secondary' : 'transparent'"
+              @click="changeLanguage(lang as Languages)"
             >
-              {{ $t('back') }}
+              <NuxtImg
+                :src="`/icons/${lang}.svg`"
+                width="20"
+                height="20px"
+              />
             </TheButton>
+          </li>
+          <li>
             <TheButton
+              v-tooltip="{ content: 'Logout', position: 'right' }"
               variant="danger"
-              @click="signOut"
+              class="logout-button"
+              @click="logoutConfirmModal?.openModal()"
             >
-              {{ $t('signOut') }}
+              <TheIcon
+                icon-name="right-from-bracket"
+                width="20"
+              />
+              Logout
             </TheButton>
-          </div>
-        </template>
-      </TheModal>
-    </div>
+          </li>
+        </ul>
+
+        <TheModal ref="logoutConfirmModal">
+          <template #content>
+            <div class="logout-modal__content">
+              <TheIcon
+                icon-name="light-emergency-on"
+                width="32"
+              />
+              <p>Точно хотите выйти?</p>
+            </div>
+          </template>
+          <template #footer>
+            <div class="logout-modal__footer">
+              <TheButton
+                variant="secondary"
+                @click="logoutConfirmModal?.closeModal()"
+              >
+                {{ $t('back') }}
+              </TheButton>
+              <TheButton
+                variant="danger"
+                @click="signOut"
+              >
+                {{ $t('signOut') }}
+              </TheButton>
+            </div>
+          </template>
+        </TheModal>
+      </div>
+    </Motion>
   </div>
 </template>
 

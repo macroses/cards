@@ -45,7 +45,7 @@ function onFocus() {
 
 <template>
   <div
-    v-auto-animate="{ duration: 100 }"
+    v-auto-animate="{ duration: 300 }"
     class="input-container"
   >
     <label

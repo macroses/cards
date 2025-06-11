@@ -47,7 +47,7 @@ defineExpose({ selectValue })
       {{ modelValue }}
     </div>
     <div
-      v-auto-animate="{ duration: 100 }"
+      v-auto-animate="{ duration: 300 }"
       class="dropdown__parent-wr"
     >
       <ul
