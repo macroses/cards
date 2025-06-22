@@ -94,18 +94,10 @@ async function handleDeleteWorkout(id: string) {
 }
 
 const readWorkoutResults = useTemplateRef<typeof TheModal>('readWorkoutResults')
-const selectedExerciseId = shallowRef<string | null>(null)
-const isMobileChartsVisible = shallowRef(false)
-const isMobile = useMediaQuery('(max-width: 768px)')
 
 function showResultModal(workoutId: string) {
   readWorkoutResults.value?.openModal()
   modalSelectedWorkoutId.value = workoutId
-
-  const workout = workouts.value?.find(({ id }) => id === workoutId)
-  if (workout?.exercises.length) {
-    selectedExerciseId.value = workout.exercises[0].exerciseId
-  }
 }
 
 useHead({
@@ -186,58 +178,12 @@ function setDateByChart(date: string) {
       <GlobalStatistics :statistics />
     </div>
 
-    <Transition>
-      <div
-        v-if="isCopyMode"
-        class="copy-mode__popup"
-      >
-        {{ $t('workout.select_date_to_copy') }}
-        <TheButton
-          variant="secondary"
-          icon-only
-          @click="isCopyMode = false"
-        >
-          <TheIcon
-            icon-name="xmark"
-            width="20"
-          />
-        </TheButton>
-      </div>
-    </Transition>
+    <CopyModePopup v-model:is-copy-mode="isCopyMode" />
 
-    <LazyTheModal
+    <LazyWorkoutResultsModal
       ref="readWorkoutResults"
-      :has-close-button="false"
-      class="workout-results__modal"
-    >
-      <template #header>
-        <div class="workout-results__header">
-          <TheButton
-            v-if="isMobile && isMobileChartsVisible"
-            icon-only
-            class="workout-results__back-button"
-            @click="isMobileChartsVisible = false"
-          >
-            <TheIcon
-              icon-name="angle-left"
-              width="20"
-            />
-          </TheButton>
-          <h3>
-            {{ selectedWorkout.title }}
-            <span>{{ dayjs(selectedWorkout.workoutDate).format('DD.MM.YYYY') }}</span>
-          </h3>
-        </div>
-      </template>
-      <template #content>
-        <FinishedWorkoutResult
-          v-if="selectedWorkout"
-          v-model:selected-exercise-id="selectedExerciseId"
-          v-model:is-charts-visible="isMobileChartsVisible"
-          :selected-workout="selectedWorkout"
-        />
-      </template>
-    </LazyTheModal>
+      :selected-workout="selectedWorkout"
+    />
   </div>
 </template>
 
