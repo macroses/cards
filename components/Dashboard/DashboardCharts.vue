@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import ChartsCollection from '../ChartsCollection/ChartsCollection.vue'
-
-const emit = defineEmits<{
-  (event: 'chartDate', chartDate: string): void
-}>()
-
 const {
   charts,
   selectedExercise,
@@ -12,108 +6,47 @@ const {
   getExerciseName,
 } = useGlobalCharts()
 
-onMounted(() => {
-  validateCollectedCharts()
-})
-
-const CHARTS_COLLECTION_KEY = 'dashboard-charts-collection'
-
-const collectedChartIds = useLocalStorage(CHARTS_COLLECTION_KEY, [0])
-
-function validateCollectedCharts() {
-  const validIds = collectedChartIds.value.filter(id => id < charts.value.length)
-
-  if (!validIds.includes(0)) {
-    validIds.unshift(0)
-  }
-
-  collectedChartIds.value = validIds
-}
-
-watch(() => charts.value.length, validateCollectedCharts)
-
-const availableCharts = computed(() => {
-  return charts.value.filter((_, index) => !collectedChartIds.value.includes(index))
-})
-
-function addChartToCollection(chartId: number) {
-  collectedChartIds.value.push(chartId)
-}
-
-function onChartRemoved(chartId: number) {
-  const index = collectedChartIds.value.indexOf(chartId)
-
-  if (index !== -1) {
-    collectedChartIds.value.splice(index, 1)
-  }
-}
-
-function handleChartClick(chartDate: string) {
-  emit('chartDate', chartDate)
-}
+const activeTab = ref(0)
 </script>
 
 <template>
-  <div class="dashboard-charts__list">
-    <ChartsCollection
-      v-model:selected-exercise="selectedExercise"
-      :charts="charts"
-      :popular-exercises="popularExercises"
-      :get-exercise-name="getExerciseName"
-      :collected-chart-ids="collectedChartIds"
-      @chart-removed="onChartRemoved"
-      @chart-date="handleChartClick"
-    />
-
-    <div
-      v-if="availableCharts.length > 0"
-      class="available-charts"
-    >
-      <div
-        v-for="chart in availableCharts"
-        :key="chart.title"
-        class="chart-container available clickable"
+  <ContainerUI class="dashboard-charts__container">
+    <div class="tabs-header">
+      <button
+        v-for="(chart, index) in charts"
+        :key="index"
+        class="tab-button"
+        :class="{ 'tab-button--active': activeTab === index }"
+        @click="activeTab = index"
       >
-        <div class="chart-container__header">
-          <h3 class="chart-container__title">
-            {{ $t(chart.title) }}
-          </h3>
+        {{ $t(chart.title) }}
+      </button>
+    </div>
 
-          <TheButton
-            v-tooltip="{ content: 'Add to collection', position: 'left' }"
-            variant="secondary"
-            icon-only
-            @click.stop="addChartToCollection(charts.indexOf(chart))"
-          >
-            <TheIcon
-              icon-name="merge"
-              width="18"
-              class="add-chart__icon"
-            />
-          </TheButton>
-        </div>
-
+    <div class="tabs-content">
+      <div
+        v-for="(chart, index) in charts"
+        v-show="activeTab === index"
+        :key="index"
+        class="tab-panel"
+      >
         <template v-if="chart.type === 'exercise'">
           <div class="exercise-chart-container">
-            <ul class="exercise-list">
-              <li
+            <div class="exercise-list">
+              <TheButton
                 v-for="exerciseId in popularExercises"
                 :key="exerciseId"
+                :variant="selectedExercise === exerciseId ? 'primary' : 'secondary'"
+                @click="selectedExercise = exerciseId"
               >
-                <TheButton
-                  :variant="selectedExercise === exerciseId ? 'primary' : 'secondary'"
-                  @click.stop="selectedExercise = exerciseId"
-                >
-                  {{ getExerciseName(exerciseId) }}
-                </TheButton>
-              </li>
-            </ul>
+                {{ getExerciseName(exerciseId) }}
+              </TheButton>
+            </div>
             <v-chart
               v-if="chart.option"
               class="chart"
               :option="chart.option"
               autoresize
-              @click="handleChartClick($event.name)"
             />
           </div>
         </template>
@@ -123,18 +56,56 @@ function handleChartClick(chartDate: string) {
           class="chart"
           :option="chart.option"
           autoresize
-          @click="handleChartClick($event.name)"
         />
       </div>
     </div>
-  </div>
+  </ContainerUI>
 </template>
 
 <style src="./style.css" />
 
 <style scoped>
+.dashboard-charts__container {
+  width: 100%;
+}
+
+.tabs-header {
+  display: flex;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 1rem;
+  gap: 0.25rem;
+}
+
+.tab-button {
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.tab-button--active {
+  border-bottom-color: #3b82f6;
+}
+
+.tabs-content {
+  min-height: 350px;
+}
+
 .chart {
   height: 300px;
   width: 100%;
+}
+
+.exercise-chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.exercise-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 </style>

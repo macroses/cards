@@ -138,6 +138,7 @@ function setDateByChart(date: string) {
       <ContainerUI
         v-auto-animate="{ duration: 250 }"
         class="calendar-wrap"
+        :style="{ viewTransitionName: 'calendar' }"
       >
         <Calendar
           v-model="selectedDate"
