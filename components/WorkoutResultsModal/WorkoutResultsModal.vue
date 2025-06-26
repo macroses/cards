@@ -73,3 +73,20 @@ defineExpose({
     </template>
   </theModal>
 </template>
+
+<style scoped>
+.workout-results__header {
+  position: relative;
+}
+
+h3 {
+  margin-bottom: 12px;
+}
+
+.workout-results__back-button {
+  position: absolute;
+  right: 0;
+  top: -4px;
+  z-index: 10;
+}
+</style>

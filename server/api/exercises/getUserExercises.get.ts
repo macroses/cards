@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
       // Parse secondary muscles string back to array
       return exercises.map(exercise => ({
         ...exercise,
-        secondary: exercise.secondary.split(',').filter(Boolean),
+        secondary: exercise.secondary,
       }))
     }
     catch (error: any) {

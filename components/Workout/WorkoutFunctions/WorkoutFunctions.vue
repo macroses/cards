@@ -95,7 +95,7 @@ const animateConfig = computed(() => {
     transition: {
       duration: 0.25,
       scale: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 300,
         damping: 20,
       },

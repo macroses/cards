@@ -9,14 +9,18 @@ import { GLOBAL_DATE, KEYS, PAGES } from '~/constants'
 
 dayjs.extend(duration)
 
+const { t } = useI18n()
+
+useHead({
+  title: computed(() => t('pages.home')),
+})
+
 const selectedDate = useState<Date>(GLOBAL_DATE, () => new Date())
 const workouts = useState<WorkoutResponse[] | null>(KEYS.GLOBAL_WORKOUTS, () => null)
 const globalStats = useState<Statistics | null>(KEYS.GLOBAL_STATISTICS)
 const chartsState = useState<ChartsApiResponse | null>(KEYS.CHARTS_DATA)
 const isCopyMode = shallowRef(false)
 const workoutToCopy = shallowRef<string | null>(null)
-
-const { t } = useI18n()
 
 const localePath = useLocalePath()
 const { deleteWorkout } = useDeleteWorkout()
@@ -62,7 +66,7 @@ async function toEditPage(id: string) {
   await navigateTo(localePath(`${PAGES.WORKOUT}/?edit=${id}`))
 }
 
-async function handleCopyWorkout(): Promise<void> {
+async function handleCopyWorkout() {
   isCopyMode.value = true
   workoutToCopy.value = selectedWorkout.value?.id || null
 }
@@ -99,10 +103,6 @@ function showResultModal(workoutId: string) {
   readWorkoutResults.value?.openModal()
   modalSelectedWorkoutId.value = workoutId
 }
-
-useHead({
-  title: computed(() => t('pages.home')),
-})
 
 const { isLoading: isWorkoutsLoading } = useFetchWorkoutsByUserId()
 
@@ -187,35 +187,3 @@ function setDateByChart(date: string) {
     />
   </div>
 </template>
-
-<style scoped>
-.dashboard {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 2rem;
-  padding: 2rem;
-}
-
-.dashboard__calendar {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.dashboard__actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.workout-results__header {
-  position: relative;
-}
-
-.workout-results__back-button {
-  position: absolute;
-  right: 0;
-  top: -4px;
-  z-index: 10;
-}
-</style>

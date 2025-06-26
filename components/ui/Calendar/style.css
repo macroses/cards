@@ -198,43 +198,43 @@ body:has(.copy-mode) .dashboard-charts__list {
   initial-value: 0turn;
 }
 
-.calendar-wrap:has(.copy-mode)::before,
-.calendar-wrap:has(.copy-mode)::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: conic-gradient(
-    from var(--gradient-angle) in oklch,
-    rgb(255, 0, 0),
-    rgb(0, 0, 255),
-    rgb(230, 0, 255)
-  );
-  border-radius: inherit;
-  animation: rotation 3s linear infinite;
-}
+/*.calendar-wrap:has(.copy-mode)::before,*/
+/*.calendar-wrap:has(.copy-mode)::after {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  inset: 0;*/
+/*  z-index: -1;*/
+/*  background: conic-gradient(*/
+/*    from var(--gradient-angle) in oklch,*/
+/*    rgb(255, 0, 0),*/
+/*    rgb(0, 0, 255),*/
+/*    rgb(230, 0, 255)*/
+/*  );*/
+/*  border-radius: inherit;*/
+/*  animation: rotation 3s linear infinite;*/
+/*}*/
 
-.calendar-wrap::after {
-  filter: blur(20px);
-}
+/*.calendar-wrap::after {*/
+/*  filter: blur(20px);*/
+/*}*/
 
-@keyframes rotation {
-  0% {
-    opacity: 0;
-    --gradient-angle: 0deg;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    --gradient-angle: 180deg;
-    transform: sscale(2);
-  }
-  100% {
-    opacity: 0;
-    --gradient-angle: 360deg;
-    transform: sscale(2);
-  }
-}
+/*@keyframes rotation {*/
+/*  0% {*/
+/*    opacity: 0;*/
+/*    --gradient-angle: 0deg;*/
+/*    transform: scale(1);*/
+/*  }*/
+/*  50% {*/
+/*    opacity: 0.5;*/
+/*    --gradient-angle: 180deg;*/
+/*    transform: sscale(2);*/
+/*  }*/
+/*  100% {*/
+/*    opacity: 0;*/
+/*    --gradient-angle: 360deg;*/
+/*    transform: sscale(2);*/
+/*  }*/
+/*}*/
 
 /* running workout */
 .calendar-day.running-workout {

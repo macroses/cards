@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
         name: body.name,
         muscleId: body.muscleId,
         primary: body.primary,
-        secondary: body.secondary.join(','), // Convert an array to a comma-separated string
+        secondary: body.secondary,
         category: body.category,
         equipment: body.equipment,
         force: body.force,
@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
     // Parse secondary muscles string back to array in response
     return {
       ...exercise,
-      secondary: exercise.secondary.split(',').filter(Boolean),
+      secondary: exercise.secondary.filter(Boolean),
     }
   }
   catch (error: any) {
