@@ -17,20 +17,11 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-# Создаем директорию для базы данных
-RUN mkdir -p prisma
-
 # Генерируем Prisma клиент
 RUN npx prisma generate
-
-# Создаем пустую базу данных
-RUN touch prisma/dev.db
-
-# Применяем миграции
-RUN npx prisma migrate deploy
 
 RUN npm run build
 
 EXPOSE 3000
 
-CMD ["node", ".output/server/index.mjs"] 
+CMD ["node", ".output/server/index.mjs"]

@@ -1,9 +1,9 @@
 [
   {
     "id": "1",
-    "name": "Поднятие диска",
+    "name": "For adductors",
     "muscleId": 1,
-    "primary": "Neck",
+    "primary": "adductors",
     "secondary": [],
     "category": "strength",
     "equipment": "machines",
@@ -12,108 +12,134 @@
   },
   {
     "id": "2",
-    "name": "Side neck stretch",
-    "muscleId": 1,
-    "primary": "Neck",
+    "name": "For calf",
+    "muscleId": 2,
+    "primary": "calf",
     "secondary": [],
     "category": "strength",
-    "equipment": "",
-    "force": "static",
+    "equipment": "machines",
+    "force": "pull",
     "level": "beginner"
   },
   {
     "id": "3",
-    "name": "Chin to chest stretch",
-    "muscleId": 1,
-    "primary": "Neck",
-    "secondary": [
-      "Traps"
-    ],
-    "category": "stretching",
-    "equipment": "",
-    "force": "static",
+    "name": "For calf-lateral",
+    "muscleId": 3,
+    "primary": "calf-lateral",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
     "level": "beginner"
   },
   {
     "id": "4",
-    "name": "Standing dumbell upright row",
-    "muscleId": 2,
-    "primary": "Traps",
-    "secondary": [
-      "Biceps",
-      "Shoulders"
-    ],
+    "name": "For quadriceps",
+    "muscleId": 4,
+    "primary": "quadriceps",
+    "secondary": [],
     "category": "strength",
-    "equipment": "dumbbell",
+    "equipment": "machines",
     "force": "pull",
     "level": "beginner"
   },
   {
     "id": "5",
-    "name": "Smith machine upright row",
-    "muscleId": 2,
-    "primary": "Traps",
-    "secondary": [
-      "Biceps",
-      "Shoulders",
-      "MidBack"
-    ],
+    "name": "For forearms",
+    "muscleId": 5,
+    "primary": "forearms",
+    "secondary": [],
     "category": "strength",
-    "equipment": "machine",
+    "equipment": "machines",
     "force": "pull",
     "level": "beginner"
   },
   {
     "id": "6",
-    "name": "Kettlebell sumo",
-    "muscleId": 2,
-    "primary": "Traps",
-    "secondary": [
-      "glutes",
-      "Shoulders",
-      "Hamstring",
-      "Quadriceps"
-    ],
-    "category": "strength",
-    "equipment": "machine",
-    "force": "pull",
-    "level": "beginner"
-  },
-  {
-    "id": "7",
-    "name": "Shrugs",
-    "muscleId": 2,
-    "primary": "Traps",
+    "name": "For biceps",
+    "muscleId": 6,
+    "primary": "biceps",
     "secondary": [],
     "category": "strength",
-    "equipment": "barbell",
+    "equipment": "machines",
     "force": "pull",
     "level": "beginner"
   },
   {
     "id": "8",
-    "name": "Upright cable row",
-    "muscleId": 2,
-    "primary": "Traps",
-    "secondary": [
-      "Shoulders"
-    ],
+    "name": "For oblique",
+    "muscleId": 8,
+    "primary": "oblique",
+    "secondary": [],
     "category": "strength",
-    "equipment": "cable",
+    "equipment": "machines",
     "force": "pull",
-    "level": "intermediate"
+    "level": "beginner"
   },
   {
     "id": "9",
-    "name": "Dumbbell shoulder press",
-    "muscleId": 3,
-    "primary": "Shoulders",
-    "secondary": [
-      "Triceps"
-    ],
+    "name": "For lats",
+    "muscleId": 9,
+    "primary": "lats",
+    "secondary": [],
     "category": "strength",
-    "equipment": "dumbbell",
-    "force": "push",
-    "level": "intermediate"
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": "10",
+    "name": "For abdominis",
+    "muscleId": 10,
+    "primary": "abdominis",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": "11",
+    "name": "For middle-head-deltoid",
+    "muscleId": 11,
+    "primary": "middle-head-deltoid",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": "12",
+    "name": "For chest",
+    "muscleId": 12,
+    "primary": "chest",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": "13",
+    "name": "For traps",
+    "muscleId": 13,
+    "primary": "traps",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
+  },
+  {
+    "id": "14",
+    "name": "For anterior-deltoid",
+    "muscleId": 14,
+    "primary": "anterior-deltoid",
+    "secondary": [],
+    "category": "strength",
+    "equipment": "machines",
+    "force": "pull",
+    "level": "beginner"
   }
 ]

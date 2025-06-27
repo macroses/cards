@@ -117,9 +117,10 @@ function isExerciseSelected(exerciseId: string) {
     >
       <template #content>
         <div class="exercise-details__wrapper">
-          <BodySvg
-            :body-part="selectedExerciseForModal?.primary"
-            :secondary-part="selectedExerciseForModal?.secondary"
+          <BodyFront
+            v-if="selectedExerciseForModal"
+            :main-muscle="selectedExerciseForModal.primary"
+            :secondary-muscles="selectedExerciseForModal.secondary"
           />
           <div class="exercise-details__description">
             <ExerciseDetails :exercise="selectedExerciseForModal" />
