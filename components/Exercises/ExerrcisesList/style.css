@@ -104,13 +104,29 @@
 
 .exercise-details__wrapper {
   display: flex;
+  gap: 16px;
+}
+
+.exercise-details__body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+}
+
+.exercise-details__description {
+  flex: 1;
 }
 
 .body-modal .modal {
-  max-width: 600px;
+  max-width: 900px;
 }
 
 .tabs-container {
   display: flex;
   gap: 4px;
+  position: sticky;
+  top: 32px;
+  width: 100%;
+  background-color: var(--color-white);
+  z-index: 1;
 }
