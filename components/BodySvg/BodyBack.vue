@@ -170,6 +170,10 @@ const getMuscleClass = computed(() => (muscleId: string) => {
 </template>
 
 <style scoped>
+svg {
+  filter: drop-shadow(7px 0px 6px rgba(0, 0, 0, 0.3))
+}
+
 .muscle-group {
   cursor: pointer;
 }

@@ -10,6 +10,8 @@ export const exerciseTemplateSchema = z.object({
   equipment: z.string(),
   force: z.string(),
   level: z.string(),
+  description: z.string().optional(),
+  link: z.string().optional(),
 })
 
 export type ExerciseTemplate = z.infer<typeof exerciseTemplateSchema>

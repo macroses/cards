@@ -130,3 +130,30 @@
   background-color: var(--color-white);
   z-index: 1;
 }
+
+.exercise-details__text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exercise-info {
+  margin-bottom: 16px;
+}
+
+.exercise-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exercise-details__link {
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.exercise-details__link iframe {
+  max-width: 100%;
+  height: 200px;
+}
