@@ -55,7 +55,16 @@
     "actual": "Réalisé",
     "difference_chart": "Comparaison prévu/réalisé",
     "difference": "Différence",
-    "no_difference_data": "Aucune donnée pour comparaison"
+    "no_difference_data": "Aucune donnée pour comparaison",
+    
+    "details": {
+      "main": "Principal",
+      "secondary": "Secondaire",
+      "type": "Type",
+      "level": "Niveau",
+      "equipment": "Équipement",
+      "description": "Description"
+    }
   },
 
   "prediction": {

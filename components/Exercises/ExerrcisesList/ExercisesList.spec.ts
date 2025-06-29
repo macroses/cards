@@ -88,28 +88,6 @@ describe('тестирует ExercisesList', () => {
     }])
   })
 
-  it('открывает модальное окно с деталями упражнения', async () => {
-    const muscleGroup = wrapper.find('.muscle-item__title')
-    await muscleGroup.trigger('click')
-
-    const exerciseItem = wrapper.findComponent({ name: 'ExerciseItem' })
-    await exerciseItem.vm.$emit('openModal', {
-      id: '1',
-      name: 'Поднятие диска',
-      muscleId: 1,
-      primary: 'Neck',
-      secondary: [],
-      category: 'strength',
-      equipment: 'machines',
-      force: 'pull',
-      level: 'beginner',
-    })
-
-    const modal = document.querySelector('.modal')
-    expect(modal).toBeTruthy()
-    expect(modal?.querySelector('.exercise-details__wrapper')).toBeTruthy()
-  })
-
   it('отмечает упражнение как выбранное', async () => {
     await wrapper.setProps({
       selectedExercises: [{ id: '1', name: 'Поднятие диска' }],

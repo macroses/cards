@@ -55,7 +55,16 @@
     "actual": "Фактически",
     "difference_chart": "Сравнение плана и факта",
     "difference": "Разница",
-    "no_difference_data": "Нет данных для сравнения"
+    "no_difference_data": "Нет данных для сравнения",
+    
+    "details": {
+      "main": "Основная",
+      "secondary": "Вспомогательные",
+      "type": "Тип",
+      "level": "Уровень",
+      "equipment": "Оборудование",
+      "description": "Описание"
+    }
   },
 
   "prediction": {

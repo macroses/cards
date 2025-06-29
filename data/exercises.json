@@ -6,7 +6,7 @@
     "primary": "adductors",
     "secondary": ["hamstring", "buttocks"],
     "category": "strength",
-    "equipment": "",
+    "equipment": "bodyweight",
     "force": "push",
     "level": "intermediate",
     "description": "Ноги шире плеч, носки наружу, спина прямая — садишься как самурай в раздумьях о жизни",
@@ -19,7 +19,7 @@
     "primary": "adductors",
     "secondary": ["oblique"],
     "category": "strength",
-    "equipment": "",
+    "equipment": "bodyweight",
     "force": "pull",
     "level": "beginner",
     "description": "Лёжа на боку, поднимаешь нижнюю ногу вверх",
@@ -45,7 +45,7 @@
     "primary": "adductors",
     "secondary": ["buttocks"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "pull",
     "level": "intermediate",
     "description": "Становишься боком к блочному тренажёру и подтягиваешь ногу к себе",
@@ -71,7 +71,7 @@
     "primary": "adductors",
     "secondary": ["oblique"],
     "category": "strength",
-    "equipment": "resistance band",
+    "equipment": "band",
     "force": "pull",
     "level": "intermediate",
     "description": "Резинку на лодыжку и тянем ногу внутрь",
@@ -138,7 +138,7 @@
     "primary": "calves",
     "secondary": ["oblique", "forearms"],
     "category": "functional",
-    "equipment": "dumbbells",
+    "equipment": "dumbbell",
     "force": "static",
     "level": "advanced",
     "description": "Идёшь на носках с весом в руках",
@@ -192,7 +192,7 @@
     "primary": "calf-lateral",
     "secondary": ["oblique"],
     "category": "stability",
-    "equipment": "balance pad",
+    "equipment": "balance-pad",
     "force": "static",
     "level": "intermediate",
     "description": "На баланс-подушке делаешь движения стопой наружу",
@@ -324,7 +324,7 @@
     "primary": "forearms",
     "secondary": ["oblique", "abdominis"],
     "category": "functional",
-    "equipment": "dumbbells",
+    "equipment": "dumbbell",
     "force": "static",
     "level": "intermediate",
     "description": "Ходьба с тяжелыми гантелями в руках, фокус на удержании хвата и стабильности корпуса."
@@ -472,7 +472,7 @@
     "primary": "oblique",
     "secondary": ["abdominis", "middle-head-deltoid", "anterior-deltoid", "rear-deltoid"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "twist",
     "level": "intermediate",
     "description": "Тяга каната или рукоятки сверху вниз по диагонали, корпус разворачивается, работа на скручивание и стабилизацию."
@@ -535,7 +535,7 @@
     "primary": "lats",
     "secondary": ["biceps", "forearms"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "pull",
     "level": "beginner",
     "description": "Тяга верхнего блока к груди широким хватом, движение выполняется за счёт приведения лопаток и сгибания рук."
@@ -547,7 +547,7 @@
     "primary": "lats",
     "secondary": ["biceps", "oblique", "abdominis"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "pull",
     "level": "intermediate",
     "description": "Тяга блока одной рукой, помогает развить симметрию и изоляцию широчайшей мышцы с каждой стороны."
@@ -571,7 +571,7 @@
     "primary": "lats",
     "secondary": ["biceps", "rear-deltoid"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "pull",
     "level": "beginner",
     "description": "Тяга блока к животу сидя, корпус слегка отклоняется назад, движение выполняется за счёт приведения лопаток."
@@ -583,7 +583,7 @@
     "primary": "lats",
     "secondary": ["triceps", "abdominis", "oblique"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "pull",
     "level": "advanced",
     "description": "Прямая тяга верхнего блока вниз с прямыми руками, движение выполняется за счёт работы широчайших и фиксации корпуса."
@@ -657,7 +657,7 @@
     "primary": "abdominis",
     "secondary": [],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "crunch",
     "level": "intermediate",
     "description": "Скручивание вниз с канатом в тренажёре, стоя на коленях, акцент на контролируемом сокращении мышц живота."
@@ -683,7 +683,7 @@
     "primary": "middle-head-deltoid",
     "secondary": ["traps"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "push",
     "level": "intermediate",
     "description": "Подъём одной руки в сторону с нижнего блока, постоянное напряжение за счёт работы троса, изоляция средней дельты."
@@ -793,7 +793,7 @@
     "primary": "chest",
     "secondary": ["anterior-deltoid"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "push",
     "level": "intermediate",
     "description": "Сведение рук в кроссовере, движение по дуге, постоянное напряжение в грудных мышцах."
@@ -843,7 +843,7 @@
     "primary": "traps",
     "secondary": ["rear-deltoid"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "pull",
     "level": "intermediate",
     "description": "Тяга каната к лицу, локти высоко, акцент на верхнюю часть трапеций и задние дельты."
@@ -967,7 +967,7 @@
     "primary": "round-back",
     "secondary": ["rear-deltoid", "traps"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "pull",
     "level": "beginner",
     "description": "Тяга каната к лицу, локти разводятся в стороны, акцент на задние дельты и верхнюю часть спины."
@@ -979,7 +979,7 @@
     "primary": "round-back",
     "secondary": ["lats", "biceps"],
     "category": "strength",
-    "equipment": "cable machine",
+    "equipment": "cable",
     "force": "pull",
     "level": "beginner",
     "description": "Тяга блока к животу сидя, локти идут вдоль корпуса, акцент на сведении лопаток и работе верхней части спины."
@@ -1031,5 +1031,79 @@
     "force": "pull",
     "level": "intermediate",
     "description": "Подтягивание корпуса к перекладине лёжа под углом, корпус ровный, акцент на сведении лопаток и контроле спины."
+  },
+  
+  
+  {
+    "id": "83",
+    "name": "Reverse Curl",
+    "muscleId": 15,
+    "primary": "brachioradialis",
+    "secondary": ["biceps", "forearms"],
+    "category": "strength",
+    "equipment": "barbell",
+    "force": "pull",
+    "level": "beginner",
+    "description": "Сгибание рук с обратным хватом (ладони вниз), движение контролируется, акцент на brachioradialis и предплечья."
+  },
+  {
+    "id": "84",
+    "name": "Hammer Curl",
+    "muscleId": 15,
+    "primary": "brachioradialis",
+    "secondary": ["biceps"],
+    "category": "strength",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "level": "beginner",
+    "description": "Сгибание рук с нейтральным хватом (ладони смотрят друг на друга), помогает развить brachioradialis и верхнюю часть предплечья."
+  },
+  {
+    "id": "85",
+    "name": "Cable Hammer Curl",
+    "muscleId": 15,
+    "primary": "brachioradialis",
+    "secondary": ["biceps"],
+    "category": "strength",
+    "equipment": "cable machine",
+    "force": "pull",
+    "level": "intermediate",
+    "description": "Сгибание рук на канате нижнего блока с нейтральным хватом, постоянное напряжение за счёт троса."
+  },
+  {
+    "id": "86",
+    "name": "Zottman Curl",
+    "muscleId": 15,
+    "primary": "brachioradialis",
+    "secondary": ["biceps", "forearms"],
+    "category": "strength",
+    "equipment": "dumbbell",
+    "force": "pull",
+    "level": "intermediate",
+    "description": "Подъём гантелей с супинированным хватом вверх, медленное опускание с пронированным хватом вниз, комбинированная нагрузка на предплечья и biceps."
+  },
+  {
+    "id": "87",
+    "name": "Reverse Preacher Curl",
+    "muscleId": 15,
+    "primary": "brachioradialis",
+    "secondary": ["biceps", "forearms"],
+    "category": "strength",
+    "equipment": "barbell",
+    "force": "pull",
+    "level": "advanced",
+    "description": "Сгибание рук с обратным хватом на скамье Скотта, изоляция brachioradialis, медленный и контролируемый спуск."
+  },
+  {
+    "id": "88",
+    "name": "Resistance Band Hammer Curl",
+    "muscleId": 15,
+    "primary": "brachioradialis",
+    "secondary": ["biceps"],
+    "category": "strength",
+    "equipment": "band",
+    "force": "pull",
+    "level": "beginner",
+    "description": "Сгибание рук с резинкой в нейтральном хвате, постепенное сопротивление по всей амплитуде."
   }
 ]

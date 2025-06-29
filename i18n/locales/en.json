@@ -55,7 +55,16 @@
     "actual": "Actual",
     "difference_chart": "Planned vs Actual Comparison",
     "difference": "Difference",
-    "no_difference_data": "No comparison data available"
+    "no_difference_data": "No comparison data available",
+    
+    "details": {
+      "main": "Primary",
+      "secondary": "Secondary",
+      "type": "Type",
+      "level": "Level",
+      "equipment": "Equipment",
+      "description": "Description"
+    }
   },
 
   "prediction": {

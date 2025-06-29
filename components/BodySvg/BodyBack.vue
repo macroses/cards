@@ -170,23 +170,25 @@ const getMuscleClass = computed(() => (muscleId: string) => {
 </template>
 
 <style scoped>
-svg {
-  filter: drop-shadow(7px 0px 6px rgba(0, 0, 0, 0.3))
-}
-
-.muscle-group {
-  cursor: pointer;
-}
-
-.muscle-group path {
-  transition: all 0.3s ease;
-}
-
 .muscle-main path {
   fill: #ff4444;
+  animation: shine-sweep 1s infinite ease-out;
 }
 
 .muscle-secondary path {
   fill: #ffb313;
+  animation: shine-sweep 1s infinite ease-out;
+}
+
+@keyframes shine-sweep {
+  0% {
+    filter: brightness(1) drop-shadow(0 0 0px transparent);
+  }
+  50% {
+    filter: brightness(1.2) drop-shadow(0 0 3px currentColor);
+  }
+  100% {
+    filter: brightness(1) drop-shadow(0 0 0px currentColor);
+  }
 }
 </style>

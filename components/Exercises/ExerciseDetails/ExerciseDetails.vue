@@ -4,32 +4,80 @@ import type { ExerciseTemplate } from '~/ts'
 defineProps<{
   exercise: ExerciseTemplate | null
 }>()
+
+function getExternalVideoLink(exerciseName: string) {
+  return `https://www.youtube.com/results?search_query=${exerciseName.split(' ').join('+')}`
+}
 </script>
 
 <template>
   <div class="exercise-details">
-    <h2>{{ exercise?.name }}</h2>
-    <div
+    <h2
       v-if="exercise"
-      class="exercise-info"
+      class="exercise-details__title"
     >
-      <div class="exercise-details__text">
-        <p><strong>Основные:</strong> {{ exercise.primary }}</p>
-        <p v-if="exercise.secondary?.length">
-          <strong>Вспомогательные:</strong> {{ exercise.secondary.join(', ') }}
-        </p>
-        <p><strong>Тип:</strong> {{ exercise.category }}</p>
-        <p><strong>Уровень:</strong> {{ exercise.level }}</p>
-        <div class="exercise-details__link">
-          <iframe
-            width="560"
-            height="200"
-            :src="exercise?.link"
-            title="YouTube video player"
-          />
-        </div>
+      <TheIcon
+        v-tooltip="{
+          content: exercise.equipment,
+          position: 'bottom',
+        }"
+        width="35"
+        :icon-name="exercise.equipment"
+      />
+      {{ exercise?.name }}
+    </h2>
+
+    <dl
+      v-if="exercise"
+      class="exercise-details__list"
+    >
+      <div>
+        <dt>{{ $t('workout.details.main') }}</dt>
+        <dd>{{ exercise.primary }}</dd>
       </div>
-    </div>
+      <div v-if="exercise.secondary?.length">
+        <dt>{{ $t('workout.details.secondary') }}</dt>
+        <dd>{{ exercise.secondary.join(', ') }}</dd>
+      </div>
+      <div>
+        <dt>{{ $t('workout.details.type') }}</dt>
+        <dd>{{ exercise.category }}</dd>
+      </div>
+      <div>
+        <dt>{{ $t('workout.details.level') }}</dt>
+        <dd>{{ exercise.level }}</dd>
+      </div>
+      <div>
+        <dt>{{ $t('workout.details.equipment') }}</dt>
+        <dd>
+          <TheIcon
+            v-tooltip="exercise.equipment"
+            width="25"
+            :icon-name="exercise.equipment"
+          />
+        </dd>
+      </div>
+    </dl>
+    <NuxtLink
+      v-if="exercise?.description"
+      :to="getExternalVideoLink(exercise.name)"
+      target="_blank"
+      no-rel
+      class="exercise-details__link"
+    >
+      <TheIcon
+        icon-name="arrow-up-right-from-square"
+        width="20"
+      />
+      {{ exercise.description }}
+
+      <span class="exercise-details__link-layer">
+        <TheIcon
+          icon-name="youtube"
+          width="45"
+        />
+      </span>
+    </NuxtLink>
   </div>
 </template>
 

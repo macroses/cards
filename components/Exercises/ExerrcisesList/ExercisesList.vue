@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type TheModal from '~/components/ui/TheModal/TheModal.vue'
 import type { ExerciseTemplate, WorkoutExercise } from '~/ts'
-import TheModal from '~/components/ui/TheModal/TheModal.vue'
 
 interface ExercisesGroup {
   primary: string
@@ -111,7 +111,7 @@ function isExerciseSelected(exerciseId: string) {
     </li>
   </ul>
   <Teleport to="body">
-    <TheModal
+    <LazyTheModal
       ref="modalRef"
       class="body-modal"
     >
@@ -142,7 +142,7 @@ function isExerciseSelected(exerciseId: string) {
           </div>
         </div>
       </template>
-    </TheModal>
+    </LazyTheModal>
   </Teleport>
 </template>
 
